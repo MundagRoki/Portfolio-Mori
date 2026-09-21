@@ -1,0 +1,433 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — UI/UX &amp; Product Designer</title>
+<meta name="description" content="UI/UX & Product Designer based in Ulaanbaatar, Mongolia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&family=Golos+Text:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="frames/f000.avif?v=4">
+<style>
+:root{
+  --cream:#f0e2c2;  --cream-hi:#fdf6e6;
+  --gold:#c9976b;   --oxblood:#8f3a30;
+  --teal:#4a6f85;   --ink:#100503;
+  --f-display:'Source Serif 4', Georgia, serif;
+  --f-label:'Golos Text', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ink);color:var(--cream)}
+body{font-family:var(--f-display);-webkit-font-smoothing:antialiased}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ============ scroll rig ============ */
+.track{height:460vh;position:relative}
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink)}
+#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+/* darkens the top/bottom so overlay type stays legible on the art */
+.vig{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(rgba(6,9,8,.72),rgba(6,9,8,0) 26%,rgba(6,9,8,0) 68%,rgba(6,9,8,.82))}
+/* the blackout that carries you into the categories */
+.black{position:absolute;inset:0;background:#100503;opacity:0;pointer-events:none}
+
+/* ============ hero overlay ============
+   The wordmark is painted on the chest itself, so this only
+   carries the framing copy. */
+.hero{position:absolute;inset:0;pointer-events:none}
+.labels{position:absolute;top:clamp(30px,5vh,58px);left:0;right:0;
+  display:flex;gap:clamp(20px,6vw,80px);justify-content:center;
+  font-family:var(--f-label);font-size:clamp(8.5px,.92vw,11px);letter-spacing:.3em;
+  text-transform:uppercase;color:#dcd2b8;opacity:.9}
+.meta{position:absolute;bottom:clamp(30px,5vh,56px);left:0;right:0;
+  display:flex;gap:clamp(16px,4vw,56px);justify-content:center;align-items:center;
+  font-family:var(--f-label);font-size:clamp(8.5px,.92vw,11px);letter-spacing:.22em;
+  text-transform:uppercase;color:#dcd2b8;opacity:.85}
+.meta a{color:inherit;text-decoration:none;border-bottom:1px solid rgba(240,226,194,.3);pointer-events:auto}
+.meta a:hover{color:var(--cream-hi);border-color:var(--gold)}
+.dot{width:3px;height:3px;border-radius:50%;background:var(--gold);opacity:.8}
+
+.hint{position:absolute;left:50%;bottom:clamp(78px,12vh,124px);transform:translateX(-50%);
+  text-align:center;font-family:var(--f-label);font-size:9px;letter-spacing:.34em;
+  text-transform:uppercase;color:#e4dcc4;opacity:.75}
+.hint i{display:block;width:1px;height:30px;margin:9px auto 0;
+  background:linear-gradient(var(--gold),transparent);animation:drip 2s ease-in-out infinite}
+@keyframes drip{0%,100%{opacity:.2;transform:scaleY(.45)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ============ categories, on black ============ */
+.cats{position:absolute;inset:0;display:grid;place-items:center;opacity:0;pointer-events:none}
+.cats-in{width:min(940px,86vw)}
+.cat{display:flex;align-items:baseline;gap:clamp(14px,3vw,36px);
+  padding:clamp(13px,2.1vh,24px) clamp(4px,1.4vw,18px);
+  border-bottom:1px solid rgba(240,226,194,.13);
+  text-decoration:none;color:var(--cream);
+  transition:color .35s,border-color .35s,padding-left .35s}
+.cat:first-of-type{border-top:1px solid rgba(240,226,194,.13)}
+.cat:hover{color:var(--cream-hi);border-color:rgba(201,168,106,.6);padding-left:clamp(14px,2.4vw,32px)}
+.cat-n{font-family:var(--f-label);font-size:9.5px;letter-spacing:.24em;color:var(--gold);
+  min-width:2.6em;opacity:.8}
+.cat-t{font-size:clamp(26px,4.4vw,56px);font-weight:400;line-height:1;letter-spacing:.01em}
+.cat-d{margin-left:auto;font-family:var(--f-label);font-size:clamp(8.5px,.9vw,10.5px);
+  letter-spacing:.2em;text-transform:uppercase;color:#a89f8a;text-align:right}
+
+/* ============ sound toggle ============ */
+.snd{position:absolute;right:clamp(18px,2.4vw,32px);top:clamp(24px,4vh,48px);z-index:6;
+  display:flex;align-items:center;gap:8px;cursor:pointer;
+  background:rgba(6,9,8,.42);border:1px solid rgba(240,226,194,.22);border-radius:2px;
+  padding:7px 12px;color:#cfc6ae;font-family:var(--f-label);font-size:9px;
+  letter-spacing:.24em;text-transform:uppercase;backdrop-filter:blur(6px);
+  transition:color .3s,border-color .3s,background .3s}
+.snd:hover{color:var(--cream-hi);border-color:rgba(201,168,106,.55)}
+.snd svg{width:14px;height:14px;fill:currentColor;stroke:currentColor;
+  stroke-width:1.6;stroke-linecap:round}
+.snd svg path.w1,.snd svg path.w2{fill:none;opacity:0}
+.snd.on{color:var(--gold);border-color:rgba(201,168,106,.55)}
+.snd.on svg path.w1{opacity:1}
+.snd.on svg path.w2{opacity:.7}
+
+/* ============ loader ============ */
+.loader{position:fixed;inset:0;z-index:50;background:var(--ink);
+  display:grid;place-items:center;transition:opacity .7s ease}
+.loader.gone{opacity:0;pointer-events:none}
+.loader-in{text-align:center;width:min(240px,60vw)}
+.loader-t{font-family:var(--f-label);font-size:9.5px;letter-spacing:.36em;
+  text-transform:uppercase;color:#9a927e;margin-bottom:14px}
+.loader-bar{height:1px;background:rgba(240,226,194,.16);overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;background:var(--gold);transition:width .25s}
+
+/* ============ dev HUD ============ */
+.hud{position:fixed;left:14px;bottom:14px;z-index:60;font-family:var(--f-label);font-size:10px;
+  background:rgba(6,9,8,.9);border:1px solid rgba(240,226,194,.2);border-radius:4px;
+  padding:9px 11px;color:#dfe6d2;min-width:214px;backdrop-filter:blur(8px)}
+.hud b{color:var(--gold);font-weight:500}
+.hud-bar{height:2px;background:rgba(240,226,194,.15);margin:7px 0 8px;overflow:hidden}
+.hud-bar i{display:block;height:100%;width:0;background:var(--gold)}
+.hud-j{display:flex;flex-wrap:wrap;gap:4px}
+.hud-j button{font:inherit;cursor:pointer;color:#dfe6d2;background:rgba(240,226,194,.08);
+  border:1px solid rgba(240,226,194,.2);border-radius:3px;padding:3px 6px}
+.hud-j button:hover{background:rgba(201,168,106,.25);border-color:var(--gold)}
+.hud small{display:block;margin-top:7px;opacity:.45}
+.hud.hide{opacity:0;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.hint i{animation:none}}
+</style>
+</head>
+<body>
+
+<h1 class="sr">Portfolio — UI/UX &amp; Product Designer, Ulaanbaatar</h1>
+
+<div class="loader" id="loader"><div class="loader-in">
+  <div class="loader-t">Unlocking the chest</div>
+  <div class="loader-bar"><i id="loaderBar"></i></div>
+</div></div>
+
+<div class="track" id="track">
+  <div class="stage" id="stage">
+    <canvas id="cv"></canvas>
+    <div class="vig"></div>
+    <div class="black" id="black"></div>
+
+    <div class="hero" id="hero">
+      <div class="labels" id="labels">
+        <span>Since 2018</span><span>Ulaanbaatar</span><span>Open to work</span>
+      </div>
+      <div class="meta" id="meta">
+        <span>Ulaanbaatar, Mongolia</span>
+        <span class="dot"></span>
+        <a href="mailto:battsetseg.b@netgroup.mn">battsetseg.b@netgroup.mn</a>
+      </div>
+    </div>
+
+    <div class="hint" id="hint">Scroll to open<i></i></div>
+
+    <audio id="snd" src="chest.m4a?v=1" preload="auto" playsinline></audio>
+    <button class="snd" id="sndBtn" type="button" aria-pressed="false">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="w1" d="M16.5 8.5a5 5 0 0 1 0 7"/><path class="w2" d="M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+      <span>Sound off</span>
+    </button>
+
+    <nav class="cats" id="cats" aria-label="Sections"><div class="cats-in">
+      <a class="cat" href="work.html"><span class="cat-n">01</span><span class="cat-t">My Work</span><span class="cat-d">Selected projects</span></a>
+      <a class="cat" href="how-i-work.html"><span class="cat-n">02</span><span class="cat-t">How I Work</span><span class="cat-d">Process &amp; principles</span></a>
+      <a class="cat" href="#"><span class="cat-n">03</span><span class="cat-t">About</span><span class="cat-d">Who I am</span></a>
+      <a class="cat" href="#"><span class="cat-n">04</span><span class="cat-t">Playground</span><span class="cat-d">Experiments</span></a>
+      <a class="cat" href="#"><span class="cat-n">05</span><span class="cat-t">Contact</span><span class="cat-d">Say hello</span></a>
+    </div></nav>
+  </div>
+</div>
+
+<div class="hud" id="hud">
+  <div><b id="hudPhase">closed</b> · <span id="hudPct">0%</span></div>
+  <div class="hud-bar"><i id="hudBar"></i></div>
+  <div class="hud-j">
+    <button data-p="0.02">Closed</button><button data-p="0.30">Opening</button>
+    <button data-p="0.54">Open</button><button data-p="0.72">Zoom</button><button data-p="0.94">Menu</button>
+  </div>
+  <small>D hide · P play · R reset</small>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ============================================================
+   TUNING KNOBS
+   ============================================================ */
+const N       = 36;          // frames in frames/
+const FRAME_W = 2304;        // native width of those frames
+const ASSET_V = '4';         // bump when you re-cut the frames, to bust caches
+const FIT     = 'contain';   // 'contain' = whole chest, centred, letterboxed
+                             // 'cover'   = full-bleed, crops the sides
+const F0=0.08, F1=0.52;      // scroll window that plays the opening
+const Z0=0.58, Z1=0.88;      // scroll window that pushes in
+const ZOOM    = 2.4;         // how far the push-in travels
+const TX=0.503, TY=0.306;    // centre of the dark opening, as a fraction of the frame
+
+/* ============================================================
+   canvas
+   ============================================================ */
+const cv = document.getElementById('cv');
+const ctx = cv.getContext('2d', {alpha:false});
+let CW=0, CH=0;
+function sizeCanvas(){
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const want = Math.round(innerWidth * dpr);
+  CW = Math.min(want, FRAME_W);
+  CH = Math.round(CW * innerHeight / innerWidth);
+  cv.width = CW; cv.height = CH;
+  ctx.imageSmoothingQuality = 'high';   // resets whenever the canvas resizes
+  render(lastP);
+}
+
+const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+const lerp = (a,b,t) => a + (b-a)*t;
+const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+
+/* the largest source rect of `aspect` that fits, centred — i.e. object-fit:cover */
+function coverRect(sw, sh, aspect){
+  if (sw/sh > aspect){ const w = sh*aspect; return {x:(sw-w)/2, y:0, w, h:sh}; }
+  const h = sw/aspect; return {x:0, y:(sh-h)/2, w:sw, h};
+}
+/* contain: the whole frame, scaled to fit and centred (letterboxed) */
+function fitRect(sw, sh, cw, ch){
+  const k = Math.min(cw/sw, ch/sh), w = sw*k, h = sh*k;
+  return {x:(cw-w)/2, y:(ch-h)/2, w, h};
+}
+/* the same rect shrunk by ZOOM about the opening, clamped inside the image */
+function zoomRect(sw, sh, aspect){
+  const c = coverRect(sw, sh, aspect);
+  const w = c.w/ZOOM, h = c.h/ZOOM;
+  return {
+    x: Math.max(0, Math.min(sw-w, sw*TX - w/2)),
+    y: Math.max(0, Math.min(sh-h, sh*TY - h/2)),
+    w, h
+  };
+}
+
+const frames = [];
+let hires = null, lastP = 0;
+const iw = x => x.naturalWidth || x.width;
+const ih = x => x.naturalHeight || x.height;
+
+function render(p){
+  if (!CW) return;
+  const aspect = CW/CH;
+  const zt = easeInOut(clamp01((p - Z0)/(Z1 - Z0)));
+
+  /* Past the hold we sample the 4K still instead of the sequence — same
+     moment in time, so the swap is invisible, but the push-in stays sharp
+     because it's a real crop rather than an upscale. */
+  const img = (zt > 0 && hires)
+    ? hires
+    : frames[Math.min(N-1, Math.round(clamp01((p - F0)/(F1 - F0))*(N-1)))];
+  if (!img) return;
+  const sw = iw(img), sh = ih(img);
+
+  let src, dst;
+  if (FIT === 'contain'){
+    /* Start letterboxed and centred; as the camera dives in, the source crop
+       tightens onto the opening AND the destination grows to full bleed, so
+       the frame opens out instead of staying boxed. */
+    const a  = {x:0, y:0, w:sw, h:sh},        b  = zoomRect(sw, sh, aspect);
+    const da = fitRect(sw, sh, CW, CH),       db = {x:0, y:0, w:CW, h:CH};
+    src = {x:lerp(a.x,b.x,zt),   y:lerp(a.y,b.y,zt),   w:lerp(a.w,b.w,zt),   h:lerp(a.h,b.h,zt)};
+    dst = {x:lerp(da.x,db.x,zt), y:lerp(da.y,db.y,zt), w:lerp(da.w,db.w,zt), h:lerp(da.h,db.h,zt)};
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, CW, CH);           // paint the letterbox
+  } else {
+    const a = coverRect(sw, sh, aspect), b = zoomRect(sw, sh, aspect);
+    src = {x:lerp(a.x,b.x,zt), y:lerp(a.y,b.y,zt), w:lerp(a.w,b.w,zt), h:lerp(a.h,b.h,zt)};
+    dst = {x:0, y:0, w:CW, h:CH};
+  }
+  ctx.drawImage(img, src.x, src.y, src.w, src.h, dst.x, dst.y, dst.w, dst.h);
+}
+
+/* ============================================================
+   preload
+   ============================================================ */
+const pad = n => String(n).padStart(3,'0');
+const bar = document.getElementById('loaderBar');
+const loaderEl = document.getElementById('loader');
+let loaded = 0;
+
+/* An <img> that has fired onload is NOT necessarily decoded. For AVIF the
+   headers parse (so .complete and .naturalWidth are set) while the pixels are
+   still compressed, and ctx.drawImage() then silently draws NOTHING — leaving
+   the previous frame on screen. await img.decode() is what actually guarantees
+   a drawable frame. */
+async function decodeTo(url){
+  const im = new Image();
+  im.src = url;
+  if (im.decode) {
+    /* decode() resolves only once the pixels are ready — the guarantee onload
+       does not give you. (createImageBitmap would also work, but it has no
+       AVIF decoder in every engine, so it silently fails on these frames.) */
+    await im.decode();
+  } else {
+    await new Promise((ok,no)=>{ im.onload=ok; im.onerror=no; });
+  }
+  if (!im.naturalWidth) throw new Error('undecodable: ' + url);
+  return im;
+}
+
+async function preload(){
+  let failed = 0;
+  /* modest concurrency: decoding 40 AVIFs at once starves the main thread */
+  const queue = Array.from({length:N}, (_,i)=>i);
+  async function worker(){
+    for (let i; (i = queue.shift()) !== undefined; ){
+      try { frames[i] = await decodeTo(`frames/f${pad(i)}.avif?v=${ASSET_V}`); }
+      catch (e) { failed++; }
+      loaded++;
+      bar.style.width = Math.round(loaded/N*100) + '%';
+    }
+  }
+  await Promise.all([worker(),worker(),worker(),worker()]);
+  if (failed === N) await fallback();
+  ready();
+}
+
+/* AVIF is ~95% supported; if none of it decodes, show the static poster
+   rather than a black hole. */
+async function fallback(){
+  try {
+    const p = await decodeTo('poster.jpg');
+    for (let i=0;i<N;i++) frames[i] = p;
+  } catch (e) {}
+}
+
+function ready(){
+  sizeCanvas();
+  render(0);
+  loaderEl.classList.add('gone');
+  ScrollTrigger.refresh();
+  /* the 4K still is only needed once the push-in starts, so it loads after */
+  decodeTo(`open-hires.avif?v=${ASSET_V}`).then(b => { hires = b; render(lastP); }).catch(()=>{});
+}
+preload();
+
+/* ============================================================
+   CHOREOGRAPHY
+   ============================================================ */
+const tl = gsap.timeline({defaults:{ease:'none'}, scrollTrigger:{
+  trigger:'#track', start:'top top', end:'bottom bottom',
+  scrub: REDUCED ? true : 0.5,
+  onUpdate: s => { lastP = s.progress; render(s.progress); audioAt(s.progress); hud(s.progress); }
+}});
+window.__tl = tl;
+
+/* hero copy clears while the chest is still shut */
+tl.to('#sndBtn', {opacity:0, duration:8}, 78)
+  .to('#hint',   {opacity:0, duration:5},  2)
+  .to('#labels', {opacity:0, y:-20, duration:9}, 3)
+  .to('#meta',   {opacity:0, y:14, duration:9},  3);
+
+/* the blackout, overlapping the tail of the push-in */
+tl.to('#black', {opacity:1, duration:16}, 70)
+  .to('.vig',   {opacity:0, duration:10}, 70);
+
+/* categories */
+tl.to('#cats', {opacity:1, duration:9}, 86)
+  .fromTo('.cat',    {opacity:0,y:26}, {opacity:1,y:0,duration:8,stagger:2.2}, 88)
+  .set('#cats', {pointerEvents:'auto'}, 96)
+  .to({}, {duration:4});
+
+addEventListener('resize', () => { sizeCanvas(); ScrollTrigger.refresh(); });
+document.fonts.ready.then(() => ScrollTrigger.refresh());
+
+/* ============================================================
+   SOUND
+   Browsers block audio until a real user gesture — scrolling doesn't count —
+   so it starts off behind a toggle. Once armed, the clip plays once at its
+   natural rate when the opening begins. Scrubbing audio to scroll position
+   sounds terrible, so it deliberately isn't synced frame-for-frame.
+   ============================================================ */
+const snd = document.getElementById('snd');
+const sndBtn = document.getElementById('sndBtn');
+const sndLabel = sndBtn.querySelector('span');
+let sndOn = false, sndFired = false;
+
+sndBtn.addEventListener('click', () => {
+  sndOn = !sndOn;
+  sndBtn.classList.toggle('on', sndOn);
+  sndBtn.setAttribute('aria-pressed', String(sndOn));
+  sndLabel.textContent = sndOn ? 'Sound on' : 'Sound off';
+  if (!sndOn){ snd.pause(); return; }
+  snd.muted = false;
+  const inWindow = lastP >= F0 && lastP < F1;
+  snd.currentTime = 0;
+  /* play() has to be called inside the gesture to unlock playback */
+  snd.play().then(() => {
+    if (inWindow) sndFired = true;
+    else { snd.pause(); snd.currentTime = 0; }
+  }).catch(() => {});
+});
+
+function audioAt(p){
+  if (!sndOn) return;
+  if (!sndFired && p >= F0 && p < F1){
+    sndFired = true; snd.currentTime = 0; snd.play().catch(()=>{});
+  } else if (sndFired && p < F0){
+    sndFired = false; snd.pause(); snd.currentTime = 0;
+  }
+}
+
+/* ============================================================
+   dev HUD
+   ============================================================ */
+const PH=[[0,'closed'],[F0,'opening'],[F1,'open · hold'],[Z0,'pushing in'],[0.80,'blackout'],[0.88,'categories']];
+const hp=document.getElementById('hudPhase'), hc=document.getElementById('hudPct'),
+      hb=document.getElementById('hudBar'), hudEl=document.getElementById('hud');
+function hud(p){
+  hc.textContent = Math.round(p*100)+'%'; hb.style.width = (p*100)+'%';
+  let n = PH[0][1]; for (const [t,x] of PH) if (p>=t) n=x; hp.textContent = n;
+}
+hud(0);
+hudEl.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+  const st = tl.scrollTrigger;
+  scrollTo({top: st.start + (st.end-st.start)*parseFloat(b.dataset.p), behavior:'smooth'});
+}));
+/* play mode: watch the whole thing on a timer, for judging pacing */
+let playing = false;
+function play(){
+  if (playing) return; playing = true;
+  const st = tl.scrollTrigger, span = st.end - st.start, t0 = performance.now(), DUR = 6500;
+  scrollTo({top: st.start, behavior:'auto'});
+  (function step(now){
+    const t = Math.min(1, (now - t0)/DUR);
+    scrollTo({top: st.start + span*t, behavior:'auto'});
+    if (t < 1) requestAnimationFrame(step); else playing = false;
+  })(performance.now());
+}
+addEventListener('keydown', e => {
+  const k = e.key.toLowerCase();
+  if (k==='d') hudEl.classList.toggle('hide');
+  if (k==='p') play();
+  if (k==='r') scrollTo({top:0, behavior:'smooth'});
+});
+</script>
+</body>
+</html>

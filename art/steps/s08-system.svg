@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" role="img" aria-label="Tumen ulzii: one unit tessellated into a field">
+<defs>
+<path id="ulzii-a" d="M20 30 H70 A10 10 0 0 1 80 40 V50 A10 10 0 0 1 70 60
+   H20 A10 10 0 0 1 10 50 V40 A10 10 0 0 1 20 30 Z"/>
+<path id="ulzii-b" d="M30 36 V70 A10 10 0 0 0 40 80 H50 A10 10 0 0 0 60 70 V66"/>
+<path id="ulzii-c" d="M60 54 V20 A10 10 0 0 0 50 10 H40 A10 10 0 0 0 30 20 V24"/>
+<path id="curl" d="M0 7 C4 -1 14 -3 19 4 C24 11 21 21 13 22 C6 23 2 17 6 12 C9 8 14 10 13 14"/>
+<path id="alkhan" d="M-2 13 H6 V3 H26 V9 H16 V13 H42"/>
+<path id="uul" d="M2 26 H14 V18 H22 V10 H30 V2 H34 V10 H42 V18 H50 V26 H62"/>
+<path id="ever-l" d="M32 36 C32 22 26 14 18 14 C10 14 6 20 8 26 C10 31 17 31 18 25"/>
+<path id="ever-r" d="M32 36 C32 22 38 14 46 14 C54 14 58 20 56 26 C54 31 47 31 46 25"/>
+</defs>
+<rect width="500" height="400" fill="#f3efe5"/>
+<g transform="translate(28.0 40.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(144.0 40.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(260.0 40.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(376.0 40.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(28.0 152.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(144.0 152.0) scale(1.1556)" fill="none" stroke="#7a3b2e" stroke-width="3.81" opacity="1"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(260.0 152.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(376.0 152.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(28.0 264.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(144.0 264.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(260.0 264.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+<g transform="translate(376.0 264.0) scale(1.1556)" fill="none" stroke="#8a7a5e" stroke-width="3.81" opacity="0.72"><use href="#ulzii-a"/><use href="#ulzii-b"/><use href="#ulzii-c"/></g>
+</svg>

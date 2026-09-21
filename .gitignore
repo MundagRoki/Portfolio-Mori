@@ -1,0 +1,18 @@
+# Source material — 389MB of originals, exports and screen recordings.
+# Never served: the site only loads art/work/ and a few files at art/ root.
+# Also contains files over GitHub's 100MB limit (Netpay-mockup.png is 130MB).
+art/_source/
+
+# Working backups made before edits. Useful locally, noise in history.
+*.pre-*
+*.bak
+*.hr-version
+*.polished
+*.pre
+
+# macOS
+.DS_Store
+._*
+
+# Local server log
+*.log

@@ -1,0 +1,1123 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NetPay V2 &mdash; UI/UX, бүтээгдэхүүний дизайнер</title>
+<meta name="description" content="NetPay V2 — хөрөнгө оруулалт, төлбөрийн аппын иж бүрэн дахин дизайн: эвристик үнэлгээнээс дизайн систем, туршилт, QA, хэмжсэн үр дүн хүртэл 12 шат.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400;500;600;700&amp;family=Noto+Sans+Mongolian&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=32">
+<link rel="stylesheet" href="work.css?v=21">
+</head>
+<body class="case-page case-dark use-gip">
+<div class="np-ground" aria-hidden="true"><b>
+  <i class="beam"></i><i class="leftmid"></i><i class="edge"></i><i class="wash"></i><i class="left"></i>
+  <i class="lobe"></i><i class="hot"></i><i class="cloud1"></i><i class="cloud2"></i>
+</b></div>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<symbol id="m-ever" viewBox="0 0 64 40">
+  <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
+    <path d="M32 36 C32 22 26 14 18 14 C10 14 6 20 8 26 C10 31 17 31 18 25"/>
+    <path d="M32 36 C32 22 38 14 46 14 C54 14 58 20 56 26 C54 31 47 31 46 25"/>
+  </g>
+</symbol>
+</defs>
+</svg>
+
+<div class="page">
+
+  <header class="top">
+    <a href="work.html" class="micro"><span class="arw">&larr;</span> Сонгосон ажлууд</a>
+    <span class="micro where"><b>01</b> &nbsp;NetPay V2</span>
+  </header>
+
+  <main class="sheet">
+
+    <section class="case case-solo">
+
+      <header class="case-hero">
+        <div class="hero-eyebrow">NetPay V2</div>
+        <h1 class="hero-t" lang="en">Redesigning an investment and payments app, end to end</h1>
+        <dl class="spec">
+          <div class="spec-i"><dt>Хамрах хүрээ</dt><dd>Бүтээгдэхүүний дизайн</dd></div>
+          <div class="spec-i"><dt>Үүрэг</dt><dd>UX/UI дизайнер</dd></div>
+          <div class="spec-i"><dt>Захиалагч</dt><dd>NetCapital</dd></div>
+          <div class="spec-i"><dt>Он</dt><dd>2025 &mdash; одоог хүртэл</dd></div>
+        </dl>
+      </header>
+
+      <figure class="hero-plate">
+        <img src="art/work/netpay-cover.jpg" width="2200" height="1650" fetchpriority="high" decoding="async" alt="NetPay V2 — iPhone дээрх дижитал зээлийн дэлгэц">
+      </figure>
+
+      <div class="dark">
+        <div class="dark-in">
+          <nav id="contents" aria-label="Contents">
+            <ol class="toc">
+              <li><a href="#s01"><span class="toc-n">01</span><span class="toc-t" lang="en">Heuristic evaluation</span><span class="toc-p">Судлах</span></a></li>
+              <li><a href="#s02"><span class="toc-n">02</span><span class="toc-t" lang="en">Hypothesis</span><span class="toc-p">Судлах</span></a></li>
+              <li><a href="#s03"><span class="toc-n">03</span><span class="toc-t" lang="en">User stories</span><span class="toc-p">Судлах</span></a></li>
+              <li><a href="#s04"><span class="toc-n">04</span><span class="toc-t" lang="en">User flow</span><span class="toc-p">Судлах</span></a></li>
+              <li><a href="#s05"><span class="toc-n">05</span><span class="toc-t" lang="en">Low-fidelity screens</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
+              <li><a href="#s06"><span class="toc-n">06</span><span class="toc-t" lang="en">Design system</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
+              <li><a href="#s07"><span class="toc-n">07</span><span class="toc-t" lang="en">High-fidelity screens</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
+              <li><a href="#s08"><span class="toc-n">08</span><span class="toc-t" lang="en">Usability testing</span><span class="toc-p">Батлах</span></a></li>
+              <li><a href="#s09"><span class="toc-n">09</span><span class="toc-t" lang="en">Handoff preparation</span><span class="toc-p">Хийж нийлүүлэх</span></a></li>
+              <li><a href="#s10"><span class="toc-n">10</span><span class="toc-t" lang="en">Haptics and motion spec</span><span class="toc-p">Хийж нийлүүлэх</span></a></li>
+              <li><a href="#s11"><span class="toc-n">11</span><span class="toc-t" lang="en">QA testing</span><span class="toc-p">Хийж нийлүүлэх</span></a></li>
+              <li><a href="#s12"><span class="toc-n">12</span><span class="toc-t" lang="en">Outcome</span><span class="toc-p">Хэмжих</span></a></li>
+            </ol>
+          </nav>
+
+
+          <section class="step" id="s01">
+            <div class="step-side">
+              <span class="step-n">/01</span>
+              <h2 class="step-t" lang="en">Heuristic evaluation</h2>
+              <p class="step-meta"><span>4 UX хууль</span><span>тус бүрд асуудал ба засвар</span><span>хуучин хувилбар</span></p>
+              <div class="step-b">
+                <p>Апп нийлүүлэгдсэн ч, тэр нь <em>зээлдэгчийн биш, банкны эргэн тойронд бүтээгдсэн</em> байв. Үүнийг батлахын тулд нийлүүлэгдсэн аппыг зөрчиж байсан дөрвөн хуулийн эсрэг уншсан &mdash; Hick, Fitts, Jakob, Miller. Энд хэрэглэгч юу хэлсэн тухай ямар ч мэдэгдэл байхгүй; зөвхөн интерфейс юу хийж байгаа нь. Хууль тус бүр асуудлыг өгч, засварыг зааж өгнө. Дахин дизайныг эндээс үндэслэсэн.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="vs">
+                <figure>
+                  <figcaption>Үнэлгээ</figcaption>
+                  <img src="art/work/netpay-old-review.jpg" width="2200" height="1503" loading="lazy" decoding="async" alt="Хуучин хувилбарыг хуулиудын эсрэг уншсан нь — олдсон асуудлууд, засварын үндэслэл">
+                </figure>
+                <figure>
+                  <figcaption>Хуучин хувилбар</figcaption>
+                  <img src="art/work/netpay-old-screens.jpg" width="2200" height="1583" loading="lazy" decoding="async" alt="Хуучин хувилбар — нээлтийн, нэвтрэх дэлгэц, үнэлгээ хийсэн дижитал зээлийн урсгал">
+                </figure>
+              </div>
+
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s02">
+            <div class="step-side">
+              <span class="step-n">/02</span>
+              <h2 class="step-t" lang="en">Hypothesis</h2>
+              <p class="step-meta"><span>3 бооцоо</span><span>энгийн байдал &middot; хурд &middot; ил тод байдал</span></p>
+              <div class="step-b">
+                <p>Зөрчил бүр бооцоо болсон: асуудал, түүнээс төрсөн санаа, мөн тэр санаа юуг өөрчлөх ёстой байсан нь.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="hyp">
+                <div class="card">
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip solid">Асуудал</span><span class="hyp-n">01</span></div>
+                    <p>Дэлгэцүүд хоорондоо юу ч хуваалцдаггүй байв &mdash; ижил үйлдэлд өөр товч, өөр зай, өөр үг.</p>
+                  </div>
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip hollow">Санаа</span></div>
+                    <p>Гэрэл, харанхуйг хувьсагчаар удирддаг нэг компонентын сан &mdash; ингэснээр нэг хяналт хаана ч ижил хяналт байна.</p>
+                  </div>
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip hollow">Хүлээлт</span></div>
+                    <p>Дэлгэц хооронд юуг ч дахин сурах шаардлагагүй болж, зээлийн урсгал наалдуулсан хэсэг биш, аппын нэг хэсэг мэт санагдана.</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip solid">Асуудал</span><span class="hyp-n">02</span></div>
+                    <p>Хэрэгтэй мөчид заавар алга. Хүү, хугацаа, шимтгэлийг бичсэн ч хэзээ ч тайлбарлаагүй.</p>
+                  </div>
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip hollow">Санаа</span></div>
+                    <p>Асуулт үнэхээр гарч ирдэг алхам дээр нь зааврыг урсгалд шингээх.</p>
+                  </div>
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip hollow">Хүлээлт</span></div>
+                    <p>Нөхцөлийн алхам дээр цөөн хүн орхино, учир нь нөхцөлийг уншиж байгаа газартаа нь хариулж болно.</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip solid">Асуудал</span><span class="hyp-n">03</span></div>
+                    <p>Хүсэлт илгээгдээд чимээгүй болдог байв &mdash; төлөв ч алга, хариу хэзээ ирэхийг ч мэдэхгүй.</p>
+                  </div>
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip hollow">Санаа</span></div>
+                    <p>Тодорхой төлвүүд &mdash; шинэ, хянагдаж буй, зөвшөөрсөн, татгалзсан &mdash; шийдвэрийн цагийн хамт.</p>
+                  </div>
+                  <div class="hyp-s">
+                    <div class="hyp-top"><span class="chip hollow">Хүлээлт</span></div>
+                    <p>Дэмжлэгийн ачаалал багасч, хүмүүсийг хоёр удаа хүсэлт илгээхэд хүргэдэг түгшүүр ч багасна.</p>
+                  </div>
+                </div>
+              </div>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s03">
+            <div class="step-side">
+              <span class="step-n">/03</span>
+              <h2 class="step-t" lang="en">User stories</h2>
+              <p class="step-meta"><span>4 түүх</span><span>3 нь өндөр ач холбогдолтой</span></p>
+              <div class="step-b">
+                <p>Асуудал бүр нь дуусгавар болсонд тооцогдохын өмнө үнэн байх ёстой нөхцөлүүдтэй түүх болсон. Урсгалыг дэлгэцийн жагсаалт биш, эдгээрийн эсрэг зурсан.</p>
+              </div>
+            </div>
+            <div class="step-main">
+                <div class="scards">
+                <div class="card scard">
+                  <div class="scard-top">
+                    <span class="who"><span class="av"><svg viewBox="-1.4 -2.2 28.8 28.6" aria-hidden="true"><path class="skin" d="M13 4.6c2.2 0 3.9 1.8 3.9 4.1S15.2 13 13 13s-3.9-1.9-3.9-4.3S10.8 4.6 13 4.6Z"/><path class="deel" d="M13 12.6c-4.4 0-8 2.4-8 5.4V26h16v-8c0-3-3.6-5.4-8-5.4Z"/><path class="trim" d="M10.2 12.9h5.6l.5 1.5c-1.9 1-4.7 1-6.6 0Z"/><path class="trim" d="M10.1 14.6c.5 3 2.6 5 6.4 5.4l-.1 1.7c-4.6-.4-7.3-2.9-7.9-6.7Z"/><rect class="gold" x="5" y="21.2" width="16" height="2.1"/><circle class="gold" cx="15.2" cy="13.6" r=".72"/><circle class="gold" cx="13.6" cy="16.4" r=".72"/><circle class="gold" cx="15.4" cy="18.4" r=".72"/><path class="hat" d="M8.6 7c0-3.2 2-5.1 4.4-5.1s4.4 1.9 4.4 5.1c-2.9-1.2-5.9-1.2-8.8 0Z"/><rect class="hat-b" x="7.9" y="6.6" width="10.2" height="1.5" rx=".75"/><circle class="gold" cx="13" cy="1" r=".9"/><rect class="gold" x="12.5" y="1" width="1" height="1.5"/></svg></span><b>Жижиг бизнес эрхлэгч</b></span>
+                    <span class="pri high"><i></i>Өндөр</span>
+                  </div>
+                  <p class="scard-s">Хэрэглэгчийн хувьд би зээлийн хүсэлт энгийн, ойлгомжтой UI-тай байхыг хүсэж байна, ингэснээр хурдан дуусгана.</p>
+                  <ul class="scard-c">
+                    <li class="lbl" style="list-style:none;padding-left:0">Хүлээн авах шалгуур</li>
+                    <li>Алхам алхмаар бүтээгдсэн</li>
+                    <li>Дүн, орлого, хугацаа алхам бүрт тэмдэглэгдсэн</li>
+                    <li>Буцах, өөрчлөх, баталгаажуулах</li>
+                  </ul>
+                </div>
+                <div class="card scard">
+                  <div class="scard-top">
+                    <span class="who"><span class="av"><svg viewBox="-1.4 -2.2 28.8 28.6" aria-hidden="true"><path class="hair" d="M13 2.6c3.1 0 5 2.2 5 5.4 0 1.5-.3 2.6-.6 3.5l-1.5-.6V8.4c-2.2.5-4.6.5-6.8 0v2.5l-1.5.6c-.3-.9-.6-2-.6-3.5 0-3.2 1.9-5.4 5-5.4Z"/><path class="skin" d="M13 5c2.2 0 3.9 1.8 3.9 4.1s-1.7 4.3-3.9 4.3-3.9-1.9-3.9-4.3S10.8 5 13 5Z"/><path class="deel-f" d="M13 13c-4.4 0-8 2.4-8 5.4V26h16v-7.6c0-3-3.6-5.4-8-5.4Z"/><path class="hair" d="M16.9 11.2c1.3.5 2 1.6 2 3.2 0 2.3-.5 4.3-1.5 6l-1.3-.7c.8-1.5 1.2-3.2 1.2-5 0-1.4-.2-2.4-.7-3Z"/><path class="trim" d="M10.2 13.3h5.6l.5 1.5c-1.9 1-4.7 1-6.6 0Z"/><path class="trim" d="M10.1 15c.5 3 2.6 5 6.4 5.4l-.1 1.7c-4.6-.4-7.3-2.9-7.9-6.7Z"/><rect class="gold" x="5" y="21.6" width="16" height="2.1"/><circle class="gold" cx="15.2" cy="14" r=".72"/><circle class="gold" cx="13.6" cy="16.8" r=".72"/><circle class="gold" cx="15.4" cy="18.8" r=".72"/></svg></span><b>Хотын мэргэжилтэн</b></span>
+                    <span class="pri high"><i></i>Өндөр</span>
+                  </div>
+                  <p class="scard-s">Хэрэглэгчийн хувьд би зээлийн нөхцөл &mdash; хүү, хуваарь, шимтгэл &mdash; тодорхой бичигдсэн байхыг хүсэж байна, ингэснээр итгэлтэй шийдвэр гаргана.</p>
+                  <ul class="scard-c">
+                    <li class="lbl" style="list-style:none;padding-left:0">Хүлээн авах шалгуур</li>
+                    <li>Жилийн хүү, сарын болон нийт төлөлт дэлгэц дээр</li>
+                    <li>Төлбөрийн хуваарийг график хэлбэрээр</li>
+                    <li>Шимтгэл, нэмэлт төлөлтийг тусад нь задалсан</li>
+                  </ul>
+                </div>
+                <div class="card scard">
+                  <div class="scard-top">
+                    <span class="who"><span class="av"><svg viewBox="-1.4 -2.2 28.8 28.6" aria-hidden="true"><path class="skin" d="M13 4.6c2.2 0 3.9 1.8 3.9 4.1S15.2 13 13 13s-3.9-1.9-3.9-4.3S10.8 4.6 13 4.6Z"/><path class="deel" d="M13 12.6c-4.4 0-8 2.4-8 5.4V26h16v-8c0-3-3.6-5.4-8-5.4Z"/><path class="trim" d="M10.2 12.9h5.6l.5 1.5c-1.9 1-4.7 1-6.6 0Z"/><path class="trim" d="M10.1 14.6c.5 3 2.6 5 6.4 5.4l-.1 1.7c-4.6-.4-7.3-2.9-7.9-6.7Z"/><rect class="gold" x="5" y="21.2" width="16" height="2.1"/><circle class="gold" cx="15.2" cy="13.6" r=".72"/><circle class="gold" cx="13.6" cy="16.4" r=".72"/><circle class="gold" cx="15.4" cy="18.4" r=".72"/><path class="hat" d="M8.6 7c0-3.2 2-5.1 4.4-5.1s4.4 1.9 4.4 5.1c-2.9-1.2-5.9-1.2-8.8 0Z"/><rect class="hat-b" x="7.9" y="6.6" width="10.2" height="1.5" rx=".75"/><circle class="gold" cx="13" cy="1" r=".9"/><rect class="gold" x="12.5" y="1" width="1" height="1.5"/></svg></span><b>Анх удаа зээлдэгч</b></span>
+                    <span class="pri high"><i></i>Өндөр</span>
+                  </div>
+                  <p class="scard-s">Хэрэглэгчийн хувьд би хүсэлтээ хэрхэн шийдэгдэж байгааг хянахыг хүсэж байна, ингэснээр хариуг хэзээ хүлээхээ мэдэнэ.</p>
+                  <ul class="scard-c">
+                    <li class="lbl" style="list-style:none;padding-left:0">Хүлээн авах шалгуур</li>
+                    <li>Шинэ, хянагдаж буй, зөвшөөрсөн, татгалзсан</li>
+                    <li>Шийдвэрийн цаг, боломжтой бол хариуцсан ажилтан</li>
+                    <li>Олгогдсоны дараа гэрээ, нөхцөл бүрэн эхээрээ</li>
+                  </ul>
+                </div>
+                <div class="card scard">
+                  <div class="scard-top">
+                    <span class="who"><span class="av"><svg viewBox="-1.4 -2.2 28.8 28.6" aria-hidden="true"><path class="hair" d="M13 2.6c3.1 0 5 2.2 5 5.4 0 1.5-.3 2.6-.6 3.5l-1.5-.6V8.4c-2.2.5-4.6.5-6.8 0v2.5l-1.5.6c-.3-.9-.6-2-.6-3.5 0-3.2 1.9-5.4 5-5.4Z"/><path class="skin" d="M13 5c2.2 0 3.9 1.8 3.9 4.1s-1.7 4.3-3.9 4.3-3.9-1.9-3.9-4.3S10.8 5 13 5Z"/><path class="deel-f" d="M13 13c-4.4 0-8 2.4-8 5.4V26h16v-7.6c0-3-3.6-5.4-8-5.4Z"/><path class="hair" d="M16.9 11.2c1.3.5 2 1.6 2 3.2 0 2.3-.5 4.3-1.5 6l-1.3-.7c.8-1.5 1.2-3.2 1.2-5 0-1.4-.2-2.4-.7-3Z"/><path class="trim" d="M10.2 13.3h5.6l.5 1.5c-1.9 1-4.7 1-6.6 0Z"/><path class="trim" d="M10.1 15c.5 3 2.6 5 6.4 5.4l-.1 1.7c-4.6-.4-7.3-2.9-7.9-6.7Z"/><rect class="gold" x="5" y="21.6" width="16" height="2.1"/><circle class="gold" cx="15.2" cy="14" r=".72"/><circle class="gold" cx="13.6" cy="16.8" r=".72"/><circle class="gold" cx="15.4" cy="18.8" r=".72"/></svg></span><b>Дахин зээлдэгч</b></span>
+                    <span class="pri med"><i></i>Дунд</span>
+                  </div>
+                  <p class="scard-s">Хэрэглэгчийн хувьд би үлдэгдэл, хуваарь, дараагийн төлөлтийн огноог нэг энгийн харагдацад харахыг хүсэж байна, ингэснээр хэзээ хэдийг төлөхөө мэдэнэ.</p>
+                  <ul class="scard-c">
+                    <li class="lbl" style="list-style:none;padding-left:0">Хүлээн авах шалгуур</li>
+                    <li>Эргэн төлөлтийн хуваарь, үлдэгдэл</li>
+                    <li>Дараагийн огноо, дүн тодорхой бичигдсэн</li>
+                    <li>Төлөх товч мөн тэр дэлгэц дээр</li>
+                  </ul>
+                </div>
+              </div>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s04">
+            <div class="step-side">
+              <span class="step-n">/04</span>
+              <h2 class="step-t" lang="en">User flow</h2>
+              <p class="step-meta"><span>4 диаграм</span><span>47 төлөв</span><span>эрхийн 2 зам</span></p>
+              <div class="step-b">
+                <p>Зээлийн урсгал одоогийн байдлаараа, салаа тус бүрээр &mdash; орц, эрх тогтоох хоёр зам, зээлээ зарцуулах хоёр арга. Бүхэлдээ 2,800px өргөн бөгөөд хуудсанд багтах ямар ч хэмжээнд уншигдахгүй тул дөрвөн диаграм.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <p class="flow-hint">Диаграм өөрийн хэмжээгээ хадгална &mdash; хажуу тийш гүйлгэнэ үү &rarr;</p>
+              <figure class="flowfig">
+                <figcaption>Орц</figcaption>
+                <div class="flowwrap">
+                  <svg class="flow" width="1380" height="114" viewBox="0 0 1380 114" role="img" aria-label="Орц">
+                  <defs><marker id="aEntry" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
+                  <g class="n head"><rect x="8" y="28.0" width="156" height="42" rx="21"/>
+                  <text x="86" y="53.0">Тавтай морил</text>
+                  </g>
+                  <path class="ln" d="M164.0 49.0 C182.5 49.0 182.5 49.0 201.0 49.0" marker-end="url(#aEntry)"/>
+                  <g class="n "><rect x="208" y="28.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="53.0">Дижитал</text>
+                  </g>
+                  <path class="ln" d="M364.0 49.0 C382.5 49.0 382.5 49.0 401.0 49.0" marker-end="url(#aEntry)"/>
+                  <g class="n "><rect x="408" y="28.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="53.0">Эрх тогтоох</text>
+                  </g>
+                  <path class="ln" d="M564.0 49.0 C582.5 49.0 582.5 49.0 601.0 49.0" marker-end="url(#aEntry)"/>
+                  <g class="n "><rect x="608" y="28.0" width="156" height="42" rx="21"/>
+                  <text x="686" y="53.0">Зээлийн заавар</text>
+                  </g>
+                  <path class="ln" d="M764.0 49.0 C782.5 49.0 782.5 49.0 801.0 49.0" marker-end="url(#aEntry)"/>
+                  <g class="n "><rect x="808" y="28.0" width="156" height="42" rx="21"/>
+                  <text x="886" y="53.0">ХУР / ДАН</text>
+                  </g>
+                  <path class="ln" d="M964.0 49.0 C982.5 49.0 982.5 49.0 1001.0 49.0" marker-end="url(#aEntry)"/>
+                  <g class="n "><rect x="1008" y="28.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="53.0">Эрх тогтоож байна</text>
+                  </g>
+                  <path class="ln" d="M1164.0 49.0 C1182.5 49.0 1182.5 21.0 1201.0 21.0" marker-end="url(#aEntry)"/>
+                  <g class="n alt"><rect x="1208" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="25.0">&lt; 1,000,000</text>
+                  </g>
+                  <path class="ln" d="M1164.0 49.0 C1182.5 49.0 1182.5 77.0 1201.0 77.0" marker-end="url(#aEntry)"/>
+                  <g class="n alt"><rect x="1208" y="56.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="81.0">&gt; 1,000,000</text>
+                  </g>
+                  </svg>
+                </div>
+              </figure>
+              <figure class="flowfig">
+                <figcaption>Эрх тогтоох хоёр зам</figcaption>
+                <div class="flowwrap">
+                  <svg class="flow" width="1780" height="170" viewBox="0 0 1780 170" role="img" aria-label="Эрх тогтоох хоёр зам">
+                  <defs><marker id="aThetwolimitpaths" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
+                  <g class="n head"><rect x="8" y="42.0" width="156" height="42" rx="21"/>
+                  <text x="86" y="67.0">Эрх тогтоож байна</text>
+                  </g>
+                  <path class="ln" d="M164.0 63.0 C182.5 63.0 182.5 21.0 201.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n alt"><rect x="208" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="25.0">&lt; 1,000,000</text>
+                  </g>
+                  <path class="ln" d="M364.0 21.0 C382.5 21.0 382.5 21.0 401.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="408" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="18.0">Эрх тогтсон жнь.</text>
+                  <text x="486" y="31.0">800K</text>
+                  </g>
+                  <path class="ln" d="M564.0 21.0 C582.5 21.0 582.5 21.0 601.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="608" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="686" y="25.0">Зээлийн хэмжээ</text>
+                  </g>
+                  <path class="ln" d="M764.0 21.0 C782.5 21.0 782.5 21.0 801.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="808" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="886" y="18.0">Хугацаа, төлөх</text>
+                  <text x="886" y="31.0">өдөр</text>
+                  </g>
+                  <path class="ln" d="M964.0 21.0 C982.5 21.0 982.5 21.0 1001.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="1008" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="25.0">Гэрээ</text>
+                  </g>
+                  <path class="ln" d="M1164.0 21.0 C1182.5 21.0 1182.5 21.0 1201.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="1208" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="25.0">Хүлээн авах данс</text>
+                  </g>
+                  <path class="ln" d="M1364.0 21.0 C1382.5 21.0 1382.5 21.0 1401.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="1408" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="1486" y="25.0">ПИН код оруулах</text>
+                  </g>
+                  <path class="ln" d="M1564.0 21.0 C1582.5 21.0 1582.5 21.0 1601.0 21.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n ok"><rect x="1608" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="1686" y="25.0">Амжилттай</text>
+                  </g>
+                  <path class="ln" d="M164.0 63.0 C182.5 63.0 182.5 105.0 201.0 105.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n alt"><rect x="208" y="84.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="109.0">&gt; 1,000,000</text>
+                  </g>
+                  <path class="ln" d="M364.0 105.0 C382.5 105.0 382.5 77.0 401.0 77.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="408" y="56.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="81.0">Салбарын мэдээлэл</text>
+                  </g>
+                  <path class="ln" d="M364.0 105.0 C382.5 105.0 382.5 133.0 401.0 133.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="408" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="137.0">Тоон гарын үсэг</text>
+                  </g>
+                  <path class="ln" d="M564.0 133.0 C582.5 133.0 582.5 133.0 601.0 133.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="608" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="686" y="137.0">Гэрээ</text>
+                  </g>
+                  <path class="ln" d="M764.0 133.0 C782.5 133.0 782.5 133.0 801.0 133.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="808" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="886" y="137.0">TPA</text>
+                  </g>
+                  <path class="ln" d="M964.0 133.0 C982.5 133.0 982.5 133.0 1001.0 133.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n "><rect x="1008" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="137.0">ПИН код оруулах</text>
+                  </g>
+                  <path class="ln" d="M1164.0 133.0 C1182.5 133.0 1182.5 133.0 1201.0 133.0" marker-end="url(#aThetwolimitpaths)"/>
+                  <g class="n ok"><rect x="1208" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="137.0">Амжилттай</text>
+                  </g>
+                  </svg>
+                </div>
+              </figure>
+              <figure class="flowfig">
+                <figcaption>BNPL</figcaption>
+                <div class="flowwrap">
+                  <svg class="flow" width="1580" height="282" viewBox="0 0 1580 282" role="img" aria-label="BNPL">
+                  <defs><marker id="aBNPL" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
+                  <g class="n head"><rect x="8" y="91.0" width="156" height="42" rx="21"/>
+                  <text x="86" y="116.0">BNPL</text>
+                  </g>
+                  <path class="ln" d="M164.0 112.0 C182.5 112.0 182.5 21.0 201.0 21.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="208" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="25.0">Хамтрагчид</text>
+                  </g>
+                  <path class="ln" d="M364.0 21.0 C382.5 21.0 382.5 21.0 401.0 21.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="408" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="25.0">Хамтрагчийн мэдээлэл</text>
+                  </g>
+                  <path class="ln" d="M164.0 112.0 C182.5 112.0 182.5 77.0 201.0 77.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="208" y="56.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="81.0">Тооцоолол</text>
+                  </g>
+                  <path class="ln" d="M164.0 112.0 C182.5 112.0 182.5 203.0 201.0 203.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="208" y="182.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="207.0">Нэхэмжлэх</text>
+                  </g>
+                  <path class="ln" d="M364.0 203.0 C382.5 203.0 382.5 161.0 401.0 161.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="408" y="140.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="165.0">Төлбөрийн мэдээлэл</text>
+                  </g>
+                  <path class="ln" d="M564.0 161.0 C582.5 161.0 582.5 161.0 601.0 161.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="608" y="140.0" width="156" height="42" rx="21"/>
+                  <text x="686" y="165.0">Огноо сонгох</text>
+                  </g>
+                  <path class="ln" d="M764.0 161.0 C782.5 161.0 782.5 161.0 801.0 161.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="808" y="140.0" width="156" height="42" rx="21"/>
+                  <text x="886" y="165.0">Гэрээ</text>
+                  </g>
+                  <path class="ln" d="M964.0 161.0 C982.5 161.0 982.5 133.0 1001.0 133.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="1008" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="130.0">Төлбөрийн сонголт</text>
+                  <text x="1086" y="143.0">сонгох</text>
+                  </g>
+                  <path class="ln" d="M1164.0 133.0 C1182.5 133.0 1182.5 133.0 1201.0 133.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="1208" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="137.0">ПИН код оруулах</text>
+                  </g>
+                  <path class="ln" d="M1364.0 133.0 C1382.5 133.0 1382.5 133.0 1401.0 133.0" marker-end="url(#aBNPL)"/>
+                  <g class="n ok"><rect x="1408" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1486" y="137.0">Амжилттай</text>
+                  </g>
+                  <path class="ln" d="M964.0 161.0 C982.5 161.0 982.5 189.0 1001.0 189.0" marker-end="url(#aBNPL)"/>
+                  <g class="n "><rect x="1008" y="168.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="193.0">Төлбөрийн сонголт алга</text>
+                  </g>
+                  <path class="ln" d="M1164.0 189.0 C1182.5 189.0 1182.5 189.0 1201.0 189.0" marker-end="url(#aBNPL)"/>
+                  <g class="n ok"><rect x="1208" y="168.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="193.0">Амжилттай</text>
+                  </g>
+                  <path class="ln" d="M364.0 203.0 C382.5 203.0 382.5 245.0 401.0 245.0" marker-end="url(#aBNPL)"/>
+                  <g class="n bad"><rect x="408" y="224.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="249.0">Нэхэмжлэх цуцлах</text>
+                  </g>
+                  </svg>
+                </div>
+              </figure>
+              <figure class="flowfig">
+                <figcaption>Бараа</figcaption>
+                <div class="flowwrap">
+                  <svg class="flow" width="1380" height="282" viewBox="0 0 1380 282" role="img" aria-label="Бараа худалдан авах">
+                  <defs><marker id="aGoods" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
+                  <g class="n head"><rect x="8" y="91.0" width="156" height="42" rx="21"/>
+                  <text x="86" y="116.0">Бараа</text>
+                  </g>
+                  <path class="ln" d="M164.0 112.0 C182.5 112.0 182.5 21.0 201.0 21.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="208" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="25.0">Хамтрагчид</text>
+                  </g>
+                  <path class="ln" d="M364.0 21.0 C382.5 21.0 382.5 21.0 401.0 21.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="408" y="0.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="25.0">Хамтрагчийн мэдээлэл</text>
+                  </g>
+                  <path class="ln" d="M164.0 112.0 C182.5 112.0 182.5 77.0 201.0 77.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="208" y="56.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="81.0">Тооцоолол</text>
+                  </g>
+                  <path class="ln" d="M164.0 112.0 C182.5 112.0 182.5 203.0 201.0 203.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="208" y="182.0" width="156" height="42" rx="21"/>
+                  <text x="286" y="207.0">Нэхэмжлэх</text>
+                  </g>
+                  <path class="ln" d="M364.0 203.0 C382.5 203.0 382.5 161.0 401.0 161.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="408" y="140.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="165.0">Төлбөрийн мэдээлэл</text>
+                  </g>
+                  <path class="ln" d="M564.0 161.0 C582.5 161.0 582.5 161.0 601.0 161.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="608" y="140.0" width="156" height="42" rx="21"/>
+                  <text x="686" y="165.0">Огноо сонгох</text>
+                  </g>
+                  <path class="ln" d="M764.0 161.0 C782.5 161.0 782.5 161.0 801.0 161.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="808" y="140.0" width="156" height="42" rx="21"/>
+                  <text x="886" y="165.0">Хянах</text>
+                  </g>
+                  <path class="ln" d="M964.0 161.0 C982.5 161.0 982.5 133.0 1001.0 133.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="1008" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="137.0">Мерчант гэрээ</text>
+                  </g>
+                  <path class="ln" d="M1164.0 133.0 C1182.5 133.0 1182.5 133.0 1201.0 133.0" marker-end="url(#aGoods)"/>
+                  <g class="n ok"><rect x="1208" y="112.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="137.0">Амжилттай</text>
+                  </g>
+                  <path class="ln" d="M964.0 161.0 C982.5 161.0 982.5 189.0 1001.0 189.0" marker-end="url(#aGoods)"/>
+                  <g class="n "><rect x="1008" y="168.0" width="156" height="42" rx="21"/>
+                  <text x="1086" y="193.0">Дижитал гэрээ</text>
+                  </g>
+                  <path class="ln" d="M1164.0 189.0 C1182.5 189.0 1182.5 189.0 1201.0 189.0" marker-end="url(#aGoods)"/>
+                  <g class="n ok"><rect x="1208" y="168.0" width="156" height="42" rx="21"/>
+                  <text x="1286" y="193.0">Амжилттай</text>
+                  </g>
+                  <path class="ln" d="M364.0 203.0 C382.5 203.0 382.5 245.0 401.0 245.0" marker-end="url(#aGoods)"/>
+                  <g class="n bad"><rect x="408" y="224.0" width="156" height="42" rx="21"/>
+                  <text x="486" y="249.0">Нэхэмжлэх цуцлах</text>
+                  </g>
+                  </svg>
+                </div>
+              </figure>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s05">
+            <div class="step-side">
+              <span class="step-n">/05</span>
+              <h2 class="step-t" lang="en">Low-fidelity screens</h2>
+              <p class="step-meta"><span>эрх тогтоох</span><span>7 дэлгэц</span><span>4 алдааны төлөв</span></p>
+              <div class="step-b">
+                <p>Эрх тогтоох урсгал бүдүүвч нарийвчлалаар: дараалал, ХУР/ДАН руу шилжих шилжилт, түүнийг тасалдуулдаг төлвүүд. Нэг ч дэлгэц зурагдахаас өмнө дөрвөн бүтэлгүйтлийн замыг оруулан хэлбэрийг энд тогтоосон.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <p class="flow-hint">Урсгалыг дагахын тулд хажуу тийш гүйлгэнэ үү &rarr;</p>
+              <div class="lofiwrap">
+                <svg class="lofi" viewBox="0 0 1414 704" role="img" aria-label="Эрх тогтоох урсгал, бүдүүвч нарийвчлалаар">
+                <defs><marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
+                <g class="scr">
+                <rect class="ph" x="14" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="74" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk fld" x="62" y="78" width="54" height="54" rx="14"/>
+                <rect class="sk" x="38" y="154" width="102" height="8" rx="4"/>
+                <rect class="sk" x="54" y="168" width="70" height="8" rx="4"/>
+                <rect class="sk dim" x="35" y="194" width="108" height="5" rx="3"/>
+                <rect class="sk dim" x="46" y="206" width="86" height="5" rx="3"/>
+                <rect class="sk act" x="26" y="252" width="126" height="24" rx="12"/>
+                </g>
+                <text class="cap" x="89" y="312">Заавар</text>
+                <text class="capn" x="89" y="327">01</text>
+                <g class="scr">
+                <rect class="ph" x="220" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="280" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk dim" x="265" y="44" width="60" height="6" rx="3"/>
+                <rect class="sk" x="264" y="58" width="62" height="16" rx="4"/>
+                <rect class="sk dim" x="247" y="84" width="96" height="4" rx="2"/>
+                <rect class="sk dim" x="232" y="104" width="74" height="5" rx="3"/>
+                <rect class="sk fld" x="232" y="116" width="126" height="26" rx="8"/>
+                <rect class="sk fld" x="232" y="148" width="126" height="26" rx="8"/>
+                <rect class="sk fld" x="232" y="182" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="298" y="182" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="232" y="206" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="298" y="206" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="232" y="230" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="298" y="230" width="60" height="20" rx="6"/>
+                <rect class="sk act" x="232" y="260" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="295" y="312">Хураамж төлөх</text>
+                <text class="capn" x="295" y="327">02</text>
+                <path class="ln" d="M170 152 H211" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="426" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="486" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk dim" x="438" y="44" width="58" height="6" rx="3"/>
+                <circle class="sk fld" cx="454" cy="82" r="13"/>
+                <rect class="sk dim" x="441" y="102" width="26" height="4" rx="2"/>
+                <circle class="sk fld" cx="496" cy="82" r="13"/>
+                <rect class="sk dim" x="483" y="102" width="26" height="4" rx="2"/>
+                <circle class="sk fld" cx="538" cy="82" r="13"/>
+                <rect class="sk dim" x="525" y="102" width="26" height="4" rx="2"/>
+                <rect class="sk dim" x="438" y="126" width="44" height="4" rx="2"/>
+                <rect class="sk" x="438" y="134" width="74" height="7" rx="3"/>
+                <rect class="sk dim" x="438" y="152" width="44" height="4" rx="2"/>
+                <rect class="sk" x="438" y="160" width="74" height="7" rx="3"/>
+                <rect class="sk dim" x="438" y="178" width="44" height="4" rx="2"/>
+                <rect class="sk" x="438" y="186" width="74" height="7" rx="3"/>
+                <rect class="sk act" x="438" y="260" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="501" y="312">Данс сонгох</text>
+                <text class="capn" x="501" y="327">03</text>
+                <path class="ln" d="M376 152 H417" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="632" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="692" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk fld" x="684" y="106" width="46" height="46" rx="12"/>
+                <rect class="sk" x="673" y="166" width="68" height="9" rx="4"/>
+                <rect class="sk dim" x="685" y="182" width="44" height="6" rx="3"/>
+                <rect class="sk dim" x="644" y="260" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="707" y="312">ХУР / ДАН</text>
+                <text class="capn" x="707" y="327">04</text>
+                <path class="ln" d="M582 152 H623" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="838" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="898" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk" x="850" y="42" width="52" height="9" rx="4"/>
+                <rect class="sk dim" x="870" y="66" width="86" height="5" rx="3"/>
+                <rect class="sk act" x="878" y="78" width="70" height="3" rx="2"/>
+                <rect class="sk fld" x="850" y="98" width="60" height="38" rx="8"/>
+                <rect class="sk fld" x="916" y="98" width="60" height="38" rx="8"/>
+                <rect class="sk fld" x="850" y="142" width="60" height="38" rx="8"/>
+                <rect class="sk fld" x="916" y="142" width="60" height="38" rx="8"/>
+                <rect class="sk fld" x="850" y="186" width="60" height="38" rx="8"/>
+                <rect class="sk fld" x="916" y="186" width="60" height="38" rx="8"/>
+                <rect class="sk dim" x="850" y="264" width="126" height="18" rx="8"/>
+                </g>
+                <text class="cap" x="913" y="312">Эрх тогтоох</text>
+                <text class="capn" x="913" y="327">05</text>
+                <path class="ln" d="M788 152 H829" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="1044" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="1104" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk dim" x="1056" y="42" width="46" height="6" rx="3"/>
+                <circle class="sk fld" cx="1160" cy="88" r="24"/>
+                <rect class="sk dim" x="1056" y="70" width="40" height="5" rx="3"/>
+                <rect class="sk" x="1056" y="80" width="70" height="15" rx="4"/>
+                <rect class="sk dim" x="1056" y="102" width="52" height="4" rx="2"/>
+                <rect class="sk act" x="1056" y="118" width="58" height="20" rx="10"/>
+                <circle class="sk" cx="1074" cy="166" r="9"/>
+                <circle class="sk" cx="1119" cy="166" r="9"/>
+                <circle class="sk" cx="1164" cy="166" r="9"/>
+                <rect class="sk fld" x="1056" y="192" width="126" height="22" rx="7"/>
+                <rect class="sk fld" x="1056" y="220" width="126" height="22" rx="7"/>
+                <rect class="sk dim" x="1056" y="264" width="126" height="18" rx="8"/>
+                </g>
+                <text class="cap" x="1119" y="312">Эрх тогтсон</text>
+                <text class="capn" x="1119" y="327">06</text>
+                <path class="ln" d="M994 152 H1035" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="1250" y="14" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="1310" y="25" width="30" height="4" rx="2"/>
+                <rect class="sk fld" x="1298" y="78" width="54" height="54" rx="14"/>
+                <rect class="sk" x="1274" y="154" width="102" height="8" rx="4"/>
+                <rect class="sk" x="1290" y="168" width="70" height="8" rx="4"/>
+                <rect class="sk dim" x="1271" y="194" width="108" height="5" rx="3"/>
+                <rect class="sk dim" x="1282" y="206" width="86" height="5" rx="3"/>
+                <rect class="sk act" x="1262" y="252" width="126" height="24" rx="12"/>
+                </g>
+                <text class="cap" x="1325" y="312">Өөрчлөгдөж болно</text>
+                <text class="capn" x="1325" y="327">07</text>
+                <path class="ln" d="M1200 152 H1241" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="220" y="376" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="280" y="387" width="30" height="4" rx="2"/>
+                <rect class="sk dim" x="265" y="406" width="60" height="6" rx="3"/>
+                <rect class="sk" x="264" y="420" width="62" height="16" rx="4"/>
+                <rect class="sk dim" x="247" y="446" width="96" height="4" rx="2"/>
+                <rect class="sk dim" x="232" y="466" width="74" height="5" rx="3"/>
+                <rect class="sk fld" x="232" y="478" width="126" height="26" rx="8"/>
+                <rect class="sk fld" x="232" y="510" width="126" height="26" rx="8"/>
+                <rect class="sk fld" x="232" y="544" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="298" y="544" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="232" y="568" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="298" y="568" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="232" y="592" width="60" height="20" rx="6"/>
+                <rect class="sk fld" x="298" y="592" width="60" height="20" rx="6"/>
+                <rect class="sk bad" x="242" y="618" width="106" height="5" rx="3"/>
+                <rect class="sk dim" x="232" y="622" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="295" y="674">Хураамжийн алдаа &#183; дахин</text>
+                <text class="capn" x="295" y="689">02a</text>
+                <path class="ln" d="M295 338 V367" marker-end="url(#a)"/>
+                <path class="ln dash" d="M376 514 H398 V342" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="426" y="376" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="486" y="387" width="30" height="4" rx="2"/>
+                <rect class="sk dim" x="438" y="406" width="58" height="6" rx="3"/>
+                <circle class="sk fld" cx="454" cy="444" r="13"/>
+                <rect class="sk dim" x="441" y="464" width="26" height="4" rx="2"/>
+                <circle class="sk fld" cx="496" cy="444" r="13"/>
+                <rect class="sk dim" x="483" y="464" width="26" height="4" rx="2"/>
+                <circle class="sk fld" cx="538" cy="444" r="13"/>
+                <rect class="sk dim" x="525" y="464" width="26" height="4" rx="2"/>
+                <rect class="sk dim" x="438" y="488" width="44" height="4" rx="2"/>
+                <rect class="sk" x="438" y="496" width="74" height="7" rx="3"/>
+                <rect class="sk dim" x="438" y="514" width="44" height="4" rx="2"/>
+                <rect class="sk" x="438" y="522" width="74" height="7" rx="3"/>
+                <rect class="sk badfld" x="438" y="552" width="126" height="30" rx="8"/>
+                <rect class="sk bad" x="451" y="560" width="100" height="5" rx="3"/>
+                <rect class="sk bad" x="464" y="571" width="74" height="4" rx="2"/>
+                <rect class="sk dim" x="438" y="622" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="501" y="674">Дансанд хүрэлцэхгүй</text>
+                <text class="capn" x="501" y="689">03a</text>
+                <path class="ln" d="M501 338 V367" marker-end="url(#a)"/>
+                <path class="ln dash" d="M582 514 H604 V342" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="632" y="376" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="692" y="387" width="30" height="4" rx="2"/>
+                <rect class="sk badfld" x="684" y="462" width="46" height="46" rx="12"/>
+                <rect class="sk bad" x="659" y="524" width="96" height="8" rx="4"/>
+                <rect class="sk dim" x="649" y="540" width="116" height="5" rx="3"/>
+                <rect class="sk dim" x="667" y="552" width="80" height="5" rx="3"/>
+                <rect class="sk act" x="644" y="594" width="126" height="22" rx="11"/>
+                <rect class="sk dim" x="644" y="622" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="707" y="674">ХУР/ДАН татгалзсан</text>
+                <text class="capn" x="707" y="689">04a</text>
+                <path class="ln" d="M707 338 V367" marker-end="url(#a)"/>
+                <path class="ln dash" d="M788 514 H810 V342" marker-end="url(#a)"/>
+                <g class="scr">
+                <rect class="ph" x="838" y="376" width="150" height="276" rx="15"/>
+                <rect class="sk dim" x="898" y="387" width="30" height="4" rx="2"/>
+                <rect class="sk dim" x="850" y="404" width="46" height="6" rx="3"/>
+                <circle class="sk badfld" cx="913" cy="458" r="26"/>
+                <rect class="sk bad" x="862" y="502" width="102" height="9" rx="4"/>
+                <rect class="sk dim" x="854" y="522" width="118" height="5" rx="3"/>
+                <rect class="sk dim" x="872" y="534" width="82" height="5" rx="3"/>
+                <rect class="sk fld" x="850" y="558" width="126" height="22" rx="10"/>
+                <rect class="sk dim" x="850" y="622" width="126" height="22" rx="11"/>
+                </g>
+                <text class="cap" x="913" y="674">Эрх олгогдоогүй</text>
+                <text class="capn" x="913" y="689">05a</text>
+                <path class="ln" d="M913 338 V367" marker-end="url(#a)"/>
+                <path class="ln stop" d="M1002 509 l10 10 M1012 509 l-10 10"/>
+                </svg>
+              </div>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s06">
+            <div class="step-side">
+              <span class="step-n">/06</span>
+              <h2 class="step-t" lang="en">Design system</h2>
+              <p class="step-meta"><span>50+ компонент</span><span>загвар ба хувьсагч</span><span>гэрэл ба харанхуй</span></p>
+              <div class="step-b">
+                <p>Тавь гаруй компонент, тус бүр өөрийн төлвүүдтэй, текстийн загвар, өнгө, үсгийн хувьсагчийн суурин дээр. Энэ бол кейсийн эхэнд нэрлэсэн нэгдмэл байдлын асуудлын хариулт: нэг сан, нэг багц дүрэм, нэг хувьсагчаас гэрэл ба харанхуй.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <p class="kit-more">11 харуулав &middot; 50+ компонент, текстийн загвар, өнгө ба үсгийн хувьсагч</p>
+              <div class="kitwrap">
+                <div class="kit">
+                  <figure><img src="art/work/ds/btn-primary.png" width="700" height="288" loading="lazy" decoding="async" alt=""></figure>
+                  <figure class="w80"><img src="art/work/ds/loan-info.png" width="328" height="580" loading="lazy" decoding="async" alt=""></figure>
+                  <figure class="w66"><img src="art/work/ds/dot.png" width="440" height="250" loading="lazy" decoding="async" alt=""></figure>
+                  <figure><img src="art/work/ds/btn-secondary.png" width="700" height="286" loading="lazy" decoding="async" alt=""></figure>
+                  <figure class="w80 right"><img src="art/work/ds/step.png" width="500" height="341" loading="lazy" decoding="async" alt=""></figure>
+                  <figure class="w52"><img src="art/work/ds/progress.png" width="500" height="329" loading="lazy" decoding="async" alt=""></figure>
+                  <figure><img src="art/work/ds/navbar.png" width="476" height="600" loading="lazy" decoding="async" alt=""></figure>
+                  <figure><img src="art/work/ds/icons.png" width="880" height="180" loading="lazy" decoding="async" alt=""></figure>
+                  <figure class="w66 right"><img src="art/work/ds/cake.png" width="540" height="518" loading="lazy" decoding="async" alt=""></figure>
+                  <figure><img src="art/work/ds/loan-progress.png" width="720" height="525" loading="lazy" decoding="async" alt=""></figure>
+                  <figure><img src="art/work/ds/loan-section.png" width="298" height="760" loading="lazy" decoding="async" alt=""></figure>
+                </div>
+              </div>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s07">
+            <div class="step-side">
+              <span class="step-n">/07</span>
+              <h2 class="step-t" lang="en">High-fidelity screens</h2>
+              <p class="step-meta"><span>эцсийн UI</span><span>иж бүрдлээс бүтээсэн</span><span>гэрэл ба харанхуй</span></p>
+              <div class="step-b">
+                <p>Системээс бүтээсэн эцсийн дэлгэцүүд &mdash; тодорхой байдал, хурд, мөн хаана байгааг чинь үргэлж хэлдэг зээлийн урсгал.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="annot lead">
+                <div class="annot-note">
+                  <h3>Зээлийн хүсэлт гаргах</h3>
+                  <p>Энэ бүх кейсийн үндэс болсон урсгал &mdash; нэг алхамд нэг шийдвэр, дүн, хугацаа бүр тэмдэглэгдсэн, алхам бүрээс буцах зам бий.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot">
+                  <div class="device"><video width="592" height="1280" src="art/work/netpay-loan.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Зээлийн хүсэлтийн урсгал — дэлгэцийн бичлэг"></video><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Хүсэлт, алхам алхмаар</h3>
+                  <p>Эхлээд дүн, гарын хэмжээтэй товчлуур дээр. Дараа нь хугацаа, дараа нь төлөх өдөр &mdash; алхам бүр тэмдэглэгдсэн, бүр нь засварлагдана, мөн та юунд ч амлахаасаа өмнө хуваарь зурагдсан байна.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two">
+                  <div class="device"><img src="art/work/netpay-process-1.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><img src="art/work/netpay-process-2.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Эрхээ нэмэгдүүлэх</h3>
+                  <p>Эрхээ нэмэгдүүлэх гурван шударга зам: нэмэлт орлого мэдүүлэх, идэвхтэй зээлээ хаах, эсвэл цалингаа баталгаажуулах. Аль нэгийг сонгоход аль зээл чинь саад болж байгааг апп харуулна.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two">
+                  <div class="device"><img src="art/work/netpay-limit-1.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><img src="art/work/netpay-limit-2.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Итгэлцлийн сан нээх</h3>
+                  <p>Санд нэр өгч, царай оноох нь. Эдгээр дүрс тэмдэг бол аппын цорын ганц чимэглэл бөгөөд танигдах хуримтлалын зорилго л хадгалагддаг учраас энд байна.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot">
+                  <div class="device"><video width="592" height="1280" src="art/work/netpay-trust.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Итгэлцлийн сан нээх урсгал — дэлгэцийн бичлэг"></video><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Сан ажиллаж эхэлсний дараа</h3>
+                  <p>Үлдэгдэл, хугацаа, хүү, ард нь байгаа данс &mdash; &bdquo;энэ юу вэ, хэзээ дуусах вэ?&ldquo; гэдэгт дэлгэцээс гаралгүй хариулахад хэрэгтэй бүхэн.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two">
+                  <div class="device"><img src="art/work/netpay-trust-live.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><img src="art/work/netpay-trust-detail.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Нэхэмжлэх</h3>
+                  <p>Мерчант, дүн, юу болох гэж байгаа нь &mdash; гарах зам нь үргэлжлүүлэх замтай нэг дэлгэц дээр.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot">
+                  <div class="device"><video width="592" height="1280" src="art/work/netpay-invoice.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Нэхэмжлэх төлөх урсгал — дэлгэцийн бичлэг"></video><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Хэтэвч, хоосон үедээ</h3>
+                  <p>Шинэ данс үнэндээ ямар харагддаг вэ: харуулах юм алга, хийх нэг тодорхой зүйл бий. Ард нь байгаа хуудас эхний төлбөр хийхээс өмнө яагаад карт хэрэгтэйг тайлбарладаг.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two">
+                  <div class="device"><img src="art/work/netpay-wallet-1.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><img src="art/work/netpay-wallet-2.jpg" width="508" height="1100" loading="lazy" decoding="async" alt=""><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                </div>
+              </div>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s08">
+            <div class="step-side">
+              <span class="step-n">/08</span>
+              <h2 class="step-t" lang="en">Usability testing</h2>
+              <p class="step-meta"><span>9 оролцогч</span><span>6 даалгавар</span><span>хамгийн бага 3.8</span></p>
+              <div class="step-b">
+                <p>Есөн хүнийг итгэлцэл, хуримтлалын урсгалаар даалгавар тус бүрээр явуулж, бүрийг нь үнэлүүлж, юу нь ойлгомжгүй байсныг асуусан &mdash; долоо нь компани дотроос, хоёр нь гаднаас. Аль урсгал бүтэлгүйтэж байгааг, мөн үг хэллэг хаана хор хөнөөл учруулж байгааг харахад хангалттай.</p>
+              </div>
+            </div>
+            <div class="step-main">
+
+
+
+
+              <div class="stat">
+                <div class="stat-fig">3.8</div>
+                <p class="stat-t">Сан цуцлах үйлдэл туршсан бүхнээс хамгийн доод оноо авсан &mdash; нэг оролцогч тэг тавьсан. Цуцлах товч дарахад юу болохыг баталгаажуулах цонх <em>хэлж өгөөгүй</em>.</p>
+                <div class="stat-ghost" aria-hidden="true">3.8</div>
+              </div>
+
+              <div class="quotes">
+                <figure class="quote"><p>&bdquo;Итгэлцэл цуцлагдсан үед зураг нь сааралтаж харагдахын оронд <em>цуцлагдсан гэсэн төлөв</em> оруулсан нь илүү user friendly байх.&ldquo;</p><figcaption>Оролцогч 2 &mdash; сан цуцлах</figcaption></figure>
+                <figure class="quote"><p>&bdquo;Мэдээлэл өөрчлөх flow-г солих. <em>Нуугдаад байгаа юм шиг</em> байна.&ldquo;</p><figcaption>Оролцогч 1 &mdash; сан засварлах</figcaption></figure>
+                <figure class="quote"><p>&bdquo;<em>Текстүүд нь хэт их байна</em>, бусад банк санхүүгийн газрын мэдээлэл эвтэйхэн хүснэгтэнд багтдаг шиг байвал дээр байх.&ldquo;</p><figcaption>Оролцогч 2 &mdash; бүтээгдэхүүний мэдээлэл</figcaption></figure>
+                <figure class="quote"><p>&bdquo;Зөвхөн эхлэх, дуусах өдрөөр биш <em>сар, улирал, жилээр</em> шүүж татмаар байна.&ldquo;</p><figcaption>Оролцогч 2 &mdash; хуулга</figcaption></figure>
+              </div>
+
+              <figure class="sheet-shot">
+                <img src="art/work/netpay-testing-matrix.webp" width="2000" height="1028" loading="lazy" decoding="async" alt="Даалгаврын матриц — даалгавар бүрийн хүсэл, сэтгэл ханамж, мэдрэмж, бэрхшээл, ололт, дундаж оноо">
+                <figcaption>Нэгтгэл &mdash; даалгавар бүрийн хүсэл, мэдрэмж, бэрхшээл, ололт</figcaption>
+              </figure>
+
+              <figure class="sheet-shot">
+                <img src="art/work/netpay-testing-sheet.png" width="1467" height="695" loading="lazy" decoding="async" alt="Тестийн хуудас — оролцогчид, даалгавар бүрийн оноо, тэмдэглэл">
+                <figcaption>Тестийн хуудас &mdash; авсан оноо, тэмдэглэлүүд байгаагаараа</figcaption>
+              </figure>
+
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s09">
+            <div class="step-side">
+              <span class="step-n">/09</span>
+              <h2 class="step-t" lang="en">Handoff preparation</h2>
+              <p class="step-meta"><span>домэйн тутамд нэг самбар</span><span>урсгалууд эхнээс нь дуустал холбогдсон</span><span>хөгжүүлэлтэд бэлэн</span></p>
+              <div class="step-b">
+                <p>Файлыг зурагдсан дарааллаар нь биш, уншигдах дарааллаар нь байрлуулсан &mdash; урсгал бүр дэлгэцээс дэлгэц рүү холбогдож, домэйнээр бүлэглэгдсэн тул хөгжүүлэгч дараагийн фрэйм аль нь болохыг асуулгүйгээр орцоос амжилт хүртэлх замыг дагаж чадна.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <figure class="sheet-shot">
+                <img src="art/work/netpay-handoff.jpg" width="2000" height="904" loading="lazy" decoding="async" alt="Figma хүлээлгэн өгөх файл — урсгалууд дэлгэцээс дэлгэц рүү холбогдож, домэйнээр бүлэглэгдсэн">
+                <figcaption>Хүлээлгэн өгөх файл &mdash; урсгал бүр холбогдож, домэйнээр бүлэглэгдсэн</figcaption>
+              </figure>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s10">
+            <div class="step-side">
+              <span class="step-n">/10</span>
+              <h2 class="step-t" lang="en">Haptics and motion spec</h2>
+              <p class="step-meta"><span>32 идэвхжих цэг</span><span>7 төрлийн хэлбэлзэл</span><span>хүлээлт ба бодит байдал</span></p>
+              <div class="step-b">
+                <p>Интерфейсийг харахаас гадна мэдрэх ёстой бүх газар &mdash; хийсвэр хөдөлгөөн, юу хийх ёстой байсан, бодитоор юу хийсэн, мөн аль хэлбэлзэл түүнд харьяалагдах нь. Фрэйм дээр үлдээсэн сэтгэгдэл биш, хөгжүүлэлт шууд хэрэгжүүлж болох хуудас.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="tally">
+                <div><b>32</b><span>Идэвхжих цэг</span></div>
+                <div><b>15</b><span>Impact &mdash; хөнгөн</span></div>
+                <div><b>11</b><span>Impact &mdash; дунд</span></div>
+                <div class="bad"><b>4</b><span>Хөдөлгөөнгүй нийлүүлэгдсэн</span></div>
+              </div>
+
+
+
+              <figure class="sheet-shot">
+                <img src="art/work/netpay-gesture-sheet.jpg" width="2200" height="1380" loading="lazy" decoding="async" alt="Хөдөлгөөний хуудас — идэвхжүүлэгч, хөдөлгөөн, хүлээлт, бодит байдал, хэлбэлзэл">
+                <figcaption>Хөдөлгөөний хуудас &mdash; идэвхжүүлэгч, хөдөлгөөн, хүлээлт, бодит, хэлбэлзэл</figcaption>
+              </figure>
+
+
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+
+          <section class="step wide" id="s11">
+            <div class="step-side">
+              <span class="step-n">/11</span>
+              <h2 class="step-t" lang="en">QA testing</h2>
+              <p class="step-meta"><span>70 зөрүү бүртгэсэн</span><span>171 дэлгэцийн зураг</span><span>6 домэйн</span></p>
+              <div class="step-b">
+                <p>Нийлүүлэгдсэн дэлгэц бүрийг Figma файлтай элемент тус бүрээр нь тулгасан &mdash; 70 зөрүүг тодорхойлолт, бодит хувилбар, ноцтой байдал, дэлгэцийн зурагтай нь хамт бүртгэсэн. Бүтэн хуудас доор, нотолгоотойгоо: хөгжүүлэлт шууд дараалан ажиллаж болох жагсаалт авсан.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="tally">
+                <div><b>70</b><span>Бүртгэсэн зөрүү</span></div>
+                <div><b>25</b><span>Засагдсан</span></div>
+                <div><b>12</b><span>Зөв болохыг батласан</span></div>
+                <div class="bad"><b>26</b><span>Татгалзсан</span></div>
+              </div>
+
+
+
+
+              <figure class="sheet-shot">
+                <img src="art/work/netpay-parity-sheet.jpg" width="2200" height="1211" loading="lazy" decoding="async" alt="Тулгалтын хуудас ажлын дэвтэрт байгаагаараа — тодорхойлолт хажууд нь бодит хувилбар, зураг зурагтайгаа">
+                <figcaption>Тулгалтын хуудас ажлын дэвтэрт байгаагаараа &mdash; тодорхойлолт хажууд нь бодит хувилбар, зураг зурагтайгаа</figcaption>
+              </figure>
+
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+  <p class="pull">Тулгалтын шат бол ихэнх дизайнерын алгасдаг хэсэг. Мөн бодит хувилбар файлтайгаа таарч байгаагийн шалтгаан нь ч тэр.</p>
+
+          <section class="step" id="s12">
+            <div class="step-side">
+              <span class="step-n">/12</span>
+              <h2 class="step-t" lang="en">Outcome</h2>
+              <p class="step-meta"><span>эхний 4 сар</span><span>өмнөх 4 сартай</span></p>
+              <div class="step-b">
+                <p>Нийлүүлэлтийн дараах эхний дөрвөн сар, өмнөх дөрвөн сартай:
+                2025‑05… 08 ↔ 2025‑10… 2026‑01.</p>
+                <p><b>Суурь хэвээр, зочилт уртассан.</b> Нэг зочилт 10%-иар уртсаж,
+                нийт ашиглалт 2.9%-иар нэмэгдсэн. Цөөн удаа орж, орсон болгондоо илүү
+                ихийг хийдэг болсон.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="cbook">
+                <div class="cbook-sheets">
+                    <section class="cbook-sheet" id="cb-mau" role="tabpanel" aria-labelledby="cb-tab-mau">
+                      <figure class="chartfig">
+                      <figcaption>Суурь хэвээр &mdash; сарын идэвхтэй хэрэглэгч, мянгаар</figcaption>
+                      <div class="chartwrap" data-chart="mau">
+                      <svg class="tchart" viewBox="0 0 480 250" role="img" aria-labelledby="cA">
+                      <title id="cA">Сарын идэвхтэй хэрэглэгч, 2025-05 — 2026-01</title>
+                      <line class="grid" x1="218.3" y1="20" x2="218.3" y2="138"/>
+                      <text class="xtick" x="218.3" y="14">-5%</text>
+                      <line class="grid zero" x1="263.8" y1="20" x2="263.8" y2="138"/>
+                      <text class="xtick" x="263.8" y="14">0</text>
+                      <line class="grid" x1="309.3" y1="20" x2="309.3" y2="138"/>
+                      <text class="xtick" x="309.3" y="14">+5%</text>
+                      <line class="grid" x1="354.8" y1="20" x2="354.8" y2="138"/>
+                      <text class="xtick" x="354.8" y="14">+10%</text>
+                      <rect class="bar flat" data-row="0" rx="2" x="260.8" y="42" width="6" height="14"/>
+                      <text class="rlab" x="177" y="53.8">Сарын идэвхтэй хэрэглэгч</text>
+                      <text class="vlab flat" x="480" y="53.8">хэвээр · -0.2%</text>
+                      <path class="bar down" data-row="1" d="M263.8 80 H211.4 a4 4 0 0 0 -4 4 v6 a4 4 0 0 0 4 4 H263.8 Z"/>
+                      <text class="rlab" x="177" y="91.8">Идэвхтэй өдөр / хэрэглэгч</text>
+                      <text class="vlab" x="480" y="91.8">-6.2%</text>
+                      <path class="bar up" data-row="2" d="M263.8 118 H350.8 a4 4 0 0 1 4 4 v6 a4 4 0 0 1 -4 4 H263.8 Z"/>
+                      <text class="rlab" x="177" y="129.8">Минут / идэвхтэй өдөр</text>
+                      <text class="vlab" x="480" y="129.8">+10.0%</text>
+                      <g class="hits">
+                      <rect class="hit" x="0" y="30" width="480" height="38" tabindex="0" role="img" aria-label="Сарын идэвхтэй хэрэглэгч: -0.2%, 132'479 → 132'224" data-row="0" data-x="262.0" data-y="49" data-label="Сарын идэвхтэй хэрэглэгч" data-value="-0.2%" data-series="132'479 → 132'224" data-cls="down"/>
+                      <rect class="hit" x="0" y="68" width="480" height="38" tabindex="0" role="img" aria-label="Идэвхтэй өдөр / хэрэглэгч: -6.2%, 3.64 → 3.41 өдөр" data-row="1" data-x="207.4" data-y="87" data-label="Идэвхтэй өдөр / хэрэглэгч" data-value="-6.2%" data-series="3.64 → 3.41 өдөр" data-cls="down"/>
+                      <rect class="hit" x="0" y="106" width="480" height="38" tabindex="0" role="img" aria-label="Минут / идэвхтэй өдөр: +10.0%, 3.86 → 4.24 мин" data-row="2" data-x="354.8" data-y="125" data-label="Минут / идэвхтэй өдөр" data-value="+10.0%" data-series="3.86 → 4.24 мин" data-cls="new"/>
+                      </g></svg>
+                      </div>
+                      </figure>
+                    </section>
+                    <section class="cbook-sheet" id="cb-depth" role="tabpanel" aria-labelledby="cb-tab-depth">
+                      <figure class="chartfig">
+                      <figcaption>Нэг зочилт уртассан &mdash; минут / идэвхтэй өдөр</figcaption>
+                      <div class="chartwrap" data-chart="depth">
+                      <svg class="tchart" viewBox="0 0 480 250" role="img" aria-labelledby="cB">
+                      <title id="cB">Минут / идэвхтэй өдөр, 2025-05 — 2026-01</title>
+                      <line class="grid" x1="46" y1="188.0" x2="464" y2="188.0"/>
+                      <text class="ytick" x="38" y="192.0">3.6</text>
+                      <line class="grid" x1="46" y1="134.0" x2="464" y2="134.0"/>
+                      <text class="ytick" x="38" y="138.0">4.0</text>
+                      <line class="grid" x1="46" y1="80.0" x2="464" y2="80.0"/>
+                      <text class="ytick" x="38" y="84.0">4.4</text>
+                      <line class="grid" x1="46" y1="26.0" x2="464" y2="26.0"/>
+                      <text class="ytick" x="38" y="30.0">4.8</text>
+                      <text class="xtick" x="46.0" y="228">2025-05</text>
+                      <text class="xtick" x="150.5" y="228">2025-07</text>
+                      <text class="xtick" x="255.0" y="228">2025-09</text>
+                      <text class="xtick" x="359.5" y="228">2025-11</text>
+                      <text class="xtick" x="464.0" y="228">2026-01</text>
+                      <line class="mark" x1="255.0" y1="18" x2="255.0" y2="188"/>
+                      <text class="mlab" x="255.0" y="15" text-anchor="middle">v2 — 2025‑09</text>
+                      <polyline class="ln old" points="46.0,158.3 98.2,166.4 150.5,152.9 202.8,135.3 255.0,148.8"/>
+                      <polyline class="ln new" points="255.0,148.8 307.2,105.7 359.5,125.9 411.8,123.2 464.0,48.9"/>
+                      <circle class="dot new" cx="464.0" cy="48.9" r="4.5"/>
+                      <line class="key old" x1="66.9" y1="202" x2="80.9" y2="202"/>
+                      <text class="slab" x="86.9" y="206">хуучин 4.x</text>
+                      <line class="key new" x1="328.2" y1="202" x2="342.2" y2="202"/>
+                      <text class="slab" x="348.2" y="206">v2 5.x</text>
+                      <line class="cross" x1="0" y1="18" x2="0" y2="188" aria-hidden="true"/>
+                      <circle class="fdot" cx="0" cy="0" r="5" aria-hidden="true"/>
+                      <g class="hits">
+                      <rect class="hit" x="0.0" y="18" width="72.1" height="170.0" tabindex="0" role="img" aria-label="2025-05: 3.82 мин, хуучин 4.x" data-x="46.0" data-y="158.3" data-label="2025-05" data-value="3.82 мин" data-series="хуучин 4.x" data-cls="old"/>
+                      <rect class="hit" x="72.1" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-06: 3.76 мин, хуучин 4.x" data-x="98.2" data-y="166.4" data-label="2025-06" data-value="3.76 мин" data-series="хуучин 4.x" data-cls="old"/>
+                      <rect class="hit" x="124.4" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-07: 3.86 мин, хуучин 4.x" data-x="150.5" data-y="152.9" data-label="2025-07" data-value="3.86 мин" data-series="хуучин 4.x" data-cls="old"/>
+                      <rect class="hit" x="176.6" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-08: 3.99 мин, хуучин 4.x" data-x="202.8" data-y="135.3" data-label="2025-08" data-value="3.99 мин" data-series="хуучин 4.x" data-cls="old"/>
+                      <rect class="hit" x="228.9" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-09: 3.89 мин, шилжилт" data-x="255.0" data-y="148.8" data-label="2025-09" data-value="3.89 мин" data-series="шилжилт" data-cls="new"/>
+                      <rect class="hit" x="281.1" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-10: 4.21 мин, v2 5.x" data-x="307.2" data-y="105.7" data-label="2025-10" data-value="4.21 мин" data-series="v2 5.x" data-cls="new"/>
+                      <rect class="hit" x="333.4" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-11: 4.06 мин, v2 5.x" data-x="359.5" data-y="125.9" data-label="2025-11" data-value="4.06 мин" data-series="v2 5.x" data-cls="new"/>
+                      <rect class="hit" x="385.6" y="18" width="52.2" height="170.0" tabindex="0" role="img" aria-label="2025-12: 4.08 мин, v2 5.x" data-x="411.8" data-y="123.2" data-label="2025-12" data-value="4.08 мин" data-series="v2 5.x" data-cls="new"/>
+                      <rect class="hit" x="437.9" y="18" width="42.1" height="170.0" tabindex="0" role="img" aria-label="2026-01: 4.63 мин, v2 5.x" data-x="464.0" data-y="48.9" data-label="2026-01" data-value="4.63 мин" data-series="v2 5.x" data-cls="new"/>
+                      </g></svg>
+                      </div>
+                      </figure>
+                    </section>
+                    <section class="cbook-sheet" id="cb-delta" role="tabpanel" aria-labelledby="cb-tab-delta">
+                      <figure class="chartfig wide">
+                      <figcaption>Эхний 4 сар &mdash; өмнөх 4 сартай харьцуулбал</figcaption>
+                      <div class="chartwrap" data-chart="delta">
+                      <svg class="dchart" viewBox="0 0 480 158" role="img" aria-labelledby="cD">
+                      <title id="cD">Нийлүүлэлтийн дараах эхний 4 сар, өмнөх 4 сартай харьцуулбал, хувиар</title>
+                      <line class="grid" x1="218.3" y1="20" x2="218.3" y2="214"/>
+                      <text class="xtick" x="218.3" y="14">-5%</text>
+                      <line class="grid zero" x1="263.8" y1="20" x2="263.8" y2="214"/>
+                      <text class="xtick" x="263.8" y="14">0</text>
+                      <line class="grid" x1="309.3" y1="20" x2="309.3" y2="214"/>
+                      <text class="xtick" x="309.3" y="14">+5%</text>
+                      <line class="grid" x1="354.8" y1="20" x2="354.8" y2="214"/>
+                      <text class="xtick" x="354.8" y="14">+10%</text>
+                      <path class="bar up" data-row="0" d="M263.8 42 H350.8 a4 4 0 0 1 4 4 v6 a4 4 0 0 1 -4 4 H263.8 Z"/>
+                      <text class="rlab" x="177" y="53.8">Минут / идэвхтэй өдөр</text>
+                      <text class="vlab" x="480" y="53.8">+10.0%</text>
+                      <path class="bar up" data-row="1" d="M263.8 80 H288.0 a4 4 0 0 1 4 4 v6 a4 4 0 0 1 -4 4 H263.8 Z"/>
+                      <text class="rlab" x="177" y="91.8">Минут / хэрэглэгч</text>
+                      <text class="vlab" x="480" y="91.8">+3.1%</text>
+                      <path class="bar up" data-row="2" d="M263.8 118 H286.2 a4 4 0 0 1 4 4 v6 a4 4 0 0 1 -4 4 H263.8 Z"/>
+                      <text class="rlab" x="177" y="129.8">Нийт ашигласан минут</text>
+                      <text class="vlab" x="480" y="129.8">+2.9%</text>
+                      <rect class="bar flat" data-row="3" rx="2" x="260.8" y="156" width="6" height="14"/>
+                      <text class="rlab" x="177" y="167.8">Сарын идэвхтэй хэрэглэгч</text>
+                      <text class="vlab flat" x="480" y="167.8">хэвээр · -0.2%</text>
+                      <path class="bar down" data-row="4" d="M263.8 194 H211.4 a4 4 0 0 0 -4 4 v6 a4 4 0 0 0 4 4 H263.8 Z"/>
+                      <text class="rlab" x="177" y="205.8">Идэвхтэй өдөр / хэрэглэгч</text>
+                      <text class="vlab" x="480" y="205.8">-6.2%</text>
+                      <g class="hits">
+                      <rect class="hit" x="0" y="30" width="480" height="38" tabindex="0" role="img" aria-label="Минут / идэвхтэй өдөр: +10.0%, 3.86 → 4.24 мин" data-row="0" data-x="354.8" data-y="49" data-label="Минут / идэвхтэй өдөр" data-value="+10.0%" data-series="3.86 → 4.24 мин" data-cls="new"/>
+                      <rect class="hit" x="0" y="68" width="480" height="38" tabindex="0" role="img" aria-label="Минут / хэрэглэгч: +3.1%, 14.05 → 14.49 мин" data-row="1" data-x="292.0" data-y="87" data-label="Минут / хэрэглэгч" data-value="+3.1%" data-series="14.05 → 14.49 мин" data-cls="new"/>
+                      <rect class="hit" x="0" y="106" width="480" height="38" tabindex="0" role="img" aria-label="Нийт ашигласан минут: +2.9%, 1'860'969 → 1'915'841 / сар" data-row="2" data-x="290.2" data-y="125" data-label="Нийт ашигласан минут" data-value="+2.9%" data-series="1'860'969 → 1'915'841 / сар" data-cls="new"/>
+                      <rect class="hit" x="0" y="144" width="480" height="38" tabindex="0" role="img" aria-label="Сарын идэвхтэй хэрэглэгч: -0.2%, 132'479 → 132'224" data-row="3" data-x="262.0" data-y="163" data-label="Сарын идэвхтэй хэрэглэгч" data-value="-0.2%" data-series="132'479 → 132'224" data-cls="down"/>
+                      <rect class="hit" x="0" y="182" width="480" height="38" tabindex="0" role="img" aria-label="Идэвхтэй өдөр / хэрэглэгч: -6.2%, 3.64 → 3.41 өдөр" data-row="4" data-x="207.4" data-y="201" data-label="Идэвхтэй өдөр / хэрэглэгч" data-value="-6.2%" data-series="3.64 → 3.41 өдөр" data-cls="down"/>
+                      </g></svg>
+                      </div>
+                      <figcaption class="under">Гурав давхцахгүй: хэдэн хүн &times; хэдэн
+                      удаа &times; хэдэн минут &mdash; үржвэр нь нийт ашигласан минут,
+                      <b>+2.9%</b>. Бүтэн таван мөр &laquo;Хүснэгт&raquo;-д. Хүйтэн өнгө =
+                      өссөн, дулаан = буурсан, саарал = хэвээр (&plusmn;1%-аас доош).</figcaption>
+                      </figure>
+                    </section>
+                    <section class="cbook-sheet" id="cb-full" role="tabpanel" aria-labelledby="cb-tab-full">
+                      <table class="ctab">
+                      <caption>Эхний 4 сар, бүтэн утгаараа</caption>
+                      <thead><tr><th scope="col">Хэмжүүр</th><th scope="col">Өмнөх 4 сар</th><th scope="col">Дараах 4 сар</th><th scope="col">Өөрчлөлт</th></tr></thead>
+                      <tbody>
+                      <tr><th scope="row">Минут / идэвхтэй өдөр</th><td>3.86</td><td>4.24</td><td>+10.0%</td></tr>
+                      <tr><th scope="row">Минут / хэрэглэгч</th><td>14.05</td><td>14.49</td><td>+3.1%</td></tr>
+                      <tr><th scope="row">Нийт ашигласан минут / сар</th><td>1'860'969</td><td>1'915'841</td><td>+2.9%</td></tr>
+                      <tr><th scope="row">Сарын идэвхтэй хэрэглэгч</th><td>132'479</td><td>132'224</td><td>&minus;0.2%</td></tr>
+                      <tr><th scope="row">Идэвхтэй өдөр / хэрэглэгч</th><td>3.64</td><td>3.41</td><td>&minus;6.2%</td></tr>
+                      </tbody>
+                      </table>
+                      <p class="ctab-sum">3.41 өдөр &times; 4.24 мин = <b>14.49 мин / хэрэглэгч</b>,
+                      өмнөх 3.64 &times; 3.86 = 14.05-аас өссөн. Эдгээр гурван хэмжүүр тусдаа биш, нэг
+                      үржвэр.</p>
+                    </section>
+                </div>
+                <div class="cbook-tabs" role="tablist" aria-label="Outcome — харагдац сонгох">
+                    <button type="button" class="cbook-tab" role="tab" id="cb-tab-mau" aria-controls="cb-mau" aria-selected="true">Хэрэглэгч</button>
+                    <button type="button" class="cbook-tab" role="tab" id="cb-tab-depth" aria-controls="cb-depth" aria-selected="false">Минут / өдөр</button>
+                    <button type="button" class="cbook-tab" role="tab" id="cb-tab-delta" aria-controls="cb-delta" aria-selected="false">Харьцуулалт</button>
+                    <button type="button" class="cbook-tab" role="tab" id="cb-tab-full" aria-controls="cb-full" aria-selected="false">Хүснэгт</button>
+                </div>
+              </div>
+              <p class="d-note"><b>Давтамж яагаад буурав.</b> /01-д уншсан дөрвөн
+                хуулийн зөрчил бүр нь хэрэглэгчийг буцааж шалгах, дахин оролдоход
+                хүргэдэг байв. /02-т бичсэн хүлээлт яг үүнийг засах тухай байсан:
+                <em>нөхцөлийн алхам дээр цөөн хүн орхино</em>, <em>хүмүүсийг хоёр удаа
+                хүсэлт илгээхэд хүргэдэг түгшүүр багасна</em>. Хэмжилт яг тэр хэлбэрийг
+                харуулав — цөөн зочилт, урт зочилт, нийт илүү хугацаа. Нэг хүн апп руу
+                цөөн удаа орж, орох болгондоо илүү ихийг дуусгаж байна. Энэ нь
+                нийлүүлэхээс өмнө бичигдсэн хүлээлт тул хойно зохиосон тайлбар биш.</p>
+              <p class="d-note">Хатуу нотолгоо гэж үзэхгүй: хүсэлт бөглөх хугацаа,
+                дуусгасан хувь хэмжигдээгүй тул «үр ашиг нэмэгдсэн» ба «сонирхол буурсан»
+                хоёрыг лог дээр эцэслэн ялгахгүй. Гэхдээ хоёр дахь тайлбар нь зочилт
+                яагаад уртассныг тайлбарлах үүрэгтэй болно.</p>
+              <p class="d-note">Цонх 2026‑01-ээр төгсөнө: 2026‑02-т логийн
+                ачаалалтын алдаа бүртгэгдсэн (нэг өдөрт 209 хэрэглэгч, эргэн тойронд
+                13,000+), тиймээс түүнээс хойшхи сарууд харьцуулалтад ороогүй. Эх
+                сурвалж: <code>dwh.app_log</code> &times; <code>netcore.auth_user</code>,
+                зөвхөн харилцагч.</p>
+              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            </div>
+          </section>
+            <script type="application/json" id="chart-data">{"mau":{"type":"line","split":4,"lo":105000,"hi":145000,"ticks":[110000,120000,130000,140000],"tickDiv":1000,"tickDec":0,"unit":" хэрэглэгч","dec":0,"mark":"v2 — 2025‑09","months":["2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01"],"values":[133669,130684,131300,134264,127939,132917,130341,130702,134937]},"depth":{"type":"line","split":4,"lo":3.6,"hi":4.8,"ticks":[3.6,4.0,4.4,4.8],"tickDiv":1,"tickDec":1,"unit":" мин","dec":2,"mark":"v2 — 2025‑09","months":["2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12","2026-01"],"values":[3.82,3.76,3.86,3.99,3.89,4.21,4.06,4.08,4.63]},"delta":{"type":"bars","lo":-8,"hi":12,"ticks":[-5,0,5,10],"rows":[["Сарын идэвхтэй хэрэглэгч",-0.2,"132'479 → 132'224"],["Идэвхтэй өдөр / хэрэглэгч",-6.2,"3.64 → 3.41 өдөр"],["Минут / идэвхтэй өдөр",10.0,"3.86 → 4.24 мин"]]}}</script>
+        </div>
+      </div>
+
+    <svg class="case-div" viewBox="0 0 64 40" aria-hidden="true"><use href="#m-ever"/></svg>
+
+
+    <div class="frieze" aria-hidden="true"></div>
+
+    <nav class="foot" aria-label="Other sections">
+      <div class="micro">Бусад</div>
+      <div class="foot-l">
+        <a href="work.html">Миний ажил</a>
+        <a href="how-i-work.html">Би хэрхэн ажилладаг</a>
+        <a href="#">Тухай</a>
+        <a href="#">Туршилтын талбар</a>
+        <a href="mailto:battsetseg.b@netgroup.mn">Холбоо барих</a>
+      </div>
+    </nav>
+
+  </main>
+</div>
+
+<script src="chart-hover.js" defer></script>
+</body>
+</html>

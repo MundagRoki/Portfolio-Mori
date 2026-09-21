@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" role="img" aria-label="Khatan suikh, the standing column, set at three densities">
+<defs>
+<path id="ulzii-a" d="M20 30 H70 A10 10 0 0 1 80 40 V50 A10 10 0 0 1 70 60
+   H20 A10 10 0 0 1 10 50 V40 A10 10 0 0 1 20 30 Z"/>
+<path id="ulzii-b" d="M30 36 V70 A10 10 0 0 0 40 80 H50 A10 10 0 0 0 60 70 V66"/>
+<path id="ulzii-c" d="M60 54 V20 A10 10 0 0 0 50 10 H40 A10 10 0 0 0 30 20 V24"/>
+<path id="curl" d="M0 7 C4 -1 14 -3 19 4 C24 11 21 21 13 22 C6 23 2 17 6 12 C9 8 14 10 13 14"/>
+<path id="alkhan" d="M-2 13 H6 V3 H26 V9 H16 V13 H42"/>
+<path id="uul" d="M2 26 H14 V18 H22 V10 H30 V2 H34 V10 H42 V18 H50 V26 H62"/>
+<path id="ever-l" d="M32 36 C32 22 26 14 18 14 C10 14 6 20 8 26 C10 31 17 31 18 25"/>
+<path id="ever-r" d="M32 36 C32 22 38 14 46 14 C54 14 58 20 56 26 C54 31 47 31 46 25"/>
+</defs>
+<rect width="500" height="400" fill="#f3efe5"/>
+<rect x="44" y="44" width="128" height="312" fill="#f8f5ed" stroke="#c3b79c" stroke-width="2"/>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="70.0" y="58.0" width="76.0" height="76.0"/><rect x="82.9" y="70.9" width="50.2" height="50.2"/><rect x="95.1" y="83.1" width="25.8" height="25.8"/><path d="M95.1 58.0 V83.1 M120.9 58.0 V83.1"/><path d="M95.1 108.9 V134.0 M120.9 108.9 V134.0"/></g>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="70.0" y="173.0" width="76.0" height="76.0"/><rect x="82.9" y="185.9" width="50.2" height="50.2"/><rect x="95.1" y="198.1" width="25.8" height="25.8"/><path d="M95.1 173.0 V198.1 M120.9 173.0 V198.1"/><path d="M95.1 223.9 V249.0 M120.9 223.9 V249.0"/></g>
+<rect x="192" y="44" width="128" height="312" fill="#f8f5ed" stroke="#c3b79c" stroke-width="2"/>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="222.0" y="62.0" width="68.0" height="68.0"/><rect x="233.6" y="73.6" width="44.9" height="44.9"/><rect x="244.4" y="84.4" width="23.1" height="23.1"/><path d="M244.4 62.0 V84.4 M267.6 62.0 V84.4"/><path d="M244.4 107.6 V130.0 M267.6 107.6 V130.0"/></g>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="222.0" y="138.0" width="68.0" height="68.0"/><rect x="233.6" y="149.6" width="44.9" height="44.9"/><rect x="244.4" y="160.4" width="23.1" height="23.1"/><path d="M244.4 138.0 V160.4 M267.6 138.0 V160.4"/><path d="M244.4 183.6 V206.0 M267.6 183.6 V206.0"/></g>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="222.0" y="214.0" width="68.0" height="68.0"/><rect x="233.6" y="225.6" width="44.9" height="44.9"/><rect x="244.4" y="236.4" width="23.1" height="23.1"/><path d="M244.4 214.0 V236.4 M267.6 214.0 V236.4"/><path d="M244.4 259.6 V282.0 M267.6 259.6 V282.0"/></g>
+<rect x="340" y="44" width="128" height="312" fill="#f8f5ed" stroke="#c3b79c" stroke-width="2"/>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="374.0" y="66.0" width="60.0" height="60.0"/><rect x="384.2" y="76.2" width="39.6" height="39.6"/><rect x="393.8" y="85.8" width="20.4" height="20.4"/><path d="M393.8 66.0 V85.8 M414.2 66.0 V85.8"/><path d="M393.8 106.2 V126.0 M414.2 106.2 V126.0"/></g>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="374.0" y="123.0" width="60.0" height="60.0"/><rect x="384.2" y="133.2" width="39.6" height="39.6"/><rect x="393.8" y="142.8" width="20.4" height="20.4"/><path d="M393.8 123.0 V142.8 M414.2 123.0 V142.8"/><path d="M393.8 163.2 V183.0 M414.2 163.2 V183.0"/></g>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="374.0" y="180.0" width="60.0" height="60.0"/><rect x="384.2" y="190.2" width="39.6" height="39.6"/><rect x="393.8" y="199.8" width="20.4" height="20.4"/><path d="M393.8 180.0 V199.8 M414.2 180.0 V199.8"/><path d="M393.8 220.2 V240.0 M414.2 220.2 V240.0"/></g>
+<g fill="none" stroke="#8a7a5e" stroke-width="2.8" stroke-linejoin="miter"><rect x="374.0" y="237.0" width="60.0" height="60.0"/><rect x="384.2" y="247.2" width="39.6" height="39.6"/><rect x="393.8" y="256.8" width="20.4" height="20.4"/><path d="M393.8 237.0 V256.8 M414.2 237.0 V256.8"/><path d="M393.8 277.2 V297.0 M414.2 277.2 V297.0"/></g>
+</svg>
