@@ -107,7 +107,7 @@ flat ivory, the timeline's years flat gold), no gold glows
 is a flat disc. The pass card's foil spine keeps its leaf gradient: it is gold
 leaf on paper, not type. The timeline's plaques (`.tl-chip`) are brushed gold too, at the owner's asking: metal objects, not gold type. At 10.5px, #c4a464 sits near 8.8:1 on black.
 
-**The cursor is after milancompain.com's** (`cursor.js`, owner's asking, 2026-09-30: "nvm copy this cursor"), measured off theirs in headless Chrome and matched frame for frame: a 5px ivory dot that all but sits on the pointer (.9 of the way a frame) and a 28px 1px ring that glides after it (.14 a frame, settled in ~.7s), both in difference so they go dark on About's cream card; over a link, a button or anything draggable (`.gerege-hang`, `.xp-card.is-draggable`, the drum's `.wr-t.is-grab`, a case page's `.held` screens, whose grab hand is hidden with the native cursor) the ring eases to 1.57; pressed, to .92 of that with a matte gold rim (theirs green) and the dot to 1.39; the bar's links lean up to 4px toward it; moving, it sheds gold dust, a grain every 26px of the pointer's path, 16 at most. Their "visit" bubble with its star is ours as a 76px ring reading "◆ View" on a blurred dark disc over any `a[href^="work-"]`. It injects its own style, runs only while something still moves, hides off the window, and rechecks what is under a still pointer on scroll. Fine pointer with motion allowed only; on touch or under reduced motion the system cursor stays. On every page (`cursor.js?v=1`). The хэт цахиур cursor drawn the same day came off for it (a traveller's fire striker turned so its steel's horn was the tip, with a strike version and sparks on click); its drawings are kept in `art/site/_source/cursor/`, its PNGs are in git history (c141a78); don't bring it back unasked.
+**The cursor is after milancompain.com's** (`cursor.js`, owner's asking, 2026-09-30: "nvm copy this cursor"), measured off theirs in headless Chrome and matched frame for frame: a 5px ivory dot that all but sits on the pointer (.9 of the way a frame) and a 28px 1px ring that glides after it (.14 a frame, settled in ~.7s), both in difference so they go dark on About's cream card; over a link, a button or anything draggable (`.gerege-hang`, `.xp-card.is-draggable`, the drum's `.wr-t.is-grab`, a case page's `.held` screens, whose grab hand is hidden with the native cursor) the ring eases to 1.57; pressed, to .92 of that with a matte gold rim (theirs green) and the dot to 1.39; the bar's links lean up to 4px toward it; moving, it sheds gold dust, a grain every 26px of the pointer's path, 16 at most. Their "visit" bubble with its star is ours as a 76px ring reading "◆ View" on a blurred dark disc over any `a[href^="work-"]`. It injects its own style, runs only while something still moves, hides off the window, and rechecks what is under a still pointer on scroll. Fine pointer with motion allowed only; on touch or under reduced motion the system cursor stays. **A click tosses four шагай** (owner's asking, 2026-09-30: "I want шагай to appear when I click my mouse", with their sheet of the four sides): from the pointer they fly up and out spinning, land 16–34px below on a random side, 40px apart, bounce once, rest and fade (1.5–1.8s, 28ms apart; `.cur-shagai`, 30px tall, WAAPI, 24 at most in the air); a press that starts a drag throws none. On every page (`cursor.js?v=3`). The хэт цахиур cursor drawn the same day came off for it (a traveller's fire striker turned so its steel's horn was the tip, with a strike version and sparks on click); its drawings are kept in `art/site/_source/cursor/`, its PNGs are in git history (c141a78); don't bring it back unasked.
 
 **Motion.** Grain never moves — animated grain made the owner nauseous. The
 slow light is a different thing and the owner wants it: NetPay's ground canvas
@@ -246,7 +246,9 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
   ~7.9MB), `frames-1152/` (36 AVIF, 1152×650, ~2.3MB), `poster.jpg` (stands in
   if f000 won't decode), `open-hires.avif`, `chest.m4a`. **Served**, ~11MB
 - `art/site/` — `cloud-bg.jpg`, `frieze.webp`, `khadag.webp`,
-  and `cloud-gold.webp`
+  `shagai/shagai-1…4.webp` (the four шагай a click tosses, cut out of the owner's sheet
+  `_source/shagai/shagai-sheet.jpg` by flooding its paper and shadows from the edges up to each piece's closed
+  tan outline, 96px tall), and `cloud-gold.webp`
   (the landing's transition stripes and timeline ground, 1600px lossless,
   149KB). **Served**, ~380KB
 - `art/about/` — `gerege.webp`, `hee.svg`. **Served**, ~136KB
@@ -341,7 +343,7 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
 
 Sizes are `du -sh`. Before moving anything in `art/`, grep the HTML, CSS and JS
 for the path. Every served file is referenced and every reference resolves:
-189 distinct paths (184 under `art/`, 5 under `fonts/`) for 189 files, plus the 302 frames under `art/how-i-work/` that the landing's How I Work draws (`index.html`, in a template literal: `D + S[k].dir + 'f' + pad + '.webp'`). SmileLine was taken off the site on 2026-09-27; its page and art are kept in `art/_archive/smileline/`. There
+193 distinct paths (188 under `art/`, 5 under `fonts/`) for 193 files (the four newest: the шагай), plus the 302 frames under `art/how-i-work/` that the landing's How I Work draws (`index.html`, in a template literal: `D + S[k].dir + 'f' + pad + '.webp'`). SmileLine was taken off the site on 2026-09-27; its page and art are kept in `art/_archive/smileline/`. There
 are no orphans, so a file that nothing references is a bug, not spare stock.
 
 Count with a script, not a grep for `src=`/`url(`, which misses two things:
