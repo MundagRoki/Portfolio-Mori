@@ -106,6 +106,8 @@ flat ivory, the timeline's years flat gold), no gold glows
 is a flat disc. The pass card's foil spine keeps its leaf gradient: it is gold
 leaf on paper, not type. The timeline's plaques (`.tl-chip`) are brushed gold too, at the owner's asking: metal objects, not gold type. At 10.5px, #c4a464 sits near 8.8:1 on black.
 
+**The cursor is the хэт цахиур** (owner's asking, 2026-09-30: "do research in Mongol өв уламжлал what I should bring when I'm on a journey; it has to be used as cursor"; the owner's pick of хэт цахиур, хөөрөг, аяга and ташуур). The fire striker a traveller carried on the sash, drawn for the site: a leather pouch on its strap with a diamond plaque on the flap, the curved steel riveted along its foot, its ends curling up; turned 28° so the steel's long left horn is the tip (hotspot 2 2); a light halo and a dark outline so it shows on the black and the cream card. The first drawing, turned 62°, laid the pouch on its side and its round boss and loop read as eyes, so the boss became a diamond and the loop a strap. `html` takes `het`, anything clickable (`a[href]`, `button`, `summary`, `label[for]`, `[role=button]`, `[role=tab]`) the strike (brighter steel, three sparks), each as a 32px `url()` then a `-webkit-image-set` with the 64px copy; grab, grabbing and the charts' crosshair keep their own. Declared in `index.html` and at the end of `leaf.css` (so every case page). On the landing only, a mouse click throws 6–8 sparks from the tip (`.spark`, animated with WAAPI and removed, fine pointer only, none under reduced motion). The knife and the ташуур were set aside: a knife's point isn't turned toward people, and the whip is left outside the ger.
+
 **Motion.** Grain never moves — animated grain made the owner nauseous. The
 slow light is a different thing and the owner wants it: NetPay's ground canvas
 drifts (paced in time, not frames, so 120Hz screens don't run it double speed)
@@ -243,7 +245,8 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
   ~7.9MB), `frames-1152/` (36 AVIF, 1152×650, ~2.3MB), `poster.jpg` (stands in
   if f000 won't decode), `open-hires.avif`, `chest.m4a`. **Served**, ~11MB
 - `art/site/` — `cloud-bg.jpg`, `frieze.webp`, `khadag.webp`,
-  and `cloud-gold.webp`
+  `cursor/` (the хэт цахиур cursor, see Conventions: `het-32/64.png`, `het-strike-32/64.png`, rendered from
+  `_source/cursor/*.svg` in headless Chrome), and `cloud-gold.webp`
   (the landing's transition stripes and timeline ground, 1600px lossless,
   149KB). **Served**, ~380KB
 - `art/about/` — `gerege.webp`, `hee.svg`. **Served**, ~136KB
@@ -338,7 +341,7 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
 
 Sizes are `du -sh`. Before moving anything in `art/`, grep the HTML, CSS and JS
 for the path. Every served file is referenced and every reference resolves:
-189 distinct paths (184 under `art/`, 5 under `fonts/`) for 189 files, plus the 302 frames under `art/how-i-work/` that the landing's How I Work draws (`index.html`, in a template literal: `D + S[k].dir + 'f' + pad + '.webp'`). SmileLine was taken off the site on 2026-09-27; its page and art are kept in `art/_archive/smileline/`. There
+193 distinct paths (188 under `art/`, 5 under `fonts/`) for 193 files (the four newest: the cursor's), plus the 302 frames under `art/how-i-work/` that the landing's How I Work draws (`index.html`, in a template literal: `D + S[k].dir + 'f' + pad + '.webp'`). SmileLine was taken off the site on 2026-09-27; its page and art are kept in `art/_archive/smileline/`. There
 are no orphans, so a file that nothing references is a bug, not spare stock.
 
 Count with a script, not a grep for `src=`/`url(`, which misses two things:

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+<!-- хэт цахиур, the traveller's fire striker, drawn for this site
+     (2026-09-30): a leather pouch with an ornamental plaque on its flap and
+     the strap it hangs from on the sash, and the curved steel riveted along
+     its foot, its ends curling up. Turned 28deg so the steel's long left horn
+     is the cursor's tip (hotspot 2,2). -->
+<g transform="translate(12.21 13.19) rotate(28) translate(-15 -15)" stroke-linejoin="round" stroke-linecap="round">
+  <g fill="none" stroke="rgba(246,238,222,.62)" stroke-width="3.2">
+    <path d="M1,10 C1.6,16 3.6,22.4 9,23.6 L21,23.6 C25,23.4 28,20.8 29,16 C27.4,19 25,20.8 21.6,21 L9.4,21 C5.6,20.4 3,16.4 1,10 Z"/><path d="M7,21 L7,11.8 C7,9.8 8.6,8.4 10.8,8.4 L20.2,8.4 C22.4,8.4 24,9.8 24,11.8 L24,21 Z"/><path d="M13.2,8.6 L13.2,5.8 C13.2,3.3 17.8,3.3 17.8,5.8 L17.8,8.6"/>
+  </g>
+  <g fill="#120a05" stroke="#120a05" stroke-width="1.5"><path d="M1,10 C1.6,16 3.6,22.4 9,23.6 L21,23.6 C25,23.4 28,20.8 29,16 C27.4,19 25,20.8 21.6,21 L9.4,21 C5.6,20.4 3,16.4 1,10 Z"/><path d="M7,21 L7,11.8 C7,9.8 8.6,8.4 10.8,8.4 L20.2,8.4 C22.4,8.4 24,9.8 24,11.8 L24,21 Z"/></g>
+  <path d="M13.2,8.6 L13.2,5.8 C13.2,3.3 17.8,3.3 17.8,5.8 L17.8,8.6" fill="none" stroke="#120a05" stroke-width="2.6"/>
+  <path d="M13.2,8.6 L13.2,5.8 C13.2,3.3 17.8,3.3 17.8,5.8 L17.8,8.6" fill="none" stroke="#8a6a3a" stroke-width="1.2"/>
+  <path d="M7,21 L7,11.8 C7,9.8 8.6,8.4 10.8,8.4 L20.2,8.4 C22.4,8.4 24,9.8 24,11.8 L24,21 Z" fill="#5c3a21"/>
+  <path d="M7,11.8 C7,9.8 8.6,8.4 10.8,8.4 L20.2,8.4 C22.4,8.4 24,9.8 24,11.8 L24,14.6 Q15.5,17.8 7,14.6 Z" fill="#3e2514"/>
+  <path d="M7.5,14.8 Q15.5,17.9 23.5,14.8" fill="none" stroke="#c4a464" stroke-width=".7"/>
+  <path d="M15.5,10.1 L17.9,12.5 L15.5,14.9 L13.1,12.5 Z" fill="#d8c297"/><circle cx="15.5" cy="12.5" r=".8" fill="#7c5f32"/>
+  <path d="M1,10 C1.6,16 3.6,22.4 9,23.6 L21,23.6 C25,23.4 28,20.8 29,16 C27.4,19 25,20.8 21.6,21 L9.4,21 C5.6,20.4 3,16.4 1,10 Z" fill="#c4a464"/>
+  <path d="M3.6,17.6 C5,20.8 6.8,22.4 9.2,22.8 L21,22.8 C23.6,22.7 25.6,21.6 27,19.8 C25.4,21.1 23.6,21.7 21.6,21.8 L9.4,21.8 C7,21.4 5,19.9 3.6,17.6 Z" fill="#7c6436" opacity=".75"/>
+  <rect x="9.6" y="19.5" width="2" height="1.8" rx=".4" fill="#d8c297"/>
+  <rect x="19.4" y="19.5" width="2" height="1.8" rx=".4" fill="#d8c297"/>
+</g>
+
+</svg>
