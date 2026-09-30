@@ -1,0 +1,1227 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How I Work &mdash; UI/UX &amp; Product Designer</title>
+<meta name="description" content="How I work, told as making airag: AI does the churning, I decide when it's ready.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400..700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=35">
+<!-- step 1's resting frames, so the pail appears as soon as the page does -->
+<link rel="preload" as="image" href="art/how-i-work/pail-milk/hi/f000.webp">
+<style>
+/* ---------- the airag runway ----------
+   After scfo.de: one live 3D scene held to the viewport behind the page, and
+   a step per screen down it. On a mouse or trackpad one gesture moves one
+   scene: the page glides there on one minimum-jerk curve, and a new
+   gesture at any moment re-aims it (forward, or back) without a jolt;
+   nothing is ever locked out. Touch and reduced motion keep native
+   scroll. The copy
+   alternates sides step by step, and the object stands on the other side:
+   crossing into the next step spins it one full turn as it crosses the
+   stage, and at the half turn it is swapped for the next one. The objects
+   are stand-ins built from primitives
+   until the real models arrive — see SCENES in the script. Without WebGL or
+   JS the steps simply read as a list. */
+.hw{position:relative}
+/* outside .page on purpose: .page's load animation transforms it, and a fixed
+   box inside a transformed ancestor is fixed to that ancestor, not the screen */
+.hw-stage{position:fixed;inset:0;z-index:0;pointer-events:none}
+body.case-page{background-attachment:scroll}
+.hw-stage canvas{display:block;width:100%;height:100%}
+/* a turntable object is drawn on the page over the 3D stage, at full resolution */
+.hw-stage canvas.hw-card{position:absolute;left:0;top:0;width:auto;height:auto;transform-origin:50% 100%;
+  will-change:transform;pointer-events:none;transition:opacity .45s ease}
+.hw-lead{position:relative;z-index:1;min-height:calc(100vh - 52px);min-height:calc(100svh - 52px);
+  display:grid;align-content:center;padding:clamp(40px,8vh,90px) 0}
+.hw-lead h1{margin:0;max-width:11ch;font-family:var(--f-display);font-style:italic;
+  font-weight:500;font-size:clamp(40px,5.4vw,74px);line-height:1.02;letter-spacing:-.025em;
+  color:var(--ink)}
+.hw-lead h1 span{color:var(--red)}
+.hw-lead p{max-width:44ch;margin:22px 0 0;font-family:var(--f-display);
+  font-size:clamp(17px,1.45vw,19px);line-height:1.6;color:var(--ink-2)}
+.hw-cue{display:flex;align-items:center;gap:12px;margin-top:clamp(36px,6vh,64px);
+  font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--faint)}
+.hw-cue i{width:1px;height:38px;background:var(--red);animation:hw-cue 1.8s ease-in-out infinite}
+@keyframes hw-cue{0%,100%{transform:scaleY(.3);transform-origin:top}50%{transform:scaleY(1)}}
+
+.hw-step{position:relative;z-index:1;min-height:100vh;min-height:100svh;display:grid;
+  align-content:center;justify-content:start;grid-template-columns:minmax(0,440px);padding:60px 0}
+/* every other step reads on the right, and the object crosses to the left */
+.hw-step.r{justify-content:end}
+.hw-k{display:flex;align-items:center;gap:12px;font-family:var(--f-label);font-size:11px;
+  font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
+.hw-k b{font-weight:600;color:var(--red)}
+.hw-k .ai{color:#8a7f69}
+.hw-step h2{margin:16px 0 0;font-family:var(--f-display);font-style:italic;font-weight:500;
+  font-size:clamp(38px,4.8vw,66px);line-height:1;letter-spacing:-.025em;color:var(--ink)}
+.hw-step h2 small{display:block;margin-top:8px;font-size:.42em;font-style:normal;
+  font-family:var(--f-label);font-weight:500;letter-spacing:0;color:var(--ink-2)}
+.hw-step p{margin:18px 0 0;max-width:38ch;font-size:16.5px;line-height:1.62;color:var(--ink-2)}
+/* the copy arrives with its step, sliding in from its own side */
+.hw-step > *{transition:opacity .45s ease .16s,transform .55s cubic-bezier(.22,.61,.36,1) .16s}
+.hw-step > :nth-child(2){transition-delay:.22s}
+.hw-step > :nth-child(3){transition-delay:.28s}
+.hw.is-live .hw-step:not(.on) > *{opacity:0;transform:translateX(-26px);transition-delay:0s}
+.hw.is-live .hw-step.r:not(.on) > *{transform:translateX(26px)}
+/* at the footer the last step's words give way (they would sit under the header) */
+.hw.is-live.end .hw-step.on > *{opacity:0;transform:translateY(-14px);transition-delay:0s}
+
+/* the index down the left, as scfo keeps one */
+.hw-nav{position:fixed;left:clamp(16px,2.4vw,40px);top:50%;transform:translateY(-50%);
+  z-index:5;display:none;margin:0;padding:0;list-style:none}
+.hw-live .hw-nav{display:block;transition:opacity .4s}
+.hw-live.hw-end .hw-nav{opacity:0;pointer-events:none}   /* the footer has its own links */
+.hw-nav li{margin:10px 0}
+.hw-nav a{display:flex;align-items:center;gap:10px;font-family:var(--f-label);font-size:11px;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--faint);
+  transition:color .3s}
+.hw-nav a::before{content:"";flex-shrink:0;width:26px;height:1px;background:currentColor;transform:scaleX(.54);
+  transform-origin:left;transition:transform .3s}
+.hw-nav a.on{color:var(--ink)}
+.hw-nav a.on::before{transform:none;background:var(--red)}
+.hw-nav a:hover{color:var(--ink)}
+.hw-note{position:relative;z-index:1;margin:0;padding:0 0 clamp(20px,4vh,40px);
+  font-family:var(--f-label);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--faint)}
+
+@media (max-width:1100px){ .hw-nav{display:none !important} }
+/* below 1600px the labels would run into the left-hand copy: the index is
+   its dashes (the current one red and long), and the names come out on
+   hover or keyboard focus, on paper so they stay legible over the copy */
+@media (max-width:1599px){
+  .hw-nav a{max-width:30px;overflow:hidden;white-space:nowrap;padding-right:8px;transition:color .3s,max-width .35s ease}
+  .hw-nav:hover a,.hw-nav:focus-within a{max-width:260px;background:var(--paper)}
+}
+@media (max-width:760px){
+  /* the object sits in the top half, the words in the bottom half */
+  .hw-step,.hw-step.r{align-content:end;justify-content:start;padding:0 0 12vh}
+  .hw-step p{font-size:15.5px}
+}
+/* no CSS scroll-snap here: mandatory snap springs a short gesture back to
+   the scene it left, so a wheel notch or a light swipe up never moved. The
+   script glides between scenes instead (see `glide`). No scroll anchoring
+   either: the browser nudging the page mid-glide reads as someone else
+   scrolling and would drop the glide between two scenes. */
+html{overflow-anchor:none}
+body{overflow-x:clip}          /* leaf.css's 100vw frieze and footer rule overflow by a visible scrollbar */
+/* the header's backdrop blur would re-run every frame over the moving canvas,
+   for an 8% show-through; on this page it is simply a little more opaque */
+.top{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(236,231,219,.97)}
+/* printed, every step reads; the live stage and the index stay off paper */
+@media print{
+  .hw-stage,.hw-nav{display:none !important}
+  .hw.is-live .hw-step > *{opacity:1 !important;transform:none !important}
+  .hw-step,.hw-lead{min-height:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .hw-cue i{animation:none}
+  .hw-step > *{transition:none}
+}
+</style>
+</head>
+<body class="case-page">
+
+<div class="hw-stage" aria-hidden="true"></div>
+
+<!-- outside .page for the same reason as the stage: the rise animation leaves
+     .page with a transform, and a fixed box inside it would be fixed to the
+     page (half way down it), not to the screen -->
+<ol class="hw-nav" aria-label="Steps">
+  <li><a href="#s1" lang="mn">Саах</a></li>
+  <li><a href="#s2" lang="mn">Хөрөнгө</a></li>
+  <li><a href="#s3" lang="mn">Бүлэх</a></li>
+  <li><a href="#s4" lang="mn">Тохируулах</a></li>
+  <li><a href="#s5" lang="mn">Амсах</a></li>
+  <li><a href="#s6" lang="mn">Барих</a></li>
+</ol>
+
+<div class="page">
+
+  <header class="top">
+    <a href="index.html" class="micro"><span class="arw">&larr;</span> Portfolio</a>
+    <span class="micro where"><b>02</b> &nbsp;How I Work</span>
+  </header>
+
+  <main class="sheet hw">
+
+    <section class="hw-lead">
+      <h1>AI does the churning. <span>I decide when it&rsquo;s ready.</span></h1>
+      <p>How I work, told the way airag is made: the milk, the starter, the
+      thousand strokes, and the person who tastes it.</p>
+      <div class="hw-cue"><i></i>Scroll</div>
+    </section>
+
+    <section class="hw-step" id="s1" data-scene="0">
+      <p class="hw-k"><b>Me</b> &middot; Brief</p>
+      <h2 lang="mn">Саах<small lang="en">Milking</small></h2>
+      <p>What it is for, and who it is for. Written down, so it can be argued with.</p>
+    </section>
+
+    <section class="hw-step r" id="s2" data-scene="1">
+      <p class="hw-k"><b class="ai">AI</b> &middot; Research</p>
+      <h2 lang="mn">Хөрөнгө<small lang="en">The starter</small></h2>
+      <p>Competitors, conventions and the people who will use it, run through a master
+      prompt I keep from the last batch and tune every time.</p>
+    </section>
+
+    <section class="hw-step" id="s3" data-scene="2">
+      <p class="hw-k"><b class="ai">AI</b> &middot; Flows &amp; code</p>
+      <h2 lang="mn">Бүлэх<small lang="en">Churning</small></h2>
+      <p>Userflows, wireframes and the first code, in the team&rsquo;s own structure.
+      Thousands of strokes, none of them decisions.</p>
+    </section>
+
+    <section class="hw-step r" id="s4" data-scene="3">
+      <p class="hw-k"><b>Me</b> &middot; Design</p>
+      <h2 lang="mn">Тохируулах<small lang="en">Adjusting</small></h2>
+      <p>Type, colour, spacing and every state, settled by hand in Figma until
+      nothing is left to guess.</p>
+    </section>
+
+    <section class="hw-step" id="s5" data-scene="4">
+      <p class="hw-k"><b>Me</b> &middot; Check</p>
+      <h2 lang="mn">Амсах<small lang="en">Tasting</small></h2>
+      <p>Tested with real people before the build, and checked against the real
+      build after it. Only a person decides when it is ready.</p>
+    </section>
+
+    <section class="hw-step r" id="s6" data-scene="5">
+      <p class="hw-k"><b>Me</b> &middot; Release</p>
+      <h2 lang="mn">Барих<small lang="en">Serving</small></h2>
+      <p>Handed over on a khadag: a flow developers can build without asking, and
+      a designer who stands behind it.</p>
+    </section>
+
+    <p class="hw-note">Rendered live &middot; WebGL &middot; stand-in models</p>
+
+    <div class="frieze" aria-hidden="true"></div>
+
+    <nav class="foot" aria-label="Other sections">
+      <div class="micro">Elsewhere</div>
+      <div class="foot-l">
+        <a href="work.html">My Work</a>
+        <a href="how-i-work.html">How I Work</a>
+        <a href="playground.html">Playground</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+
+  </main>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+/* ---------- the six objects ----------
+   Each scene is a name, a builder for the stand-in, and a slot for the real
+   model. Put a .glb path in `glb` and it loads in place of the stand-in,
+   scaled to ~2 units tall and stood on the ground. `idle(obj, t)` runs each
+   frame while the object is in front, for anything that should move on its
+   own (the churn paddle).
+   Or give it `frames`: a turntable video cut into an even 360-degree run of
+   transparent WebP frames (art/how-i-work/<name>/f000.webp …). The object is
+   then a card facing the camera that shows the frame for its current angle,
+   crossfading between neighbours, so it turns, sways and swaps exactly like
+   a model. `turn` is the way the video spins: -1 when the front moves to the
+   left. The stand-in shows until every frame has decoded. */
+const CREAM = 0xefe6d6, RED = 0x7a3b2e, OLIVE = 0x8a7f69, WOOD = 0x7d6446, BLUE = 0x9fb8d6, MILK = 0xfdfbf6;
+const mat = (color, rough = .75) => new THREE.MeshStandardMaterial({ color, roughness: rough, metalness: 0 });
+const lathe = (pts, material, seg = 48) => new THREE.Mesh(new THREE.LatheGeometry(pts.map(p => new THREE.Vector2(p[0], p[1])), seg), material);
+const shadowed = o => { o.traverse(m => { if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } }); return o; };
+
+const SCENES = [
+  { name: 'Саах', glb: null,
+    /* the pail full of milk, a Kling turntable whose first frame is the
+       pour's; it rests straight on, where the pour starts. The frames are
+       tall enough for the rope standing up mid-turn, so H is too: the pail
+       keeps the size it had as a still */
+    frames: { dir: 'art/how-i-work/pail-milk/', count: 144, w: 478, h: 600, H: 2.19, turn: -1, face: true,
+      hi: { dir: 'art/how-i-work/pail-milk/hi/', w: 1010, h: 1268, frames: [0] } },
+    /* the way to step 2: the pail lifts, the хөхүүр rises in, the pail pours
+       into its neck and rises away (a Kling video, every frame). box
+       is the frames' crop of the 1440 video; from and to are this step's
+       and the next step's cards in it (centre x, bottom, height), so its
+       first frame lands on the pail at rest and its last on the хөхүүр */
+    pour: { dir: 'art/how-i-work/pour/', count: 193, box: [80, 0, 1296, 1440], from: [718.5, 1355, 1268], to: [710, 1434, 1384] },
+    build() {                                                 /* the pail's stand-in */
+      const g = new THREE.Group();
+      g.add(lathe([[0,0],[.5,0],[.5,.05],[.46,.05],[.58,1.1],[.62,1.1],[.62,1.16],[.52,1.16],[.4,.1],[0,.1]], mat(CREAM)));
+      const band = new THREE.Mesh(new THREE.TorusGeometry(.55, .025, 10, 48), mat(RED)); band.rotation.x = Math.PI / 2; band.position.y = .55; g.add(band);
+      const band2 = band.clone(); band2.position.y = .95; band2.scale.setScalar(1.06); g.add(band2);
+      const handle = new THREE.Mesh(new THREE.TorusGeometry(.66, .03, 10, 48, Math.PI), mat(WOOD)); handle.position.y = 1.16; g.add(handle);
+      const milk = new THREE.Mesh(new THREE.CircleGeometry(.5, 48), mat(MILK, .4)); milk.rotation.x = -Math.PI / 2; milk.position.y = 1.02; g.add(milk);
+      return shadowed(g); } },
+  { name: 'Хөрөнгө', glb: null,
+    frames: { dir: 'art/how-i-work/khokhuur/', count: 144, w: 607, h: 600, turn: -1, face: true,  /* Kling turntable, one even turn; rests straight on, where the pour lands */
+      hi: { dir: 'art/how-i-work/khokhuur/hi/', w: 1214, h: 1200, frames: [142, 143, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] } },
+    build() {                                                 /* the jar stand-in, if the frames fail */
+      const g = new THREE.Group();
+      g.add(lathe([[0,0],[.42,0],[.5,.2],[.52,.7],[.44,.95],[.3,1.05],[.3,1.12],[0,1.12]], mat(OLIVE)));
+      const lid = lathe([[0,0],[.36,0],[.36,.08],[.1,.16],[0,.16]], mat(WOOD)); lid.position.y = 1.12; g.add(lid);
+      const knob = new THREE.Mesh(new THREE.SphereGeometry(.09, 24, 16), mat(WOOD)); knob.position.y = 1.32; g.add(knob);
+      const stripe = new THREE.Mesh(new THREE.TorusGeometry(.515, .02, 8, 48), mat(RED)); stripe.rotation.x = Math.PI / 2; stripe.position.y = .5; g.add(stripe);
+      /* a round jar hides its own turn: a loop handle on one side and a stamp
+         on the front let the spin read before the swap */
+      const loop = new THREE.Mesh(new THREE.TorusGeometry(.16, .035, 10, 24), mat(WOOD)); loop.position.set(.56, .78, 0); loop.rotation.y = Math.PI / 2; g.add(loop);
+      const stamp = new THREE.Mesh(new THREE.BoxGeometry(.2, .2, .03), mat(RED)); stamp.position.set(0, .76, .5); stamp.rotation.z = Math.PI / 4; g.add(stamp);
+      return shadowed(g); } },
+  { name: 'Бүлэх', glb: null,
+    /* the same хөхүүр with its бүлүүр in; the frames are taller by the pole
+       and cut at step 2's scale, so H grows with them and the sack keeps
+       its size across the swap */
+    frames: { dir: 'art/how-i-work/khokhuur-buluur/', count: 144, w: 497, h: 600, H: 2.604, turn: -1, face: true,
+      hi: { dir: 'art/how-i-work/khokhuur-buluur/hi/', w: 994, h: 1200, frames: [134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 0, 1, 2] } },
+    build() {                                                 /* the хөхүүр and its paddle, if the frames fail */
+      const g = new THREE.Group();
+      g.add(lathe([[0,0],[.5,0],[.52,.04],[.62,.6],[.56,1.15],[.34,1.5],[.22,1.62],[.22,1.78],[.26,1.8],[.26,1.86],[0,1.86]], mat(CREAM)));
+      const seam = new THREE.Mesh(new THREE.TorusGeometry(.245, .014, 8, 32), mat(OLIVE)); seam.rotation.x = Math.PI / 2; seam.position.y = 1.7; g.add(seam);
+      const strap = new THREE.Mesh(new THREE.TorusGeometry(.2, .035, 10, 24, Math.PI), mat(WOOD)); strap.position.set(.6, .75, 0); strap.rotation.set(0, Math.PI / 2, -Math.PI / 2); g.add(strap);
+      const tag = new THREE.Mesh(new THREE.BoxGeometry(.22, .3, .03), mat(OLIVE)); tag.position.set(0, .8, .6); g.add(tag);
+      const paddle = new THREE.Group();
+      const rod = new THREE.Mesh(new THREE.CylinderGeometry(.03, .03, 1.9, 16), mat(WOOD)); rod.position.y = .95; paddle.add(rod);
+      const knob = new THREE.Mesh(new THREE.SphereGeometry(.08, 24, 16), mat(WOOD)); knob.position.y = 1.9; paddle.add(knob);
+      paddle.position.y = 1.2; paddle.name = 'paddle'; g.add(paddle);
+      return shadowed(g); },
+    idle(o, t) { const p = o.getObjectByName('paddle'); if (p) p.position.y = 1.2 + Math.sin(t * 2.4) * .28; },
+    /* the way to step 4: the хөхүүр turns and the бүлүүр comes out and is
+       laid across it (a Kling video whose pole was cut off at the top, drawn
+       back in above the frame). It rises far above the sack, so its framing
+       dips to `dip` of its size at the top of the pull */
+    pour: { dir: 'art/how-i-work/pull/', count: 193, box: [60, -860, 1340, 2300], from: [722, 1434, 1758], to: [735, 1420, 1360], dip: .72 } },
+  { name: 'Тохируулах', glb: null,
+    /* the хөхүүр at rest, the бүлүүр laid across it: the pull's last frame,
+       one still for now; cut at step 3's scale, so H keeps the sack's size */
+    frames: { dir: 'art/how-i-work/khokhuur-rest/', count: 1, w: 587, h: 600, H: 2.01, turn: -1, face: true,
+      hi: { dir: 'art/how-i-work/khokhuur-rest/hi/', w: 1330, h: 1360, frames: [0] } },
+    build() {                                                 /* the ladle over a cup, if the frames fail */
+      const g = new THREE.Group();
+      g.add(lathe([[0,0],[.28,0],[.3,.04],[.34,.5],[.36,.52],[.36,.58],[.3,.58],[.25,.08],[0,.08]], mat(CREAM)));
+      const l = new THREE.Group();
+      const bowl = lathe([[0,0],[.16,0],[.2,.06],[.22,.14],[.22,.16],[.18,.16],[.16,.07],[0,.05]], mat(WOOD)); l.add(bowl);
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(.022, .022, 1.2, 12), mat(WOOD)); stem.position.set(.36, .5, 0); stem.rotation.z = -.62; l.add(stem);
+      l.position.set(-.1, .7, 0); l.rotation.z = .22; g.add(l);
+      const drop = new THREE.Mesh(new THREE.SphereGeometry(.045, 16, 12), mat(MILK, .3)); drop.position.set(-.12, .5, 0); g.add(drop);
+      return shadowed(g); } },
+  { name: 'Амсах', glb: null, build() {                      /* the bowl on a low table */
+      const g = new THREE.Group();
+      const top = new THREE.Mesh(new THREE.BoxGeometry(1.5, .07, .9), mat(RED)); top.position.y = .5; g.add(top);
+      [[-.62,-.34],[.62,-.34],[-.62,.34],[.62,.34]].forEach(([x,z]) => { const leg = new THREE.Mesh(new THREE.BoxGeometry(.08, .5, .08), mat(RED)); leg.position.set(x, .25, z); g.add(leg); });
+      const bowl = lathe([[0,0],[.22,0],[.24,.03],[.42,.3],[.44,.32],[.44,.36],[.38,.36],[.2,.06],[0,.04]], mat(CREAM)); bowl.position.y = .535; g.add(bowl);
+      const milk = new THREE.Mesh(new THREE.CircleGeometry(.36, 40), mat(MILK, .35)); milk.rotation.x = -Math.PI / 2; milk.position.y = .82; g.add(milk);
+      return shadowed(g); } },
+  { name: 'Барих', glb: null,
+    /* the bowl of airag on its хадаг. The video looks down on the хадаг
+       spread on the floor, so the parts nearest you sit lower in the frame
+       than the ground under the bowl: `foot` is the share of the card below
+       the ground, putting the хадаг's body on its shadow at rest (as the
+       pail's base is) with the near tail hanging in front. `face` rests it
+       straight on, without the viewing angle the other cards add: a little
+       way into the turn the video cut the fringe off at its edge */
+    frames: { dir: 'art/how-i-work/ayaga-khadag/', count: 144, w: 988, h: 540, turn: -1, face: true, foot: .3, size: .85,
+      hi: { dir: 'art/how-i-work/ayaga-khadag/hi/', w: 1746, h: 954, frames: [0] } },
+    build() {                                                 /* the bowl on a khadag, if the frames fail */
+      const g = new THREE.Group();
+      const geo = new THREE.PlaneGeometry(2.2, .9, 44, 12);
+      const pos = geo.attributes.position;
+      for (let i = 0; i < pos.count; i++) { const x = pos.getX(i); pos.setZ(i, Math.sin(x * 4.2) * .05 + Math.cos(x * 9 + 1) * .02); }
+      geo.computeVertexNormals();
+      const k = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: BLUE, roughness: .6, side: THREE.DoubleSide })); k.rotation.x = -Math.PI / 2; k.position.y = .06; g.add(k);
+      const bowl = lathe([[0,0],[.24,0],[.26,.03],[.46,.34],[.48,.36],[.48,.4],[.42,.4],[.22,.06],[0,.04]], mat(CREAM)); bowl.position.y = .1; g.add(bowl);
+      const milk = new THREE.Mesh(new THREE.CircleGeometry(.4, 40), mat(MILK, .35)); milk.rotation.x = -Math.PI / 2; milk.position.y = .42; g.add(milk);
+      const rim = new THREE.Mesh(new THREE.TorusGeometry(.47, .018, 8, 48), mat(RED)); rim.rotation.x = Math.PI / 2; rim.position.y = .46; g.add(rim);
+      return shadowed(g); } },
+];
+
+/* ---------- the stage ---------- */
+const hw = document.querySelector('.hw');
+const holder = document.querySelector('.hw-stage');
+const steps = [...document.querySelectorAll('.hw-step')];
+const navs = [...document.querySelectorAll('.hw-nav a')];
+const rmq = matchMedia('(prefers-reduced-motion: reduce)');
+let still = rmq.matches;
+rmq.addEventListener && rmq.addEventListener('change', e => { still = e.matches; });
+const narrow = () => innerWidth <= 760;
+
+let renderer;
+try { renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' }); }
+catch (e) { renderer = null; }
+if (renderer) {
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  holder.appendChild(renderer.domElement);
+  hw.classList.add('is-live'); document.body.classList.add('hw-live');
+
+  const stage = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(30, 1, .1, 40);
+  camera.position.set(0, 1.1, 7.2);
+  camera.lookAt(0, .55, 0);
+
+  stage.add(new THREE.HemisphereLight(0xfff7ea, 0xa89f8a, 1.1));
+  const key = new THREE.DirectionalLight(0xfff1dc, 1.6); key.position.set(3, 6, 4);
+  key.castShadow = true; key.shadow.mapSize.set(1024, 1024);
+  key.shadow.camera.left = key.shadow.camera.bottom = -3; key.shadow.camera.right = key.shadow.camera.top = 3;
+  stage.add(key); stage.add(key.target);
+  const fill = new THREE.DirectionalLight(0xdfe6f2, .5); fill.position.set(-4, 2, -2); stage.add(fill);
+
+  /* the ground only shows the shadow, so the paper stays the paper */
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(5, 5), new THREE.ShadowMaterial({ opacity: .16 }));
+  ground.rotation.x = -Math.PI / 2; ground.receiveShadow = true; stage.add(ground);
+  ground.visible = false;   /* shown under whichever object is in front */
+
+  /* one pivot per object; the pivot is what turns and travels */
+  const loader = new GLTFLoader();
+  let frameChain = Promise.resolve();
+  /* the pour is the first thing a reader scrolls into, so its frames load
+     straight after step 1's sharp frame, ahead of every turntable's turning
+     frames, which wait for it (or 8s, if it never comes) */
+  let openGate = () => {};
+  const turningGate = SCENES.some(s => s.pour) ? new Promise(r => { openGate = r; setTimeout(r, 8000); }) : Promise.resolve();
+  const pivots = SCENES.map((s, i) => {
+    const pivot = new THREE.Group(); pivot.visible = false; stage.add(pivot);
+    const mount = obj => {
+      /* stand it on the ground and size it to ~2 units */
+      const box = new THREE.Box3().setFromObject(obj);
+      const size = new THREE.Vector3(); box.getSize(size);
+      const k = 2 / Math.max(size.y, size.x * .9, .001);
+      obj.scale.multiplyScalar(k);
+      const b2 = new THREE.Box3().setFromObject(obj);
+      obj.position.y -= b2.min.y; obj.position.x -= (b2.min.x + b2.max.x) / 2; obj.position.z -= (b2.min.z + b2.max.z) / 2;
+      pivot.add(obj); pivot.userData.obj = obj;
+      /* how far it reaches from its axis as it turns, so each object is sized
+         by its own width (a slim pail need not shrink like the wide table) */
+      obj.updateMatrixWorld(true); let r = 0; const v = new THREE.Vector3();
+      obj.traverse(m => { if (!m.isMesh) return; const pos = m.geometry.attributes.position;
+        for (let k = 0; k < pos.count; k++) { v.fromBufferAttribute(pos, k).applyMatrix4(m.matrixWorld); r = Math.max(r, Math.hypot(v.x - pivot.position.x, v.z - pivot.position.z)); } });
+      pivot.userData.r = r;
+    };
+    /* a model's stand-in shows until the model arrives; a turntable shows
+       nothing until its frames do (the stand-in pail flashed on reload), and
+       falls back to the stand-in only if they fail */
+    if (!s.frames) mount(s.build());
+    if (s.glb) loader.load(s.glb, g => { pivot.remove(pivot.userData.obj); mount(shadowed(g.scene)); warmLater(pivot); });
+    /* turntables load one after another, in step order, each starting once
+       the one before has its sharp rest frames: step 1 comes first */
+    if (s.frames) frameChain = frameChain.then(() => loadFrames(s.frames).then(card => {
+      pivot.add(card.group); pivot.userData.card = card; pivot.userData.obj = null; pivot.userData.r = card.H * card.ratio / 2;
+      if (pivots.indexOf(pivot) !== shown) card.settled();   /* only the object on stage at load fades in */
+      lastKey = null;
+    }).catch(() => { mount(s.build()); lastKey = null; }));
+    if (s.pour) frameChain = frameChain.then(() => { loadPour(s.pour, i); });
+    return pivot;
+  });
+  /* a turntable as a card. The card is a canvas on the page itself, over
+     the stage, drawn at the screen's full resolution (the WebGL canvas runs
+     at 1.5x, and the pail read soft through it); only its soft shadow is in
+     the 3D scene. Every frame is decoded up front (img.decode, as the
+     landing page's chest does). At rest it draws from the sharp frames made
+     for the angles it can rest at; while it turns, motion hides the smaller
+     ones. The next frame is crossfaded in by the fractional angle. */
+  const cards = [];
+  function loadFrames(F) {
+    const url = (dir, i) => dir + 'f' + String(i).padStart(3, '0') + '.webp';
+    const load = src => { const im = new Image(); im.decoding = 'async'; im.src = src; return im; };
+    const hi = {}, hiList = F.hi ? F.hi.frames : [0];
+    hiList.forEach(i => { hi[i] = load(url(F.hi ? F.hi.dir : F.dir, i)); });
+    const imgs = new Array(F.count).fill(null);          /* the turning frames, filled in as they decode */
+    /* the card appears as soon as the sharp rest frames are in (preloaded in
+       <head>); the turning frames load behind it */
+    return Promise.all(hiList.map(i => hi[i].decode())).then(() => {
+      const el = document.createElement('canvas'); el.className = 'hw-card'; el.style.visibility = 'hidden';
+      holder.appendChild(el);
+      const cx = el.getContext('2d');
+      const H = F.H || 2.05, Wd = H * F.w / F.h, ratio = F.w / F.h, foot = F.foot || 0;
+      if (foot) el.style.transformOrigin = '50% ' + ((1 - foot) * 100).toFixed(1) + '%';
+      /* its own soft shadow, since a flat picture cannot cast a true one; it
+         falls back and to the left, as the key light's does */
+      const sc = document.createElement('canvas'); sc.width = sc.height = 128;
+      const sg = sc.getContext('2d'), gr = sg.createRadialGradient(64, 64, 4, 64, 64, 64);
+      gr.addColorStop(0, 'rgba(60,45,30,.55)'); gr.addColorStop(.55, 'rgba(60,45,30,.22)'); gr.addColorStop(1, 'rgba(60,45,30,0)');
+      sg.fillStyle = gr; sg.fillRect(0, 0, 128, 128);
+      const blob = new THREE.Mesh(new THREE.PlaneGeometry(Wd * .95, Wd * .5),
+        new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false, toneMapped: false }));
+      blob.rotation.x = -Math.PI / 2; blob.position.set(-.18, .004, -.12); blob.renderOrder = 1;
+      const group = new THREE.Group(); group.add(blob);
+      let last = '', cssW = 0, cssH = 0, placed = '';
+      function fit(hCss) {                  /* backing store at the card's full on-screen size, times the pixel ratio */
+        const dpr = devicePixelRatio || 1;
+        const h = Math.max(1, Math.round(hCss * dpr)), w = Math.max(1, Math.round(h * ratio));
+        if (el.height !== h || el.width !== w) { el.height = h; el.width = w; last = ''; }
+        if (Math.abs(cssH - hCss) > .01) { cssH = hCss; cssW = hCss * ratio; el.style.width = cssW + 'px'; el.style.height = cssH + 'px'; }
+      }
+      function draw(a, rest) {              /* a: the object's own turn in radians, page sense (front to the right) */
+        let p = ((F.turn * a) / (Math.PI * 2)) % 1; if (p < 0) p += 1;
+        p *= F.count;
+        /* at rest, the one nearest frame: blending two frames 2.5 degrees
+           apart doubles every edge and read as blur. The blend is for turning */
+        const i0 = rest ? Math.round(p) % F.count : Math.floor(p) % F.count, i1 = (i0 + 1) % F.count;
+        const f = rest ? 0 : Math.round((p - Math.floor(p)) * 32) / 32;
+        const sharp = rest && hi[i0];
+        const key = i0 + f + (sharp ? 'h' : 'l') + el.width;
+        if (key === last) return;
+        last = key;
+        const pick = i => (sharp && hi[i]) || imgs[i] || nearest(i);
+        /* high-quality filtering only for the sharp rest frames: on the
+           moving ones it made Chrome build a scaled copy of each frame the
+           first time it was drawn (a 245ms stall on the first spin) */
+        cx.clearRect(0, 0, el.width, el.height); cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = sharp ? 'high' : 'low';
+        cx.globalAlpha = 1; cx.drawImage(pick(i0), 0, 0, el.width, el.height);
+        if (f > 0) { cx.globalAlpha = f; cx.drawImage(pick(i1), 0, 0, el.width, el.height); cx.globalAlpha = 1; }
+        group.userData.frame = i0 + f; group.userData.sharp = !!sharp;
+      }
+      /* the one turning frame for an angle, for the swap's dissolve */
+      function imgAt(a) {
+        let p = ((F.turn * a) / (Math.PI * 2)) % 1; if (p < 0) p += 1;
+        const i = Math.round(p * F.count) % F.count; return imgs[i] || nearest(i);
+      }
+      /* a turning frame not decoded yet: the nearest one that is */
+      function nearest(i) {
+        for (let d = 1; d <= F.count / 2; d++) {
+          const a = imgs[(i + d) % F.count] || hi[(i + d) % F.count], b = imgs[(i - d + F.count) % F.count] || hi[(i - d + F.count) % F.count];
+          if (a) return a; if (b) return b;
+        }
+        return hi[hiList[0]];
+      }
+      let seen = false;
+      function place(footX, footY, dip, show) {   /* foot: where the card meets the ground (its bottom centre, unless F.foot), in CSS px */
+        const t = show ? `translate3d(${(footX - cssW / 2).toFixed(2)}px,${(footY - cssH * (1 - foot)).toFixed(2)}px,0) scale(${dip.toFixed(4)})` : 'none';
+        if (t !== placed) { placed = t; el.style.transform = t; }
+        const v = show ? 'visible' : 'hidden';
+        if (el.style.visibility !== v) el.style.visibility = v;
+        if (show && !seen) { seen = true; requestAnimationFrame(() => { el.style.opacity = '1'; }); }   /* fade in once */
+      }
+      /* not on stage when it arrives: no fade later, or it would fade in at
+         its first swap and leave the stage empty for half a second */
+      function settled() { seen = true; el.style.transition = 'none'; el.style.opacity = '1'; requestAnimationFrame(() => { el.style.transition = ''; });
+      }
+      /* Put every frame through the draw once before it is needed: the first
+         time a frame was drawn mid-spin it cost an upload of up to 7ms, most
+         of a 120Hz frame; afterwards well under 1ms. Six per animation frame,
+         so the warm-up never blocks one. */
+      /* The warm-up draws into a canvas of its own, so nothing flashes on the
+         visible card; as each turning frame decodes it joins the queue. */
+      const wc = document.createElement('canvas'); wc.width = 512; wc.height = 512; const wx = wc.getContext('2d');
+      const queue = Object.values(hi);
+      let pumping = false;
+      function pump() {
+        if (pumping) return; pumping = true;
+        (function step() {
+          for (let n = 0; n < 6 && queue.length; n++) { const im = queue.shift(); wx.clearRect(0, 0, 512, 512); wx.drawImage(im, 0, 0, 512, 512); }
+          if (queue.length) requestAnimationFrame(step); else pumping = false;
+        })();
+      }
+      pump();
+      turningGate.then(() => { for (let i = 0; i < F.count; i++) {
+        const im = load(url(F.dir, i));
+        im.decode().then(() => { imgs[i] = im; queue.push(im); pump(); if (i === Math.round(last) % F.count) last = ''; }).catch(() => {});
+      } });
+      el.style.opacity = '0';
+      const card = { group, el, fit, draw, imgAt, place, settled, H, ratio, foot, face: !!F.face, size: F.size || 1, blob }; cards.push(card);
+      return card;
+    });
+  }
+  /* a pour between two steps' cards: it plays once every frame has decoded
+     (a gap mid-pour would stall it) and both cards are in; until then the
+     step changes by the usual spin. Its canvas holds a frame at its own size
+     and is scaled on the compositor */
+  const pours = [];
+  function loadPour(P, from) {
+    const imgs = [];
+    for (let i = 0; i < P.count; i++) { const im = new Image(); im.decoding = 'async'; im.src = P.dir + 'f' + String(i).padStart(3, '0') + '.webp'; imgs.push(im); }
+    Promise.all(imgs.map(im => im.decode())).finally(openGate).then(() => {
+      const el = document.createElement('canvas'); el.className = 'hw-card'; el.style.visibility = 'hidden'; el.style.opacity = '1';
+      el.style.transformOrigin = '0 0'; el.width = imgs[0].naturalWidth; el.height = imgs[0].naturalHeight;
+      el.style.width = el.width + 'px'; el.style.height = el.height + 'px'; holder.appendChild(el);
+      const pz = { P, from, to: from + 1, imgs, el, cx: el.getContext('2d'), last: '', placed: '' };
+      pours.push(pz);
+      /* the first draw of a frame uploads it (up to 7ms): do it now, a few a frame, on a canvas of its own */
+      const wc = document.createElement('canvas'); wc.width = wc.height = 256; const wx = wc.getContext('2d');
+      let k = 0; (function warm() { for (let n = 0; n < 6 && k < imgs.length; n++, k++) wx.drawImage(imgs[k], 0, 0, 256, 256);
+        if (k < imgs.length) requestAnimationFrame(warm); })();
+    }).catch(() => {});
+  }
+  /* draw each object once, off to the side of time, so none of them compiles
+     its shaders or uploads its buffers on its first appearance mid-spin
+     (that stall read as a pause in the wheel and paged twice) */
+  function warm() {
+    const was = pivots.map(pv => pv.visible);
+    pivots.forEach(pv => { pv.visible = true; });
+    renderer.compile(stage, camera);
+    pivots.forEach((pv, i) => { pivots.forEach((q, j) => { q.visible = i === j; }); renderer.render(stage, camera); });
+    pivots.forEach((pv, i) => { pv.visible = was[i]; });
+  }
+  warm();
+  /* a model that arrives later is compiled when the wheel is quiet, not
+     mid-glide, where the stall would read as a gap and page twice */
+  function warmLater(pivot) {
+    if (gliding || performance.now() - W.t < 400) return setTimeout(() => warmLater(pivot), 200);
+    const was = pivot.visible; pivot.visible = true;
+    const done = renderer.compileAsync ? renderer.compileAsync(pivot, camera, stage) : Promise.resolve(renderer.compile(pivot, camera, stage));
+    pivot.visible = was;
+    done.then(() => { lastKey = null; });
+  }
+
+  /* ---------- scenes ----------
+     The page is a row of scenes: the lead, the six steps, the end (the
+     footer). Their scroll positions are measured when the layout changes
+     (resize, fonts, anything that resizes the page) and cached; nothing
+     reads layout per frame. */
+  const N = steps.length;
+  const root = document.documentElement;
+  root.style.scrollBehavior = 'auto';        /* leaf.css asks for smooth; every scroll here is ours or instant */
+  let A = [], lastBottom = 0, sy = scrollY;
+  /* offsets, not getBoundingClientRect: the page rises in on load with a
+     transform (leaf.css), and a rect taken then is 10px off for good */
+  const docTop = el => { let y = 0; for (; el; el = el.offsetParent) y += el.offsetTop; return y; };
+  let copyMid = [], lastCopyTop = 0, hdr = 0;
+  function remeasure() {
+    const max = Math.max(0, root.scrollHeight - root.clientHeight);   /* clientHeight: a visible scrollbar is not page */
+    A = [0, ...steps.map(docTop), max].map(a => Math.min(a, max));
+    lastBottom = docTop(steps[N - 1]) + steps[N - 1].offsetHeight;
+    copyMid = steps.map(st => { const f = st.firstElementChild, l = st.lastElementChild;
+      return (docTop(f) + docTop(l) + l.offsetHeight) / 2; });
+    lastCopyTop = docTop(steps[N - 1].firstElementChild);
+    hdr = (document.querySelector('.top') || {}).offsetHeight || 0;
+    /* the free half: from the copy column's edge to the screen's edge (the
+       layout is symmetric, so one side serves both). The copy column is the
+       steps' 440px grid track at the sheet's edge */
+    let sheetLeft = 0; for (let el = hw; el; el = el.offsetParent) sheetLeft += el.offsetLeft;
+    const vw = root.clientWidth, copyW = Math.min(440, hw.offsetWidth);
+    free = { vw, a: sheetLeft + copyW + 40, b: vw - 24 };
+  }
+  let free = { vw: 1, a: 0, b: 1 };
+  /* on native scroll the current step is the one whose words sit nearest a
+     reading line two thirds down: on a phone they sit at the foot of each
+     step, under the object, and going by the step's top dimmed the copy you
+     were reading half way */
+  const stepByCopy = y => { const m = y + root.clientHeight * (narrow() ? .68 : .5); let b = 0, bd = 1e9;
+    copyMid.forEach((c, i) => { const d = Math.abs(c - m); if (d < bd) { bd = d; b = i; } }); return b; };
+  /* the last stop shows the footer: the last step's words go (they would
+     sit under the header) and the object fades out on the way there. When
+     paging, that is the footer scene; on native scroll it is the moment the
+     words themselves reach the header, so they never vanish mid-screen */
+  let scene = 0;
+  function atScene(i, y) {
+    scene = i;
+    const end = y == null || glideOn()
+      ? i === A.length - 1 && A[A.length - 1] - A[A.length - 2] > root.clientHeight * .2
+      : y > lastCopyTop - hdr;
+    hw.classList.toggle('end', end); document.body.classList.toggle('hw-end', end);
+  }
+  const clampScene = i => Math.max(0, Math.min(A.length - 1, i));
+  const nearest = y => { let b = 0, bd = 1e9; A.forEach((t, i) => { const d = Math.abs(t - y); if (d < bd) { bd = d; b = i; } }); return b; };
+  const stepOf = scene => Math.max(0, Math.min(N - 1, scene - 1));
+  const sideOf = i => steps[i].classList.contains('r') ? -1 : 1;   /* opposite the copy */
+  const clock = () => performance.now() / 1000;
+  const dbg = /[?&]debug\b/.test(location.search) ? { log: [] } : null;
+
+  /* ---------- one retargetable motion ----------
+     Minimum-jerk (quintic) from wherever it is, at whatever speed and
+     acceleration, to a target at rest in D seconds. Re-aiming mid-flight
+     keeps position, speed and acceleration continuous, so nothing ever
+     jolts, and it lands exactly, with no creep. From rest, `punch` gives the
+     start a little acceleration so it answers the hand at once. */
+  function motion(p) {
+    const m = { p1: p, t0: 0, D: 0, c: [p, 0, 0, 0, 0, 0] };
+    m.at = now => {
+      const u = m.D ? (now - m.t0) / m.D : 1;
+      if (u >= 1) return { p: m.p1, v: 0, a: 0, done: true };
+      const [c0, c1, c2, c3, c4, c5] = m.c, w = Math.max(0, u);
+      return {
+        p: c0 + w * (c1 + w * (c2 + w * (c3 + w * (c4 + w * c5)))),
+        v: (c1 + w * (2 * c2 + w * (3 * c3 + w * (4 * c4 + w * 5 * c5)))) / m.D,
+        a: (2 * c2 + w * (6 * c3 + w * (12 * c4 + w * 20 * c5))) / (m.D * m.D),
+        done: false };
+    };
+    m.to = (p1, D, now, punch = 0) => {
+      const s = m.at(now), d = p1 - s.p;
+      if (!(D > 0)) { m.p1 = p1; m.D = 0; return; }
+      const V = s.v * D, rest = s.done || (Math.abs(s.v) < 1e-3 && Math.abs(s.a) < 1e-3);
+      const Ac = rest ? punch * d : s.a * D * D;
+      m.c = [s.p, V, Ac / 2, 10 * d - 6 * V - 1.5 * Ac, -15 * d + 8 * V + 1.5 * Ac, 6 * d - 3 * V - .5 * Ac];
+      m.p1 = p1; m.t0 = now; m.D = D;
+    };
+    m.jump = p => { m.p1 = p; m.D = 0; };
+    return m;
+  }
+
+  /* ---------- the handover ----------
+     One object is on stage and it answers the moment the reader gestures,
+     not when the scroll gets half way. theta, its extra turn, always heads
+     for a whole turn; the object is swapped for the current step's the
+     moment theta comes within half a turn of where it is heading, which is
+     exactly when its back is to you. A change mid-spin re-aims theta from
+     where it is, never restarting it: on to a further step, the one never
+     shown is skipped; back again, it rewinds. Its side of the stage moves
+     on its own curve of the same length, so it crosses as it spins and
+     keeps its speed through a change of mind. */
+  const TWO = Math.PI * 2, TURN = 1.6;     /* seconds for one full turn */
+  const th = motion(0), xm = motion(1);
+  let on = 0, shown = 0, xn = 1, thNow = 0;
+  /* which step stands at each whole turn of theta, kept as the spin is
+     aimed. Between two whole turns whose steps are a pour's two ends, the
+     pour plays instead of the spin; its frame follows theta, so it answers
+     the wheel exactly as the spin does. It plays going forward only: from
+     the step after it back up, the spin as before (owner's asking); a
+     change of mind mid-pour rewinds it. pourSeg: the turns (by their lower
+     whole turn) that began as a pour */
+  const turnObj = new Map(), pourSeg = new Set(), tk = a => Math.round(a / TWO);
+  const POUR = 2.4;                        /* a pour takes 2.4 turns' time: 3.8s, the milk unhurried */
+  function pourAt(a) {
+    const k = Math.floor(a / TWO), f = a / TWO - k;
+    if (f < 1e-4 || f > 1 - 1e-4 || !pourSeg.has(k)) return null;
+    const lo = turnObj.get(k), hi = turnObj.get(k + 1);
+    for (const pz of pours) {
+      if (!cardsIn(pz)) continue;
+      if (lo === pz.from && hi === pz.to) return { pz, u: f };
+      if (lo === pz.to && hi === pz.from) return { pz, u: 1 - f };
+    }
+    return null;
+  }
+  const cardsIn = pz => !!(pivots[pz.from].userData.card && pivots[pz.to].userData.card);
+  function spinTo(goal, now) {
+    const s = th.at(now);
+    const D = still ? 0 : TURN * Math.max(.45, Math.pow(Math.abs(goal - s.p) / TWO, .7));
+    const pour = pourAt((s.p + goal) / 2) ? POUR : 1;
+    /* a pour turned back against its own speed comes round sooner, or it
+       would carry on rewinding to its start before it turned */
+    const back = pour > 1 && s.v && Math.sign(goal - s.p) !== Math.sign(s.v);
+    const Dp = back ? Math.min(D * pour, 1.4) : D * pour;
+    th.to(goal, Dp, now, pour > 1 ? 4 : 8);   /* from rest, a brisk start: about 45 degrees in the first 0.3s */
+    xm.to(sideOf(on), Dp, now, 8);            /* in a pour the side crosses with it, mid-pour, where both are small */
+  }
+  function setStep(i, now = clock()) {
+    if (i === on) return;
+    const dir = Math.sign(i - on), was = on;
+    on = i;
+    steps.forEach((st, k) => st.classList.toggle('on', k === on));
+    navs.forEach((a, k) => a.classList.toggle('on', k === on));
+    const s = th.at(now), T = th.p1, fs = s.p / TWO;
+    const inside = Math.abs(fs - Math.round(fs)) > 1e-4 ? Math.floor(fs) : null;   /* the turn theta is part way through */
+    if (Math.abs(T - s.p) < Math.PI) {                                   /* one more turn, from where it is */
+      const k = tk(T), lo = Math.min(k, k + dir);
+      turnObj.set(k, was); turnObj.set(k + dir, on);
+      /* a turn keeps the mode it began with: back through the one it is
+         part way through, a pour rewinds and a spin spins back */
+      if (lo !== inside) { if (!still && pours.some(pz => pz.from === was && pz.to === on && cardsIn(pz))) pourSeg.add(lo); else pourSeg.delete(lo); }
+      spinTo(T + TWO * dir, now);
+    } else if (on === shown) {                                           /* back before the swap: turn home */
+      const h = TWO * Math.round(s.p / TWO); turnObj.set(tk(h), on); spinTo(h, now);
+    } else {
+      const p0 = pourAt(s.p), k = tk(T), dT = Math.sign(T - s.p);
+      if (p0 && turnObj.get(k) === p0.pz.to && dir === dT) {             /* further on, mid-pour: it lands, then the spin carries on */
+        turnObj.set(k + dT, on); pourSeg.delete(Math.min(k, k + dT)); spinTo(T + TWO * dT, now);
+      } else { turnObj.set(k, on); xm.to(sideOf(on), still ? 0 : Math.max(.3, th.t0 + th.D - now), now); }   /* the swap will show this step */
+    }
+  }
+
+  /* ---------- the scrubbed pour ----------
+     Paging, down from a step that pours into the next, the wheel scrubs the
+     pour instead of paging: frame by frame as it scrolls, as the landing's
+     chest does, and the page moves with it, so the words change half way.
+     Back up, it pours back. It lets go at either end, onto the step there,
+     and the swipe that got it there is spent. Keys and the index still page,
+     and the pour then plays by itself, as it does on native scroll. */
+  const ZONE = 3.5, LAG = .2, FLING = 1.6;   /* viewports of wheel travel for the whole pour; how far behind the wheel it is drawn (s),
+                                               as the chest's scrub is; a trackpad's speed (px/ms) at which a pixel counts half */
+  let scrub = null, scrubT = 0;              /* { pz, from (scene), p: where the wheel has it, d: where it is drawn } */
+  function markStep(i) {                     /* the step changes without a turn */
+    if (i === on) return;
+    on = i;
+    steps.forEach((st, k) => st.classList.toggle('on', k === on));
+    navs.forEach((a, k) => a.classList.toggle('on', k === on));
+  }
+  function scrubPour(sc) {                   /* the pour out of this scene, if both its cards are in */
+    const pz = pours.find(q => q.from === stepOf(sc));
+    return pz && sc === pz.from + 1 && pivots[pz.from].userData.card && pivots[pz.to].userData.card ? pz : null;
+  }
+  function stepScrub(now) {
+    if (!scrub) return;
+    if (!glideOn()) return endScrub(Math.round(scrub.d));
+    /* drawn a moment behind the wheel, so a mouse's notches glide */
+    const dt = Math.min(.05, Math.max(0, now - scrubT)); scrubT = now;
+    scrub.d += (scrub.p - scrub.d) * (1 - Math.exp(-dt / LAG));
+    if (Math.abs(scrub.p - scrub.d) < 5e-4) scrub.d = scrub.p;
+    const z = scrub, y = A[z.from] + z.d * (A[z.from + 1] - A[z.from]);
+    sy = wrote = y; window.scrollTo(0, y);
+    atScene(z.d < .5 ? z.from : z.from + 1); markStep(z.d < .5 ? z.pz.from : z.pz.to);
+    const e = z.d * z.d * (3 - 2 * z.d); xm.jump(sideOf(z.pz.from) + (sideOf(z.pz.to) - sideOf(z.pz.from)) * e);
+    if (z.d === z.p && (z.p <= .003 || z.p >= .997)) endScrub(Math.round(z.p));   /* at an end (a stray pixel of wheel short of it is at it) */
+  }
+  function endScrub(end, moved) {            /* moved: someone else scrolled the page, so leave it where they put it */
+    const z = scrub; scrub = null;
+    if (!z) return;
+    if (end >= .5) {                         /* on the next step, a turn on, as if it had turned */
+      const k = tk(th.p1); turnObj.set(k, z.pz.from); turnObj.set(k + 1, z.pz.to);
+      markStep(z.pz.to); th.jump(th.p1 + TWO);
+    } else markStep(z.pz.from);
+    xm.jump(sideOf(on));
+    if (moved) return;
+    sy = wrote = A[end >= .5 ? z.from + 1 : z.from]; atScene(end >= .5 ? z.from + 1 : z.from); window.scrollTo(0, sy);
+    W.fired = W.t; W.armed = false;          /* the swipe that got here is spent: its tail does not page on */
+    if (z.then != null) aimAt(z.then);
+  }
+
+  /* ---------- the glide ----------
+     On a mouse or trackpad the wheel never scrolls the page itself: a
+     gesture aims it at the next scene and the page moves there on one
+     minimum-jerk curve. Nothing is locked; a gesture mid-glide re-aims it,
+     forward or back, carrying its speed. */
+  const glide = motion(scrollY);
+  const GLIDE = .65, PUNCH = 4;           /* seconds for one viewport (scfo: .5s easeInOutCubic, the
+                                            same peak speed); a little start acceleration */
+  let gliding = false, aim = -1, wrote = -1;
+  const fine = matchMedia('(pointer: fine)');
+  const glideOn = () => fine.matches && !still && !narrow();
+  function aimAt(i, now = clock()) {
+    i = clampScene(i);
+    if (scrub) {                              /* mid-scrub: it runs on to the end asked for, then pages further if asked */
+      const z = scrub; z.p = i > z.from ? 1 : 0;
+      z.then = i > z.from + 1 || i < z.from ? i : null; return;
+    }
+    if (gliding && i === aim) return;          /* again toward the same scene (an end): keep the curve */
+    const from = gliding ? glide.at(now).p : sy;
+    if (!gliding && Math.abs(A[i] - from) < 1) { atScene(i); setStep(stepOf(i), now); return; }
+    if (!gliding) glide.jump(from);
+    const dist = Math.abs(A[i] - from) / innerHeight;
+    let D = Math.min(1.1, Math.max(.4, GLIDE * Math.pow(dist, .5)));
+    if (gliding) { const v = glide.at(now).v; if (v && Math.sign(v) !== Math.sign(A[i] - from)) D = Math.min(D, .6); }
+    glide.to(A[i], D, now, PUNCH);
+    gliding = true; aim = i; atScene(i);
+    if (dbg) dbg.log.push({ t: Math.round(performance.now()), aim: i, from: Math.round(from), why: dbg.why });
+    setStep(stepOf(i), now);
+  }
+  function nextScene(dir) {
+    if (gliding) return clampScene(aim + dir);
+    const i = nearest(sy);
+    if (Math.abs(A[i] - sy) < 3) return clampScene(i + dir);
+    if (dir > 0) { const k = A.findIndex(t => t > sy + 2); return k < 0 ? A.length - 1 : k; }
+    for (let k = A.length - 1; k >= 0; k--) if (A[k] < sy - 2) return k;
+    return 0;
+  }
+  function stepGlide(now) {
+    if (!gliding) return;
+    if (!glideOn()) { if (aim >= 0) window.scrollTo(0, A[aim]); gliding = false; aim = -1; return; }
+    const s = glide.at(now);
+    sy = wrote = s.p;
+    window.scrollTo(0, s.p);
+    if (s.done) { gliding = false; aim = -1; }
+  }
+  addEventListener('scroll', () => {
+    const y = scrollY;
+    if ((gliding || scrub) && Math.abs(y - wrote) <= 2) return; /* our own write */
+    if (scrub) endScrub(Math.round(scrub.d), true);
+    if (gliding) { gliding = false; aim = -1; }                  /* someone else scrolled: let go */
+    sy = y;
+    atScene(nearest(y), y);
+    setStep(glideOn() ? stepOf(scene) : stepByCopy(y));
+    settleSoon();
+  }, { passive: true });
+  /* When something else moved the page (the scrollbar, find-in-page, Tab
+     focus, a restored position, a swipe the browser kept for itself), put it
+     back on the nearest scene once it has been still a moment — but never
+     while a button is held on the scrollbar. Gestures never come here. */
+  let held = false, settleT = 0;
+  const zoomed = () => !!window.visualViewport && visualViewport.scale > 1.01;
+  function settleSoon() { clearTimeout(settleT); settleT = setTimeout(settle, 250); }
+  function settle() {
+    if (!glideOn() || gliding || scrub || held || zoomed()) return;
+    const i = nearest(sy);
+    if (Math.abs(A[i] - sy) > 4) aimAt(i);
+  }
+  addEventListener('pointerdown', () => { held = true; }, true);
+  addEventListener('pointerup', () => { held = false; settleSoon(); }, true);
+  addEventListener('pointercancel', () => { held = false; }, true);
+  addEventListener('blur', () => { held = false; });
+
+  /* ---------- reading the wheel ----------
+     One gesture pages once, however hard it is thrown; nothing is locked.
+     - A wheel event after a quiet gap starts a gesture (140ms; 60ms once
+       the stream has all but stopped, as a spent momentum tail has). It pages as soon
+       as it means it: one event of 4px, or 10px within 100ms (so a resting
+       finger does nothing, and a slow mouse notch still pages).
+     - A reversal pages once 8px have gone the other way, and not within
+       80ms of the last page, so the little roll back as fingers lift
+       never pages back.
+     - A new swipe begun inside the last one's momentum pages too: the speed
+       (px per ms, so events the browser merged cannot fake it) must dip —
+       after a real decay, or stopping hard as fingers land — to under a
+       third of the swipe's peak, or drop a fifth in one event straight
+       after a decay (momentum loses about 5% an event, never that), then
+       rise to twice the dip and at least 0.35px/ms more, two events
+       running, 200ms or more after the last page. A swipe's own ramp-up, its hand-off into momentum and a steady
+       or wobbly drag never do all of that.
+     Every vertical event is cancelled, the first included, or the browser
+     takes the rest of the swipe for native scroll. Times are the events' own
+     stamps, so a slow frame cannot fake a gap. (Checked against simulated
+     Chrome and Safari traces; see scratchpad harness.) */
+  const C = { LINE: 40, GAP: 140, EV: 4, ACC: 10, WIN: 100, REV: 8, REV_WAIT: 80,
+    DTMIN: 4, DTMAX: 50, DIP: .3, SHARP: .8, PAUSE: 60, DEAD: .1, RISE: 2, RISE_ABS: .35, CONFIRM: 2, RUN: 5, TOL: 1.05, STOP: .15, WAIT: 200 };
+  const W = { t: -1e9, any: -1e9, side: false, dir: 0, armed: false, soft: false, acc: 0, acc0: -1e9, fired: -1e9,
+    rdir: 0, racc: 0, r0: -1e9, mom: false, pa: 0, pdt: 16.7, pvs: 0, run: 0, pv: 0, prun: 0, peak: 0, hist: [], rising: 0 };
+  let momLive = false;
+  function arm(dir, t, why) {
+    Object.assign(W, { dir, armed: true, soft: false, acc: 0, acc0: t, mom: false, racc: 0, peak: 0, hist: [], rising: 0 });
+    if (dbg) { dbg.why = why; dbg.arms = (dbg.arms || []).concat([[Math.round(t), why]]); }
+  }
+  function wheel(e) {
+    if (e.ctrlKey || !glideOn() || zoomed()) return;        /* pinch-zoom, and panning while zoomed; the native layouts */
+    const mode = e.deltaMode, dy = e.deltaY, dx = e.deltaX; /* mode first (Firefox) */
+    const t = e.timeStamp || performance.now();
+    /* a gesture's first event decides whose it is, because the browser holds
+       the rest of the gesture to it: sideways, it is the back/forward swipe
+       and stays the browser's throughout; otherwise every event is ours,
+       zero-delta ones included */
+    if (t - W.any > C.GAP) W.side = Math.abs(dx) > Math.abs(dy);
+    W.any = t;
+    if (W.side) return;
+    e.preventDefault();
+    if (dy === 0 || Math.abs(dx) > Math.abs(dy)) { W.t = t; return; }   /* still the stream */
+    if (!e.cancelable) return;                              /* the browser kept this one: never page on it */
+    const dt = t - W.t; W.t = t;
+    const a = Math.abs(dy) * (mode === 1 ? C.LINE : mode === 2 ? innerHeight : 1);
+    const dir = Math.sign(dy);
+    const discrete = mode !== 0;
+    const dtc = Math.min(C.DTMAX, Math.max(C.DTMIN, dt)), v = a / dtc;
+    /* a trackpad's fling pours slower than its fingers: in a continuous
+       stream (events a frame apart) the faster it goes the less a pixel
+       counts (owner: "too quick with touchpad"); a mouse's notches, spaced
+       apart, count in full */
+    if (scrub) scrub.p = Math.min(1, Math.max(0, scrub.p + dir * a * (!discrete && dt < 25 ? 1 / (1 + v / FLING) : 1) / (ZONE * innerHeight)));
+    const vs = (a + W.pa) / (dtc + W.pdt); W.pa = a; W.pdt = dtc;
+    const pv = W.pv, prun = W.run; W.pv = v;
+    W.run = vs <= W.pvs * C.TOL ? W.run + 1 : 0; W.pvs = vs;
+    /* Chrome says which events are momentum; where it never says true
+       (other systems, some builds) the flag is ignored and the dip-and-rise
+       test does the work */
+    if (e.momentum === true) momLive = true;
+    const mom = momLive && typeof e.momentum === 'boolean' ? e.momentum : undefined;
+    /* a gap is only quiet if the stream slowed into it: an event the browser
+       merged while the page was busy spans the gap at the old speed */
+    const quiet = pv < C.DEAD || a / Math.max(dt, 1) < .5 * pv;
+    if ((dt > C.GAP && quiet) || (dt > C.PAUSE && pv < C.DEAD)) arm(dir, t, 'gap');
+    else if (mom === true) { W.mom = true; return; }
+    else if (mom === false && W.mom && dir === W.dir) { arm(dir, t, 'fingers'); W.soft = true; }
+    else if (dir !== W.dir) {
+      if (W.rdir !== dir || t - W.r0 > C.WIN) { W.rdir = dir; W.racc = 0; W.r0 = t; }
+      W.racc += a;
+      if ((!discrete && W.racc < C.REV) || t - W.fired < C.REV_WAIT) return;   /* a detent's bounce, a lift's roll */
+      const carry = W.racc; arm(dir, t, 'reverse'); W.acc = carry - a; W.acc0 = W.r0;
+    } else if (!W.armed && !discrete && mom !== true) {
+      W.peak = Math.max(W.peak, v);
+      let rising = false, tr = null;
+      for (const h of W.hist) if (t - h.t <= C.WIN && (!tr || h.v < tr.v)) tr = h;
+      if (tr) {
+        let pre = 0; for (const h of W.hist) if (h.t >= tr.t - C.WIN && h.t < tr.t) pre = Math.max(pre, h.v);
+        const shaped = tr.run >= C.RUN || tr.v <= C.STOP * pre;
+        const sharp = tr.prun >= C.RUN && tr.v <= C.SHARP * tr.pv;
+        rising = ((shaped && tr.v <= C.DIP * W.peak) || sharp) && v >= Math.max(C.RISE * tr.v, tr.v + C.RISE_ABS);
+      }
+      W.rising = rising ? W.rising + 1 : 0;
+      if (dbg) (dbg.tr = dbg.tr || []).push([Math.round(t), +v.toFixed(2), tr && +tr.v.toFixed(2), tr && tr.run, +W.peak.toFixed(2), W.rising, rising]);
+      W.hist.push({ t, v, run: W.run, pv, prun });
+      while (W.hist.length && t - W.hist[0].t > 2 * C.WIN) W.hist.shift();
+      if (W.rising >= C.CONFIRM && t - W.fired >= C.WAIT) arm(dir, t, 'new swipe');
+    }
+    if (!W.armed) return;
+    if (t - W.acc0 > C.WIN) { W.acc = 0; W.acc0 = t; }
+    W.acc += a;
+    if (discrete || (!W.soft && a >= C.EV) || W.acc >= C.ACC) {
+      W.fired = t; W.armed = false;
+      if (scrub) return;                     /* scrubbing: the wheel is the pour's */
+      const pz = dir > 0 && !gliding && Math.abs(sy - A[scene]) < 3 && th.at(clock()).done && shown === stepOf(scene) && scrubPour(scene);
+      if (pz) { scrub = { pz, from: scene, p: Math.min(1, W.acc / (ZONE * innerHeight)), d: 0 }; scrubT = clock(); return; }
+      aimAt(nextScene(dir));
+    }
+  }
+  addEventListener('wheel', wheel, { passive: false });
+
+  let tKey = -1e9;
+  addEventListener('keydown', e => {
+    if (e.altKey || e.ctrlKey || e.metaKey || zoomed()) return;
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.target.isContentEditable) return;
+    let to = null;
+    if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) to = 1;
+    else if (e.key === 'ArrowUp' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) to = -1;
+    else if (e.key === 'Home') to = -1e9;
+    else if (e.key === 'End') to = 1e9;
+    if (to === null) return;
+    e.preventDefault();
+    if (e.repeat && performance.now() - tKey < 380) return;     /* a held key pages at a readable pace */
+    tKey = performance.now();
+    go(Math.abs(to) > 1 ? (to > 0 ? A.length - 1 : 0) : nextScene(to));
+  });
+  function go(i) {
+    if (glideOn()) return aimAt(i);
+    i = clampScene(i);
+    window.scrollTo({ top: A[i], behavior: still ? 'auto' : 'smooth' });
+  }
+  navs.forEach((a, i) => a.addEventListener('click', e => {
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button) return;   /* new tab and friends */
+    e.preventDefault(); go(i + 1);
+  }));
+
+  /* ---------- layout ---------- */
+  function size() {
+    const w = holder.clientWidth || innerWidth, h = holder.clientHeight || innerHeight;
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 1.5));
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+    lastKey = null; scSnap = true;
+    relayout();
+  }
+  function relayout() {
+    const was = scene, rest = !gliding && A.length && Math.abs(sy - A[was]) < 3;
+    remeasure();
+    if (gliding) { if (Math.abs(A[aim] - glide.p1) > .5) glide.to(A[aim], Math.max(.25, glide.t0 + glide.D - clock()), clock()); }
+    else if (rest && glideOn()) {             /* the window changed height: stay on the same scene */
+      sy = wrote = A[was]; if (Math.abs(scrollY - sy) > 1) window.scrollTo(0, sy);
+      atScene(was); setStep(stepOf(was));
+    }
+    else { sy = scrollY; atScene(nearest(sy), sy); setStep(glideOn() ? stepOf(scene) : stepByCopy(sy)); }
+  }
+  addEventListener('resize', size);
+  /* moving to a screen of another density (or zooming the page) */
+  (function dppx() {
+    const mq = matchMedia('(resolution: ' + devicePixelRatio + 'dppx)');
+    mq.addEventListener && mq.addEventListener('change', () => { size(); dppx(); }, { once: true });
+  })();
+  const pageEl = document.querySelector('.page');
+  if (window.ResizeObserver) new ResizeObserver(() => relayout()).observe(pageEl);
+  /* the rise moves the page without resizing it, and its 10px of overflow
+     go when it ends: measure again then */
+  pageEl.addEventListener('animationend', relayout);
+  if (document.fonts) document.fonts.ready.then(relayout);
+
+  /* ---------- the frame ---------- */
+  const ease = x => { x = Math.max(0, Math.min(1, x)); return x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+  const T0 = clock();
+  let fade = -1, lastKey = null, scNow = 1, scSnap = true, scLast = 0;
+  const V3 = new THREE.Vector3();
+  /* two turntables swap by a short dissolve instead of a cut, so step 3's
+     pole fades into step 2's sack. Both frames for the same angle go into
+     one canvas, (1-t)·old + t·new in premultiplied colour ('lighter'), so
+     what they share stays solid and only what differs fades. Two draws a
+     frame, as a card turning on its own costs. Mid-spin, back to you */
+  const XF = .3, xfEl = document.createElement('canvas');
+  xfEl.className = 'hw-card'; xfEl.style.visibility = 'hidden'; xfEl.style.opacity = '1'; holder.appendChild(xfEl);
+  const xfx = xfEl.getContext('2d');
+  let shownWas = -1, xfFrom = null, xfAt = 0, xfPlaced = '';
+  function dissolve(A, B, t, turnA, turnB, hA, hB, fx, fy, dip) {
+    const dpr = devicePixelRatio || 1;
+    const ah = Math.round(hA * dpr), aw = Math.round(ah * A.ratio), bh = Math.round(hB * dpr), bw = Math.round(bh * B.ratio);
+    /* the two meet at the ground, where each stands (a card with a foot hangs below it) */
+    const aUp = Math.round(ah * (1 - A.foot)), bUp = Math.round(bh * (1 - B.foot));
+    const up = Math.max(aUp, bUp), W = Math.max(aw, bw), H = up + Math.max(ah - aUp, bh - bUp);
+    /* a little spare room, so a size easing mid-swap does not reallocate it every frame */
+    if (xfEl.width < W || xfEl.height < H || xfEl.width > W * 1.25 || xfEl.height > H * 1.25) {
+      xfEl.width = Math.ceil(W * 1.1); xfEl.height = Math.ceil(H * 1.1);
+      xfEl.style.width = xfEl.width / dpr + 'px'; xfEl.style.height = xfEl.height / dpr + 'px';
+    }
+    const CW = xfEl.width, CH = xfEl.height, G = CH - (H - up);   /* the ground line, in the canvas */
+    xfx.globalCompositeOperation = 'source-over'; xfx.globalAlpha = 1; xfx.clearRect(0, 0, CW, CH);
+    xfx.imageSmoothingEnabled = true; xfx.imageSmoothingQuality = 'low';
+    xfx.globalAlpha = 1 - t; xfx.drawImage(A.imgAt(turnA), Math.round((CW - aw) / 2), G - aUp, aw, ah);
+    xfx.globalCompositeOperation = 'lighter'; xfx.globalAlpha = t; xfx.drawImage(B.imgAt(turnB), Math.round((CW - bw) / 2), G - bUp, bw, bh);
+    xfx.globalCompositeOperation = 'source-over'; xfx.globalAlpha = 1;
+    const org = '50% ' + (G / CH * 100).toFixed(2) + '%';
+    if (xfEl.style.transformOrigin !== org) xfEl.style.transformOrigin = org;
+    const tr = `translate3d(${(fx - CW / dpr / 2).toFixed(2)}px,${(fy - G / dpr).toFixed(2)}px,0) scale(${dip.toFixed(4)})`;
+    if (tr !== xfPlaced) { xfPlaced = tr; xfEl.style.transform = tr; }
+    if (xfEl.style.visibility !== 'visible') xfEl.style.visibility = 'visible';
+  }
+  /* the pour's own time from the turn's progress: the turn is minimum-jerk,
+     quick in the middle, which would rush the milk; this plays the middle
+     nearer the video's own pace (partly the curve's inverse) */
+  function pace(u) {
+    let lo = 0, hi = 1;                        /* bisection: the curve is flat at both ends, where Newton overshoots */
+    for (let k = 0; k < 18; k++) { const m = (lo + hi) / 2; if (m * m * m * (10 + m * (6 * m - 15)) < u) lo = m; else hi = m; }
+    return .55 * (lo + hi) / 2 + .45 * u;
+  }
+  /* a pour frame, framed so that its first frame lands on the one card at
+     rest and its last on the other: the scale and the anchor ease between
+     the two cards' as the video plays */
+  function drawPour(pr, fx, fy, hA, hB) {
+    const { pz, u } = pr, P = pz.P, t = pr.direct ? u : pace(u), w = t * t * (3 - 2 * t);
+    const bump = P.dip ? Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, (t - .3) / .5))), 2) : 0;
+    const s = Math.exp(Math.log(hA / P.from[2]) * (1 - w) + Math.log(hB / P.to[2]) * w) * (1 - (1 - (P.dip || 1)) * bump);   /* CSS px per video px */
+    const ax = P.from[0] + (P.to[0] - P.from[0]) * w, ay = P.from[1] + (P.to[1] - P.from[1]) * w;
+    const f = t * (P.count - 1), i0 = Math.min(P.count - 1, Math.floor(f)), i1 = Math.min(P.count - 1, i0 + 1), a = Math.round((f - i0) * 16) / 16;
+    const key = i0 + a;
+    if (key !== pz.last) {
+      pz.last = key; const cx = pz.cx, E = pz.el;
+      cx.globalAlpha = 1; cx.clearRect(0, 0, E.width, E.height); cx.imageSmoothingEnabled = false;
+      cx.drawImage(pz.imgs[i0], 0, 0);
+      if (a > 0 && i1 !== i0) { cx.globalAlpha = a; cx.drawImage(pz.imgs[i1], 0, 0); cx.globalAlpha = 1; }
+    }
+    const k = s * P.box[2] / pz.el.width;                 /* the canvas holds the box at its frames' size */
+    const tr = `translate3d(${(fx + (P.box[0] - ax) * s).toFixed(2)}px,${(fy - (ay - P.box[1]) * s).toFixed(2)}px,0) scale(${k.toFixed(4)})`;
+    if (tr !== pz.placed) { pz.placed = tr; pz.el.style.transform = tr; }
+    if (pz.el.style.visibility !== 'visible') pz.el.style.visibility = 'visible';
+  }
+  function frame() {
+    const now = clock(), t = now - T0, c0 = dbg && performance.now();
+    if (still) { th.jump(th.p1); xm.jump(xm.p1); }   /* reduce motion, even switched on mid-spin: land at once */
+    stepGlide(now); stepScrub(now);
+    const max = A[A.length - 1];
+    const from = glideOn() ? A[A.length - 2] : Math.min(max - 1, Math.max(A[A.length - 2], lastCopyTop - hdr - root.clientHeight * .25));
+    const f = max - from < 20 ? 1 : Math.round((1 - ease((sy - from) / (max - from))) * 1000) / 1000;
+    if (f !== fade) { fade = f; holder.style.opacity = f; }
+    /* the object stands in the middle of the half the copy leaves free:
+       half the visible width at the ground, in scene units */
+    const halfW = camera.position.z * Math.tan(camera.fov * Math.PI / 360) * camera.aspect;
+    /* centred in the free half beside the copy, never over it */
+    const perPx = 2 * halfW / free.vw;                     /* scene units per CSS px at the object's depth */
+    const freeW = Math.max(80, free.b - free.a);
+    const side = narrow() ? 0 : ((free.a + free.b) / 2 - free.vw / 2) * perPx;
+    const lift = narrow() ? 1.05 : 0;           /* on a phone: the top third, above the words */
+    const thS = th.at(now); thNow = thS.p;
+    if (Math.abs(th.p1 - thNow) < Math.PI) shown = on;
+    /* as large as fits: never past the screen edge, measured by the shown
+       object's own turning radius; eased when the object changes, so the
+       swap does not jump in size */
+    /* and never taller than the room under the header: step 3's pole reaches
+       higher than anything else, so that one object alone comes down a
+       little (eased like any change of size, mid-spin) */
+    const scFor = pv => {
+      const rad = pv.userData.r || 1.3, cd = pv.userData.card;
+      let scH = 1;
+      if (cd) {
+        const vh = holder.clientHeight, yAt = y => (V3.set(0, y, 0).project(camera), (1 - V3.y) / 2 * vh);
+        const foot = yAt(lift), room = foot - (hdr + 20);
+        const up = cd.H * (1 - cd.foot);            /* what stands above the ground */
+        scH = room / Math.max(1, foot - yAt(lift + up));
+        scH *= room / Math.max(1, foot - yAt(lift + up * scH));   /* once more: the view is in perspective */
+      }
+      /* `frames.size` shrinks one object below what fits (owner's eye: the хадаг filled its half) */
+      return Math.min(narrow() ? .5 : Math.min(1, innerHeight / 820, (freeW / 2 * perPx) / (rad * 1.1)), scH) * (cd ? cd.size : 1);
+    };
+    /* a pour's size runs straight from its first card's to its last's, with
+       its framing, rather than easing to whichever is shown at the time */
+    const pq = still ? null : scrub ? { pz: scrub.pz, u: scrub.d, direct: true } : pourAt(thNow);
+    const scT = pq && cardsIn(pq.pz)
+      ? (t => scFor(pivots[pq.pz.from]) + (scFor(pivots[pq.pz.to]) - scFor(pivots[pq.pz.from])) * t * t * (3 - 2 * t))(pq.direct ? pq.u : pace(pq.u))
+      : scFor(pivots[shown]);
+    if (pq && cardsIn(pq.pz)) scSnap = true;
+    if (scSnap || Math.abs(scT - scNow) < 1e-4) { scNow = scT; scSnap = false; }
+    else scNow += (scT - scNow) * (1 - Math.exp(-Math.min(.05, now - scLast) * 9));
+    scLast = now;
+    const sc = scNow;
+    xn = xm.at(now).p;
+    pivots.forEach(pv => { pv.visible = false; });
+    const pv = pivots[shown];
+    pv.visible = true;
+    pv.scale.setScalar(sc * (1 - .05 * (1 - Math.cos(thNow))));
+    pv.position.set(xn * side, lift, 0);
+    /* at rest it stands still, facing front: it moves only when the page
+       does (owner's asking), and the swap, half a turn from rest, always
+       happens with its back to you */
+    const sway = 0;
+    const card = pv.userData.card;
+    /* a pour, between its two cards, instead of the spin */
+    const pr = still ? null : scrub ? { pz: scrub.pz, u: scrub.d, direct: true } : pourAt(thNow);
+    const pA = pr && pivots[pr.pz.from].userData.card, pB = pr && pivots[pr.pz.to].userData.card;
+    const pouring = !!(pr && pA && pB && card);
+    for (const pz of pours) if (!(pouring && pz === pr.pz) && pz.el.style.visibility !== 'hidden') pz.el.style.visibility = 'hidden';
+    if (shown !== shownWas) {
+      const was = shownWas >= 0 ? pivots[shownWas].userData.card : null;
+      if (was && card && !still && !pouring) {
+        /* turned back mid-dissolve: carry on from where it had got to */
+        const back = xfFrom === card ? Math.max(0, 1 - (now - xfAt) / XF) : 0;
+        xfFrom = was; xfAt = now - back * XF;
+      } else xfFrom = null;
+      shownWas = shown;
+    }
+    if (xfFrom && (!card || still || pouring || now - xfAt >= XF)) xfFrom = null;
+    if (!xfFrom && xfEl.style.visibility !== 'hidden') xfEl.style.visibility = 'hidden';
+    for (const c of cards) if (c !== card) c.place(0, 0, 1, false);
+    if (card) {
+      /* a card: drawn on the page where the object stands, turning by
+         frames. Seen off to one side, a real object shows a little of that
+         side, so the viewing angle is added to its turn */
+      const view = Math.atan2(pv.position.x - camera.position.x, camera.position.z);
+      pv.rotation.set(0, 0, 0);
+      const vw = holder.clientWidth, vh = holder.clientHeight;
+      V3.set(pv.position.x, pv.position.y, 0).project(camera);
+      const fx = (V3.x + 1) / 2 * vw, fy = (1 - V3.y) / 2 * vh;
+      const hOf = c => { V3.set(pv.position.x, pv.position.y + c.H * sc, 0).project(camera); return fy - (1 - V3.y) / 2 * vh; };
+      const turnOf = c => sway + thNow + (c.face ? 0 : view), dip = pv.scale.x / sc;
+      /* the cards' shadows give way while the pour is in the air */
+      const shade = pouring ? Math.pow(1 - 2 * Math.min(pr.u, 1 - pr.u), 2) : 1;
+      for (const c of cards) if (c.blob.material.opacity !== shade) c.blob.material.opacity = shade;
+      if (pouring) {
+        card.place(fx, fy, dip, false);
+        drawPour(pr, fx, fy, hOf(pA), hOf(pB));
+      } else if (xfFrom) {
+        let u = (now - xfAt) / XF; u = u * u * (3 - 2 * u);
+        dissolve(xfFrom, card, u, turnOf(xfFrom), turnOf(card), hOf(xfFrom), hOf(card), fx, fy, dip);
+        card.place(fx, fy, dip, false);
+      } else {
+        card.fit(hOf(card));                       /* full height, without the spin's dip */
+        card.draw(turnOf(card), thS.done && xm.at(now).done);
+        card.place(fx, fy, dip, true);
+      }
+    } else {
+      pv.rotation.y = -.6 + sway + thNow;
+      pv.rotation.x = .1;
+    }
+    if (!still && SCENES[shown].idle && pv.userData.obj) SCENES[shown].idle(pv.userData.obj, t);
+    /* the light and its shadow travel with the object (same direction, so
+       the same shading), and the shadow ground is only as big as the shadow */
+    key.position.set(pv.position.x + 3, 6, 4); key.target.position.set(pv.position.x, 0, 0); key.target.updateMatrixWorld();
+    ground.visible = true;
+    ground.position.set(pv.position.x - .5, lift + .001, -.5);
+    /* draw only when something on the stage changed: at rest nothing moves,
+       so nothing is drawn (the churn's paddle, which moves on its own, is the
+       one exception) */
+    const k = [shown, thNow.toFixed(4), xn.toFixed(4), sc.toFixed(4), innerWidth, innerHeight,
+      !still && SCENES[shown].idle && pv.userData.obj ? t.toFixed(3) : ''].join();
+    if (fade > .002 && k !== lastKey) { renderer.render(stage, camera); lastKey = k; }
+    if (dbg) { const c = performance.now() - c0; dbg.cost = (dbg.cost || []).slice(-599); dbg.cost.push(c);
+      (dbg.trace = dbg.trace || []).push([+c0.toFixed(1), +sy.toFixed(1), +thNow.toFixed(3)]); if (dbg.trace.length > 900) dbg.trace.shift();
+      if (c > 2.5) (dbg.slow = dbg.slow || []).push({ t: Math.round(performance.now()), ms: +c.toFixed(1), shown, card: !!card, frame: card ? card.group.userData.frame : null }); }
+  }
+
+  /* start where the page is (a reload keeps its place), already facing front */
+  renderer.setSize(holder.clientWidth || innerWidth, holder.clientHeight || innerHeight, false);
+  camera.aspect = (holder.clientWidth || innerWidth) / (holder.clientHeight || innerHeight); camera.updateProjectionMatrix();
+  remeasure();
+  sy = scrollY; atScene(nearest(sy)); on = shown = glideOn() ? stepOf(scene) : stepByCopy(sy); turnObj.set(0, on);
+  steps.forEach((st, k) => st.classList.toggle('on', k === on));
+  navs.forEach((a, k) => a.classList.toggle('on', k === on));
+  xn = sideOf(on); xm.jump(xn);
+  /* the browser itself stops animation frames in a hidden tab, so the loop
+     simply runs */
+  (function loop() { requestAnimationFrame(loop); frame(); })();   /* queued first, so one bad frame cannot stop it */
+
+  if (/[?&]debug\b/.test(location.search)) window.__hw = {
+    get theta() { return thNow; }, get shown() { return shown; }, get x() { return xn; },
+    get on() { return on; }, get aim() { return aim; }, get frame() { const c = pivots[shown].userData.card; return c ? c.group.userData.frame : null; },
+    get sharp() { const c = pivots[shown].userData.card; return c ? c.group.userData.sharp : null; },
+    get pour() { const p = still ? null : scrub ? { u: scrub.d } : pourAt(thNow); return p ? +p.u.toFixed(3) : null; }, get pours() { return pours.length; },
+    get scrub() { return scrub ? { p: +scrub.p.toFixed(3), d: +scrub.d.toFixed(3) } : null; },
+    get standIn() { return pivots.map(pv => !!pv.userData.obj); },
+    box() { const pv = pivots[shown]; if (pv.userData.card) { const r = pv.userData.card.el.getBoundingClientRect(); return [r.left, r.right]; }
+      const b = new THREE.Box3().setFromObject(pv), vw = holder.clientWidth; let l = 1e9, r = -1e9;
+      for (const x of [b.min.x, b.max.x]) for (const y of [b.min.y, b.max.y]) for (const z of [b.min.z, b.max.z]) {
+        const v = new THREE.Vector3(x, y, z).project(camera), px = (v.x + 1) / 2 * vw; l = Math.min(l, px); r = Math.max(r, px); }
+      return [l, r]; }, get hasCard() { return pivots.map(pv => !!pv.userData.card); }, get anchors() { return A.slice(); }, log: dbg.log, get dbg() { return dbg; },
+    get cost() { const c = (dbg.cost || []).slice().sort((a, b) => a - b); return c.length ? { n: c.length, median: +c[c.length >> 1].toFixed(2), p95: +c[Math.floor(c.length * .95)].toFixed(2), max: +c[c.length - 1].toFixed(2) } : null; } };
+}
+</script>
+</body>
+</html>

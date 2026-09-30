@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playground &mdash; UI/UX &amp; Product Designer</title>
+<meta name="description" content="Small studies in motion, light and material, from the case studies and the site itself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400..700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=35">
+<style>
+/* ---------- Playground ----------
+   A deck of small studies turned in depth, after zainabkabira.com/playground:
+   the card in front sits flat, its neighbours swing back on a 1600px
+   perspective. The offsets were measured off that page — one step out is
+   0.54 of a card sideways, 300px back, 38 degrees round and 0.86 the size;
+   two steps is double the reach, 70 degrees and 0.72; three is gone — and
+   every change runs 0.7s on the same ease. Nothing moves on its own: the
+   deck turns when it is asked to (arrows, keys, a swipe, a click on a
+   neighbour) and the clip in front plays only while it can be seen.
+   Without the script the cards are simply a list, each with its caption. */
+.pg{--cw:min(640px,70vw);--ease:cubic-bezier(.22,.61,.36,1);
+  padding:clamp(34px,6vh,70px) 0 0}
+.pg-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+  white-space:nowrap}
+.pg-intro{max-width:52ch;margin:0 auto;text-align:center;font-family:var(--f-display);
+  font-style:italic;font-weight:400;font-size:clamp(17px,1.5vw,20px);line-height:1.5;
+  color:var(--ink-2)}
+
+/* the card, in either mode */
+.pg-card{margin:0}
+.pg-media{position:relative;aspect-ratio:4/3;border-radius:14px;overflow:hidden;
+  background:#0e0c10;box-shadow:0 30px 90px -30px rgba(20,14,8,.55)}
+.pg-media img,.pg-media video{position:absolute;inset:0;width:100%;height:100%;
+  display:block}
+.pg-media .cover{object-fit:cover}
+/* the phone recordings are tall; they stand in the middle of a dark card at
+   its full height, rounded like the screen they came off */
+.pg-media .phone{object-fit:contain;padding:5% 0}
+.pg-card.light .pg-media{background:#efe6d6}
+.pg-media .hang{object-fit:contain;padding:6% 0}
+.pg-media.frieze{background:#efe6d6 url("art/site/frieze.webp") repeat-x left bottom/auto 46%}
+.pg-cap{margin:14px 2px 0}
+.pg-n{font-family:var(--f-label);font-size:12px;font-weight:600;letter-spacing:.14em;
+  font-variant-numeric:tabular-nums;color:var(--ink)}
+.pg-meta{font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--faint);margin-left:12px}
+.pg-t{margin:10px 0 0;font-family:var(--f-display);font-style:italic;font-weight:600;
+  font-size:clamp(28px,3vw,42px);line-height:1.1;letter-spacing:-.015em;color:var(--ink)}
+.pg-d{margin:10px 0 0;max-width:46ch;font-size:15.5px;line-height:1.6;color:var(--ink-2)}
+
+/* without the script: a plain list */
+.pg-track{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:clamp(30px,5vh,48px) clamp(18px,2.4vw,30px);margin-top:clamp(30px,5vh,56px)}
+.pg-ctl,.pg-info{display:none}
+
+/* with it: the deck */
+.pg-flow.is-3d{position:relative;margin-top:clamp(26px,4.4vh,48px)}
+.pg-flow.is-3d:focus-visible{outline:none}
+.pg-flow.is-3d:focus-visible .pg-card[data-o="0"] .pg-media{
+  outline:2px solid var(--red);outline-offset:6px}
+.is-3d .pg-stage{position:relative;height:calc(var(--cw) * .75);perspective:1600px;
+  touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.is-3d .pg-track{display:block;position:relative;height:100%;margin:0;
+  transform-style:preserve-3d}
+.is-3d .pg-card{position:absolute;top:0;left:50%;width:var(--cw);
+  margin-left:calc(var(--cw) / -2);transform-style:preserve-3d;
+  transition:transform .7s var(--ease),opacity .7s var(--ease),filter .7s var(--ease);
+  opacity:0;pointer-events:none;cursor:pointer}
+.is-3d .pg-card .pg-cap{display:none}
+.is-3d .pg-card[data-o="0"]{transform:none;opacity:1;z-index:100;cursor:default;
+  pointer-events:auto}
+.is-3d .pg-card[data-o="1"],.is-3d .pg-card[data-o="-1"]{opacity:.55;z-index:99;
+  filter:brightness(.45) saturate(.75);pointer-events:auto}
+.is-3d .pg-card[data-o="1"]{transform:translateX(calc(var(--cw) * .54)) translateZ(-300px) rotateY(-38deg) scale(.86)}
+.is-3d .pg-card[data-o="-1"]{transform:translateX(calc(var(--cw) * -.54)) translateZ(-300px) rotateY(38deg) scale(.86)}
+.is-3d .pg-card[data-o="2"],.is-3d .pg-card[data-o="-2"]{opacity:.22;z-index:98;
+  filter:brightness(.45) saturate(.75);pointer-events:auto}
+.is-3d .pg-card[data-o="2"]{transform:translateX(calc(var(--cw) * 1.08)) translateZ(-600px) rotateY(-70deg) scale(.72)}
+.is-3d .pg-card[data-o="-2"]{transform:translateX(calc(var(--cw) * -1.08)) translateZ(-600px) rotateY(70deg) scale(.72)}
+.is-3d .pg-card[data-o="3"]{transform:translateX(calc(var(--cw) * 1.62)) translateZ(-900px) rotateY(-38deg) scale(.5)}
+.is-3d .pg-card[data-o="-3"]{transform:translateX(calc(var(--cw) * -1.62)) translateZ(-900px) rotateY(38deg) scale(.5)}
+
+.is-3d .pg-ctl{display:grid;place-items:center;position:absolute;z-index:120;
+  top:calc(var(--cw) * .375 - 23px);width:46px;height:46px;padding:0;border:0;
+  border-radius:50%;cursor:pointer;color:var(--ink);background:rgba(250,246,238,.92);
+  box-shadow:0 6px 18px -8px rgba(20,14,8,.45),inset 0 0 0 1px rgba(20,14,8,.08);
+  transition:transform .2s var(--ease),background-color .2s}
+.pg-ctl svg{width:18px;height:18px}
+.pg-prev{left:0}
+.pg-next{right:0}
+.pg-ctl:hover{background:#fff;transform:scale(1.06)}
+.pg-ctl:active{transform:scale(.96)}
+.pg-ctl:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+
+.is-3d + .pg-info{display:block;text-align:center;margin-top:clamp(22px,3.6vh,36px);
+  min-height:11.5em}
+.pg-info .pg-d{margin-inline:auto}
+
+/* the card in front says it can be opened, on hover or focus */
+.pg-open{display:none}
+.is-3d .pg-open{display:flex;align-items:center;gap:6px;position:absolute;right:12px;
+  bottom:12px;z-index:2;padding:6px 10px;border-radius:999px;font-family:var(--f-label);
+  font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:#fff;background:rgba(0,0,0,.5);opacity:0;transform:translateY(4px);
+  transition:opacity .25s,transform .25s;pointer-events:none}
+.is-3d .pg-card[data-o="0"] .pg-media{cursor:zoom-in}
+.is-3d .pg-card[data-o="0"]:hover .pg-open,
+.pg-flow.is-3d:focus-visible .pg-card[data-o="0"] .pg-open{opacity:1;transform:none}
+
+/* opened: the study large on a dark ground, its caption under it */
+.pg-lb{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;
+  margin:0;padding:clamp(56px,8vh,80px) clamp(64px,8vw,110px) clamp(24px,4vh,40px);
+  border:0;background:#0c0b0e;color:#f1ece4;overflow:auto}
+.pg-lb::backdrop{background:transparent}
+.pg-lb[open]{display:flex;flex-direction:column;align-items:center;justify-content:center}
+/* a definite height on a flex box, so the study inside can take a share of
+   it: in a grid cell a percentage height had nothing to resolve against and
+   a phone clip came out at its full 1280px */
+.pg-lb-stage{position:relative;flex:none;width:min(1100px,100%);
+  height:min(68vh,calc((100vw - 160px) * .75));
+  display:flex;align-items:center;justify-content:center}
+.pg-lb-stage > *{max-width:100%;max-height:100%;border-radius:12px;display:block}
+.pg-lb-stage video{height:100%;width:auto;background:#000}
+.pg-lb-stage img{width:auto;height:auto;object-fit:contain}
+.pg-lb-stage .hang{height:100%;background:#efe6d6;padding:4%}
+.pg-lb-stage .frieze{width:100%;height:60%;background:#efe6d6 url("art/site/frieze.webp") repeat-x left bottom/auto 60%}
+.pg-lb-cap{text-align:center;margin-top:clamp(18px,3vh,28px);max-width:60ch}
+.pg-lb-cap .pg-n{color:#f1ece4}
+.pg-lb-cap .pg-meta{color:#a59c8f}
+.pg-lb-cap .pg-t{color:#f1ece4}
+.pg-lb-cap .pg-d{color:#c9c0b3;margin-inline:auto}
+.pg-lb-x,.pg-lb-nav{position:fixed;display:grid;place-items:center;width:44px;height:44px;
+  padding:0;border:0;border-radius:50%;cursor:pointer;color:#f1ece4;
+  background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);
+  transition:background-color .2s}
+.pg-lb-x:hover,.pg-lb-nav:hover{background:rgba(255,255,255,.16)}
+.pg-lb-x:focus-visible,.pg-lb-nav:focus-visible{outline:2px solid #f1ece4;outline-offset:3px}
+.pg-lb-x{top:20px;right:20px}
+.pg-lb-nav{top:calc(50% - 22px)}
+.pg-lb-prev{left:20px}
+.pg-lb-next{right:20px}
+.pg-lb svg{width:18px;height:18px}
+html.pg-lock{overflow:hidden}
+
+@media (max-width:640px){
+  .pg{--cw:84vw}
+  .is-3d .pg-ctl{top:auto;bottom:-64px}
+  .pg-prev{left:calc(50% - 56px)}
+  .pg-next{right:calc(50% - 56px)}
+  .is-3d + .pg-info{margin-top:84px}
+  .pg-lb{padding:64px 16px 24px}
+  .pg-lb-stage{height:58vh}
+  .pg-lb-nav{top:auto;bottom:20px}
+}
+@media (prefers-reduced-motion:reduce){
+  .is-3d .pg-card,.pg-ctl{transition:none}
+}
+</style>
+</head>
+<body class="case-page">
+
+<div class="page">
+
+  <header class="top">
+    <a href="work.html" class="micro"><span class="arw">&larr;</span> Selected work</a>
+    <span class="micro where"><b>02</b> &nbsp;Playground</span>
+  </header>
+
+  <main class="sheet pg">
+    <h1 class="pg-vh">Playground</h1>
+    <p class="pg-intro">Small studies in motion, light and material &mdash; pulled from the case
+    studies and from the site itself.</p>
+
+    <section class="pg-flow" aria-roledescription="carousel" aria-label="Playground">
+      <div class="pg-stage">
+        <div class="pg-track">
+
+          <figure class="pg-card">
+            <div class="pg-media"><img class="cover" src="art/hero/poster.jpg" width="1600" height="904" fetchpriority="high" alt="The painted chest from the landing page: two snow lions in a red medallion, lettered Portfolio, UI/UX &amp; Product Designer"><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">01</span><span class="pg-meta">Landing &middot; 36 frames</span>
+              <h2 class="pg-t">Opening the chest</h2>
+              <p class="pg-d">The landing page: a painted chest that opens as you scroll, and the camera pushes into the dark. Frames, not a video.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card">
+            <div class="pg-media"><video class="phone" width="592" height="1280" src="art/work/netpay/loan.mp4#t=0.001" muted loop playsinline preload="metadata" aria-label="NetPay loan request flow, screen recording"></video><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">02</span><span class="pg-meta">NetPay &middot; Motion</span>
+              <h2 class="pg-t">A loan, one step at a time</h2>
+              <p class="pg-d">The amount on a hand-sized key, then the term, then the payment day &mdash; every step marked, every one editable.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card">
+            <div class="pg-media"><video class="phone" width="592" height="1280" src="art/work/netpay/trust.mp4#t=0.001" muted loop playsinline preload="metadata" aria-label="NetPay trust fund set-up, screen recording"></video><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">03</span><span class="pg-meta">NetPay &middot; Motion</span>
+              <h2 class="pg-t">Opening a trust fund</h2>
+              <p class="pg-d">Naming a savings fund and giving it a face. Those icons are the app&rsquo;s only ornament.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card">
+            <div class="pg-media"><video class="phone" width="592" height="1280" src="art/work/netpay/invoice.mp4#t=0.001" muted loop playsinline preload="metadata" aria-label="NetPay invoice payment, screen recording"></video><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">04</span><span class="pg-meta">NetPay &middot; Motion</span>
+              <h2 class="pg-t">Paying an invoice</h2>
+              <p class="pg-d">Merchant, amount and what happens next, with the way out on the same screen as the way on.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card">
+            <div class="pg-media"><video class="phone" width="592" height="1280" src="art/work/voice/vote.mp4#t=0.001" muted loop playsinline preload="metadata" aria-label="Casting a vote during a live round, screen recording"></video><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">05</span><span class="pg-meta">Voice &middot; Motion</span>
+              <h2 class="pg-t">Voting live</h2>
+              <p class="pg-d">Casting a vote during a live round of The Voice Mongolia, while the show is on air.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card">
+            <div class="pg-media"><img class="cover" src="art/work/voice/cover-1100.webp" srcset="art/work/voice/cover-1100.webp 1100w, art/work/voice/cover-2200.webp 2200w" sizes="(max-width: 640px) 84vw, 640px" width="1100" height="688" loading="lazy" alt="The Voice mini app on a phone lying on ribbed black, lit from below"><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">06</span><span class="pg-meta">Voice &middot; Render</span>
+              <h2 class="pg-t">A phone on ribbed black</h2>
+              <p class="pg-d">The Voice cover: one ellipse fitted to the handset carries both the spotlight and the depth-of-field blur.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card light">
+            <div class="pg-media"><img class="hang" src="art/about/gerege.webp" width="330" height="1098" loading="lazy" alt="A gold gerege, the Mongol passport tablet, hanging from its cord"><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">07</span><span class="pg-meta">About &middot; Illustration</span>
+              <h2 class="pg-t">The gerege</h2>
+              <p class="pg-d">It hangs from the About page&rsquo;s title card and swings when you take hold of it.</p></figcaption>
+          </figure>
+
+          <figure class="pg-card light">
+            <div class="pg-media frieze" role="img" aria-label="The mountain-and-cloud border, repeating along the bottom of a cream card"><span class="pg-open" aria-hidden="true">&#10530; Open</span></div>
+            <figcaption class="pg-cap"><span class="pg-n">08</span><span class="pg-meta">Site &middot; Pattern</span>
+              <h2 class="pg-t">Mountains and cloud</h2>
+              <p class="pg-d">The border that closes every page. The tile is a painted strip followed by its own reflection, so the repeat has no seam.</p></figcaption>
+          </figure>
+
+        </div>
+      </div>
+      <button class="pg-ctl pg-prev" type="button" aria-label="Previous study"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="pg-ctl pg-next" type="button" aria-label="Next study"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </section>
+    <div class="pg-info" aria-live="polite"></div>
+    <dialog class="pg-lb" aria-label="Study, opened">
+      <button class="pg-lb-x" type="button" aria-label="Close"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <button class="pg-lb-nav pg-lb-prev" type="button" aria-label="Previous study"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 6.5 10l6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <div class="pg-lb-stage"></div>
+      <div class="pg-lb-cap"></div>
+      <button class="pg-lb-nav pg-lb-next" type="button" aria-label="Next study"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7.5 4 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    </dialog>
+
+    <div class="frieze" aria-hidden="true"></div>
+
+    <nav class="foot" aria-label="Other sections">
+      <div class="micro">Elsewhere</div>
+      <div class="foot-l">
+        <a href="work.html">My Work</a>
+        <a href="how-i-work.html">How I Work</a>
+        <a href="playground.html" aria-current="page">Playground</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+
+  </main>
+</div>
+<script>
+/* The deck. Every card gets its signed distance from the one in front,
+   wrapped round so the deck has no end, and the stylesheet places it from
+   that (data-o, -3..3). The caption under the deck is the front card's own
+   figcaption, copied. The clip in front plays while the deck is on screen
+   and the page is visible; the rest stay paused. Under reduced motion the
+   deck still turns, without the travel, and nothing plays by itself. */
+(function () {
+  var flow = document.querySelector('.pg-flow');
+  if (!flow) return;
+  var cards = [].slice.call(flow.querySelectorAll('.pg-card'));
+  var info = document.querySelector('.pg-info');
+  var n = cards.length, at = 0, seen = false;
+  var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  flow.classList.add('is-3d');
+  flow.tabIndex = 0;
+  cards.forEach(function (c, i) {
+    c.setAttribute('role', 'group');
+    c.setAttribute('aria-roledescription', 'slide');
+    c.setAttribute('aria-label', (i + 1) + ' of ' + n);
+  });
+
+  function off(i) {
+    var d = ((i - at) % n + n) % n;
+    if (d > n / 2) d -= n;
+    return Math.max(-3, Math.min(3, d));
+  }
+  function play() {
+    cards.forEach(function (c, i) {
+      var v = c.querySelector('video');
+      if (!v) return;
+      if (i === at && seen && !still && !document.hidden && !(lb && lb.open)) {
+        var p = v.play(); if (p && p.catch) p.catch(function () {});
+      } else v.pause();
+      v.controls = still && i === at;
+    });
+  }
+  function show(i) {
+    at = ((i % n) + n) % n;
+    cards.forEach(function (c, k) {
+      var o = off(k);
+      c.dataset.o = o;
+      c.setAttribute('aria-hidden', o === 0 ? 'false' : 'true');
+    });
+    var cap = cards[at].querySelector('.pg-cap');
+    if (info && cap) info.innerHTML = cap.innerHTML
+      .replace(/(<span class="pg-n">)(\d+)/, '$1$2 / ' + String(n).padStart(2, '0'));
+    play();
+  }
+
+  flow.querySelector('.pg-prev').addEventListener('click', function () { show(at - 1); });
+  flow.querySelector('.pg-next').addEventListener('click', function () { show(at + 1); });
+  flow.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); }
+    else if (e.key === 'Enter' && e.target === flow) { e.preventDefault(); open(); }
+  });
+  /* a neighbour, clicked, comes to the front; the front one opens */
+  var moved = false;
+  cards.forEach(function (c, i) {
+    c.addEventListener('click', function () {
+      if (moved) return;
+      if (i !== at) show(i); else open();
+    });
+  });
+
+  /* Opened: the front study, large, in a modal dialog (Esc closes it, focus
+     stays inside). Its arrows turn the deck underneath too, so closing lands
+     on the study that was last open. The deck's clips pause meanwhile. */
+  var lb = document.querySelector('.pg-lb');
+  var lbStage = lb && lb.querySelector('.pg-lb-stage');
+  var lbCap = lb && lb.querySelector('.pg-lb-cap');
+  function fill() {
+    var media = cards[at].querySelector('.pg-media');
+    var src = media.querySelector('video, img');
+    lbStage.textContent = '';
+    var el;
+    if (src && src.tagName === 'VIDEO') {
+      el = document.createElement('video');
+      el.src = src.getAttribute('src');
+      el.muted = true; el.loop = true; el.playsInline = true; el.controls = true;
+      el.setAttribute('aria-label', src.getAttribute('aria-label') || '');
+      if (!still) el.autoplay = true;
+    } else if (src) {
+      el = src.cloneNode(false);
+      el.removeAttribute('loading'); el.removeAttribute('fetchpriority');
+      el.setAttribute('sizes', '(max-width: 640px) 92vw, 1100px');
+    } else {
+      el = document.createElement('div');
+      el.className = 'frieze';
+      el.setAttribute('role', 'img');
+      el.setAttribute('aria-label', media.getAttribute('aria-label') || '');
+    }
+    lbStage.appendChild(el);
+    lbCap.innerHTML = info.innerHTML;
+  }
+  function open() {
+    if (!lb || !lb.showModal) return;
+    fill();
+    cards.forEach(function (c) { var v = c.querySelector('video'); if (v) v.pause(); });
+    document.documentElement.classList.add('pg-lock');
+    lb.showModal();
+  }
+  if (lb) {
+    lb.querySelector('.pg-lb-x').addEventListener('click', function () { lb.close(); });
+    lb.querySelector('.pg-lb-prev').addEventListener('click', function () { show(at - 1); fill(); });
+    lb.querySelector('.pg-lb-next').addEventListener('click', function () { show(at + 1); fill(); });
+    lb.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); show(at - 1); fill(); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); show(at + 1); fill(); }
+    });
+    /* a click on the dark ground, not on the study, closes it */
+    lb.addEventListener('click', function (e) { if (e.target === lb) lb.close(); });
+    lb.addEventListener('close', function () {
+      lbStage.textContent = '';
+      document.documentElement.classList.remove('pg-lock');
+      play();
+    });
+  }
+  /* a sideways swipe or drag turns the deck one step */
+  var x0 = null;
+  var stage = flow.querySelector('.pg-stage');
+  stage.addEventListener('pointerdown', function (e) { x0 = e.clientX; moved = false; });
+  stage.addEventListener('pointerup', function (e) {
+    if (x0 === null) return;
+    var dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) { moved = true; show(at + (dx < 0 ? 1 : -1)); }
+  });
+  stage.addEventListener('pointercancel', function () { x0 = null; });
+
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      seen = es[0].isIntersecting; play();
+    }, { threshold: 0.35 }).observe(stage);
+  } else seen = true;
+  document.addEventListener('visibilitychange', play);
+
+  show(0);
+})();
+</script>
+</body>
+</html>

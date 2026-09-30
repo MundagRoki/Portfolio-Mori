@@ -1,6 +1,6 @@
-# Source material — 389MB of originals, exports and screen recordings.
-# Never served: the site only loads art/work/ and a few files at art/ root.
-# Also contains files over GitHub's 100MB limit (Netpay-mockup.png is 130MB).
+# Source material — ~427MB of originals, exports and screen recordings.
+# Never served: the site only loads art/{hero,site,steps,about,work}/.
+# Also contains a file over GitHub's 100MB limit (misc/Netpay-mockup.png, 130MB).
 art/_source/
 
 # Working backups made before edits. Useful locally, noise in history.

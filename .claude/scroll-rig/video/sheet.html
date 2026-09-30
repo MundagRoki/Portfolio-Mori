@@ -1,0 +1,45 @@
+<!doctype html><meta charset="utf-8"><body style="margin:0;background:#888">
+<video id="v" src="kling.mp4" muted playsinline preload="auto"></video>
+<script>
+const v = document.getElementById('v');
+const ready = new Promise(r => v.readyState >= 1 ? r() : v.addEventListener('loadedmetadata', r, { once: true }));
+function seek(t) { return new Promise(r => { v.addEventListener('seeked', () => r(), { once: true }); v.currentTime = t; }); }
+async function grab(t, w) {
+  await seek(t);
+  const h = Math.round(w * v.videoHeight / v.videoWidth);
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const g = c.getContext('2d'); g.drawImage(v, 0, 0, w, h);
+  return { c, g, w, h };
+}
+function stats(g, w, h) {
+  const d = g.getImageData(0, 0, w, h).data;
+  let n = 0, white = 0, minB = 255, sum = 0;
+  const edge = (x, y) => x < w * .08 || x > w * .92 || y < h * .06 || y > h * .94;
+  for (let y = 0; y < h; y += 2) for (let x = 0; x < w; x += 2) {
+    if (!edge(x, y)) continue;
+    const i = (y * w + x) * 4, b = (d[i] + d[i + 1] + d[i + 2]) / 3;
+    n++; sum += b; if (b > 245) white++; if (b < minB) minB = b;
+  }
+  return { edgeMean: +(sum / n).toFixed(1), edgeWhitePct: +(100 * white / n).toFixed(1), edgeMin: Math.round(minB) };
+}
+window.sheet = async (cols = 4, rows = 4, tile = 360) => {
+  await ready;
+  const D = v.duration, N = cols * rows;
+  const th = Math.round(tile * v.videoHeight / v.videoWidth);
+  const S = document.createElement('canvas'); S.width = cols * tile; S.height = rows * (th + 18);
+  const G = S.getContext('2d'); G.fillStyle = '#fff'; G.fillRect(0, 0, S.width, S.height);
+  const per = [];
+  for (let k = 0; k < N; k++) {
+    const t = Math.min(D - 0.04, k * D / (N - 1));
+    const f = await grab(t, tile);
+    G.drawImage(f.c, (k % cols) * tile, Math.floor(k / cols) * (th + 18));
+    G.fillStyle = '#c00'; G.font = '13px sans-serif';
+    G.fillText(t.toFixed(2) + 's', (k % cols) * tile + 4, Math.floor(k / cols) * (th + 18) + th + 14);
+    per.push({ t: +t.toFixed(2), ...stats(f.g, f.w, f.h) });
+  }
+  const a = await grab(0, 320), b = await grab(D - 0.04, 320);
+  const da = a.g.getImageData(0, 0, a.w, a.h).data, db = b.g.getImageData(0, 0, b.w, b.h).data;
+  let diff = 0; for (let i = 0; i < da.length; i += 4) diff += Math.abs(da[i] - db[i]) + Math.abs(da[i + 1] - db[i + 1]) + Math.abs(da[i + 2] - db[i + 2]);
+  return { duration: +D.toFixed(3), w: v.videoWidth, h: v.videoHeight, firstLastMeanDiff: +(diff / (da.length / 4) / 3).toFixed(1), per, img: S.toDataURL('image/jpeg', .85) };
+};
+</script>
