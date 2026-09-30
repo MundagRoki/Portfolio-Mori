@@ -130,13 +130,16 @@ html.cur-on,html.cur-on *{cursor:none !important}
      day: "when I drag I want them to appear constantly"), one hops off the
      path every 30px of it, a smaller throw, so a drag leaves a trail of
      them; the drum, the gerege and the cards too. 22px tall (30 at first:
-     "a little bit smaller"). At most 40 in the air. */
+     "a little bit smaller"). None for a click on a link or a button (the
+     owner's asking: not when clicking the navigation or a case), nor for a
+     drag that starts on one. At most 40 in the air. */
   const FACES = [1, 2, 3, 4].map(n => `art/site/shagai/shagai-${n}.webp`);
   FACES.forEach(u => { const i = new Image(); i.src = u; });
   const toss = document.createElement('style');
   toss.textContent = `.cur-shagai{position:fixed;left:0;top:0;z-index:9999;height:22px;width:auto;margin:-11px 0 0 -15px;
   pointer-events:none;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.45));will-change:transform,opacity}`;
   document.head.appendChild(toss);
+  const CLICKABLE = 'a[href],button,[role=button],[role=tab],label[for],summary';
   let flying = 0, trail = null;
   const r = (a, b) => a + Math.random() * (b - a);
   const at = (x, y, a, sc) => `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${a.toFixed(1)}deg) scale(${sc})`;
@@ -164,6 +167,7 @@ html.cur-on,html.cur-on *{cursor:none !important}
   }
   addEventListener('pointerdown', e => {
     if (e.pointerType !== 'mouse' || e.button) return;
+    if (e.target instanceof Element && e.target.closest(CLICKABLE)){ trail = null; return; }
     for (let n = 0; n < 4; n++)
       throwOne(e.clientX, e.clientY, (n - 1.5) * 30 + r(-8, 8), -r(32, 56), r(12, 26), 540, r(1500, 1800), n * 28);
     trail = [e.clientX, e.clientY];
