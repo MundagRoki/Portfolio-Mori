@@ -16,10 +16,3 @@ art/_source/
 
 # Local server log
 *.log
-
-# Local only, kept on this computer and out of the repo (2026-09-30):
-# the dev tools and test rig, the project notes, and the preview server.
-.claude/
-CLAUDE.md
-README.md
-serve.py
