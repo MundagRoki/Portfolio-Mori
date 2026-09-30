@@ -3,7 +3,7 @@ and the new pail's still card for step 1 (its first frame) via extractp.html."""
 import json, os, sys, time
 sys.path.insert(0, '.')
 from drive import Page, save
-ROOT = '/Users/mundagroki/Downloads/Work/Portfolio Website/art/how-i-work'
+ROOT = '/Users/mundagroki/Downloads/Work/Portfolio/art/how-i-work'
 t0 = time.time()
 pg = Page('extractp.html', port=9402)
 card = {'x0': 220, 'y0': 168, 'w': 1000, 'h': 1185}          # the pail in frame 0, bottom on its base

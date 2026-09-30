@@ -4,7 +4,7 @@ scale (954px), all held on the bowl (see extract6.html)."""
 import json, os, sys, time
 sys.path.insert(0, '.')
 from drive import Page, save
-ROOT = '/Users/mundagroki/Downloads/Work/Portfolio Website/art/how-i-work'
+ROOT = '/Users/mundagroki/Downloads/Work/Portfolio/art/how-i-work'
 out = f'{ROOT}/ayaga-khadag'
 t0 = time.time()
 pick = json.load(open('plan6.json'))['pick']

@@ -3,7 +3,7 @@ via extractpull.html and planpull.json."""
 import json, os, sys, time
 sys.path.insert(0, '.')
 from drive import Page, save
-ROOT = '/Users/mundagroki/Downloads/Work/Portfolio Website/art/how-i-work'
+ROOT = '/Users/mundagroki/Downloads/Work/Portfolio/art/how-i-work'
 t0 = time.time()
 pg = Page('extractpull.html', port=9500)
 pg.ev('window.PLAN = %s; 1' % open('planpull.json').read())

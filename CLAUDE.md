@@ -7,7 +7,7 @@ cdnjs plus Lenis from jsdelivr on the landing page only. Edit a file and reload.
 ## Running it
 
 ```bash
-python3 "/Users/mundagroki/Downloads/Work/Portfolio Website/serve.py"
+python3 /Users/mundagroki/Downloads/Work/Portfolio/serve.py
 ```
 
 Serves on `http://localhost:4173` (a port argument or `PORT` overrides it). Use

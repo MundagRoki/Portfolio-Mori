@@ -12,7 +12,7 @@ README, `CLAUDE.md`, `serve.py` and `art/_source/` out of the deploy.
 ## Running it
 
 ```bash
-python3 "/Users/mundagroki/Downloads/Work/Portfolio Website/serve.py"
+python3 /Users/mundagroki/Downloads/Work/Portfolio/serve.py
 ```
 
 Then open <http://localhost:4173> (a port as the first argument, or `PORT`,
@@ -201,7 +201,7 @@ The 1152 set is derived from the 2304 set, so re-cut that first. With libavif
 byte for byte in about 25s:
 
 ```bash
-cd "/Users/mundagroki/Downloads/Work/Portfolio Website/art/hero"
+cd /Users/mundagroki/Downloads/Work/Portfolio/art/hero
 t=$(mktemp -d)
 for f in frames/f*.avif; do
   n=$(basename "$f" .avif)
