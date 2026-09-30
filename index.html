@@ -727,6 +727,64 @@ a{color:inherit}
 .tl.is-on .tl-ph img{will-change:transform}
 .tl-ph.top img{object-position:50% 0}
 
+/* ---------- How I Work, after trionn.com's Our services ----------
+   Theirs (owner's pick, 2026-09-30, "like this web, but instead of the
+   stone our 3D models' transition"): one pinned screen, a small label on
+   top, the services as huge stacked words in the middle, a 3D object
+   turning behind them, one line and a link at the foot. Ours: the six
+   steps of the How I Work draft (how-i-work-3d.html), each tagged Me or AI
+   with its airag name, the current one lit; behind them that page's own
+   models, played by the scroll: the pail turns, pours into the хөхүүр, the
+   хөхүүр turns into the хөхүүр with its бүлүүр, the бүлүүр is pulled out
+   and laid across, and the bowl on its хадаг comes in and turns. Drawn by
+   the script on a canvas from the draft's frames. Pinned only on a wide
+   screen with motion allowed; otherwise the words over a still of the bowl. */
+.hw{position:relative;z-index:3;color:var(--ab-ivory)}
+.hw-pin{position:relative;display:flex;flex-direction:column;align-items:center;
+  padding:calc(var(--nav-h) + 40px) var(--side) 64px;text-align:center}
+.hw.is-on .hw-pin{position:sticky;top:0;height:100vh;overflow:hidden;justify-content:center;
+  padding-top:calc(var(--nav-h) + 24px);padding-bottom:84px;background:var(--ab-ground)}
+.hw-bg{display:none}
+.hw.is-on .hw-bg{display:block;position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(38% 46% at 50% 56%,rgba(196,164,100,.08),rgba(196,164,100,0) 100%)}
+.hw.is-on .hw-bg::after{content:"";position:absolute;inset:0;opacity:.1;background:var(--grain-tile) 0 0/220px 220px repeat}
+.hw-cv{display:none}
+.hw.is-on .hw-cv{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.hw-label{margin:0 0 22px;font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
+  letter-spacing:.3em;text-transform:uppercase;color:var(--ab-ivory-2)}
+.hw.is-on .hw-label{position:absolute;left:0;right:0;top:calc(var(--nav-h) + 24px);z-index:3;margin:0}
+.hw-still{display:block;width:min(560px,86vw);height:auto;margin:0 auto 18px}
+.hw.is-on .hw-still{display:none}
+.hw-words{position:relative;z-index:2;list-style:none;margin:0;padding:0}
+/* pinned, the list makes no layer of its own: the dim steps lie behind the
+   model and only the lit one comes in front of it, as trionn's stone
+   crosses its letters */
+.hw.is-on .hw-words{z-index:auto}
+/* the steps: trionn's huge stacked words, in the site's grotesk */
+.hw-w{display:block;font-family:var(--f-label);font-weight:600;text-transform:uppercase;
+  font-size:clamp(34px,min(7.2vw,10.4vh),124px);line-height:.92;letter-spacing:-.045em;color:var(--ab-ivory);
+  text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.hw.is-on .hw-w{position:relative;z-index:0;opacity:.2;transition:opacity .45s ease}
+.hw.is-on .hw-w.is-cur{z-index:2;opacity:1}
+.hw-t{position:relative;display:inline-block}
+/* who does it, and its airag name, beside the word's top */
+.hw-tag{position:absolute;left:100%;top:.16em;margin-left:.5em;white-space:nowrap;
+  font-size:12px;font-weight:500;line-height:1.2;letter-spacing:.14em;text-transform:none;color:var(--ab-gold)}
+.hw-line{position:relative;z-index:3;margin:26px 0 0;font-family:var(--f-label);font-size:var(--t-micro);
+  font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ab-ivory-2)}
+.hw-line span{color:var(--ab-gold)}
+.hw.is-on .hw-line{position:absolute;left:0;right:0;bottom:34px;margin:0}
+.hw-more{position:relative;z-index:3;display:inline-block;margin-top:18px;font-family:var(--f-label);
+  font-size:var(--t-micro);font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ab-ivory);
+  text-decoration:none;padding-bottom:6px;border-bottom:1px solid rgba(196,164,100,.55)}
+.hw-more:hover{color:var(--ab-gold-hi)}
+.hw-more:focus-visible{outline:1px solid var(--ab-gold);outline-offset:4px}
+.hw.is-on .hw-more{position:absolute;right:var(--side);bottom:30px;margin:0}
+@media (max-width:860px){
+  .hw-w{font-size:calc((100vw - 32px) / 7.4);line-height:1}
+  .hw-tag{position:static;display:block;margin:4px 0 12px;font-size:11px}
+}
+
 </style>
 </head>
 <body>
@@ -739,7 +797,7 @@ a{color:inherit}
   <div class="onav-l">
     <a href="#about">About</a>
     <a href="#work">Work</a>
-    <a href="how-i-work.html">How I Work</a>
+    <a href="#how">How I Work</a>
     <a href="contact.html">Contact</a>
   </div>
 </nav>
@@ -946,6 +1004,26 @@ a{color:inherit}
           </div>
         </div>
       </section>
+  </section>
+
+  <!-- ============ How I Work — after trionn.com's Our services ============ -->
+  <section class="hw" id="how" aria-labelledby="hw-h">
+    <div class="hw-pin">
+      <div class="hw-bg" aria-hidden="true"></div>
+      <canvas class="hw-cv" aria-hidden="true"></canvas>
+      <h2 class="hw-label" id="hw-h">How I Work</h2>
+      <img class="hw-still" src="art/how-i-work/ayaga-khadag/hi/f000.webp" width="1746" height="954" loading="lazy" decoding="async" alt="">
+      <ol class="hw-words">
+        <li class="hw-w"><span class="hw-t">Brief<span class="hw-tag">Me &middot; <span lang="mn">Саах</span></span></span><span class="sr"> &mdash; What it is for, and who it is for. Written down, so it can be argued with.</span></li>
+        <li class="hw-w"><span class="hw-t">Research<span class="hw-tag">AI &middot; <span lang="mn">Хөрөнгө</span></span></span><span class="sr"> &mdash; Competitors, conventions and the people who will use it, run through a master prompt I keep from the last batch and tune every time.</span></li>
+        <li class="hw-w"><span class="hw-t">Flows &amp; code<span class="hw-tag">AI &middot; <span lang="mn">Бүлэх</span></span></span><span class="sr"> &mdash; Userflows, wireframes and the first code, in the team&rsquo;s own structure. Thousands of strokes, none of them decisions.</span></li>
+        <li class="hw-w"><span class="hw-t">Design<span class="hw-tag">Me &middot; <span lang="mn">Тохируулах</span></span></span><span class="sr"> &mdash; Type, colour, spacing and every state, settled by hand in Figma until nothing is left to guess.</span></li>
+        <li class="hw-w"><span class="hw-t">Check<span class="hw-tag">Me &middot; <span lang="mn">Амсах</span></span></span><span class="sr"> &mdash; Tested with real people before the build, and checked against the real build after it. Only a person decides when it is ready.</span></li>
+        <li class="hw-w"><span class="hw-t">Release<span class="hw-tag">Me &middot; <span lang="mn">Барих</span></span></span><span class="sr"> &mdash; Handed over on a khadag: a flow developers can build without asking, and a designer who stands behind it.</span></li>
+      </ol>
+      <p class="hw-line"><span aria-hidden="true">&#10022;</span> AI does the churning. I decide when it&rsquo;s ready.</p>
+      <a class="hw-more" href="how-i-work.html">See the full process <span aria-hidden="true">&rarr;</span></a>
+    </div>
   </section>
 
 </main>
@@ -1321,7 +1399,9 @@ if (RIG){
    natively. GSAP drives its frames, so the chest's scrub and the page
    scroll step together. window.__lenis is the instance.
    ============================================================ */
-const LENIS = (!REDUCED && window.Lenis) ? new Lenis({autoRaf: !RIG}) : null;
+/* a little softer and slower than Lenis's defaults (lerp .1, wheel 1:1), at the
+   owner's asking (2026-09-30: "make scroll more smooth and slow") */
+const LENIS = (!REDUCED && window.Lenis) ? new Lenis({autoRaf: !RIG, lerp: .075, wheelMultiplier: .8}) : null;
 window.__lenis = LENIS;
 if (LENIS && RIG){
   LENIS.on('scroll', ScrollTrigger.update);
@@ -2098,6 +2178,186 @@ if (HUD && tl){
     }, {rootMargin: '150% 0px'});
     io.observe(sec);
   }
+})();
+
+
+/* How I Work (see the style): while its runway scrolls past, the screen
+   holds, the lit word follows the step, and the models play on the canvas,
+   straight with the scroll. The geometry is the draft's (how-i-work-3d.html):
+   each card's height in world units (H), so the хөхүүр and the хөхүүр with
+   its бүлүүр share a scale and swap at the half turn without a jump; and
+   for the pour and the pull, the video's crop (box) and where the two cards
+   stand in it (from, to), so its first frame lands on one model at rest and
+   its last on the next (the framing's scale and anchor eased between, the
+   pull dipping to .72 at its height, as the draft does). Frames are the
+   draft's (every second of the хөхүүр's turn, where the pole shows a
+   double image between frames further apart, every third of the rest),
+   fetched once the section is near,
+   drawn once small out of sight as they decode (a first draw costs a
+   decode), and neighbours are crossfaded so the turns stay smooth. */
+(function(){
+  const sec = document.querySelector('.hw');
+  if (!sec) return;
+  const pin = sec.querySelector('.hw-pin'), cv = sec.querySelector('.hw-cv'), ctx = cv.getContext('2d');
+  const words = [...sec.querySelectorAll('.hw-w')];
+  const mq = matchMedia('(min-width:861px) and (prefers-reduced-motion:no-preference)');
+  const every = (a, b, k) => { const o = []; for (let i = a; i < b; i += k) o.push(i); return o; };
+  const D = 'art/how-i-work/';
+  const S = {
+    pail: {dir: 'pail-milk/', n: 144, w: 478, h: 600, H: 2.19, idx: every(0, 144, 3)},
+    pour: {dir: 'pour/', n: 193, idx: [...every(0, 193, 3), 192], box: [80, 0, 1296, 1440], from: [718.5, 1355, 1268], to: [710, 1434, 1384]},
+    kh:   {dir: 'khokhuur/', n: 144, w: 607, h: 600, H: 2.05, idx: every(0, 74, 2)},
+    kb:   {dir: 'khokhuur-buluur/', n: 144, w: 497, h: 600, H: 2.604, idx: [...every(72, 144, 2), 0]},
+    pull: {dir: 'pull/', n: 193, idx: [...every(0, 193, 3), 192], box: [60, -860, 1340, 2300], from: [722, 1434, 1758], to: [735, 1420, 1360], dip: .72},
+    rest: {dir: 'khokhuur-rest/', n: 1, w: 587, h: 600, H: 2.01, idx: [0]},
+    bowl: {dir: 'ayaga-khadag/', n: 144, w: 988, h: 540, foot: .3, idx: every(0, 144, 3)}
+  };
+  for (const k in S){ S[k].imgs = {}; S[k].got = []; }
+  /* the runway, in screens of scroll: the pail turns once, pours, the
+     хөхүүр turns into the хөхүүр with its бүлүүр, the бүлүүр is pulled, the
+     bowl comes in and turns once; the word changes half way through each
+     change */
+  /* longer than first built (owner, 2026-09-30: "more smooth and slow", then
+     "the 3D model animation goes too fast"), with a longer hold at the end
+     so the models, held to their own pace (below), finish before it lets go */
+  const SEG = [['pail', .95], ['pour', 1.6], ['spin', 1.2], ['pull', 1.6], ['in', .7], ['bowl', 1.2], ['hold', .55]];
+  let RUN = 0; const at = {};
+  for (const [k, len] of SEG){ at[k] = [RUN, RUN + len]; RUN += len; }
+  const STEP = [(at.pour[0] + at.pour[1]) / 2, (at.spin[0] + at.spin[1]) / 2, (at.pull[0] + at.pull[1]) / 2, (at.in[0] + at.in[1]) / 2, (at.bowl[0] + at.bowl[1]) / 2];
+  const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
+  const smooth = t => t * t * (3 - 2 * t);
+  let on = false, pending = false, W = 0, Hh = 0, dpr = 1, U = 0, fx = 0, fy = 0, hBowl = 0, cur = -1, lastKey = '';
+  /* the two loaded frames around f, and how far between them (a turn wraps) */
+  function pair(set, f){
+    const g = set.got;
+    if (!g.length) return null;
+    let a = -1, b = -1;
+    for (const i of g){ if (i <= f && i > a) a = i; if (i >= f && (b < 0 || i < b)) b = i; }
+    if (set.n > 1 && set.w){          /* a turntable: n is 0 again */
+      if (set.imgs[0] && f >= set.n - 4 && (b < 0 || b > set.n)) b = set.n;
+    }
+    if (a < 0) a = b; if (b < 0) b = a;
+    const img = i => set.imgs[i === set.n ? 0 : i];
+    return {A: img(a), B: img(b), t: b > a ? (f - a) / (b - a) : 0};
+  }
+  function drawPair(pr, x, y, w, h, alpha){
+    if (!pr || !pr.A) return;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(pr.A, x, y, w, h);
+    if (pr.B && pr.B !== pr.A && pr.t > .02){ ctx.globalAlpha = alpha * pr.t; ctx.drawImage(pr.B, x, y, w, h); }
+    ctx.globalAlpha = 1;
+  }
+  const hOf = k => k === 'bowl' ? hBowl : S[k].H * U;
+  function card(k, f, alpha = 1){
+    const set = S[k], h = hOf(k), w = h * set.w / set.h, foot = set.foot || 0;
+    drawPair(pair(set, f), fx - w / 2, fy - h * (1 - foot), w, h, alpha);
+  }
+  function film(k, t, hA, hB){
+    const P = S[k], w = smooth(t);
+    const bump = P.dip ? Math.pow(Math.sin(Math.PI * clamp((t - .3) / .5)), 2) : 0;
+    const sc = Math.exp(Math.log(hA / P.from[2]) * (1 - w) + Math.log(hB / P.to[2]) * w) * (1 - (1 - (P.dip || 1)) * bump);
+    const ax = P.from[0] + (P.to[0] - P.from[0]) * w, ay = P.from[1] + (P.to[1] - P.from[1]) * w;
+    drawPair(pair(P, t * (P.n - 1)), fx + (P.box[0] - ax) * sc, fy - (ay - P.box[1]) * sc, P.box[2] * sc, P.box[3] * sc, 1);
+  }
+  /* The models glide after the scroll rather than step with it, as the
+     chest's scrub does: the drawn place closes on the scrolled one with a
+     time constant GLIDE (s), so a mouse's notches and a flick's jumps
+     become one smooth run. And they have a top speed, PACE screens of the
+     runway a second, about the draft's own pace (its pour takes 3.8s, its
+     turn 1.6s; here the pour at least 2.9s, the turn 2.2s): a flick sets
+     them going and they play on at that pace. Only when they fall more
+     than CATCH screens behind do they hurry, so a fast scroll through the
+     section never leaves them far behind. It runs only while it has a gap
+     to close. */
+  const GLIDE = .35, PACE = .55, CATCH = 1;
+  let sDraw = null, sWant = 0, lastT = 0, gliding = 0;
+  function want(){ return Math.max(0, Math.min(RUN, -sec.getBoundingClientRect().top / Hh)); }
+  function glide(t){
+    gliding = 0;
+    if (!on) return;
+    const dt = lastT ? Math.min(.1, (t - lastT) / 1000) : 1 / 60; lastT = t;
+    sWant = want();
+    if (sDraw === null || Math.abs(sWant - sDraw) > 2.5) sDraw = sWant;   /* a jump (a link, a resize): no long glide */
+    else {
+      const gap = sWant - sDraw, top = dt * (PACE + Math.max(0, Math.abs(gap) - CATCH) * 2.5);
+      let step = gap * (1 - Math.exp(-dt / GLIDE));
+      if (Math.abs(step) > top) step = Math.sign(step) * top;
+      sDraw += step;
+    }
+    if (Math.abs(sWant - sDraw) < .0004) sDraw = sWant;
+    paint(sDraw);
+    if (sDraw !== sWant) gliding = requestAnimationFrame(glide); else lastT = 0;
+  }
+  function draw(){
+    pending = false;
+    if (!on) return;
+    if (!gliding){ lastT = 0; gliding = requestAnimationFrame(glide); }
+  }
+  if (/[?&]debug\b/.test(location.search)) window.__hwS = () => ({draw: sDraw, want: sWant, run: RUN});
+  function paint(s){
+    /* the lit step */
+    let c = 0; for (const b of STEP) if (s >= b) c++;
+    if (c !== cur){ cur = c; words.forEach((w, i) => w.classList.toggle('is-cur', i === c)); }
+    const q = k => clamp((s - at[k][0]) / (at[k][1] - at[k][0]));
+    const key = s.toFixed(4) + '|' + loadedN;
+    if (key === lastKey) return;
+    lastKey = key;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, Hh);
+    if (s < at.pail[1]) card('pail', q('pail') * 144);
+    else if (s < at.pour[1]) film('pour', q('pour'), hOf('pail'), hOf('kh'));
+    else if (s < at.spin[1]){ const f = q('spin') * 144; if (f < 72) card('kh', f); else card('kb', f); }
+    else if (s < at.pull[1]) film('pull', q('pull'), hOf('kb'), hOf('rest'));
+    else if (s < at.in[1]){ const e = smooth(q('in')); card('rest', 0, 1 - e); card('bowl', 0, e); }
+    else card('bowl', q('bowl') * 144);
+  }
+  function measure(){
+    on = mq.matches;
+    sec.classList.toggle('is-on', on);
+    if (!on){ sec.style.height = ''; words.forEach(w => w.classList.remove('is-cur')); cur = -1; return; }
+    Hh = innerHeight; W = pin.clientWidth; dpr = Math.min(2, devicePixelRatio || 1);
+    sec.style.height = Math.round(Hh * (1 + RUN)) + 'px';
+    cv.width = Math.round(W * dpr); cv.height = Math.round(Hh * dpr);
+    /* the models stand on one ground, a little below the words' middle; the
+       tallest (the хөхүүр with its бүлүүр) is .6 of the screen high */
+    fx = W / 2; fy = Hh * .82;
+    U = Math.min(Hh * .6, W * .5) / 2.604;
+    hBowl = Math.min(Hh * .44, W * .56 * 540 / 988) * .85;
+    lastKey = ''; cur = -1; sDraw = null;
+    draw();
+  }
+  /* fetched in the order they play, four at a time, once the section is near */
+  let loadedN = 0, started = false;
+  const warmCv = document.createElement('canvas'); warmCv.width = 16; warmCv.height = 16;
+  const warmCtx = warmCv.getContext('2d');
+  function load(){
+    if (started) return;
+    started = true;
+    const q = [];
+    for (const k of ['pail', 'pour', 'kh', 'kb', 'pull', 'rest', 'bowl']) for (const i of S[k].idx) q.push([k, i]);
+    const one = async () => {
+      for (let job; (job = q.shift()); ){
+        const [k, i] = job, im = new Image();
+        im.src = D + S[k].dir + 'f' + String(i).padStart(3, '0') + '.webp';
+        try { await im.decode(); } catch (e) { continue; }
+        try { warmCtx.drawImage(im, 0, 0, 16, 16); } catch (e) {}
+        S[k].imgs[i] = im; S[k].got.push(i); loadedN++;
+        if (on && sDraw !== null && !gliding){ lastKey = ''; paint(sDraw); }
+      }
+    };
+    for (let k = 0; k < 4; k++) one();
+  }
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver(es => { if (es[0].isIntersecting && mq.matches){ io.disconnect(); load(); } }, {rootMargin: '250% 0px'});
+    io.observe(sec);
+  } else load();
+  addEventListener('scroll', () => { if (!pending){ pending = true; requestAnimationFrame(draw); } }, {passive: true});
+  if (LENIS) LENIS.on('scroll', draw);
+  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(measure, 120); });
+  if (mq.addEventListener) mq.addEventListener('change', () => { measure(); if (mq.matches) load(); });
+  document.fonts && document.fonts.ready.then(measure);
+  addEventListener('load', measure);
+  measure();
 })();
 
 </script>
