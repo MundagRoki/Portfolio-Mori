@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" role="img" aria-label="Khorol, the wheel of completeness, at the centre of a finished medallion">
+<defs>
+<path id="ulzii-a" d="M20 30 H70 A10 10 0 0 1 80 40 V50 A10 10 0 0 1 70 60
+   H20 A10 10 0 0 1 10 50 V40 A10 10 0 0 1 20 30 Z"/>
+<path id="ulzii-b" d="M30 36 V70 A10 10 0 0 0 40 80 H50 A10 10 0 0 0 60 70 V66"/>
+<path id="ulzii-c" d="M60 54 V20 A10 10 0 0 0 50 10 H40 A10 10 0 0 0 30 20 V24"/>
+<path id="curl" d="M0 7 C4 -1 14 -3 19 4 C24 11 21 21 13 22 C6 23 2 17 6 12 C9 8 14 10 13 14"/>
+<path id="alkhan" d="M-2 13 H6 V3 H26 V9 H16 V13 H42"/>
+<path id="uul" d="M2 26 H14 V18 H22 V10 H30 V2 H34 V10 H42 V18 H50 V26 H62"/>
+<path id="ever-l" d="M32 36 C32 22 26 14 18 14 C10 14 6 20 8 26 C10 31 17 31 18 25"/>
+<path id="ever-r" d="M32 36 C32 22 38 14 46 14 C54 14 58 20 56 26 C54 31 47 31 46 25"/>
+</defs>
+<rect width="500" height="400" fill="#f3efe5"/>
+<circle cx="250" cy="200" r="166" fill="#3a5b64"/>
+<circle cx="250" cy="200" r="134" fill="#7a3b2e"/>
+<circle cx="400.00" cy="200.00" r="3.6" fill="#e8dfc9"/><circle cx="397.72" cy="226.05" r="3.6" fill="#e8dfc9"/><circle cx="390.95" cy="251.30" r="3.6" fill="#e8dfc9"/><circle cx="379.90" cy="275.00" r="3.6" fill="#e8dfc9"/><circle cx="364.91" cy="296.42" r="3.6" fill="#e8dfc9"/><circle cx="346.42" cy="314.91" r="3.6" fill="#e8dfc9"/><circle cx="325.00" cy="329.90" r="3.6" fill="#e8dfc9"/><circle cx="301.30" cy="340.95" r="3.6" fill="#e8dfc9"/><circle cx="276.05" cy="347.72" r="3.6" fill="#e8dfc9"/><circle cx="250.00" cy="350.00" r="3.6" fill="#e8dfc9"/><circle cx="223.95" cy="347.72" r="3.6" fill="#e8dfc9"/><circle cx="198.70" cy="340.95" r="3.6" fill="#e8dfc9"/><circle cx="175.00" cy="329.90" r="3.6" fill="#e8dfc9"/><circle cx="153.58" cy="314.91" r="3.6" fill="#e8dfc9"/><circle cx="135.09" cy="296.42" r="3.6" fill="#e8dfc9"/><circle cx="120.10" cy="275.00" r="3.6" fill="#e8dfc9"/><circle cx="109.05" cy="251.30" r="3.6" fill="#e8dfc9"/><circle cx="102.28" cy="226.05" r="3.6" fill="#e8dfc9"/><circle cx="100.00" cy="200.00" r="3.6" fill="#e8dfc9"/><circle cx="102.28" cy="173.95" r="3.6" fill="#e8dfc9"/><circle cx="109.05" cy="148.70" r="3.6" fill="#e8dfc9"/><circle cx="120.10" cy="125.00" r="3.6" fill="#e8dfc9"/><circle cx="135.09" cy="103.58" r="3.6" fill="#e8dfc9"/><circle cx="153.58" cy="85.09" r="3.6" fill="#e8dfc9"/><circle cx="175.00" cy="70.10" r="3.6" fill="#e8dfc9"/><circle cx="198.70" cy="59.05" r="3.6" fill="#e8dfc9"/><circle cx="223.95" cy="52.28" r="3.6" fill="#e8dfc9"/><circle cx="250.00" cy="50.00" r="3.6" fill="#e8dfc9"/><circle cx="276.05" cy="52.28" r="3.6" fill="#e8dfc9"/><circle cx="301.30" cy="59.05" r="3.6" fill="#e8dfc9"/><circle cx="325.00" cy="70.10" r="3.6" fill="#e8dfc9"/><circle cx="346.42" cy="85.09" r="3.6" fill="#e8dfc9"/><circle cx="364.91" cy="103.58" r="3.6" fill="#e8dfc9"/><circle cx="379.90" cy="125.00" r="3.6" fill="#e8dfc9"/><circle cx="390.95" cy="148.70" r="3.6" fill="#e8dfc9"/><circle cx="397.72" cy="173.95" r="3.6" fill="#e8dfc9"/>
+<g transform="translate(355.0 189.0) rotate(90.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(321.0 271.0) rotate(135.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(239.0 305.0) rotate(180.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(157.0 271.0) rotate(225.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(123.0 189.0) rotate(270.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(157.0 107.0) rotate(315.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(239.0 73.0) rotate(360.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<g transform="translate(321.0 107.0) rotate(405.0) scale(2.4545)" fill="none" stroke="#dfd2b4" stroke-width="1.06" stroke-linecap="round" opacity="1"><use href="#curl"/></g>
+<circle cx="250" cy="200" r="74" fill="#e8dfc9"/>
+<g fill="none" stroke="#7a3b2e" stroke-width="4" stroke-linecap="round"><circle cx="250.0" cy="200.0" r="50.0"/><circle cx="250.0" cy="200.0" r="13.0"/><line x1="263.0" y1="200.0" x2="300.0" y2="200.0"/><line x1="259.2" y1="209.2" x2="285.4" y2="235.4"/><line x1="250.0" y1="213.0" x2="250.0" y2="250.0"/><line x1="240.8" y1="209.2" x2="214.6" y2="235.4"/><line x1="237.0" y1="200.0" x2="200.0" y2="200.0"/><line x1="240.8" y1="190.8" x2="214.6" y2="164.6"/><line x1="250.0" y1="187.0" x2="250.0" y2="150.0"/><line x1="259.2" y1="190.8" x2="285.4" y2="164.6"/></g>
+</svg>
