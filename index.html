@@ -1715,7 +1715,21 @@ if (HUD && tl){
   const pinEl = sec.querySelector('.tz-pin');
   let lit = false, closed = false, press = null;
   function light(v){ if (v !== lit){ lit = v; sec.classList.toggle('is-lit', v); } }
-  text.addEventListener('pointerdown', e => { press = e.pointerType === 'mouse' && !e.button && closed ? [e.clientX, e.clientY, e.timeStamp] : null; });
+  /* over the drum itself, not its text block, which is wider than the drum
+     by ~150px a side at 1440 (owner: "when I stop hovering, bring my cursor
+     back"): across, the rings' sides are the radius seen at the axis's depth
+     through the 2600px perspective; down, the lines, and the rings' tilt
+     above and below them. .is-over is what the flame cursor and the click
+     go by */
+  function onDrum(x, y){
+    if (!closed || !R) return false;
+    const b = text.getBoundingClientRect(), hw = R * 2600 / (2600 + R) + 8, dy = R * .13;
+    return Math.abs(x - (b.left + b.width / 2)) <= hw && y >= b.top - dy && y <= b.bottom + dy;
+  }
+  const over = v => text.classList.toggle('is-over', v);
+  text.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') over(onDrum(e.clientX, e.clientY)); });
+  text.addEventListener('pointerleave', () => over(false));
+  text.addEventListener('pointerdown', e => { press = e.pointerType === 'mouse' && !e.button && onDrum(e.clientX, e.clientY) ? [e.clientX, e.clientY, e.timeStamp] : null; });
   text.addEventListener('pointerup', e => {
     if (!press || e.pointerType !== 'mouse') return;
     const [x, y, t] = press; press = null;
@@ -2001,7 +2015,7 @@ if (HUD && tl){
     const g = grabbable();
     if (g !== canGrab){ canGrab = g; text.classList.toggle('is-grab', g); if (!g) hand.rx = hand.ox = 0; }
     const c = rings.length > 0 && rings.every(rg => rg.r >= 1);
-    if (c !== closed){ closed = c; sec.classList.toggle('is-closed', c); if (!c) light(false); }
+    if (c !== closed){ closed = c; sec.classList.toggle('is-closed', c); if (!c){ light(false); over(false); } }
     /* each line's ink fades off the canvas over the first HAND of its
        coil, while the snake holds still on it */
     write(tNow, rings.map((rg, n) => rg.words.map(() => sm(rg.p / HAND))));
@@ -2136,7 +2150,7 @@ if (HUD && tl){
       tilt.textContent = ''; cyl.style.visibility = ''; shown = 0;
       hand.on = false; hand.v = hand.rx = hand.ox = hand.lx = hand.lo = 0; moving = canGrab = false;
       tilt.style.transform = cyl.style.perspectiveOrigin = ''; text.classList.remove('is-grab', 'is-grabbing');
-      closed = false; press = null; sec.classList.remove('is-closed'); light(false);
+      closed = false; press = null; sec.classList.remove('is-closed'); light(false); over(false);
       lines.forEach(l => l.style.opacity = '');
       tick();
       return;
@@ -2484,6 +2498,6 @@ if (HUD && tl){
 <!-- About's tilt, gerege, reveals and timeline -->
 <script src="about-motion.js?v=12" defer></script>
 <!-- the cursor, after milancompain.com's -->
-<script src="cursor.js?v=11" defer></script>
+<script src="cursor.js?v=12" defer></script>
 </body>
 </html>

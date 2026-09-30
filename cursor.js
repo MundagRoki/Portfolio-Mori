@@ -23,8 +23,12 @@
      fire instead", first over the hearth's button, then, the button gone,
      over the whole drum once its rings have closed): the ring and dot give
      way to a small flame on the pointer, gold, and burning once the hearth
-     is lit, which a click on the drum does (index.html) */
-  const FIRE = '.tz.is-closed .wr-t';
+     is lit, which a click on the drum does (index.html). Only over the drum
+     itself (.is-over, set by index.html from the drum's outline), so it
+     turns back into the ring the moment the pointer leaves the drum. It
+     sits in a round border on a dark disc, as the button did (owner: "add
+     border to my fire button too") */
+  const FIRE = '.tz.is-closed .wr-t.is-over';
   const HOT = 'a[href],button:not(:disabled),[role=button],label[for],summary,' +
     '.gerege-hang,.xp-card.is-draggable,.wr-t.is-grab,.held';
   const MAGNET = '.onav a';
@@ -46,8 +50,10 @@ html.cur-on,html.cur-on *{cursor:none !important}
 .cur-view span{display:flex;align-items:center;gap:6px;padding-left:.22em}
 .cur-view i{width:5px;height:5px;background:${GOLD};transform:rotate(45deg)}
 .cur-dust{width:3px;height:3px;margin:-1.5px 0 0 -1.5px;background:${GOLD}}
-.cur-fire{width:34px;height:34px;margin:-18px 0 0 -17px;opacity:0;border-radius:0}
-.cur-fire svg{width:100%;height:100%;overflow:visible}
+.cur-fire{width:52px;height:52px;margin:-26px 0 0 -26px;opacity:0;display:grid;place-items:center;
+  border:1px solid rgba(196,164,100,.55);background:rgba(8,6,4,.62);transition:border-color .6s}
+.cur-fire.is-lit{border-color:rgba(240,163,82,.78)}
+.cur-fire svg{width:28px;height:28px;overflow:visible}
 .cur-fire .o{fill:rgba(196,164,100,.22);stroke:${GOLD};stroke-width:1.4;stroke-linejoin:round}
 .cur-fire .n{fill:${GOLD}}
 .cur-fire.is-lit .o{fill:rgba(240,150,60,.5);stroke:#f0a352}.cur-fire.is-lit .n{fill:#ffd08a}
