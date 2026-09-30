@@ -126,40 +126,53 @@ html.cur-on,html.cur-on *{cursor:none !important}
      They fly up and out spinning, land a little below on one of their four
      sides (морь, тэмээ, хонь, ямаа: the four pictures, cut out of the
      owner's sheet, art/site/_source/shagai/), bounce once, rest, and fade.
-     A press that starts a drag throws none. At most 24 in the air. */
+     Dragged (the button held while it moves; the owner's asking the same
+     day: "when I drag I want them to appear constantly"), one hops off the
+     path every 30px of it, a smaller throw, so a drag leaves a trail of
+     them; the drum, the gerege and the cards too. 22px tall (30 at first:
+     "a little bit smaller"). At most 40 in the air. */
   const FACES = [1, 2, 3, 4].map(n => `art/site/shagai/shagai-${n}.webp`);
   FACES.forEach(u => { const i = new Image(); i.src = u; });
-  const DRAG = '.gerege-hang,.xp-card.is-draggable,.wr-t.is-grab,.held';
   const toss = document.createElement('style');
-  toss.textContent = `.cur-shagai{position:fixed;left:0;top:0;z-index:9999;height:30px;width:auto;margin:-15px 0 0 -20px;
-  pointer-events:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.45));will-change:transform,opacity}`;
+  toss.textContent = `.cur-shagai{position:fixed;left:0;top:0;z-index:9999;height:22px;width:auto;margin:-11px 0 0 -15px;
+  pointer-events:none;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.45));will-change:transform,opacity}`;
   document.head.appendChild(toss);
-  let flying = 0;
+  let flying = 0, trail = null;
   const r = (a, b) => a + Math.random() * (b - a);
+  const at = (x, y, a, sc) => `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${a.toFixed(1)}deg) scale(${sc})`;
+  /* one шагай from (x, y): out by dx, up to peak, down to land; it comes to
+     rest on a side, near level, bounces once and fades */
+  function throwOne(x, y, dx, peak, land, spinMax, dur, delay){
+    if (flying >= 40) return;
+    const s = document.createElement('img');
+    s.className = 'cur-shagai'; s.alt = ''; s.setAttribute('aria-hidden', 'true');
+    s.src = FACES[Math.floor(Math.random() * 4)];
+    s.style.left = x + 'px'; s.style.top = y + 'px';
+    document.body.appendChild(s); flying++;
+    const r0 = r(-40, 40), spin = (Math.random() < .5 ? -1 : 1) * r(spinMax * .5, spinMax);
+    const rest = Math.round((r0 + spin) / 360) * 360 + r(-12, 12), dir = Math.sign(spin);
+    s.animate([
+      {transform: at(0, 0, r0, .45), opacity: 0, easing: 'cubic-bezier(.2,.7,.4,1)'},
+      {transform: at(dx * .15, peak * .45, r0 + spin * .2, .9), opacity: 1, offset: .08, easing: 'cubic-bezier(.3,.6,.5,1)'},
+      {transform: at(dx * .55, peak, r0 + spin * .6, 1), opacity: 1, offset: .34, easing: 'cubic-bezier(.5,0,.8,.4)'},
+      {transform: at(dx, land, rest, 1), opacity: 1, offset: .58, easing: 'cubic-bezier(.2,.6,.4,1)'},
+      {transform: at(dx + dir * 2, land - 4, rest + dir * 8, 1), opacity: 1, offset: .66, easing: 'cubic-bezier(.5,0,.7,.5)'},
+      {transform: at(dx + dir * 3, land, rest, 1), opacity: 1, offset: .74},
+      {transform: at(dx + dir * 3, land, rest, 1), opacity: 1, offset: .86},
+      {transform: at(dx + dir * 3, land + 2, rest, .96), opacity: 0}
+    ], {duration: dur, delay, fill: 'backwards'}).onfinish = () => { s.remove(); flying--; };
+  }
   addEventListener('pointerdown', e => {
     if (e.pointerType !== 'mouse' || e.button) return;
-    if (e.target instanceof Element && e.target.closest(DRAG)) return;
-    for (let n = 0; n < 4 && flying < 24; n++){
-      const s = document.createElement('img');
-      s.className = 'cur-shagai'; s.alt = ''; s.setAttribute('aria-hidden', 'true');
-      s.src = FACES[Math.floor(Math.random() * 4)];
-      s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px';
-      document.body.appendChild(s); flying++;
-      const dx = (n - 1.5) * 40 + r(-10, 10), peak = -r(42, 74), land = r(16, 34);
-      const r0 = r(-40, 40), spin = (Math.random() < .5 ? -1 : 1) * r(260, 540);
-      /* it comes to rest on a side, near level */
-      const rest = Math.round((r0 + spin) / 360) * 360 + r(-12, 12), dir = Math.sign(spin);
-      const at = (x, y, a, sc) => `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${a.toFixed(1)}deg) scale(${sc})`;
-      s.animate([
-        {transform: at(0, 0, r0, .45), opacity: 0, easing: 'cubic-bezier(.2,.7,.4,1)'},
-        {transform: at(dx * .15, peak * .45, r0 + spin * .2, .9), opacity: 1, offset: .08, easing: 'cubic-bezier(.3,.6,.5,1)'},
-        {transform: at(dx * .55, peak, r0 + spin * .6, 1), opacity: 1, offset: .34, easing: 'cubic-bezier(.5,0,.8,.4)'},
-        {transform: at(dx, land, rest, 1), opacity: 1, offset: .58, easing: 'cubic-bezier(.2,.6,.4,1)'},
-        {transform: at(dx + dir * 3, land - 6, rest + dir * 8, 1), opacity: 1, offset: .66, easing: 'cubic-bezier(.5,0,.7,.5)'},
-        {transform: at(dx + dir * 4, land, rest, 1), opacity: 1, offset: .74},
-        {transform: at(dx + dir * 4, land, rest, 1), opacity: 1, offset: .86},
-        {transform: at(dx + dir * 4, land + 3, rest, .96), opacity: 0}
-      ], {duration: r(1500, 1800), delay: n * 28, fill: 'backwards'}).onfinish = () => { s.remove(); flying--; };
-    }
+    for (let n = 0; n < 4; n++)
+      throwOne(e.clientX, e.clientY, (n - 1.5) * 30 + r(-8, 8), -r(32, 56), r(12, 26), 540, r(1500, 1800), n * 28);
+    trail = [e.clientX, e.clientY];
   }, {passive: true});
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse' || !(e.buttons & 1) || !trail) return;
+    if (Math.hypot(e.clientX - trail[0], e.clientY - trail[1]) < 30) return;
+    trail = [e.clientX, e.clientY];
+    throwOne(e.clientX, e.clientY, r(-14, 14), -r(12, 26), r(8, 18), 380, r(1100, 1350), 0);
+  }, {passive: true});
+  addEventListener('pointerup', () => { trail = null; }, {passive: true});
 })();
