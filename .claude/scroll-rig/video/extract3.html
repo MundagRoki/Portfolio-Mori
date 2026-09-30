@@ -1,0 +1,131 @@
+<!doctype html><meta charset="utf-8"><body>
+<video id="v" src="step3.mp4" muted playsinline preload="auto"></video>
+<script>
+const v = document.getElementById('v'), FPS = 23.976, E = 328, TOPPAD = 8;   /* rows of pole added above the frame */
+const ready = new Promise(r => v.readyState >= 2 ? r() : v.addEventListener('loadeddata', r, { once: true }));
+const seek = t => new Promise(r => { v.addEventListener('seeked', () => r(), { once: true }); v.currentTime = t; });
+let W, H, fc, fg, xc, xg;
+/* the frame, extended upward by E rows in which the pole carries on to a rounded end */
+async function extended(f, P) {
+  await ready;
+  if (!fc) { W = v.videoWidth; H = v.videoHeight; fc = document.createElement('canvas'); fc.width = W; fc.height = H; fg = fc.getContext('2d', { willReadFrequently: true });
+             xc = document.createElement('canvas'); xc.width = W; xc.height = H + E; xg = xc.getContext('2d', { willReadFrequently: true }); }
+  await seek((f + .5) / FPS); fg.drawImage(v, 0, 0);
+  const src = fg.getImageData(0, 0, W, H).data;
+  xg.fillStyle = '#fff'; xg.fillRect(0, 0, W, H + E); xg.drawImage(fc, 0, E);
+  const out = xg.getImageData(0, 0, W, E), o = out.data;
+  const { c0, s, w } = P, hw = w / 2, PER = 80, R = hw + 4, L = E - TOPPAD, capH = hw * .55;
+  const cOf = sr => c0 + s * (sr - 2);                            /* the pole's centre on source row sr */
+  const at = (x, y, ch) => { const x0 = Math.floor(x), f = x - x0, i0 = (y * W + Math.max(0, Math.min(W - 1, x0))) * 4, i1 = (y * W + Math.max(0, Math.min(W - 1, x0 + 1))) * 4;
+                             return src[i0 + ch] * (1 - f) + src[i1 + ch] * f; };
+  /* the pole's cross-section, averaged along rows 1..PER: its lighting and grain, without the knots */
+  const N = Math.ceil(2 * R) * 4 + 1, prof = new Float32Array(N * 3);
+  for (let n = 0; n < N; n++) { const u = -R + n / 4; for (let ch = 0; ch < 3; ch++) { let t = 0; for (let sr = 1; sr <= PER; sr++) t += at(cOf(sr) + u, sr, ch); prof[n * 3 + ch] = t / PER; } }
+  const profAt = (u, ch) => { const q = Math.max(0, Math.min(N - 1, (u + R) * 4)), n = Math.floor(q), f = q - n, m = Math.min(N - 1, n + 1); return prof[n * 3 + ch] * (1 - f) + prof[m * 3 + ch] * f; };
+  for (let yX = 0; yX < E; yX++) {
+    const k = E - yX - .5, cx = c0 - s * (k + 2);                 /* k: rows above source row 0, at the pixel centre */
+    if (k > L) continue;
+    const t = Math.floor(k) % (2 * PER), sr = 1 + (t < PER ? t : 2 * PER - 1 - t);   /* mirrored about the frame's top edge */
+    const keep = k < 24 ? 1 - k / 24 * .55 : .45;                 /* the mirror's detail, full at the seam, faint above */
+    let lim = R;
+    if (k > L - capH) { const q = (k - (L - capH)) / capH; lim = (hw + .5) * Math.sqrt(Math.max(0, 1 - q * q)); }
+    for (let x = Math.floor(cx - R - 1); x <= Math.ceil(cx + R + 1); x++) {
+      if (x < 0 || x >= W) continue;
+      const u = x + .5 - cx, cov = Math.max(0, Math.min(1, lim - Math.abs(u) + .5));
+      if (cov <= 0) continue;
+      const oi = (yX * W + x) * 4;
+      for (let ch = 0; ch < 3; ch++) {
+        const p = profAt(u, ch), m = at(cOf(sr) + u, sr, ch), c = p + keep * (m - p);
+        o[oi + ch] = Math.round(c * cov + 255 * (1 - cov));
+      }
+      o[oi + 3] = 255;
+    }
+  }
+  xg.putImageData(out, 0, 0);
+  return xg.getImageData(0, 0, W, H + E);
+}
+const T0 = 190, T1 = 226;
+window.peek = async (f, P, scale) => {
+  const im = await extended(f, P); const c = document.createElement('canvas'); c.width = W; c.height = H + E; c.getContext('2d').putImageData(im, 0, 0);
+  const o = document.createElement('canvas'); o.width = Math.round(W * scale); o.height = Math.round((H + E) * scale);
+  const g = o.getContext('2d'); g.imageSmoothingQuality = 'high'; g.drawImage(c, 0, 0, o.width, o.height); return o.toDataURL('image/jpeg', .9);
+};
+window.zoom = async (f, P, x, y, w, h) => {
+  const im = await extended(f, P); const c = document.createElement('canvas'); c.width = W; c.height = H + E; c.getContext('2d').putImageData(im, 0, 0);
+  const o = document.createElement('canvas'); o.width = w; o.height = h; o.getContext('2d').drawImage(c, x, y, w, h, 0, 0, w, h); return o.toDataURL('image/png');
+};
+window.onPaper = async (f, P, crop, outH, cx, box) => {
+  const [r] = await render([{ j: 0, src: f, baseC: cx }], crop, outH, 0, 1, { [f]: P });
+  const img = new Image(); img.src = r.url; await img.decode();
+  const c = document.createElement('canvas'); c.width = box[2]; c.height = box[3]; const g = c.getContext('2d');
+  g.fillStyle = '#ece7db'; g.fillRect(0, 0, box[2], box[3]); g.drawImage(img, -box[0], -box[1]); return c.toDataURL('image/png');
+};
+window.measure = async (list, poles) => {
+  const out = {};
+  for (const f of list) {
+    const im = await extended(f, poles[f]), d = im.data, HH = H + E;
+    let top = HH, bot = 0, l = W, r = 0;
+    for (let y = 0; y < HH; y += 2) for (let x = 0; x < W; x += 2) { const k = (y * W + x) * 4; if (Math.min(d[k], d[k+1], d[k+2]) < 215) { if (y < top) top = y; if (y > bot) bot = y; if (x < l) l = x; if (x > r) r = x; } }
+    out[f] = { top, bot, l, r };
+  }
+  return out;
+};
+function sharpen(ctx, w, h, amount, radius) {
+  if (!amount) return;
+  const srcI = ctx.getImageData(0, 0, w, h), d = srcI.data;
+  const bc = document.createElement('canvas'); bc.width = w; bc.height = h; const bx = bc.getContext('2d', { willReadFrequently: true });
+  bx.filter = 'blur(' + radius + 'px)'; bx.drawImage(ctx.canvas, 0, 0);
+  const b = bx.getImageData(0, 0, w, h).data;
+  for (let k = 0; k < d.length; k += 4) { if (d[k + 3] < 250 || b[k + 3] < 250) continue;
+    for (let c = 0; c < 3; c++) { const vv = d[k + c] + amount * (d[k + c] - b[k + c]); d[k + c] = vv < 0 ? 0 : vv > 255 ? 255 : vv; } }
+  ctx.putImageData(srcI, 0, 0);
+}
+window.render = async (jobs, crop, outH, amount, radius, poles) => {
+  const res = [];
+  const oc = document.createElement('canvas'); const ow = Math.round(outH * crop.w / crop.h); oc.width = ow; oc.height = outH;
+  const og = oc.getContext('2d', { willReadFrequently: true });
+  const kc = document.createElement('canvas'); kc.width = crop.w; kc.height = crop.h; const kg = kc.getContext('2d');
+  for (const jb of jobs) {
+    const im = await extended(jb.src, poles[jb.src]), d = im.data, HH = H + E;
+    const x0 = Math.round(jb.baseC - crop.w / 2), y0 = crop.top;
+    const cut = kg.createImageData(crop.w, crop.h), o = cut.data;
+    /* per column, the lowest row of leather: anything neutral grey below it is the turntable plate or its shadow */
+    const low = new Int32Array(crop.w).fill(-1);
+    for (let x = 0; x < crop.w; x++) { const sx = x0 + x; if (sx < 0 || sx >= W) continue;
+      for (let y = crop.h - 1; y >= 0; y--) { const sy = y0 + y; if (sy < 0 || sy >= HH) continue; const k = (sy * W + sx) * 4;
+        const m = Math.min(d[k], d[k+1], d[k+2]), M = Math.max(d[k], d[k+1], d[k+2]); if (m < 200 && M - m >= 18) { low[x] = y; break; } } }
+    const floorY = Math.round(crop.h * .72);
+    for (let y = 0; y < crop.h; y++) { const sy = y0 + y; if (sy < 0 || sy >= HH) continue;
+      for (let x = 0; x < crop.w; x++) { const sx = x0 + x; if (sx < 0 || sx >= W) continue;
+        const k = (sy * W + sx) * 4, q = (y * crop.w + x) * 4;
+        const R = d[k], G = d[k+1], B = d[k+2], m = Math.min(R, G, B), M = Math.max(R, G, B);
+        let a = m >= T1 ? 0 : m <= T0 ? 1 : (T1 - m) / (T1 - T0);
+        if (y > floorY && y > low[x] && M - m < 16 && m > 110) a = 0;
+        if (a <= 0) { o[q+3] = 0; continue; }
+        const un = ch => Math.max(0, Math.min(255, Math.round((ch - (1 - a) * 252) / a)));
+        o[q] = un(R); o[q+1] = un(G); o[q+2] = un(B); o[q+3] = Math.round(a * 255);
+      } }
+    kg.putImageData(cut, 0, 0);
+    og.clearRect(0, 0, ow, outH); og.imageSmoothingQuality = 'high'; og.drawImage(kc, 0, 0, ow, outH);
+    sharpen(og, ow, outH, amount, radius);
+    res.push({ j: jb.j, url: oc.toDataURL('image/webp', .84) });
+  }
+  return res;
+};
+</script>
+<script>
+/* the plate: per row below the sack, the extent and colour of light neutral pixels */
+window.plate = async (f) => {
+  await ready; if (!fc) await extended(f, { c0: 700, s: 0, w: 60 });
+  await seek((f + .5) / FPS); fg.drawImage(v, 0, 0);
+  const d = fg.getImageData(0, 0, W, H).data, rows = [];
+  for (let y = 1150; y < H; y += 10) {
+    let a = -1, b = -1, n = 0, mn = 255, mx = 0, sum = 0;
+    for (let x = 0; x < W; x++) { const k = (y * W + x) * 4, m = Math.min(d[k], d[k+1], d[k+2]), M = Math.max(d[k], d[k+1], d[k+2]);
+      if (m < 243 && m > 150 && M - m < 16) { if (a < 0) a = x; b = x; n++; mn = Math.min(mn, m); mx = Math.max(mx, m); sum += m; } }
+    let bg = 0; { const k = (y * W + 5) * 4; bg = [d[k], d[k+1], d[k+2]]; }
+    rows.push({ y, a, b, n, mn, mx, avg: n ? Math.round(sum / n) : 0, bg });
+  }
+  return rows;
+};
+</script>

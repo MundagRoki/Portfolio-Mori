@@ -7,11 +7,11 @@
 <meta name="description" content="HUB — тээврийн компанийн хөдөлмөрийн аюулгүй байдлын цаасан бүртгэлийг утсан дээр шилжүүлсэн, дөрвөн үүргийн интерфейстэй апп.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400;500;600&amp;family=Noto+Sans+Mongolian&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="leaf.css?v=32">
-<link rel="stylesheet" href="work.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400..700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=35">
+<link rel="stylesheet" href="work.css?v=140">
 </head>
-<body class="case-page case-dark use-gip">
+<body class="case-page case-dark case-hub use-gip">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
 <symbol id="m-ever" viewBox="0 0 64 40">
@@ -35,33 +35,50 @@
     <section class="case case-solo">
 
       <header class="case-hero">
-        <div class="hero-eyebrow">HUB</div>
+        <div class="hero-eyebrow"><span>HUB</span><span>Бүтээгдэхүүний дизайн</span><span>Тээвэр</span></div>
         <h1 class="hero-t" lang="en">A safety-compliance app that took a transport fleet off paper</h1>
+        <p class="hero-desc">Тээврийн компанийн хөдөлмөрийн аюулгүй байдлын цаасан бүртгэлийг
+          утсан дээр шилжүүлсэн, дөрвөн үүргийн интерфейстэй апп.</p>
         <dl class="spec">
-          <div class="spec-i"><dt>Хамрах хүрээ</dt><dd>Бүтээгдэхүүний дизайн</dd></div>
           <div class="spec-i"><dt>Үүрэг</dt><dd>UI/UX дизайнер</dd></div>
+          <div class="spec-i"><dt>Интерфейс</dt><dd>4 үүрэг</dd></div>
           <div class="spec-i"><dt>Онцлог</dt><dd>Анхны UI/UX төсөл</dd></div>
           <div class="spec-i"><dt>Он</dt><dd>&mdash;</dd></div>
         </dl>
       </header>
 
+      <!-- the four interfaces side by side, strung on the chain they share;
+           each one is a way into its own section -->
+      <nav class="hb-fan" aria-label="Дөрвөн интерфейс">
+        <a class="hb-fan-i" href="#s03">
+          <span class="device"><img src="art/work/hub/mech-work.webp" width="750" height="1936" alt="Механик инженерийн интерфейс — хөдөлгүүрийн үзлэгийн чеклист"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></span>
+          <span class="hb-node">1</span>
+          <span class="hb-fan-t">Механик инженер</span>
+        </a>
+        <a class="hb-fan-i" href="#s04">
+          <span class="device"><img src="art/work/hub/hse-rules.webp" width="750" height="1624" alt="ХАБ-ын инженерийн интерфейс — жолооч руу явуулах аюулгүй ажиллагааны заавар"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></span>
+          <span class="hb-node">2</span>
+          <span class="hb-fan-t">ХАБ-ын инженер</span>
+        </a>
+        <a class="hb-fan-i" href="#s05">
+          <span class="device"><img src="art/work/hub/drv-approved.webp" width="750" height="1624" alt="Жолоочийн интерфейс — зөвшөөрсний дараах ажлын хэсэг"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></span>
+          <span class="hb-node">3</span>
+          <span class="hb-fan-t">Жолооч</span>
+        </a>
+        <a class="hb-fan-i" href="#s06">
+          <span class="device"><img src="art/work/hub/coord-notif.webp" width="750" height="1624" alt="Тээвэр зохицуулагчийн интерфейс — мэдэгдэл"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></span>
+          <span class="hb-node">4</span>
+          <span class="hb-fan-t">Тээвэр зохицуулагч</span>
+        </a>
+      </nav>
+
       <div class="dark">
         <div class="dark-in">
-          <nav id="contents" aria-label="Агуулга">
-            <ol class="toc">
-              <li><a href="#s01"><span class="toc-n">01</span><span class="toc-t" lang="en">The problem</span><span class="toc-p">Судлах</span></a></li>
-              <li><a href="#s02"><span class="toc-n">02</span><span class="toc-t" lang="en">Four roles, one chain</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
-              <li><a href="#s03"><span class="toc-n">03</span><span class="toc-t" lang="en">Mechanic</span><span class="toc-p">Интерфейс</span></a></li>
-              <li><a href="#s04"><span class="toc-n">04</span><span class="toc-t" lang="en">Driver</span><span class="toc-p">Интерфейс</span></a></li>
-              <li><a href="#s05"><span class="toc-n">05</span><span class="toc-t" lang="en">Coordinator</span><span class="toc-p">Интерфейс</span></a></li>
-            </ol>
-          </nav>
 
           <section class="step" id="s01">
             <div class="step-side">
               <span class="step-n">/01</span>
               <h2 class="step-t" lang="en">The problem</h2>
-              <p class="step-meta"><span>цаасан бүртгэл</span><span>MNS 4969:2000</span><span>4 үүрэг</span></p>
               <div class="step-b">
                 <p>Ослоос урьдчилан сэргийлэх ажил бүхэлдээ цаасан дээр явдаг байв.
                 Сургалтыг олон удаа давтан зохион байгуулна, өдөр тутмын зааварчилгааг
@@ -77,96 +94,230 @@
                 <img loading="lazy" width="2730" height="2030" src="art/work/hub/sitemap.png" alt="Төслийн танилцуулга ба сайтын бүтэц — дөрвөн үүрэг тус бүрийн навигац, хандах эрх">
                 <figcaption>Танилцуулга ба бүтэц &mdash; үүрэг бүрийн навигац, хандах эрх, мэдээллийн урсгал</figcaption>
               </figure>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
             </div>
           </section>
 
-          <section class="step" id="s02">
-            <div class="step-side">
+          <section class="hb-chainsec" id="s02" aria-labelledby="s02-t">
+            <div class="hb-chainsec-head">
               <span class="step-n">/02</span>
-              <h2 class="step-t" lang="en">Four roles, one chain</h2>
-              <p class="step-meta"><span>механик</span><span>ХАБ</span><span>жолооч</span><span>зохицуулагч</span></p>
-              <div class="step-b">
-                <p>Дөрвөн хэрэглэгч, тус бүр өөр интерфейстэй: <b>механик инженер</b>
-                автомашиныг чеклистээр шалгаж зураг авна; <b>ХАБ-ын инженер</b>
-                зааварчилгааг текст, зураг, видеогоор өгнө; <b>жолооч</b> түүнийг уншаад
-                гарын үсэг зурна; <b>тээвэр зохицуулагч</b> хоёр зөвшөөрлийг хүлээж авч
-                байж жолоочийг замд гаргана.</p>
-                <p>Гол шийдвэр нь эндээс гарсан: энэ нь дөрвөн тусдаа апп биш, нэг
-                гарын үсгийн гинж. Зөвшөөрөл бүр дараагийн хүнийг нээдэг тул интерфейс
-                бүр өөр харагдавч нэг л төлөвийг хуваалцана.</p>
-              </div>
+              <h2 class="step-t" id="s02-t" lang="en">Four roles, one chain</h2>
             </div>
-            <div class="step-main">
-              <div class="pgrid">
-                <figure class="win"><div class="win-view"><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/mech-work.png" alt="Механик — үзлэгийн чеклист"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div><figcaption>Механик &mdash; үзлэгийн чеклист</figcaption></figure>
-                <figure class="win"><div class="win-view"><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/drv-approved.png" alt="Жолооч — зөвшөөрсний дараах ажлын хэсэг"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div><figcaption>Жолооч &mdash; зөвшөөрсний дараа</figcaption></figure>
-              </div>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+            <ol class="hb-chain">
+              <li>
+                <a href="#s03">
+                  <span class="hb-node">1</span>
+                  <span class="hb-chain-t">Механик инженер</span>
+                  <span class="hb-chain-b">Автомашиныг чеклистээр шалгаж, зураг хавсаргана.</span>
+                  <span class="hb-hand"><span class="hb-chip ok">Зөвшөөрсөн</span>ХАБ, зохицуулагч руу</span>
+                </a>
+              </li>
+              <li>
+                <a href="#s04">
+                  <span class="hb-node">2</span>
+                  <span class="hb-chain-t">ХАБ-ын инженер</span>
+                  <span class="hb-chain-b">Зааварчилгааг текст, зураг, видеогоор бэлдэж илгээнэ.</span>
+                  <span class="hb-hand"><span class="hb-chip ask">Танилцах</span>жолооч руу</span>
+                </a>
+              </li>
+              <li>
+                <a href="#s05">
+                  <span class="hb-node">3</span>
+                  <span class="hb-chain-t">Жолооч</span>
+                  <span class="hb-chain-b">Зааварчилгааг уншаад гарын үсэг зурна.</span>
+                  <span class="hb-hand"><span class="hb-chip ok">Танилцсан</span>ХАБ, зохицуулагч руу</span>
+                </a>
+              </li>
+              <li>
+                <a href="#s06">
+                  <span class="hb-node">4</span>
+                  <span class="hb-chain-t">Тээвэр зохицуулагч</span>
+                  <span class="hb-chain-b">Хоёр зөвшөөрлийг хүлээж авч байж жолоочийг замд гаргана.</span>
+                  <span class="hb-hand"><span class="hb-chip go">Мэдэгдэл</span>жолооч руу</span>
+                </a>
+              </li>
+            </ol>
+            <div class="hb-chainsec-b step-b">
+              <p>Дөрвөн хэрэглэгч, тус бүр өөр интерфейстэй: <b>механик инженер</b>
+              автомашиныг чеклистээр шалгаж зураг авна; <b>ХАБ-ын инженер</b>
+              зааварчилгааг текст, зураг, видеогоор өгнө; <b>жолооч</b> түүнийг уншаад
+              гарын үсэг зурна; <b>тээвэр зохицуулагч</b> хоёр зөвшөөрлийг хүлээж авч
+              байж жолоочийг замд гаргана.</p>
+              <p>Гол шийдвэр нь эндээс гарсан: энэ нь дөрвөн тусдаа апп биш, нэг
+              гарын үсгийн гинж. Зөвшөөрөл бүр дараагийн хүнийг нээдэг тул интерфейс
+              бүр өөр харагдавч нэг л төлөвийг хуваалцана.</p>
             </div>
           </section>
 
-          <section class="step" id="s03">
+          <section class="step wide" id="s03">
             <div class="step-side">
               <span class="step-n">/03</span>
               <h2 class="step-t" lang="en">Mechanic</h2>
-              <p class="step-meta"><span>чеклист</span><span>зураг</span><span>гарын үсэг</span></p>
               <div class="step-b">
                 <p>Механик инженер автомашины бүрэн бүтэн байдлыг чеклистээр шалгаж,
-                зураг хавсаргаж, бүгдийг дуусгасны дараа зөвшөөрсөн гэж гарын үсэг
-                зурна. Тэр өгөгдөл ХАБ-ын инженер болон тээвэр зохицуулагч руу нэг
-                дор очно.</p>
-                <p>Хүргэлтийн мэдээллийг зөвхөн харах эрхтэй &mdash; хуваарь өөрчлөх
-                эрхгүй. Энэ хязгаарыг интерфейс дээр нь шууд харуулсан.</p>
+            зураг хавсаргаж, бүгдийг дуусгасны дараа зөвшөөрсөн гэж гарын үсэг
+            зурна. Тэр өгөгдөл ХАБ-ын инженер болон тээвэр зохицуулагч руу нэг
+            дор очно.</p>
+            <p>Хүргэлтийн мэдээллийг зөвхөн харах эрхтэй &mdash; хуваарь өөрчлөх
+            эрхгүй. Энэ хязгаарыг интерфейс дээр нь шууд харуулсан.</p>
               </div>
             </div>
             <div class="step-main">
-              <div class="annot-shot two"><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/mech-post.png" alt="Механик — даалгаврын жагсаалт"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="1500" height="3640" src="art/work/hub/mech-bydate.png" alt="Механик — өдрөөр"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
-              <div class="annot-shot"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="1500" height="7444" src="art/work/hub/mech-carinfo.png" alt="Механикийн үзлэгийн дэлгэц бүтнээрээ — чеклист, зураг, тайлбар"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+              <div class="annot lead">
+                <div class="annot-note">
+                  <h3>Үзлэгийн чеклист</h3>
+                  <p>Хөдөлгүүр гэх мэт ангилал бүрээр мөр мөрөөр нь шалгаж, мөр бүрт зураг нэмнэ.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="1936" src="art/work/hub/mech-work.webp" alt="Механик — хөдөлгүүрийн үзлэгийн чеклист, мөр бүрт зураг нэмэх"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Хуваарь ба асуудал</h3>
+                  <p>Машин бүр өдрөөр, төлөвтэйгээ. Асуудал олдвол засвар, шаардлагатай эд анги, зургийг нь бүртгэж хадгална.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="1820" src="art/work/hub/mech-bydate.webp" alt="Механик — хуваарь өдрөөр: машин бүрийн карт, төлөв, хэдэн алхам хийгдсэн"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/mech-post.webp" alt="Механик — асуудал бүртгэх: засвар, шаардлагатай эд анги, хавсаргасан зураг, Хадгалах товч"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Техникийн тодорхойлолт</h3>
+                  <p>Улсын болон чиргүүлийн дугаар, үйлдвэрлэсэн он зэрэг машины мэдээлэл нэг дэлгэцэд.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="3722" src="art/work/hub/mech-carinfo.webp" alt="Механик — машины техникийн тодорхойлолт бүтнээрээ: улсын дугаарууд, үйлдвэрлэсэн он, бусад"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
             </div>
           </section>
-
-          <section class="step" id="s04">
+          <section class="step wide" id="s04">
             <div class="step-side">
               <span class="step-n">/04</span>
-              <h2 class="step-t" lang="en">Driver</h2>
-              <p class="step-meta"><span>зааварчилгаа</span><span>видео</span><span>гарын үсэг</span></p>
+              <h2 class="step-t" lang="en">Safety engineer</h2>
               <div class="step-b">
-                <p>Жолооч ХАБ-аас ирсэн зааварчилгааг чеклист, зураг, видеогоор нь
-                танилцаад зөвшөөрсөн гарын үсгээ зурна. Зааварчилгаанаас хоцорсон хүн
-                утаснаасаа өөрөө авч болно &mdash; урьд нь энэ нь дахин цуглуулах шалтгаан
-                байсан.</p>
-                <p>Гарын үсэг нь ХАБ-ын инженер болон тээвэр зохицуулагч хоёр луу
-                зэрэг очно. Осол гарсан тохиолдолд хэн, хэзээ зааварчилгаа авсан нь
-                хайх зүйлгүй бэлэн болно.</p>
+                <p>ХАБ-ын инженер жолоочид явуулах зааварчилгааг хоёр хэсгээр бэлддэг:
+            гүйцэтгэх ажил, хариуцлага; аюулгүй ажиллагааны заавар. Мөр бүр
+            дугаартай, шинэ мөр нэмж болно. Илгээхийн өмнө &laquo;Хянах&raquo; дэлгэц
+            бүгдийг нэг дор харуулж, ХАБ-ын нэмэлт зөвлөмж бичих зай гаргана.</p>
+            <p>Зааварчилгаа жолоочийн чатад &laquo;Аюулгүй байдлын зөвлөмж&raquo; карт
+            болж очно. Жолооч танилцаад гарын үсэг зурахад тэр гарын үсэг ХАБ-ын
+            инженерт ирж, тэр баталгаажуулна. Механикийн зөвшөөрөл ч чатад карт
+            болж ирнэ, хуваарь дээр машин бүрийн хэдэн алхам хийгдсэн нь
+            (2/3, 3/3) харагдана.</p>
               </div>
             </div>
             <div class="step-main">
-              <div class="annot-shot two"><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/drv-work.png" alt="Жолооч — ажлын дэлгэц"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/drv-message.png" alt="Жолооч — зааварчилгааны мессеж"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+              <div class="annot lead">
+                <div class="annot-note">
+                  <h3>Хариуцлага ба заавар</h3>
+                  <p>Зааварчилгааны хоёр хэсэг, хоёр таб: гүйцэтгэх ажил, хариуцлага; аюулгүй ажиллагааны заавар. Мөр бүр дугаартай, шинэ мөр нэмж болно.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="1922" src="art/work/hub/hse-duty.webp" alt="ХАБ — жолооч руу явуулах зааварчилгаа, Хариуцлага таб: гүйцэтгэх ажил, хариуцлагын таван мөр"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/hse-rules.webp" alt="ХАБ — Заавар таб: аюулгүй ажиллагааны заавар, шинэ мэдээлэл нэмэх товч"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Илгээхийн өмнө хянах</h3>
+                  <p>Хоёр хэсэг нэг дор, доор нь ХАБ-ын нэмэлт зөвлөмж бичих талбар.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="2752" src="art/work/hub/hse-review.webp" alt="ХАБ — Хянах дэлгэц: хариуцлага, заавар хоёулаа нэг дор, доор нь ХАБ-ын нэмэлт зөвлөмж бичих талбар"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Жолооч руу, буцаад ХАБ руу</h3>
+                  <p>Зааварчилгаа чатад &laquo;Аюулгүй байдлын зөвлөмж&raquo; карт болж очно. Жолооч гарын үсэг зурахад ХАБ-ын инженер түүнийг баталгаажуулна.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/hse-chat-driver.webp" alt="ХАБ — жолоочтой чат: гэрээний дугаар, огноо, хаягтай Аюулгүй байдлын зөвлөмж карт, Танилцах товч"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/hse-verify.webp" alt="ХАБ — баталгаажуулалт: жолоочийн нэр, гарын үсэг, Баталгаажуулах товч"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Зөвшөөрлийг хянах</h3>
+                  <p>Механикийн зөвшөөрөл чатад карт болж ирнэ. Хуваарь дээр машин бүрийн хэдэн алхам хийгдсэн нь (2/3, 3/3) харагдана.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/hse-chat-mech.webp" alt="ХАБ — механик инженертэй чат: улсын дугаар, гэрээний дугаартай Зөвшөөрсөн карт"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="1820" src="art/work/hub/hse-schedule.webp" alt="ХАБ — хуваарь: Баталгаажсан ба Хүлээгдэж байгаа таб, машин бүрийн карт дээр 2/3, 3/3 гэсэн явц"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Мессежүүд</h3>
+                  <p>Бүх чат нэг жагсаалтад, хайлт ба мэдэгдлийн тоотой.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot"><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/hse-inbox.webp" alt="ХАБ — мессежүүдийн жагсаалт, хайлт, мэдэгдлийн тоо"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
             </div>
           </section>
-
-          <section class="step" id="s05">
+          <section class="step wide" id="s05">
             <div class="step-side">
               <span class="step-n">/05</span>
-              <h2 class="step-t" lang="en">Coordinator</h2>
-              <p class="step-meta"><span>хүсэлт</span><span>мэдэгдэл</span><span>алдааны төлөв</span></p>
+              <h2 class="step-t" lang="en">Driver</h2>
               <div class="step-b">
-                <p>Тээвэр зохицуулагч ХАБ болон механик инженерээс зөвшөөрсөн гарын
-                үсгийг хүлээж авсны дараа л жолоочид «тэр байрлалд оч» гэсэн мэдэгдэл
-                илгээнэ. Түүнд хүргэлтийн мэдээллийг засах бүрэн эрх бий.</p>
-                <p>Амжилттай замын хажуугаар амжилтгүй төлвүүдийг бас зурсан: хүсэлт
-                татгалзсан, үзлэг унасан, мэдэгдэл хүрээгүй. Эдгээрийг хойш нь
-                нэмэхгүй, эхнээс нь оруулсан.</p>
+                <p>Жолооч ХАБ-аас ирсэн зааварчилгааг чеклист, зураг, видеогоор нь
+            танилцаад зөвшөөрсөн гарын үсгээ зурна. Зааварчилгаанаас хоцорсон хүн
+            утаснаасаа өөрөө авч болно &mdash; урьд нь энэ нь дахин цуглуулах шалтгаан
+            байсан.</p>
+            <p>Гарын үсэг нь ХАБ-ын инженер болон тээвэр зохицуулагч хоёр луу
+            зэрэг очно. Осол гарсан тохиолдолд хэн, хэзээ зааварчилгаа авсан нь
+            хайх зүйлгүй бэлэн болно.</p>
               </div>
             </div>
             <div class="step-main">
-              <div class="annot-shot two"><div class="device"><img loading="lazy" width="1504" height="3376" src="art/work/hub/coord-post.png" alt="Зохицуулагч — даалгавар"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/coord-request.png" alt="Зохицуулагч — хүсэлт"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
-              <div class="annot-shot two"><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/coord-notif.png" alt="Зохицуулагч — мэдэгдэл"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="1500" height="3248" src="art/work/hub/coord-failed.png" alt="Зохицуулагч — амжилтгүй төлөв"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
-              <div class="annot-shot"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="1500" height="5124" src="art/work/hub/coord-driver.png" alt="Зохицуулагч — жолоочийн дэлгэрэнгүй"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+              <div class="annot lead">
+                <div class="annot-note">
+                  <h3>Зааварчилгаатай танилцах</h3>
+                  <p>Хариуцлага, заавар хоёр таб. Мөр бүрийг уншаад тэмдэглэнэ; тэмдэглээгүй мөр улаанаар ялгарна.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot"><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/drv-approved.webp" alt="Жолооч — зөвшөөрсний дараах ажлын хэсэг"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Гарын үсэг, дараа нь хариу</h3>
+                  <p>Танилцсаны дараа гарын үсгээ зурж баталгаажуулна. Хариу нь чатад карт болж ирнэ &mdash; татгалзсан эсвэл танилцсан.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/drv-work.webp" alt="Жолооч — ажлын дэлгэц"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/drv-message.webp" alt="Жолооч — тээвэр зохицуулагчтай чат: татгалзсан ба танилцсан төлөвтэй хоёр карт"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+            </div>
+          </section>
+          <section class="step wide" id="s06">
+            <div class="step-side">
+              <span class="step-n">/06</span>
+              <h2 class="step-t" lang="en">Coordinator</h2>
+              <div class="step-b">
+                <p>Тээвэр зохицуулагч ХАБ болон механик инженерээс зөвшөөрсөн гарын
+            үсгийг хүлээж авсны дараа л жолоочид &laquo;тэр байрлалд оч&raquo; гэсэн мэдэгдэл
+            илгээнэ. Түүнд хүргэлтийн мэдээллийг засах бүрэн эрх бий.</p>
+            <p>Амжилттай замын хажуугаар амжилтгүй төлвүүдийг бас зурсан: хүсэлт
+            татгалзсан, үзлэг унасан, мэдэгдэл хүрээгүй. Эдгээрийг хойш нь
+            нэмэхгүй, эхнээс нь оруулсан.</p>
+              </div>
+            </div>
+            <div class="step-main">
+              <div class="annot lead">
+                <div class="annot-note">
+                  <h3>Мэдэгдэл ба хүсэлт</h3>
+                  <p>Мэдээлэл засах хүсэлт, механикаас ирсэн асуудал мэдэгдэл болж ирнэ. Хүсэлтийг зөвшөөрөх эсвэл татгалзана.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/coord-notif.webp" alt="Зохицуулагч — мэдэгдлүүд: мэдээлэл засах хүсэлтүүд, механикаас ирсэн асуудал"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/coord-request.webp" alt="Зохицуулагч — хэрэглэгчийн мэдээлэл засах хүсэлт, Зөвшөөрөх ба Татгалзах товч"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot flip">
+                <div class="annot-note">
+                  <h3>Асуудал гарсан үед</h3>
+                  <p>Механикийн тайлан &mdash; гэмтэл, зураг, солих эд анги &mdash; ба асуудал гарсан төлөв шалтгаан, гарын үсэгтэйгээ.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot two"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="1683" src="art/work/hub/coord-post.webp" alt="Зохицуулагч — тайлан, гэмтлийн жагсаалт, хавсаргасан зураг, солих эд анги"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div><div class="device"><img loading="lazy" width="750" height="1624" src="art/work/hub/coord-failed.webp" alt="Зохицуулагч — асуудал гарсан төлөв: гарын үсэг, шалгасан зүйлс, шалтгаан үзэх"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
+              <div class="annot">
+                <div class="annot-note">
+                  <h3>Хуваарь</h3>
+                  <p>Машин бүр төлөвтэйгээ: асуудал гарсан, ХАБ-д хүлээгдэж буй гэх мэт.</p>
+                </div>
+                <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
+                <div class="annot-shot"><div class="device tall"><div class="screen-scroll"><img loading="lazy" width="750" height="2562" src="art/work/hub/coord-driver.webp" alt="Зохицуулагч — хуваарь: машин бүрийн карт, асуудал гарсан, ХАБ-д хүлээгдэж буй гэх мэт төлөв"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div></div>
+              </div>
             </div>
           </section>
         </div>
@@ -183,13 +334,14 @@
       <div class="foot-l">
         <a href="work.html">Миний ажил</a>
         <a href="how-i-work.html">Би хэрхэн ажилладаг</a>
-        <a href="#">Тухай</a>
-        <a href="#">Туршилтын талбар</a>
-        <a href="#">Холбоо барих</a>
+        <a href="playground.html" lang="en">Playground</a>
+        <a href="about.html">Тухай</a>
+        <a href="contact.html">Холбоо барих</a>
       </div>
     </nav>
 
   </main>
 </div>
+<script src="scroll.js?v=34"></script>
 </body>
 </html>

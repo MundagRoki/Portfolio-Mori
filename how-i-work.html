@@ -4,11 +4,53 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How I Work — UI/UX &amp; Product Designer</title>
-<meta name="description" content="My design process from brief to production: five stages, three review gates, two engineering handoffs.">
+<meta name="description" content="How I work in five steps: a design system, usability testing before the build, a careful handoff, mockup code when it helps, and QA against the real build.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&family=Golos+Text:wght@400;500;600&family=Noto+Sans+Mongolian&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="leaf.css?v=33">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&family=Golos+Text:wght@400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mongolian&text=%E1%A0%90%E1%A0%91%E1%A0%92%E1%A0%93%E1%A0%94%E1%A0%95%E1%A0%96%E1%A0%97%E1%A0%98%E1%A0%99&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=35">
+<style>
+/* ---------- five steps ----------
+   The runway from leaf.css, one step to a stage now: the stage title is the
+   step's name, and the panel is its picture beside what it means. The step
+   list and the review gates that used to fill the right-hand column are
+   gone, so the text takes that column. */
+.proc-scroll{scroll-margin-top:64px}
+.panel{grid-template-columns:min(560px,50vh) minmax(0,400px);align-items:center}
+.panel-body h3{min-height:0;margin-bottom:14px}
+.panel-d{min-height:0;margin-bottom:18px}
+.pb-k{display:none}
+.pb-proof{margin:0;padding-top:14px;border-top:1px solid var(--olive-soft);
+  font-family:var(--f-label);font-size:13px;line-height:1.5;color:var(--faint)}
+.pb-proof b{font-weight:600;color:var(--ink-2)}
+.pb-proof a{color:var(--red);text-decoration:underline;text-underline-offset:3px}
+.pb-proof a:hover{text-decoration-thickness:2px}
+/* step four's picture is the thing itself: code */
+.shot.code{background:#221d18;border-color:#221d18}
+.shot.code .code-in{aspect-ratio:5/4;max-height:43vh;display:flex;flex-direction:column;
+  overflow:hidden}
+.code-file{padding:10px 14px;font:500 11.5px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color:#b8ab97;border-bottom:1px solid rgba(233,225,211,.1)}
+.shot.code pre{margin:0;padding:14px 16px;overflow:hidden;color:#e9e1d3;
+  font:400 clamp(11px,1.5vh,13px)/1.6 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.shot.code .k{color:#e8a27c}
+.shot.code .a{color:#c6b27a}
+.shot.code .s{color:#9fc79a}
+@media (max-width:860px){
+  .panel{grid-template-columns:1fr}
+  .pb-k{display:flex;align-items:baseline;gap:10px;margin:0 0 8px;
+    font-family:var(--f-display);font-style:italic;font-weight:600;font-size:22px;color:var(--red)}
+  .pb-k .pb-n{font-size:13px}
+  .pb-k span[lang]{font-size:15px;font-weight:400;color:var(--faint)}
+  /* the label above already carries the number */
+  .panel-body h3 .pb-n{display:none}
+  /* a phone is narrower than the longest line; the code scrolls sideways
+     inside its panel rather than being cut off */
+  .shot.code .code-in{aspect-ratio:auto;max-height:none}
+  .shot.code pre{overflow-x:auto;font-size:12px}
+}
+</style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -71,326 +113,152 @@
 
   <div class="mast">
     <picture>
-      <source srcset="art/masthead.avif" type="image/avif">
-      <img src="art/masthead.jpg" alt="Painted detail of the chest: two snow lions among cloud scrolls">
+      <source srcset="art/site/masthead.avif" type="image/avif">
+      <img src="art/site/masthead.jpg" width="1800" height="446" fetchpriority="high" decoding="async"
+           alt="Painted detail of the chest: two snow lions among cloud scrolls">
     </picture>
     <div class="mast-in">
       <h1>How I Work</h1>
-      <p class="micro">Ажлын урсгал &nbsp;·&nbsp; brief to production</p>
+      <p class="micro"><span lang="mn">Ажлын урсгал</span> &nbsp;·&nbsp; design to release</p>
     </div>
   </div>
 
   <main class="sheet">
 
-    <section class="lead-in">
-      <div class="khadag" role="img" aria-label="Хадаг — the ceremonial scarf"></div>
-      <p class="eyebrow">Ажлын урсгал</p>
-      <p class="lede">Twelve steps across five stages, with <b>three points</b>
-      where somebody else gets a say. The gates are the whole point — the
-      fastest way to lose a month is to disappear with a spec and come back
-      with a finished design nobody asked for.</p>
-    </section>
-
-    <!-- ============================================================
-         THE RUNWAY — two axes.
-
-         Down the page walks the steps of the stage you are in. Run
-         out of steps and the next turn of the wheel moves the track
-         sideways to the following stage, and you start down its
-         steps instead. One vertical scrollbar drives both: the
-         runway is one band per step, and a band that crosses a
-         stage boundary is the one that moves horizontally.
-
-         The bar underneath is the horizontal axis — which stage.
-         The step rows are the vertical one, and clicking a row
-         selects it and brings the scroll position with it.
-         ============================================================ -->
-    <section class="proc-scroll" id="process" aria-label="The five stages" style="--frames:12">
+    <section class="proc-scroll" id="process" aria-label="Five steps" style="--frames:5">
       <div class="proc-sticky">
 
         <div class="stage-head">
           <span class="sh on" data-stage="1">
-            <span class="sh-t">Research &amp; structure</span>
-            <span class="sh-mn">Судалгаа</span>
+            <span class="sh-t">Design system</span>
+            <span class="sh-mn" lang="mn">Систем</span>
           </span>
           <span class="sh" data-stage="2">
-            <span class="sh-t">Mid-fidelity</span>
-            <span class="sh-mn">Бүтэц</span>
+            <span class="sh-t">Usability testing</span>
+            <span class="sh-mn" lang="mn">Туршилт</span>
           </span>
           <span class="sh" data-stage="3">
-            <span class="sh-t">High-fidelity</span>
-            <span class="sh-mn">Дизайн</span>
+            <span class="sh-t">Handoff</span>
+            <span class="sh-mn" lang="mn">Хүлээлгэн өгөх</span>
           </span>
           <span class="sh" data-stage="4">
-            <span class="sh-t">System and handoff</span>
-            <span class="sh-mn">Систем</span>
+            <span class="sh-t">Mockup code</span>
+            <span class="sh-mn" lang="mn">Код</span>
           </span>
           <span class="sh" data-stage="5">
-            <span class="sh-t">After the build</span>
-            <span class="sh-mn">Шалгалт</span>
+            <span class="sh-t">QA after release</span>
+            <span class="sh-mn" lang="mn">Шалгалт</span>
           </span>
         </div>
 
         <div class="proc">
-
           <div class="stage-view">
             <div class="track">
 
               <article class="panel on" id="panel-1" aria-labelledby="ph-1">
-
                 <div class="panel-main">
                   <figure class="shot">
-                    <img class="shot-img" src="art/steps/s01-brief.svg" alt="">
+                    <img class="shot-img" src="art/steps/s08-system.svg" width="500" height="400" alt="">
                   </figure>
-                  <div class="panel-body">
-                    <!-- heading and copy belong to the CURRENT STEP; the script
-                         swaps them as the step changes. Seeded with step one. -->
-                    <h3 id="ph-1"><span class="pb-n">01</span><span class="pb-t">Brief &amp; spec received</span></h3>
-                    <p class="panel-d">The work starts when somebody writes down what this is for, who it is for, and what counts as done. A spec you can argue with beats a spec you have to guess at.</p>
-                    <!-- the stage-level description, kept so it is not lost -->
-                    <p class="stage-d" hidden>Most wasted design work solves a problem nobody had. The wireframes at the end of this stage are deliberately rough — they exist to test whether the thinking holds, not to look finished.</p>
-                  </div>
                 </div>
-
-                <!-- this stage's own steps. Scrolling walks them one at a
-                     time; past the last one the track moves sideways. -->
-                <div class="panel-side">
-                  <p class="micro side-h">Алхам &nbsp;·&nbsp; Steps</p>
-                  <div class="lines-win">
-                    <ol class="lines">
-                    <li class="on" data-img="art/steps/s01-brief.svg" role="button" tabindex="0">
-                      <span class="ln">01</span>
-                      <span class="lt">Brief &amp; spec received</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>The work starts when somebody writes down what this is for, who it is for, and what counts as done. A spec you can argue with beats a spec you have to guess at.</p>
-                    </li>
-                    <li data-img="art/steps/s02-brainstorm.svg" role="button" tabindex="0">
-                      <span class="ln">02</span>
-                      <span class="lt">Brainstorm</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Everything plausible goes on the board before anything gets judged. Narrowing too early is how you end up building the first idea instead of the best one.</p>
-                    </li>
-                    <li data-img="art/steps/s03-research.svg" role="button" tabindex="0">
-                      <span class="ln">03</span>
-                      <span class="lt">Deep research</span>
-                      <span class="lnote">AI-assisted, using my own master prompt</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Competitors, conventions and the people who will actually use it, run through a master prompt I keep tuning. It turns a week of reading into an afternoon.</p>
-                    </li>
-                    <li data-img="art/steps/s04-flow.svg" role="button" tabindex="0">
-                      <span class="ln">04</span>
-                      <span class="lt">Userflows and wireframes</span>
-                      <span class="lnote">Built with Claude</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Every screen and every branch, drawn rough on purpose. If a flow only reads when the visuals are finished, the flow is doing none of the work.</p>
-                    </li>
-                    </ol>
-                  </div>
-                <div class="gate">
-                  <svg class="mot" viewBox="0 0 64 40" aria-hidden="true"><use href="#m-ever"/></svg>
-                  <span>Review with the PO</span>
+                <div class="panel-body">
+                  <p class="pb-k"><span class="pb-n">01</span>Design system <span lang="mn">Систем</span></p>
+                  <h3 id="ph-1"><span class="pb-n">01</span><span class="pb-t">One system before many screens</span></h3>
+                  <p class="panel-d">Components, colours, type and every state defined once, so every screen stays consistent and the next feature is quick to build.</p>
+                  <p class="pb-proof"><b>NetPay</b> &mdash; 50+ components, light and dark. <a href="work-netpay.html#s04">See the system</a></p>
                 </div>
-                </div>
-
               </article>
 
-              <article class="panel" id="panel-2" aria-labelledby="ph-2" aria-hidden="true">
-
+              <article class="panel" id="panel-2" aria-labelledby="ph-2">
                 <div class="panel-main">
                   <figure class="shot">
-                    <img class="shot-img" src="art/steps/s05-midfi.svg" alt="">
+                    <img class="shot-img" src="art/steps/s06-edge-cases.svg" width="500" height="400" alt="">
                   </figure>
-                  <div class="panel-body">
-                    <!-- heading and copy belong to the CURRENT STEP; the script
-                         swaps them as the step changes. Seeded with step one. -->
-                    <h3 id="ph-2"><span class="pb-n">05</span><span class="pb-t">Mid-fidelity screens</span></h3>
-                    <p class="panel-d">Real layout, real hierarchy, no decoration. Grey boxes keep the argument on the right things &mdash; where attention goes, and what is missing.</p>
-                    <!-- the stage-level description, kept so it is not lost -->
-                    <p class="stage-d" hidden>Layout, hierarchy and flow are settled here because this is the last point where changing them is cheap. Structural decisions deferred past this stage cost far more to undo.</p>
-                  </div>
                 </div>
-
-                <!-- this stage's own steps. Scrolling walks them one at a
-                     time; past the last one the track moves sideways. -->
-                <div class="panel-side">
-                  <p class="micro side-h">Алхам &nbsp;·&nbsp; Steps</p>
-                  <div class="lines-win">
-                    <ol class="lines">
-                    <li data-img="art/steps/s05-midfi.svg" role="button" tabindex="0">
-                      <span class="ln">05</span>
-                      <span class="lt">Mid-fidelity screens</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Real layout, real hierarchy, no decoration. Grey boxes keep the argument on the right things &mdash; where attention goes, and what is missing.</p>
-                    </li>
-                    <li data-img="art/steps/s06-edge-cases.svg" role="button" tabindex="0">
-                      <span class="ln">06</span>
-                      <span class="lt">Cover every edge case</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Empty, loading, error, offline, and the string that runs too long. Settling them here is cheap; settling them after the visuals are signed off is not.</p>
-                    </li>
-                    </ol>
-                  </div>
-                <div class="gate">
-                  <svg class="mot" viewBox="0 0 64 40" aria-hidden="true"><use href="#m-ever"/></svg>
-                  <span>Review with the PO</span>
+                <div class="panel-body">
+                  <p class="pb-k"><span class="pb-n">02</span>Usability testing <span lang="mn">Туршилт</span></p>
+                  <h3 id="ph-2"><span class="pb-n">02</span><span class="pb-t">Tested before anything is built</span></h3>
+                  <p class="panel-d">Real people walk the key flows with set tasks. I watch where they stall, have them rate each one, and fix it while a change is still cheap.</p>
+                  <p class="pb-proof"><b>NetPay</b> &mdash; nine people, rated 4.2 out of 5. <a href="work-netpay.html#s03b">See the test</a></p>
                 </div>
-                </div>
-
               </article>
 
-              <article class="panel" id="panel-3" aria-labelledby="ph-3" aria-hidden="true">
-
+              <article class="panel" id="panel-3" aria-labelledby="ph-3">
                 <div class="panel-main">
                   <figure class="shot">
-                    <img class="shot-img" src="art/steps/s07-hifi.svg" alt="">
+                    <img class="shot-img" src="art/steps/s09-motion-spec.svg" width="500" height="400" alt="">
                   </figure>
-                  <div class="panel-body">
-                    <!-- heading and copy belong to the CURRENT STEP; the script
-                         swaps them as the step changes. Seeded with step one. -->
-                    <h3 id="ph-3"><span class="pb-n">07</span><span class="pb-t">High-fidelity screens</span></h3>
-                    <p class="panel-d">Type, colour, spacing and every state, resolved until nothing is left to interpret. What stays ambiguous here becomes somebody else&rsquo;s guess later.</p>
-                    <!-- the stage-level description, kept so it is not lost -->
-                    <p class="stage-d" hidden>Type, colour, spacing and interaction, resolved until there is nothing left to interpret. Anything still ambiguous at this point becomes somebody else&rsquo;s decision later.</p>
-                  </div>
                 </div>
-
-                <!-- this stage's own steps. Scrolling walks them one at a
-                     time; past the last one the track moves sideways. -->
-                <div class="panel-side">
-                  <p class="micro side-h">Алхам &nbsp;·&nbsp; Steps</p>
-                  <div class="lines-win">
-                    <ol class="lines">
-                    <li data-img="art/steps/s07-hifi.svg" role="button" tabindex="0">
-                      <span class="ln">07</span>
-                      <span class="lt">High-fidelity screens</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Type, colour, spacing and every state, resolved until nothing is left to interpret. What stays ambiguous here becomes somebody else&rsquo;s guess later.</p>
-                    </li>
-                    </ol>
-                  </div>
-                <div class="gate">
-                  <svg class="mot" viewBox="0 0 64 40" aria-hidden="true"><use href="#m-ever"/></svg>
-                  <span>Review with the PO and stakeholders</span>
+                <div class="panel-body">
+                  <p class="pb-k"><span class="pb-n">03</span>Handoff <span lang="mn">Хүлээлгэн өгөх</span></p>
+                  <h3 id="ph-3"><span class="pb-n">03</span><span class="pb-t">A flow developers can build without asking</span></h3>
+                  <p class="panel-d">Every user story laid out as a flow with arrows: the main path, then its edge cases and error states beside it, with images &mdash; and the haptics and animation for each interaction written out: trigger, duration, easing.</p>
+                  <p class="pb-proof"><b>NetPay</b> &mdash; 32 touch points, 7 kinds of haptic. <a href="work-netpay.html#s05">See the handoff</a></p>
                 </div>
-                </div>
-
               </article>
 
-              <article class="panel" id="panel-4" aria-labelledby="ph-4" aria-hidden="true">
-
+              <article class="panel" id="panel-4" aria-labelledby="ph-4">
                 <div class="panel-main">
-                  <figure class="shot">
-                    <img class="shot-img" src="art/steps/s08-system.svg" alt="">
+                  <figure class="shot code" aria-label="Mockup code for a loan card: HTML and CSS">
+                    <div class="code-in">
+                      <div class="code-file">loan-card.html</div>
+<pre><code><span class="k">&lt;div</span> <span class="a">class</span>=<span class="s">"loan-card"</span><span class="k">&gt;</span>
+  <span class="k">&lt;p</span> <span class="a">class</span>=<span class="s">"label"</span><span class="k">&gt;</span>Available limit<span class="k">&lt;/p&gt;</span>
+  <span class="k">&lt;p</span> <span class="a">class</span>=<span class="s">"amount"</span><span class="k">&gt;</span>875,000&#8366;<span class="k">&lt;/p&gt;</span>
+  <span class="k">&lt;button</span> <span class="a">class</span>=<span class="s">"cta"</span><span class="k">&gt;</span>Get a loan<span class="k">&lt;/button&gt;</span>
+<span class="k">&lt;/div&gt;</span>
+
+<span class="k">.loan-card</span> {
+  <span class="a">padding</span>: <span class="s">20px</span>;
+  <span class="a">border-radius</span>: <span class="s">20px</span>;
+  <span class="a">background</span>: <span class="s">#0f2a5c</span>;
+}
+<span class="k">.amount</span> {
+  <span class="a">font-size</span>: <span class="s">32px</span>;
+  <span class="a">font-weight</span>: <span class="s">700</span>;
+}</code></pre>
+                    </div>
                   </figure>
-                  <div class="panel-body">
-                    <!-- heading and copy belong to the CURRENT STEP; the script
-                         swaps them as the step changes. Seeded with step one. -->
-                    <h3 id="ph-4"><span class="pb-n">08</span><span class="pb-t">Build the design system</span></h3>
-                    <p class="panel-d">Components, variants and tokens, named so they survive the next three features. The system is what makes the second screen cheap to build.</p>
-                    <!-- the stage-level description, kept so it is not lost -->
-                    <p class="stage-d" hidden>Finished screens are not a deliverable — a system is. Components, tokens and motion described precisely enough that the build matches the file the first time.</p>
-                  </div>
                 </div>
-
-                <!-- this stage's own steps. Scrolling walks them one at a
-                     time; past the last one the track moves sideways. -->
-                <div class="panel-side">
-                  <p class="micro side-h">Алхам &nbsp;·&nbsp; Steps</p>
-                  <div class="lines-win">
-                    <ol class="lines">
-                    <li data-img="art/steps/s08-system.svg" role="button" tabindex="0">
-                      <span class="ln">08</span>
-                      <span class="lt">Build the design system</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Components, variants and tokens, named so they survive the next three features. The system is what makes the second screen cheap to build.</p>
-                    </li>
-                    <li data-img="art/steps/s09-motion-spec.svg" role="button" tabindex="0">
-                      <span class="ln">09</span>
-                      <span class="lt">Haptics and animation spec</span>
-                      <span class="lnote">A spreadsheet engineering builds from</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Trigger, duration, easing and feel, written out per interaction so engineering can build straight from it. Motion described in adjectives ships as nothing.</p>
-                    </li>
-                    </ol>
-                  </div>
+                <div class="panel-body">
+                  <p class="pb-k"><span class="pb-n">04</span>Mockup code <span lang="mn">Код</span></p>
+                  <h3 id="ph-4"><span class="pb-n">04</span><span class="pb-t">A working version in code, when it helps</span></h3>
+                  <p class="panel-d">The same screens as code developers can open and run, written in their project&rsquo;s own structure. It helps most with motion and tricky states, where a description leaves room to guess.</p>
                 </div>
-
               </article>
 
-              <article class="panel" id="panel-5" aria-labelledby="ph-5" aria-hidden="true">
-
+              <article class="panel" id="panel-5" aria-labelledby="ph-5">
                 <div class="panel-main">
                   <figure class="shot">
-                    <img class="shot-img" src="art/steps/s10-qa.svg" alt="">
+                    <img class="shot-img" src="art/steps/s10-qa.svg" width="500" height="400" alt="">
                   </figure>
-                  <div class="panel-body">
-                    <!-- heading and copy belong to the CURRENT STEP; the script
-                         swaps them as the step changes. Seeded with step one. -->
-                    <h3 id="ph-5"><span class="pb-n">10</span><span class="pb-t">QA &mdash; Figma against production</span></h3>
-                    <p class="panel-d">Screen against screen, at the same size, in the same light. Most of what drifts between file and build is a few pixels nobody wrote down.</p>
-                    <!-- the stage-level description, kept so it is not lost -->
-                    <p class="stage-d" hidden>The stage most designers skip. Figma checked against production, a fix list written, and a final audit before anything ships.</p>
-                  </div>
                 </div>
-
-                <!-- this stage's own steps. Scrolling walks them one at a
-                     time; past the last one the track moves sideways. -->
-                <div class="panel-side">
-                  <p class="micro side-h">Алхам &nbsp;·&nbsp; Steps</p>
-                  <div class="lines-win">
-                    <ol class="lines">
-                    <li data-img="art/steps/s10-qa.svg" role="button" tabindex="0">
-                      <span class="ln">10</span>
-                      <span class="lt">QA &mdash; Figma against production</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Screen against screen, at the same size, in the same light. Most of what drifts between file and build is a few pixels nobody wrote down.</p>
-                    </li>
-                    <li data-img="art/steps/s11-fix-list.svg" role="button" tabindex="0">
-                      <span class="ln">11</span>
-                      <span class="lt">Fix list for engineering</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>Every gap logged with a screenshot, a location and a severity. A fix list is a queue somebody can work through; a vague complaint is an argument.</p>
-                    </li>
-                    <li data-img="art/steps/s12-release.svg" role="button" tabindex="0">
-                      <span class="ln">12</span>
-                      <span class="lt">Final audit before release</span>
-                      <!-- shown on the left when this step is the current one -->
-                      <p class="step-d" hidden>One pass across the whole flow before it ships, in the order a real person would meet it. The last look is what catches whatever screen-by-screen missed.</p>
-                    </li>
-                    </ol>
-                  </div>
+                <div class="panel-body">
+                  <p class="pb-k"><span class="pb-n">05</span>QA after release <span lang="mn">Шалгалт</span></p>
+                  <h3 id="ph-5"><span class="pb-n">05</span><span class="pb-t">Checked against the real build</span></h3>
+                  <p class="panel-d">The live product compared with the design screen by screen, same size, same state. Every gap logged with a screenshot, where it is and how serious it is, then one last pass before release.</p>
+                  <p class="pb-proof"><b>NetPay</b> &mdash; 70 issues across 171 screenshots, 6 areas. <a href="work-netpay.html#s06">See the QA</a></p>
                 </div>
-
               </article>
 
             </div>
           </div>
-
         </div>
 
-        <!-- horizontal: which stage -->
+        <!-- which step -->
         <div class="hbar" id="stage-slider" role="slider" tabindex="0"
-             aria-label="Stage" aria-orientation="horizontal"
+             aria-label="Step" aria-orientation="horizontal"
              aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"
-             aria-valuetext="1 of 5 — Research &amp; structure">
+             aria-valuetext="1 of 5 — Design system">
           <span class="hbar-line" aria-hidden="true"></span>
-          <span class="hstop on" data-i="0" title="Research &amp; structure" style="left:0.0%">᠑</span>
-          <span class="hstop" data-i="1" title="Mid-fidelity" style="left:25.0%">᠒</span>
-          <span class="hstop" data-i="2" title="High-fidelity" style="left:50.0%">᠓</span>
-          <span class="hstop" data-i="3" title="System and handoff" style="left:75.0%">᠔</span>
-          <span class="hstop" data-i="4" title="After the build" style="left:100.0%">᠕</span>
+          <span class="hstop on" data-i="0" title="Design system" style="left:0.0%">᠑</span>
+          <span class="hstop" data-i="1" title="Usability testing" style="left:25.0%">᠒</span>
+          <span class="hstop" data-i="2" title="Handoff" style="left:50.0%">᠓</span>
+          <span class="hstop" data-i="3" title="Mockup code" style="left:75.0%">᠔</span>
+          <span class="hstop" data-i="4" title="QA after release" style="left:100.0%">᠕</span>
           <span class="hthumb" aria-hidden="true" style="left:0%"></span>
         </div>
 
-      </div>
-    </section>
-
-    <section class="colophon">
-      <p>The spreadsheet at stage four is the part most designers skip.
-      <b>It is also why the build matches the file.</b></p>
-      <div class="tools">
-        <span>Figma</span><span>Claude</span><span>Design systems</span>
-        <span>Prototyping</span><span>Design QA</span>
       </div>
     </section>
 
@@ -401,9 +269,9 @@
       <div class="foot-l">
         <a href="work.html">My Work</a>
         <a href="how-i-work.html" aria-current="page">How I Work</a>
-        <a href="#">About</a>
-        <a href="#">Playground</a>
-        <a href="#">Contact</a>
+        <a href="playground.html">Playground</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
       </div>
     </nav>
 
@@ -411,17 +279,12 @@
 </div>
 <script>
 /* ============================================================
-   TWO AXES ON ONE SCROLLBAR.
-
-   The runway is divided into one band per step — thirteen of them.
-   Each band is a frame: {stage, step}. Walking down the bands walks
-   the steps of a stage; the band where the stage number changes is
-   the one that slides the track sideways. So "vertical until the
-   steps run out, then horizontal" falls out of the ordering rather
-   than needing to be sequenced by hand.
-
-   Below 860px none of this runs — see leaf.css, where the runway
-   goes static and all five stages are simply laid out in order.
+   ONE STEP A STAGE.
+   The runway is one band of scroll per step — five of them. Scrolling
+   through a band slides the track to that step; the bar underneath shows
+   which one, and can be dragged, clicked or stepped with the arrow keys.
+   Below 860px none of this runs — see leaf.css, where the runway goes
+   static and the five steps are simply laid out in order.
    ============================================================ */
 (function(){
   var runway = document.querySelector('.proc-scroll');
@@ -429,198 +292,83 @@
   var heads  = [].slice.call(document.querySelectorAll('.stage-head .sh'));
   var panels = [].slice.call(document.querySelectorAll('.panel'));
   if(!runway || !track || !panels.length) return;
-
   var hbar   = document.getElementById('stage-slider');
   var hstops = [].slice.call(document.querySelectorAll('.hstop'));
   var hthumb = document.querySelector('.hthumb');
-
-  var steps = panels.map(function(p){
-    return [].slice.call(p.querySelectorAll('.lines li'));
-  });
-
-  /* the flat list of frames, in scroll order */
-  var frames = [];
-  steps.forEach(function(list, si){
-    list.forEach(function(_, ki){ frames.push({s:si, k:ki}) });
-  });
-  var F = frames.length;
+  var F = panels.length, cur = -1;
+  var stacked = window.matchMedia('(max-width:860px)');
   runway.style.setProperty('--frames', F);
 
-  var cur = -1;
-  var stacked = window.matchMedia('(max-width:860px)');
+  function name(i){ return hstops[i] ? hstops[i].getAttribute('title') : (i+1) }
 
-  function stageName(i){ return hstops[i] ? hstops[i].getAttribute('title') : (i+1) }
-  function stepName(si, ki){
-    var li = steps[si][ki];
-    var t = li && li.querySelector('.lt');
-    return t ? t.textContent : (ki+1);
-  }
-
-  function apply(fi){
-    fi = Math.max(0, Math.min(F - 1, fi));
-    if(fi === cur) return;
-    var prev = cur < 0 ? null : frames[cur];
-    cur = fi;
-    var f = frames[fi];
-
-    /* ---- horizontal: the track ---- */
-    if(!prev || prev.s !== f.s){
-      track.style.transform = 'translateX(' + (-f.s * 100) + '%)';
-      heads.forEach(function(el, k){
-        el.style.setProperty('--offx', (k < f.s ? -44 : 44) + 'px');
-        el.classList.toggle('on', k === f.s);
-      });
-      panels.forEach(function(el, k){
-        el.classList.toggle('on', k === f.s);
-        el.setAttribute('aria-hidden', k === f.s ? 'false' : 'true');
-      });
-      hstops.forEach(function(el, k){ el.classList.toggle('on', k === f.s) });
-      if(hthumb) hthumb.style.left = (f.s / (panels.length - 1)) * 100 + '%';
-      if(hbar){
-        hbar.setAttribute('aria-valuenow', f.s + 1);
-        hbar.setAttribute('aria-valuetext',
-          (f.s + 1) + ' of ' + panels.length + ' — ' + stageName(f.s));
-      }
-    }
-
-    /* ---- vertical: the steps of this stage ---- */
-    steps.forEach(function(list, si){
-      list.forEach(function(li, ki){
-        li.classList.toggle('on',   si === f.s && ki === f.k);
-        li.classList.toggle('past', si === f.s && ki <  f.k);
-      });
+  function apply(i){
+    i = Math.max(0, Math.min(F - 1, i));
+    if(i === cur) return;
+    cur = i;
+    track.style.transform = 'translateX(' + (-i * 100) + '%)';
+    heads.forEach(function(el, k){
+      el.style.setProperty('--offx', (k < i ? -44 : 44) + 'px');
+      el.classList.toggle('on', k === i);
     });
-
-    /* the picture belongs to the current step too */
-    var shot = panels[f.s].querySelector('.shot-img');
-    var want = steps[f.s][f.k].getAttribute('data-img');
-    if(shot && want && shot.getAttribute('src') !== want){
-      shot.classList.add('swapping');
-      shot.src = want;
-      shot.addEventListener('load', function h(){
-        shot.classList.remove('swapping');
-        shot.removeEventListener('load', h);
-      });
+    /* the panels off stage are only faded out, so inert takes them out of
+       the tab order and the accessibility tree as well */
+    panels.forEach(function(el, k){
+      el.classList.toggle('on', k === i);
+      el.inert = !stacked.matches && k !== i;
+    });
+    hstops.forEach(function(el, k){ el.classList.toggle('on', k === i) });
+    if(hthumb) hthumb.style.left = (i / (F - 1)) * 100 + '%';
+    if(hbar){
+      hbar.setAttribute('aria-valuenow', i + 1);
+      hbar.setAttribute('aria-valuetext', (i + 1) + ' of ' + F + ' — ' + name(i));
     }
-
-    /* the left-hand heading and copy belong to the current step */
-    var body = stacked.matches ? null : panels[f.s].querySelector('.panel-body');
-    var row  = steps[f.s][f.k];
-    if(body && row){
-      var n = body.querySelector('.pb-n'), t = body.querySelector('.pb-t'),
-          d = body.querySelector('.panel-d'), src = row.querySelector('.step-d');
-      if(n) n.textContent = row.querySelector('.ln').textContent;
-      if(t) t.textContent = row.querySelector('.lt').textContent;
-      if(d && src) d.innerHTML = src.innerHTML;
-    }
-
-    /* slide the list only when it is taller than its window; a list that
-       fits just changes which row is lit */
-    var win  = panels[f.s].querySelector('.lines-win');
-    var list = panels[f.s].querySelector('.lines');
-    var item = steps[f.s][f.k];
-    if(win && list && item){
-      var max = Math.max(0, list.offsetHeight - win.clientHeight);
-      list.style.transform = 'translateY(' + (-Math.min(item.offsetTop, max)) + 'px)';
-    }
-
   }
 
-  /* ---- scroll <-> frame ---- */
   function fromScroll(){
     if(stacked.matches) return;
     var span = runway.offsetHeight - window.innerHeight;
     if(span <= 0) return;
-    var p = -runway.getBoundingClientRect().top / span;
-    p = Math.max(0, Math.min(1, p));
+    var p = Math.max(0, Math.min(1, -runway.getBoundingClientRect().top / span));
     apply(Math.min(F - 1, Math.floor(p * F)));
   }
-  function goTo(fi, behavior){
+  function goTo(i, behavior){
     if(stacked.matches) return;
     var span = runway.offsetHeight - window.innerHeight;
     var base = runway.getBoundingClientRect().top + window.pageYOffset;
     window.scrollTo({
-      top: Math.round(base + ((fi + 0.5) / F) * span),
+      top: Math.round(base + ((i + 0.5) / F) * span),
       /* 'instant', not 'auto' — html{scroll-behavior:smooth} is set and
          'auto' defers to it, which would animate every drag increment */
       behavior: behavior || 'instant'
     });
   }
-  function frameOf(si, ki){
-    for(var i = 0; i < F; i++) if(frames[i].s === si && frames[i].k === ki) return i;
-    return 0;
-  }
 
-  /* ---- the two sliders ---- */
-  function wire(el, opts){
-    if(!el) return;
+  if(hbar){
     var dragging = false;
     function pick(e){
-      var r = el.getBoundingClientRect();
-      var p = opts.vertical ? (e.clientY - r.top) / r.height
-                            : (e.clientX - r.left) / r.width;
-      var n = opts.count();
-      var i = n < 2 ? 0 : Math.round(Math.max(0, Math.min(1, p)) * (n - 1));
-      var fi = opts.frame(i);
-      apply(fi); goTo(fi, 'instant');
+      var r = hbar.getBoundingClientRect();
+      var p = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+      var i = Math.round(p * (F - 1));
+      apply(i); goTo(i, 'instant');
     }
-    el.addEventListener('pointerdown', function(e){
+    hbar.addEventListener('pointerdown', function(e){
       dragging = true;
-      /* capture keeps the drag alive if the pointer leaves the rail; if the
-         browser refuses it the drag still works, it just ends at the edge */
-      try{ el.setPointerCapture(e.pointerId) }catch(err){}
-      el.focus(); pick(e); e.preventDefault();
+      try{ hbar.setPointerCapture(e.pointerId) }catch(err){}
+      hbar.focus(); pick(e); e.preventDefault();
     });
-    el.addEventListener('pointermove',   function(e){ if(dragging) pick(e) });
-    el.addEventListener('pointerup',     function(){ dragging = false });
-    el.addEventListener('pointercancel', function(){ dragging = false });
-    el.addEventListener('keydown', function(e){
-      var at = opts.index(), n = opts.count(), i = null;
-      if(e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown') i = at + 1;
-      else if(e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') i = at - 1;
+    hbar.addEventListener('pointermove',   function(e){ if(dragging) pick(e) });
+    hbar.addEventListener('pointerup',     function(){ dragging = false });
+    hbar.addEventListener('pointercancel', function(){ dragging = false });
+    hbar.addEventListener('keydown', function(e){
+      var i = null;
+      if(e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === 'PageDown') i = cur + 1;
+      else if(e.key === 'ArrowLeft' || e.key === 'ArrowUp' || e.key === 'PageUp') i = cur - 1;
       else if(e.key === 'Home') i = 0;
-      else if(e.key === 'End')  i = n - 1;
+      else if(e.key === 'End')  i = F - 1;
       if(i === null) return;
       e.preventDefault();
-      var fi = opts.frame(Math.max(0, Math.min(n - 1, i)));
-      apply(fi); goTo(fi, 'smooth');
-    });
-  }
-
-  /* the step rows are the third handle: clicking one selects that step and
-     brings the scroll position with it */
-  steps.forEach(function(list, si){
-    list.forEach(function(li, ki){
-      function pick(){
-        var fi = frameOf(si, ki);
-        apply(fi); goTo(fi, 'smooth');
-      }
-      li.addEventListener('click', pick);
-      li.addEventListener('keydown', function(e){
-        if(e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
-        e.preventDefault(); pick();
-      });
-    });
-  });
-
-  wire(hbar, {
-    vertical: false,
-    count: function(){ return panels.length },
-    index: function(){ return frames[cur].s },
-    frame: function(i){ return frameOf(i, 0) }     /* land on the stage's first step */
-  });
-
-  /* stacked, there is no "current" step — each panel is read whole, so the
-     heading and copy go back to the stage they belong to */
-  function stackedContent(){
-    panels.forEach(function(pnl, si){
-      var body = pnl.querySelector('.panel-body');
-      if(!body) return;
-      var n = body.querySelector('.pb-n'), t = body.querySelector('.pb-t'),
-          d = body.querySelector('.panel-d'), src = pnl.querySelector('.stage-d');
-      if(n) n.textContent = '';
-      if(t) t.textContent = stageName(si);
-      if(d && src) d.innerHTML = src.innerHTML;
+      i = Math.max(0, Math.min(F - 1, i));
+      apply(i); goTo(i, 'smooth');
     });
   }
 
@@ -630,16 +378,17 @@
     ticking = true;
     requestAnimationFrame(function(){ fromScroll(); ticking = false });
   }, {passive:true});
+
   function relayout(){
     cur = -1;
-    if(stacked.matches){ stackedContent() }
-    else { apply(0); fromScroll() }
+    if(stacked.matches){ panels.forEach(function(p){ p.inert = false }); return }
+    fromScroll();
+    if(cur < 0) apply(0);
   }
   window.addEventListener('resize', relayout);
-
-  apply(0);
-  if(stacked.matches) stackedContent();
-  fromScroll();
+  if(stacked.addEventListener) stacked.addEventListener('change', relayout);
+  else if(stacked.addListener) stacked.addListener(relayout);
+  relayout();
 })();
 </script>
 </body>

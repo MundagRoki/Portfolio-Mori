@@ -1,0 +1,9 @@
+# Working files that are not part of the site. outputDirectory is "." in
+# vercel.json, so without this list they would deploy as public URLs.
+CLAUDE.md
+README.md
+serve.py
+.claude/
+art/_source/
+*.log
+.DS_Store

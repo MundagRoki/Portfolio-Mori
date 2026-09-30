@@ -7,11 +7,12 @@
 <meta name="description" content="Selected UI and product design work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400;500;600&amp;family=Noto+Sans+Mongolian&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="leaf.css?v=32">
-<link rel="stylesheet" href="work.css?v=21">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400..700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=35">
+<link rel="stylesheet" href="work.css?v=140">
 </head>
 <body class="case-page case-dark case-voice use-gip">
+<div class="vo-spark" aria-hidden="true"><i></i><i></i></div>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <defs>
 <symbol id="m-ever" viewBox="0 0 64 40">
@@ -34,47 +35,66 @@
 
     <section class="case case-solo">
 
-      <header class="case-hero">
-        <div class="hero-eyebrow">Voice mini app</div>
-        <h1 class="hero-t" lang="en">Designing a play-along companion app for a live television show</h1>
-        <dl class="spec">
+      <div class="hero-stack">
+        <header class="case-hero">
+          <div class="hero-eyebrow"><span>Voice mini app</span><span>UI ба визуал дизайн</span><span lang="en">The Voice Mongolia</span></div>
+          <h1 class="hero-t" lang="en">Designing a play-along companion app for a live television show</h1>
+          <p class="hero-desc">Шоу эфирт байх үед үзэгч гараа ч салгалгүй хамт тоглох апп.
+            Брэнд чанга ирдэг, интерфейс түүний дор уншигдсаар байх ёстой байсан.</p>
+          <dl class="spec">
           <div class="spec-i"><dt>Хамрах хүрээ</dt><dd>UI ба визуал дизайн</dd></div>
           <div class="spec-i"><dt>Үүрэг</dt><dd>UI/UX дизайнер</dd></div>
           <div class="spec-i"><dt>Захиалагч</dt><dd>The Voice Mongolia</dd></div>
           <div class="spec-i"><dt>Он</dt><dd>2025</dd></div>
-        </dl>
-      </header>
+          </dl>
+        </header>
 
-      <figure class="hero-plate">
-        <img src="art/work/voice-cover.jpg" alt="The Voice Mongolia key art for the in-app vote, carrying the NetPay mark">
-      </figure>
+        <figure class="hero-plate">
+          <!-- sizes follows .sheet: the page less two 12vw gutters, capped at 1440px -->
+          <img src="art/work/voice/cover-2200.webp" srcset="art/work/voice/cover-1100.webp 1100w, art/work/voice/cover-2200.webp 2200w" sizes="(min-width: 1600px) 1440px, 76vw" width="2200" height="1375" fetchpriority="high" decoding="async" alt="The Voice mini app's home screen on an iPhone lying on a ribbed black surface, lit from below: the show mark over a countdown to the next live episode">
+        </figure>
+      </div>
 
 
-
-          <nav id="contents" aria-label="Агуулга">
-            <ol class="toc">
-              <li><a href="#s01"><span class="toc-n">01</span><span class="toc-t" lang="en">Brainstorm and research</span><span class="toc-p">Судлах</span></a></li>
-              <li><a href="#s02"><span class="toc-n">02</span><span class="toc-t" lang="en">User flow</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
-              <li><a href="#s03"><span class="toc-n">03</span><span class="toc-t" lang="en">Low-fidelity</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
-              <li><a href="#s04"><span class="toc-n">04</span><span class="toc-t" lang="en">High-fidelity</span><span class="toc-p">Хэлбэржүүлэх</span></a></li>
-              <li><a href="#s05"><span class="toc-n">05</span><span class="toc-t" lang="en">Design system</span><span class="toc-p">Систем</span></a></li>
-              <li><a href="#s06"><span class="toc-n">06</span><span class="toc-t" lang="en">Outcome</span><span class="toc-p">Хэмжих</span></a></li>
-            </ol>
-          </nav>
 
           <section class="step" id="s01">
             <div class="step-side">
               <svg class="note" viewBox="0 0 46 38" aria-hidden="true"><g class="staff"><line x1="0" y1="6" x2="46" y2="6"/><line x1="0" y1="11" x2="46" y2="11"/><line x1="0" y1="16" x2="46" y2="16"/><line x1="0" y1="21" x2="46" y2="21"/><line x1="0" y1="26" x2="46" y2="26"/><line class="led" x1="20" y1="31" x2="34" y2="31"/></g><line class="stem" x1="30.4" y1="31.0" x2="30.4" y2="18.0"/><ellipse class="head" cx="27" cy="31.0" rx="3.4" ry="2.5" transform="rotate(-18 27 31.0)"/></svg>
-              <h2 class="step-t" lang="en">Brainstorm and research</h2>
+              <h2 class="step-t" lang="en">Context</h2>
               <div class="step-b">
                 <p>Шоу эфирт байх үед апп юу хийх ёстой вэ: үзэх, санал өгөх, хамт тоглох. Хязгаарлалтыг эхэлж нэрлэсэн &mdash; брэнд чанга ирдэг, интерфейс түүний дор уншигдсаар байх ёстой.</p>
                 <p>Дараа нь одоо байгаа дэлгэцүүдийг нэвтрүүлэг тэднээс юу шаарддагтай нь тулган уншсан, мөн өөрчлөх үндэслэл.</p>
               </div>
             </div>
             <div class="step-main">
-              <figure class="slot"><span>Санаа боловсруулалтын самбар &mdash; экспорт хүлээгдэж байна</span></figure>
-              <figure class="slot"><span>Өмнө ба дараа &mdash; экспорт хүлээгдэж байна</span></figure>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
+              <p class="deflist-head"><span>Товчхон</span></p>
+              <dl class="deflist">
+                <div>
+                  <dt>Эфирийн үеийн апп</dt>
+                  <dd>Шоу шууд явж байхад үзэгч санал өгч, тойргийн үр дүнг уншиж, тэмцээнийг дагадаг апп.</dd>
+                </div>
+                <div>
+                  <dt>Брэнд чанга, интерфейс тод</dt>
+                  <dd>Гүн улаан, хар, бүтэн дэлгэцийн гэрэл зураг &mdash; гэхдээ санал өгөх товч л алдаж боломгүй цорын ганц зүйл хэвээр.</dd>
+                </div>
+                <div>
+                  <dt>Дөрвөн товшилтоор санал</dt>
+                  <dd>Гурван зам тусдаа: эфирт санал өгөх, дууссаны дараа үр дүн, дугаар хооронд тэмцээнийг үзэх. Санал өгөх нь нүүрээс дөрвөн товшилт.</dd>
+                </div>
+                <div>
+                  <dt>Нийлүүлсэн, хэмжсэн</dt>
+                  <dd>13 долоо хоногт 6&#8239;138 хүн нээж, 21&#8239;117 үйлдэл хийсэн &mdash; талаас илүү нь (52.8%) нүүрээс цааш, профайл, викторин, баг руу.</dd>
+                </div>
+              </dl>
+
+              <figure class="sheet-shot">
+                <img src="art/work/voice/brainstorm-2400.webp" srcset="art/work/voice/brainstorm-1200.webp 1200w, art/work/voice/brainstorm-2400.webp 2400w" sizes="(min-width: 1600px) 1044px, (min-width: 861px) calc(72.6vw - 340px), 76vw" width="2400" height="1610" loading="lazy" decoding="async" alt="Brainstorm board: the six-step voting flow as it stood in SuperUp, beside reference screens from The Voice's own app">
+                <figcaption>Санаа боловсруулалтын самбар</figcaption>
+              </figure>
+              <figure class="sheet-shot">
+                <img src="art/work/voice/episodes-1774.webp" srcset="art/work/voice/episodes-887.webp 887w, art/work/voice/episodes-1774.webp 1774w" sizes="(min-width: 1600px) 1044px, (min-width: 861px) calc(72.6vw - 340px), 76vw" width="1774" height="1588" loading="lazy" decoding="async" alt="The season's episode schedule: 20 episodes from 28 September 2025 to 15 February 2026, grouped into blind auditions, battles, knockouts, quarter-final, semi-final and final, with what each round decides">
+                <figcaption>Дугаарын мэдээлэл</figcaption>
+              </figure>
             </div>
           </section>
 
@@ -90,7 +110,7 @@
               <figure class="flowfig">
                 <figcaption>Санал өгөх &mdash; орцоос баталгаажуулалт хүртэл</figcaption>
                 <div class="flowwrap">
-<svg class="flow" viewBox="0 0 1468 124" role="img" aria-label="Vote">
+<svg class="flow" viewBox="0 0 1468 124" role="img" aria-label="Санал өгөх — орцоос баталгаажуулалт хүртэл">
 <defs><marker id="aVote" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
 <g class="n head"><rect x="8" y="40.0" width="168" height="44" rx="22"/>
 <text x="92.0" y="66.0">Нүүр</text>
@@ -133,7 +153,7 @@
               <figure class="flowfig">
                 <figcaption>Тойрог бүр, түүний үр дүн</figcaption>
                 <div class="flowwrap">
-<svg class="flow" viewBox="0 0 1468 188" role="img" aria-label="Rounds">
+<svg class="flow" viewBox="0 0 1468 188" role="img" aria-label="Тойрог бүр, түүний үр дүн">
 <defs><marker id="aRounds" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
 <g class="n head"><rect x="543" y="8.0" width="168" height="44" rx="22"/>
 <text x="627.0" y="34.0">Battle жагсаалт</text>
@@ -165,7 +185,7 @@
               <figure class="flowfig">
                 <figcaption>Тэмцээнийг үзэх</figcaption>
                 <div class="flowwrap">
-<svg class="flow" viewBox="0 0 1468 60" role="img" aria-label="Artists">
+<svg class="flow" viewBox="0 0 1468 60" role="img" aria-label="Тэмцээнийг үзэх">
 <defs><marker id="aArtists" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
 <g class="n head"><rect x="222" y="8.0" width="168" height="44" rx="22"/>
 <text x="306.0" y="34.0">Оролцогч</text>
@@ -193,7 +213,6 @@
 </svg>
                 </div>
               </figure>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
             </div>
           </section>
 
@@ -208,7 +227,7 @@
             <div class="step-main">
               <p class="flow-hint">Урсгалыг дагахын тулд хажуу тийш гүйлгэнэ үү &rarr;</p>
               <div class="lofiwrap">
-<svg class="lofi" viewBox="0 0 1316 960" role="img" aria-label="The voting flow at wireframe fidelity">
+<svg class="lofi" viewBox="0 0 1316 960" role="img" aria-label="Санал өгөх урсгал, бүдүүвч нарийвчлалаар">
 <defs><marker id="la" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 1 L9 5 L0 9 z"/></marker></defs>
 <rect class="ph" x="20.0" y="20.0" width="196.0" height="372.0" rx="16"/>
 <rect class="b" x="34.0" y="34.0" width="40.0" height="6.0" rx="3"/>
@@ -230,7 +249,7 @@
 <circle class="b" cx="98.0" cy="365.0" r="7.0"/>
 <circle class="b" cx="142.0" cy="365.0" r="7.0"/>
 <circle class="b" cx="186.0" cy="365.0" r="7.0"/>
-<text class="cap" x="118.0" y="414.0">Home</text>
+<text class="cap" x="118.0" y="414.0">Нүүр</text>
 <text class="num" x="118.0" y="430.0">01</text>
 <path class="ar" d="M226.0 206.0 H274.0" marker-end="url(#la)"/>
 <rect class="ph" x="290.0" y="20.0" width="196.0" height="372.0" rx="16"/>
@@ -265,7 +284,7 @@
 <circle class="b" cx="368.0" cy="365.0" r="7.0"/>
 <circle class="b" cx="412.0" cy="365.0" r="7.0"/>
 <circle class="b" cx="456.0" cy="365.0" r="7.0"/>
-<text class="cap" x="388.0" y="414.0">Voting open</text>
+<text class="cap" x="388.0" y="414.0">Санал нээлттэй</text>
 <text class="num" x="388.0" y="430.0">02</text>
 <path class="ar" d="M496.0 206.0 H544.0" marker-end="url(#la)"/>
 <rect class="ph" x="560.0" y="20.0" width="196.0" height="372.0" rx="16"/>
@@ -300,7 +319,7 @@
 <circle class="b" cx="638.0" cy="365.0" r="7.0"/>
 <circle class="b" cx="682.0" cy="365.0" r="7.0"/>
 <circle class="b" cx="726.0" cy="365.0" r="7.0"/>
-<text class="cap" x="658.0" y="414.0">A contestant chosen</text>
+<text class="cap" x="658.0" y="414.0">Оролцогч сонгосон</text>
 <text class="num" x="658.0" y="430.0">03</text>
 <path class="ar" d="M766.0 206.0 H814.0" marker-end="url(#la)"/>
 <rect class="ph" x="830.0" y="20.0" width="196.0" height="372.0" rx="16"/>
@@ -317,7 +336,7 @@
 <circle class="b" cx="896.0" cy="258.0" r="13.0"/>
 <rect class="b2" x="918.0" y="242.0" width="88.0" height="32.0" rx="16"/>
 <rect class="acc" x="852.0" y="292.0" width="152.0" height="28.0" rx="14"/>
-<text class="cap" x="928.0" y="414.0">The vote sheet</text>
+<text class="cap" x="928.0" y="414.0">Санал өгөх хуудас</text>
 <text class="num" x="928.0" y="430.0">04</text>
 <path class="ar" d="M1036.0 206.0 H1084.0" marker-end="url(#la)"/>
 <rect class="ph" x="1100.0" y="20.0" width="196.0" height="372.0" rx="16"/>
@@ -327,7 +346,7 @@
 <rect class="b" x="1146.0" y="204.0" width="104.0" height="12.0" rx="5"/>
 <rect class="b" x="1164.0" y="226.0" width="68.0" height="9.0" rx="4"/>
 <rect class="b2" x="1130.0" y="280.0" width="136.0" height="30.0" rx="15"/>
-<text class="cap" x="1198.0" y="414.0">Confirmed</text>
+<text class="cap" x="1198.0" y="414.0">Баталгаажсан</text>
 <text class="num" x="1198.0" y="430.0">05</text>
 <rect class="ph" x="290.0" y="488.0" width="196.0" height="372.0" rx="16"/>
 <rect class="b" x="304.0" y="502.0" width="40.0" height="6.0" rx="3"/>
@@ -364,7 +383,7 @@
 <circle class="b" cx="368.0" cy="833.0" r="7.0"/>
 <circle class="b" cx="412.0" cy="833.0" r="7.0"/>
 <circle class="b" cx="456.0" cy="833.0" r="7.0"/>
-<text class="cap" x="388.0" y="882.0">The round, decided</text>
+<text class="cap" x="388.0" y="882.0">Тойрог шийдэгдсэн</text>
 <text class="num" x="388.0" y="898.0">02a</text>
 <path class="ar dash" d="M388.0 450.0 V474.0" marker-end="url(#la)"/>
 <rect class="ph" x="830.0" y="488.0" width="196.0" height="372.0" rx="16"/>
@@ -381,12 +400,11 @@
 <circle class="b" cx="896.0" cy="726.0" r="13.0"/>
 <rect class="acc" x="918.0" y="710.0" width="88.0" height="32.0" rx="16"/>
 <rect class="b2" x="852.0" y="760.0" width="152.0" height="28.0" rx="14"/>
-<text class="cap" x="928.0" y="882.0">Ultra Vote taken</text>
+<text class="cap" x="928.0" y="882.0">Ultra Vote авсан</text>
 <text class="num" x="928.0" y="898.0">04a</text>
 <path class="ar dash" d="M928.0 450.0 V474.0" marker-end="url(#la)"/>
 </svg>
               </div>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
             </div>
           </section>
 
@@ -401,72 +419,73 @@
             <div class="step-main">
               <div class="annot lead">
                 <div class="annot-note">
-                  <h3>Voting, while the show is on air</h3>
-                  <p>The whole screen answers one question: who, and how many votes do I have left. The balance and the countdown sit above the grid, and the vote button is the only filled thing on the page.</p>
+                  <h3>Шоу эфирт байхад санал өгөх</h3>
+                  <p>Дэлгэц бүхэлдээ нэг асуултад хариулна: хэнд, хэдэн санал үлдсэн бэ. Үлдэгдэл ба цаг тоологч сүлжээний дээр байрлах бөгөөд санал өгөх товч л дэлгэц дээрх цорын ганц дүүргэлттэй элемент.</p>
                 </div>
                 <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
                 <div class="annot-shot">
-                  <div class="device"><video src="art/work/voice-vote.mp4" autoplay muted loop playsinline preload="metadata" aria-label="Casting a vote during a live round"></video><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><video width="592" height="1280" src="art/work/voice/vote.mp4#t=0.001" muted loop playsinline preload="metadata" aria-label="Casting a vote during a live round"></video><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
                 </div>
               </div>
               <div class="annot flip">
                 <div class="annot-note">
-                  <h3>Casting the vote</h3>
-                  <p>Tapping a contestant raises the sheet without leaving the grid &mdash; the same faces stay on screen behind it. Free votes, then Ultra Vote at ten, then the confirm. Three choices, one screen, no navigation during a window that closes.</p>
+                  <h3>Санал өгөх</h3>
+                  <p>Оролцогч дээр дарахад сүлжээнээс гаралгүйгээр доороос хуудас гарч ирнэ &mdash; ард нь нөгөө л царайнууд харагдсаар. Эхлээд үнэгүй санал, дараа нь арван саналтай Ultra Vote, эцэст нь баталгаажуулалт. Гурван сонголт, нэг дэлгэц &mdash; хаагдах гэж буй цонхны үеэр өөр тийш шилжих шаардлагагүй.</p>
                 </div>
                 <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
                 <div class="annot-shot two">
-                  <div class="device"><img loading="lazy" src="art/work/voice-vote-home.jpg" alt="The quarter-final voting grid"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
-                  <div class="device"><img loading="lazy" src="art/work/voice-vote-sheet.jpg" alt="The vote sheet raised over the grid"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <!-- sizes follows the phone screen: 226px at most, 18.2vw between, 150px on a phone.
+                       480w covers 2x there (3x on a phone); 900w is for zoom and denser screens -->
+                  <div class="device"><img loading="lazy" width="900" height="1947" src="art/work/voice/vote-home-900.webp" srcset="art/work/voice/vote-home-480.webp 480w, art/work/voice/vote-home-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The quarter-final voting grid"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><img loading="lazy" width="900" height="1947" src="art/work/voice/vote-sheet-900.webp" srcset="art/work/voice/vote-sheet-480.webp 480w, art/work/voice/vote-sheet-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The vote sheet raised over the grid"><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
                 </div>
               </div>
 
               <div class="annot">
                 <div class="annot-note">
-                  <h3>A round, drawn and decided</h3>
-                  <p>The battle list carries the round twice. Nothing moves between the two screens &mdash; the win marks arrive, the stolen and saved get their own badge, and whoever is out goes dim. A viewer reads the result in the place they already learned.</p>
+                  <h3>Тойрог, эхэндээ ба шийдэгдсэний дараа</h3>
+                  <p>Battle жагсаалт нэг тойргийг хоёр удаа харуулна. Хоёр дэлгэцийн хооронд юу ч байраа солихгүй &mdash; ялалтын тэмдэг нэмэгдэж, steal ба save тус тусын тэмдэгтэй болж, хасагдсан нь бүдгэрнэ. Үзэгч үр дүнг аль хэдийн сурсан газраасаа уншина.</p>
                 </div>
                 <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
                 <div class="annot-shot two">
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-battle-list.jpg" alt="The battle list before the results"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-battle-result.jpg" alt="The same list with wins, steals and saves marked"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="3078" src="art/work/voice/battle-list-900.webp" srcset="art/work/voice/battle-list-480.webp 480w, art/work/voice/battle-list-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The battle list before the results"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="3078" src="art/work/voice/battle-result-900.webp" srcset="art/work/voice/battle-result-480.webp 480w, art/work/voice/battle-result-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The same list with wins, steals and saves marked"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
                 </div>
               </div>
               <div class="annot flip">
                 <div class="annot-note">
-                  <h3>Knockouts, the same way</h3>
-                  <p>Twelve names in one grid, each under their coach&rsquo;s colour. The result state changes nothing but the marks, so the round stays recognisable as the round.</p>
+                  <h3>Knockouts, мөн адил</h3>
+                  <p>Нэг сүлжээнд арван хоёр нэр, тус бүр дасгалжуулагчийнхаа өнгөн дор. Үр дүнгийн төлөв зөвхөн тэмдгүүдийг өөрчилдөг тул тойрог өөрөөрөө танигдсаар үлдэнэ.</p>
                 </div>
                 <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
                 <div class="annot-shot two">
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-knockouts-list.jpg" alt="The knockout roster"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-knockouts-result.jpg" alt="The roster once the round is decided"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="2827" src="art/work/voice/knockouts-list-900.webp" srcset="art/work/voice/knockouts-list-480.webp 480w, art/work/voice/knockouts-list-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The knockout roster"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="2827" src="art/work/voice/knockouts-result-900.webp" srcset="art/work/voice/knockouts-result-480.webp 480w, art/work/voice/knockouts-result-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The roster once the round is decided"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
                 </div>
               </div>
               <div class="annot">
                 <div class="annot-note">
-                  <h3>A team filling up</h3>
-                  <p>The same coach page before the blinds and four auditions in: 0/16, then 4/16. The empty seats are drawn rather than hidden, so the shape of the season is visible from the first episode and every new artist lands somewhere a viewer has already seen.</p>
+                  <h3>Баг бүрдэж буй нь</h3>
+                  <p>Нэг л дасгалжуулагчийн хуудас &mdash; Blind audition эхлэхээс өмнө ба дөрвөн оролцогч сонгогдсоны дараа: 0/16, дараа нь 4/16. Хоосон суудлуудыг нуухын оронд зурсан тул улирлын дүр төрх эхний дугаараас харагдаж, шинэ уран бүтээлч бүр үзэгчийн аль хэдийн харсан газарт ирж суудаг.</p>
                 </div>
                 <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
                 <div class="annot-shot two">
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-coach.jpg" alt="The coach page before the blind auditions, 0 of 16"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-roster.jpg" alt="The same page four auditions in, 4 of 16"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="2972" src="art/work/voice/coach-900.webp" srcset="art/work/voice/coach-480.webp 480w, art/work/voice/coach-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The coach page before the blind auditions, 0 of 16"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="2972" src="art/work/voice/roster-900.webp" srcset="art/work/voice/roster-480.webp 480w, art/work/voice/roster-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="The same page four auditions in, 4 of 16"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
                 </div>
               </div>
               <div class="annot flip">
                 <div class="annot-note">
-                  <h3>A career in one column</h3>
-                  <p>Every performance an artist has given: the round, the song, and whether they survived it &mdash; passed, stolen, saved. The team colour follows them from the battle row to this page. When they are out, the page still tells the whole story.</p>
+                  <h3>Нэг баганад бүтэн зам</h3>
+                  <p>Уран бүтээлчийн хийсэн тоглолт бүр: тойрог, дуу, мөн тэр тойргийг давсан эсэх &mdash; давсан, steal, save. Багийн өнгө нь тэднийг Battle мөрөөс энэ хуудас хүртэл дагана. Хасагдсан ч хуудас бүх түүхийг хэлсээр байна.</p>
                 </div>
                 <svg class="annot-link" viewBox="0 0 110 120" aria-hidden="true"><path d="M102 22 C84 22 78 60 56 60 C36 60 28 60 14 60"/><polygon points="14,60 24,55 24,65"/></svg>
                 <div class="annot-shot two">
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-artist.jpg" alt="An artist still in the competition"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
-                  <div class="device"><div class="screen"><img loading="lazy" src="art/work/voice-artist-out.jpg" alt="An artist who has been eliminated"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="3394" src="art/work/voice/artist-900.webp" srcset="art/work/voice/artist-480.webp 480w, art/work/voice/artist-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="An artist still in the competition"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
+                  <div class="device"><div class="screen"><img loading="lazy" width="900" height="1947" src="art/work/voice/artist-out-900.webp" srcset="art/work/voice/artist-out-480.webp 480w, art/work/voice/artist-out-900.webp 900w" sizes="(min-width: 1240px) 226px, (min-width: 861px) 18.2vw, 150px" alt="An artist who has been eliminated"></div><span class="island"></span><span class="key k1"></span><span class="key k2"></span><span class="key k3"></span><span class="key pwr"></span></div>
                 </div>
               </div>
 
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
             </div>
           </section>
 
@@ -482,27 +501,26 @@
               <p class="kit-more">14 харуулав &middot; багийн өнгө, карт, сандал, дүрс тэмдэг, санал өгөх төлвүүд</p>
               <div class="kitwrap">
                 <div class="kit">
-                  <figure><img loading="lazy" src="art/work/vds/vote-card.png" alt=""></figure>
-                  <figure class="w52"><img loading="lazy" src="art/work/vds/nav-icons.png" alt=""></figure>
-                  <figure><img loading="lazy" src="art/work/vds/coaches.png" alt=""></figure>
-                  <figure class="w52"><img loading="lazy" src="art/work/vds/mark.png" alt=""></figure>
-                  <figure><img loading="lazy" src="art/work/vds/cards-empty.png" alt=""></figure>
-                  <figure class="w66"><img loading="lazy" src="art/work/vds/chairs.png" alt=""></figure>
-                  <figure class="w80 right"><img loading="lazy" src="art/work/vds/navigation.png" alt=""></figure>
-                  <figure class="w66"><img loading="lazy" src="art/work/vds/hook.png" alt=""></figure>
-                  <figure><img loading="lazy" src="art/work/vds/profile.png" alt=""></figure>
-                  <figure><img loading="lazy" src="art/work/vds/performance-row.png" alt=""></figure>
-                  <figure class="w80"><img loading="lazy" src="art/work/vds/navtab.png" alt=""></figure>
-                  <figure class="w66 right"><img loading="lazy" src="art/work/vds/save.png" alt=""></figure>
-                  <figure><img loading="lazy" src="art/work/vds/coach-swipe.png" alt=""></figure>
-                  <figure class="w80"><img loading="lazy" src="art/work/vds/video-row.png" alt=""></figure>
+                  <figure><img loading="lazy" width="892" height="556" src="art/work/voice/system/vote-card.webp" alt=""></figure>
+                  <figure class="w52"><img loading="lazy" width="420" height="928" src="art/work/voice/system/nav-icons.png" alt=""></figure>
+                  <figure><img loading="lazy" width="892" height="207" src="art/work/voice/system/coaches.webp" alt=""></figure>
+                  <figure class="w52"><img loading="lazy" width="244" height="244" src="art/work/voice/system/mark.png" alt=""></figure>
+                  <figure><img loading="lazy" width="888" height="550" src="art/work/voice/system/cards-empty.webp" alt=""></figure>
+                  <figure class="w66"><img loading="lazy" width="404" height="628" src="art/work/voice/system/chairs.webp" alt=""></figure>
+                  <figure class="w80 right"><img loading="lazy" width="900" height="224" src="art/work/voice/system/navigation.webp" alt=""></figure>
+                  <figure class="w66"><img loading="lazy" width="676" height="244" src="art/work/voice/system/hook.webp" alt=""></figure>
+                  <figure><img loading="lazy" width="890" height="516" src="art/work/voice/system/profile.webp" alt=""></figure>
+                  <figure><img loading="lazy" width="900" height="385" src="art/work/voice/system/performance-row.webp" alt=""></figure>
+                  <figure class="w80"><img loading="lazy" width="888" height="448" src="art/work/voice/system/navtab.webp" alt=""></figure>
+                  <figure class="w66 right"><img loading="lazy" width="676" height="244" src="art/work/voice/system/save.webp" alt=""></figure>
+                  <figure><img loading="lazy" width="900" height="461" src="art/work/voice/system/coach-swipe.webp" alt=""></figure>
+                  <figure class="w80"><img loading="lazy" width="890" height="332" src="art/work/voice/system/video-row.webp" alt=""></figure>
                 </div>
               </div>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
             </div>
           </section>
 
-          <section class="step wide" id="s06">
+          <section class="step" id="s06">
             <div class="step-side">
               <svg class="note" viewBox="0 0 46 38" aria-hidden="true"><g class="staff"><line x1="0" y1="6" x2="46" y2="6"/><line x1="0" y1="11" x2="46" y2="11"/><line x1="0" y1="16" x2="46" y2="16"/><line x1="0" y1="21" x2="46" y2="21"/><line x1="0" y1="26" x2="46" y2="26"/></g><line class="stem" x1="30.4" y1="18.5" x2="30.4" y2="5.5"/><ellipse class="head" cx="27" cy="18.5" rx="3.4" ry="2.5" transform="rotate(-18 27 18.5)"/></svg>
               <h2 class="step-t" lang="en">Outcome</h2>
@@ -511,24 +529,121 @@
               </div>
             </div>
             <div class="step-main">
-              <div class="tally">
-                <div><b>6&#8239;138</b><span>Хэсгийг нээсэн хүн</span></div>
-                <div><b>21&#8239;117</b><span>Нийт үйлдэл</span></div>
-                <div><b>3.4</b><span>Үйлдэл / хүн</span></div>
-                <div><b>1&#8239;315</b><span>Оргил 7 хоногийн хүн</span></div>
+              <div class="oc">
+                <p class="oc-find">Цөөн хүн олсон ч олсон хүмүүс нь дотогш орсон.</p>
+                <div class="oc-panel">
+                  <div class="oc-views">
+                  <div class="oc-view" id="ocv-vo-1" role="tabpanel" aria-labelledby="oct-vo-1">
+                    <div class="oc-stats four">
+                    <div class="oc-stat">
+                    <p class="oc-num">6 138</p>
+                    <p class="oc-lab">хүн нээсэн</p>
+                    <p class="oc-ctx">NetPay-ийн идэвхтэй хэрэглэгчийн 3.1%, 13 долоо хоногт</p>
+                    </div>
+                    <div class="oc-stat">
+                    <p class="oc-num">3.4</p>
+                    <p class="oc-lab">үйлдэл, нэг хүнд</p>
+                    <p class="oc-ctx">Нийт 21 117 үйлдэл</p>
+                    </div>
+                    <div class="oc-stat">
+                    <p class="oc-num">52.8%</p>
+                    <p class="oc-lab">нь нүүрээс цааш</p>
+                    <p class="oc-ctx">Профайл 29.0%, викторин 16.0%, баг 7.8%</p>
+                    <div class="oc-split" role="img" aria-label="Үйлдлийн хуваарь: нүүр 47.2%, профайл 29.0%, викторин 16.0%, баг 7.8%">
+                    <i class="home" style="flex-basis:47.2%" title="The Voice нүүр 47.2%"></i><i style="flex-basis:29.0%" title="Оролцогчийн профайл 29.0%"></i><i style="flex-basis:16.0%" title="Викторин 16.0%"></i><i style="flex-basis:7.8%" title="Миний баг 7.8%"></i>
+                    </div>
+                    </div>
+                    <div class="oc-stat chartfig">
+                    <p class="oc-num">&asymp;25</p>
+                    <p class="oc-lab">хариулт, тоглогч бүр долоо хоногт</p>
+                    <p class="oc-ctx">Викторин, тусдаа лог: 955 тоглогч</p>
+                    <div class="ocw" data-chart="quiz"><svg viewBox="0 0 147 56" role="img" class="tchart spark" aria-labelledby="ocquiz"><title id="ocquiz">Нэг тоглогчийн 7 хоногийн хариулт, 2025-10-27 — 2025-12-15</title><polyline class="ln new" points="5.0,27.1 24.1,30.4 43.3,31.8 62.4,26.4 81.6,27.8 100.7,29.6 119.9,22.7 139.0,28.2"/><circle class="dot new" cx="139.0" cy="28.2" r="4"/><line class="cross" x1="0" y1="2" x2="0" y2="54" aria-hidden="true"/><circle class="fdot" cx="0" cy="0" r="5" aria-hidden="true"/><g class="hits"><rect class="hit" x="0.0" y="0" width="14.6" height="56" tabindex="0" role="img" aria-label="2025-10-27: 25.2 хариулт, 188 тоглогч" data-x="5.0" data-y="27.1" data-label="2025-10-27" data-value="25.2 хариулт" data-series="188 тоглогч" data-cls="new"/><rect class="hit" x="14.6" y="0" width="19.1" height="56" tabindex="0" role="img" aria-label="2025-11-03: 24.3 хариулт, 250 тоглогч" data-x="24.1" data-y="30.4" data-label="2025-11-03" data-value="24.3 хариулт" data-series="250 тоглогч" data-cls="new"/><rect class="hit" x="33.7" y="0" width="19.1" height="56" tabindex="0" role="img" aria-label="2025-11-10: 23.9 хариулт, 227 тоглогч" data-x="43.3" data-y="31.8" data-label="2025-11-10" data-value="23.9 хариулт" data-series="227 тоглогч" data-cls="new"/><rect class="hit" x="52.9" y="0" width="19.1" height="56" tabindex="0" role="img" aria-label="2025-11-17: 25.4 хариулт, 195 тоглогч" data-x="62.4" data-y="26.4" data-label="2025-11-17" data-value="25.4 хариулт" data-series="195 тоглогч" data-cls="new"/><rect class="hit" x="72.0" y="0" width="19.1" height="56" tabindex="0" role="img" aria-label="2025-11-24: 25.0 хариулт, 223 тоглогч" data-x="81.6" data-y="27.8" data-label="2025-11-24" data-value="25.0 хариулт" data-series="223 тоглогч" data-cls="new"/><rect class="hit" x="91.1" y="0" width="19.1" height="56" tabindex="0" role="img" aria-label="2025-12-01: 24.5 хариулт, 178 тоглогч" data-x="100.7" data-y="29.6" data-label="2025-12-01" data-value="24.5 хариулт" data-series="178 тоглогч" data-cls="new"/><rect class="hit" x="110.3" y="0" width="19.1" height="56" tabindex="0" role="img" aria-label="2025-12-08: 26.4 хариулт, 168 тоглогч" data-x="119.9" data-y="22.7" data-label="2025-12-08" data-value="26.4 хариулт" data-series="168 тоглогч" data-cls="new"/><rect class="hit" x="129.4" y="0" width="17.6" height="56" tabindex="0" role="img" aria-label="2025-12-15: 24.9 хариулт, 145 тоглогч" data-x="139.0" data-y="28.2" data-label="2025-12-15" data-value="24.9 хариулт" data-series="145 тоглогч" data-cls="new"/></g></svg></div>
+                    </div>
+                    </div>
+                    <div class="oc-season chartfig">
+                    <p class="oc-lab">7 хоног тутмын хэрэглэгч, нэвтрүүлгийн тойргоор</p>
+                    <div class="ocw" data-chart="season"><svg viewBox="0 0 723 250" role="img" class="dchart season" aria-labelledby="ocseason"><title id="ocseason">7 хоног тутмын давхардаагүй хэрэглэгч, 2025-12-01 — 2026-02-23</title><defs><pattern id="oc-hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch" x1="0" y1="0" x2="0" y2="6"/></pattern></defs><rect class="stub" x="0" y="30" width="78" height="156" rx="4" fill="url(#oc-hatch)"/><text class="stublab" x="39.0" y="108.0" text-anchor="middle">логгүй</text><text class="stublab dim" x="39.0" y="124.0" text-anchor="middle">09‑28 — 11‑30</text><line class="grid zero" x1="90" y1="186" x2="723" y2="186"/><path class="bar new" data-row="0" d="M102.3 186 V125.7 a4 4 0 0 1 4 -4 H122.3 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="1" d="M151.0 186 V112.4 a4 4 0 0 1 4 -4 H171.0 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="2" d="M199.7 186 V122.5 a4 4 0 0 1 4 -4 H219.7 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="3" d="M248.4 186 V124.8 a4 4 0 0 1 4 -4 H268.4 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="4" d="M297.1 186 V127.2 a4 4 0 0 1 4 -4 H317.1 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="5" d="M345.8 186 V106.0 a4 4 0 0 1 4 -4 H365.8 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="6" d="M394.5 186 V115.1 a4 4 0 0 1 4 -4 H414.5 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="7" d="M443.2 186 V53.2 a4 4 0 0 1 4 -4 H463.2 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="8" d="M491.9 186 V171.2 a4 4 0 0 1 4 -4 H511.9 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="9" d="M540.6 186 V171.9 a4 4 0 0 1 4 -4 H560.6 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="10" d="M589.3 186 V166.5 a4 4 0 0 1 4 -4 H609.3 a4 4 0 0 1 4 4 V186 Z"/><path class="bar new" data-row="11" d="M638.0 186 V183.0 a2.9639999999999986 2.9639999999999986 0 0 1 2.9639999999999986 -2.9639999999999986 H659.0 a2.9639999999999986 2.9639999999999986 0 0 1 2.9639999999999986 2.9639999999999986 V186 Z"/><path class="bar new" data-row="12" d="M686.7 186 V184.4 a1.5600000000000023 1.5600000000000023 0 0 1 1.5600000000000023 -1.5600000000000023 H709.1 a1.5600000000000023 1.5600000000000023 0 0 1 1.5600000000000023 1.5600000000000023 V186 Z"/><text class="vlab peak" x="455.2" y="40.2" text-anchor="middle">1 315</text><line class="band" x1="93.0" x2="233.1" y1="198" y2="198"/><text class="bandlab" x="163.0" y="215" text-anchor="middle">Battle</text><line class="band" x1="239.1" x2="427.8" y1="198" y2="198"/><text class="bandlab" x="333.5" y="215" text-anchor="middle">Knockout</text><line class="band" x1="433.8" x2="525.2" y1="198" y2="198"/><text class="bandlab" x="479.5" y="215" text-anchor="middle">Quarter final</text><line class="band" x1="531.2" x2="573.9" y1="198" y2="198"/><text class="bandlab" x="552.6" y="215" text-anchor="middle">Semi</text><line class="band" x1="579.9" x2="622.6" y1="198" y2="198"/><text class="bandlab" x="601.3" y="215" text-anchor="middle">Final</text><line class="band" x1="628.6" x2="720.0" y1="198" y2="198"/><text class="bandlab" x="674.3" y="215" text-anchor="middle">Дууссан</text><line class="band" x1="3" x2="75" y1="198" y2="198"/><text class="bandlab" x="39.0" y="215" text-anchor="middle">Blind</text><line class="vote" x1="433.8" x2="622.6" y1="232" y2="232"/><text class="votelab" x="622.6" y="247" text-anchor="end">санал хураалттай тойргууд, 01‑23-аас</text><g class="hits"><rect class="hit" x="90.0" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2025-12-01, 10-р дугаар: 618 хүн, 1 871 үйлдэл" data-row="0" data-x="114.3" data-y="121.7" data-label="2025-12-01, 10-р дугаар" data-value="618 хүн" data-series="1 871 үйлдэл" data-cls="new"/><rect class="hit" x="138.7" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2025-12-08, 11-р дугаар: 746 хүн, 2 659 үйлдэл" data-row="1" data-x="163.0" data-y="108.4" data-label="2025-12-08, 11-р дугаар" data-value="746 хүн" data-series="2 659 үйлдэл" data-cls="new"/><rect class="hit" x="187.4" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2025-12-15, 12-р дугаар: 649 хүн, 2 362 үйлдэл" data-row="2" data-x="211.7" data-y="118.5" data-label="2025-12-15, 12-р дугаар" data-value="649 хүн" data-series="2 362 үйлдэл" data-cls="new"/><rect class="hit" x="236.1" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2025-12-22, 13-р дугаар: 627 хүн, 2 464 үйлдэл" data-row="3" data-x="260.4" data-y="120.8" data-label="2025-12-22, 13-р дугаар" data-value="627 хүн" data-series="2 464 үйлдэл" data-cls="new"/><rect class="hit" x="284.8" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2025-12-29, 14-р дугаар: 604 хүн, 1 696 үйлдэл" data-row="4" data-x="309.1" data-y="123.2" data-label="2025-12-29, 14-р дугаар" data-value="604 хүн" data-series="1 696 үйлдэл" data-cls="new"/><rect class="hit" x="333.5" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-01-05, 15-р дугаар: 808 хүн, 2 030 үйлдэл" data-row="5" data-x="357.8" data-y="102.0" data-label="2026-01-05, 15-р дугаар" data-value="808 хүн" data-series="2 030 үйлдэл" data-cls="new"/><rect class="hit" x="382.2" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-01-12, 16-р дугаар: 720 хүн, 1 858 үйлдэл" data-row="6" data-x="406.5" data-y="111.1" data-label="2026-01-12, 16-р дугаар" data-value="720 хүн" data-series="1 858 үйлдэл" data-cls="new"/><rect class="hit" x="430.8" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-01-19, 17-р дугаар: 1 315 хүн, 4 032 үйлдэл" data-row="7" data-x="455.2" data-y="49.2" data-label="2026-01-19, 17-р дугаар" data-value="1 315 хүн" data-series="4 032 үйлдэл" data-cls="new"/><rect class="hit" x="479.5" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-01-26, 18-р дугаар: 181 хүн, 532 үйлдэл" data-row="8" data-x="503.9" data-y="167.2" data-label="2026-01-26, 18-р дугаар" data-value="181 хүн" data-series="532 үйлдэл" data-cls="new"/><rect class="hit" x="528.2" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-02-02, 19-р дугаар: 174 хүн, 520 үйлдэл" data-row="9" data-x="552.6" data-y="167.9" data-label="2026-02-02, 19-р дугаар" data-value="174 хүн" data-series="520 үйлдэл" data-cls="new"/><rect class="hit" x="576.9" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-02-09, 20-р дугаар: 226 хүн, 955 үйлдэл" data-row="10" data-x="601.3" data-y="162.5" data-label="2026-02-09, 20-р дугаар" data-value="226 хүн" data-series="955 үйлдэл" data-cls="new"/><rect class="hit" x="625.6" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-02-16, шоу дууссан: 57 хүн, 96 үйлдэл" data-row="11" data-x="650.0" data-y="180.1" data-label="2026-02-16, шоу дууссан" data-value="57 хүн" data-series="96 үйлдэл" data-cls="new"/><rect class="hit" x="674.3" y="22" width="48.7" height="164.0" tabindex="0" role="img" aria-label="2026-02-23, шоу дууссан: 30 хүн, 42 үйлдэл" data-row="12" data-x="698.7" data-y="182.9" data-label="2026-02-23, шоу дууссан" data-value="30 хүн" data-series="42 үйлдэл" data-cls="new"/></g></svg></div>
+                    </div>
+                  </div>
+                  <div class="oc-view oc-tabview" id="ocv-vo-2" role="tabpanel" aria-labelledby="oct-vo-2">
+                    <table class="ctab">
+                    <caption>13 долоо хоног, хэсгээр</caption>
+                    <thead><tr><th scope="col">Хэсэг</th><th scope="col">Үйлдэл</th><th scope="col">Хувь</th></tr></thead>
+                    <tbody>
+                    <tr><th scope="row">The Voice нүүр</th><td>9 967</td><td>47.2%</td></tr>
+                    <tr><th scope="row">Оролцогчийн профайл</th><td>6 132</td><td>29.0%</td></tr>
+                    <tr><th scope="row">Викторин</th><td>3 381</td><td>16.0%</td></tr>
+                    <tr><th scope="row">Миний баг</th><td>1 637</td><td>7.8%</td></tr>
+                    </tbody>
+                    <tfoot><tr><th scope="row">Нийт</th><td>21 117</td><td>100%</td></tr></tfoot>
+                    </table>
+                    <p class="ctab-sum">6 138 хүн нээсэн, давхардаагүй &mdash; нэг хүнд <b>3.4 үйлдэл</b>.
+                    Оргил 7 хоног 2026&#8209;01&#8209;19: 1 315 хүн, 4 032 үйлдэл.</p>
+                  </div>
+                  <div class="oc-view oc-tabview" id="ocv-vo-3" role="tabpanel" aria-labelledby="oct-vo-3">
+                    <table class="ctab wk">
+                    <caption>7 хоног бүр</caption>
+                    <thead><tr><th scope="col">7 хоног</th><th scope="col">Хүн</th><th scope="col">Үйлдэл</th><th scope="col">Нүүр</th><th scope="col">Профайл</th><th scope="col">Викторин</th><th scope="col">Миний баг</th></tr></thead>
+                    <tbody>
+                    <tr><th scope="row">2025-12-01</th><td>618</td><td>1 871</td><td>855</td><td>427</td><td>454</td><td>135</td></tr>
+                    <tr><th scope="row">2025-12-08</th><td>746</td><td>2 659</td><td>1 135</td><td>525</td><td>791</td><td>208</td></tr>
+                    <tr><th scope="row">2025-12-15</th><td>649</td><td>2 362</td><td>1 045</td><td>485</td><td>660</td><td>172</td></tr>
+                    <tr><th scope="row">2025-12-22</th><td>627</td><td>2 464</td><td>1 137</td><td>919</td><td>215</td><td>193</td></tr>
+                    <tr><th scope="row">2025-12-29</th><td>604</td><td>1 696</td><td>937</td><td>494</td><td>156</td><td>109</td></tr>
+                    <tr><th scope="row">2026-01-05</th><td>808</td><td>2 030</td><td>1 261</td><td>478</td><td>156</td><td>135</td></tr>
+                    <tr><th scope="row">2026-01-12</th><td>720</td><td>1 858</td><td>1 128</td><td>483</td><td>132</td><td>115</td></tr>
+                    <tr><th scope="row">2026-01-19</th><td>1 315</td><td>4 032</td><td>2 033</td><td>1 156</td><td>469</td><td>374</td></tr>
+                    <tr><th scope="row">2026-01-26</th><td>181</td><td>532</td><td>42</td><td>326</td><td>102</td><td>62</td></tr>
+                    <tr><th scope="row">2026-02-02</th><td>174</td><td>520</td><td>58</td><td>294</td><td>111</td><td>57</td></tr>
+                    <tr><th scope="row">2026-02-09</th><td>226</td><td>955</td><td>248</td><td>515</td><td>125</td><td>67</td></tr>
+                    <tr><th scope="row">2026-02-16</th><td>57</td><td>96</td><td>59</td><td>22</td><td>9</td><td>6</td></tr>
+                    <tr><th scope="row">2026-02-23</th><td>30</td><td>42</td><td>29</td><td>8</td><td>1</td><td>4</td></tr>
+                    </tbody>
+                    <tfoot><tr><th scope="row">Нийт</th><td>6 138</td><td>21 117</td><td>9 967</td><td>6 132</td><td>3 381</td><td>1 637</td></tr></tfoot>
+                    </table>
+                    <p class="ctab-sum">Хүний нийт 6 138 нь давхардаагүй: нэг хүн хэд хэдэн долоо хоногт орсон тул долоо хоногуудыг нэмбэл 6 755 болно.</p>
+
+                  </div>
+                  <div class="oc-view oc-tabview" id="ocv-vo-4" role="tabpanel" aria-labelledby="oct-vo-4">
+                    <table class="ctab wk">
+                      <caption>Викторин, тусдаа лог: 2025&#8209;10&#8209;27 &mdash; 2025&#8209;12&#8209;21</caption>
+                      <thead><tr><th scope="col">7 хоног</th><th scope="col">Тоглогч</th><th scope="col">Хариулт</th><th scope="col">Хариулт / хүн</th><th scope="col">Зөв</th></tr></thead>
+                      <tbody>
+                      <tr><th scope="row">2025-10-27</th><td>188</td><td>4 733</td><td>25.2</td><td>54.1%</td></tr>
+                      <tr><th scope="row">2025-11-03</th><td>250</td><td>6 087</td><td>24.3</td><td>51.0%</td></tr>
+                      <tr><th scope="row">2025-11-10</th><td>227</td><td>5 435</td><td>23.9</td><td>53.5%</td></tr>
+                      <tr><th scope="row">2025-11-17</th><td>195</td><td>4 950</td><td>25.4</td><td>53.4%</td></tr>
+                      <tr><th scope="row">2025-11-24</th><td>223</td><td>5 564</td><td>25.0</td><td>53.6%</td></tr>
+                      <tr><th scope="row">2025-12-01</th><td>178</td><td>4 367</td><td>24.5</td><td>52.9%</td></tr>
+                      <tr><th scope="row">2025-12-08</th><td>168</td><td>4 429</td><td>26.4</td><td>52.4%</td></tr>
+                      <tr><th scope="row">2025-12-15</th><td>145</td><td>3 612</td><td>24.9</td><td>55.5%</td></tr>
+                      </tbody>
+                      <tfoot><tr><th scope="row">Нийт</th><td>955</td><td>39 177</td><td>41.0</td><td>53.2%</td></tr></tfoot>
+                    </table>
+                    <p class="ctab-sum">Өөр эх сурвалж, өөр хугацаа: дээрх 13 долоо хоногийн тоотой нэмж, нэг юүлүүр болгож уншихгүй. Нийтийн 955 нь давхардаагүй тоглогч; нийт хариулт / хүн нь найман долоо хоногийн дүн.</p>
+                  </div>
+                  </div>
+                  <div class="oc-segbar">
+                    <div class="oc-seg" role="tablist" aria-label="Outcome — харагдац сонгох">
+                      <button type="button" class="oc-segb" role="tab" id="oct-vo-1" aria-controls="ocv-vo-1" aria-selected="true">Тойм</button>
+                      <button type="button" class="oc-segb" role="tab" id="oct-vo-2" aria-controls="ocv-vo-2" aria-selected="false">Хэсгээр</button>
+                      <button type="button" class="oc-segb" role="tab" id="oct-vo-3" aria-controls="ocv-vo-3" aria-selected="false">7 хоногоор</button>
+                      <button type="button" class="oc-segb" role="tab" id="oct-vo-4" aria-controls="ocv-vo-4" aria-selected="false">Викторин</button>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-
-              <p class="d-note"><b>Үзэхээс цааш орсон.</b> Үйлдлийн талаас илүү нь
+<p class="d-note"><b>Үзэхээс цааш орсон.</b> Үйлдлийн талаас илүү нь
                 оролцогчийн профайл, викторин, багаа бүрдүүлэх дээр буусан &mdash; өөрөөр
                 хэлбэл хүмүүс нүүр хуудсыг нээгээд гараад явчихаагүй, дотогш орсон.
                 Нээсэн хүн тутамд дунджаар 3.4 үйлдэл ногдоно.</p>
 
-              <p class="d-note"><b>Хэн ч холдоогүй.</b> Викторины тусдаа лог дээр
+              <p class="d-note"><b>Тоглосон хүмүүс тоглосоор байсан.</b> Викторины тусдаа лог дээр
                 (2025&#8209;10&#8209;27 &mdash; 2025&#8209;12&#8209;21, найман долоо хоног) 955 хүн
-                39&#8239;177 хариулт бичсэн: долоо хоног бүр хорин таван орчим асуулт, талаас
-                илүү нь зөв. Долоо хоног тутмын тоглогчийн тоо 145&ndash;250-ийн хооронд
-                тогтвортой байж, уналт огт гараагүй.</p>
+                39&#8239;177 хариулт бичсэн. Долоо хоног тутмын тоглогчийн тоо оргил 250-аас сүүлийн
+                долоо хоногт 145 болж цөөрсөн ч тоглосон хүн бүр долоо хоногт 24&ndash;26 асуултад
+                хариулж, зөв хариулт 51&ndash;56% хооронд тогтвортой байсан &mdash; цөөрсөн нь хүний
+                тоо, оролцооны гүн биш.</p>
 
               <p class="d-note"><b>Нэвтрүүлгийн хэмнэлээр хөдөлсөн.</b> Оргил долоо хоног
                 нь 2026&#8209;01&#8209;19, тухайн хэсэгт 1&#8239;315 хүн, 4&#8239;032 үйлдэл. Дөрвөн
@@ -538,9 +653,9 @@
               <p class="d-src">Эх сурвалж: <code>voice_mongolia.voice_activity_log</code>,
                 13 долоо хоног, 2025&#8209;12&#8209;01 &mdash; 2026&#8209;02&#8209;23;
                 викторин <code>quiz_cust_answer</code> &times; <code>quiz_week_info</code>.</p>
-              <a class="step-back" href="#contents">&uarr; Агуулга</a>
             </div>
           </section>
+            <script type="application/json" id="chart-data">{"season":{"type":"season","hi":1500,"unit":" хүн","sep":" ","values":[618,746,649,627,604,808,720,1315,181,174,226,57,30],"labels":["2025-12-01, 10-р дугаар","2025-12-08, 11-р дугаар","2025-12-15, 12-р дугаар","2025-12-22, 13-р дугаар","2025-12-29, 14-р дугаар","2026-01-05, 15-р дугаар","2026-01-12, 16-р дугаар","2026-01-19, 17-р дугаар","2026-01-26, 18-р дугаар","2026-02-02, 19-р дугаар","2026-02-09, 20-р дугаар","2026-02-16, шоу дууссан","2026-02-23, шоу дууссан"],"series":["1 871 үйлдэл","2 659 үйлдэл","2 362 үйлдэл","2 464 үйлдэл","1 696 үйлдэл","2 030 үйлдэл","1 858 үйлдэл","4 032 үйлдэл","532 үйлдэл","520 үйлдэл","955 үйлдэл","96 үйлдэл","42 үйлдэл"],"bands":[[0,2,"Battle"],[3,6,"Knockout"],[7,8,"Quarter final","QF"],[9,9,"Semi","SF"],[10,10,"Final","F"],[11,12,"Дууссан","—"]],"stub":["логгүй","09‑28 — 11‑30"],"stubBand":"Blind","vote":[7,10,"санал хураалттай тойргууд, 01‑23-аас"]},"quiz":{"type":"spark","months":["2025-10-27","2025-11-03","2025-11-10","2025-11-17","2025-11-24","2025-12-01","2025-12-08","2025-12-15"],"unit":" хариулт","dec":1,"values":[25.2,24.3,23.9,25.4,25.0,24.5,26.4,24.9],"series":["188 тоглогч","250 тоглогч","227 тоглогч","195 тоглогч","223 тоглогч","178 тоглогч","168 тоглогч","145 тоглогч"],"lo":19.46,"hi":30.44}}</script>
 
     </section>
 
@@ -554,13 +669,15 @@
       <div class="foot-l">
         <a href="work.html">Миний ажил</a>
         <a href="how-i-work.html">Би хэрхэн ажилладаг</a>
-        <a href="#">Тухай</a>
-        <a href="#">Туршилтын талбар</a>
-        <a href="#">Холбоо барих</a>
+        <a href="playground.html" lang="en">Playground</a>
+        <a href="about.html">Тухай</a>
+        <a href="contact.html">Холбоо барих</a>
       </div>
     </nav>
 
   </main>
 </div>
+<script src="scroll.js?v=34" defer></script>
+<script src="chart-hover.js?v=11" defer></script>
 </body>
 </html>

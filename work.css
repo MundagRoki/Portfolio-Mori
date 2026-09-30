@@ -10,20 +10,60 @@
    lives here.
    ============================================================ */
 
-.work-lede{max-width:44ch;margin:0 auto;text-align:center;
-  font-family:var(--f-display);font-style:italic;font-weight:300;
-  font-size:17px;line-height:1.6;color:var(--ink-2)}
-
 /* ---------- case opening: a printed title page ---------- */
 /* Client, then a sentence-long title, then the specification ruled off in
    columns — the same order a plate in a monograph is captioned. The cover runs
    full bleed underneath it, so the title sits on paper and the work does not. */
 .case-hero{padding:clamp(40px,8vh,104px) 0 0}
+body.case-netpay .case-hero,
+body.case-hub .case-hero{padding-top:clamp(24px,4.4vh,56px)}
+/* The cover rides up over the title block on the way past. The hero is pinned
+   with position:sticky and the plate, which comes after it in flow and carries
+   an opaque image, slides over the top of it — no scroll listener, no
+   transform, just stacking order and a pin.
+   .hero-stack is what makes it stop. A sticky element unpins at the end of its
+   CONTAINING BLOCK, not when something covers it — left inside section.case it
+   stayed pinned for the whole case study and sat on top of every section below.
+   The wrapper bounds it to the hero and the plate, so the pin ends with them.
+   isolation:isolate keeps the two z-indexes a private matter between these two
+   elements rather than something the rest of the page has to know about.
+   z-index has to be stated on both: .case-hero would otherwise paint above the
+   plate as a positioned element, and the effect would run backwards. */
+/* In the opening section the sub-heading sits straight after the claim panel
+   and straight before the numbered list, both of which already draw their own
+   edges — a rule above it made three horizontals stacked within 80px. The
+   lines that stay are the ones doing work: the ones between the list rows. */
+.step-intro .step-sub{border-top:0;padding-top:0;
+  /* the claim card ends in a hard edge and this heading has no rule of its own
+     to separate them, so the gap is doing all the work */
+  margin-top:clamp(72px,11vh,132px)}
+.step-intro .rolelist li:first-child{border-top:0}
+
+body.case-netpay .hero-stack,
+body.case-voice .hero-stack{position:relative;isolation:isolate;
+  /* The cover has just slid over the title, so it needs room to land before
+     the first section rule starts the case proper. On NetPay this collapses
+     against .dark's own top margin rather than adding to it, so the number here
+     is the whole gap, not an increment on top of the 51px already there. */
+  margin-bottom:clamp(72px,13vh,160px)}
+body.case-netpay .case-hero,
+body.case-voice .case-hero{position:sticky;top:clamp(24px,4.4vh,56px);z-index:0}
+body.case-netpay .hero-plate,
+body.case-voice .hero-plate{position:relative;z-index:1}
+@media (prefers-reduced-motion:reduce){
+  body.case-netpay .case-hero,
+  body.case-voice .case-hero{position:static}
+}
 .hero-eyebrow{font-family:var(--f-label);font-size:11px;font-weight:500;
   letter-spacing:.22em;text-transform:uppercase;color:var(--faint);
   margin-bottom:clamp(12px,2vh,22px)}
-.hero-eyebrow i{font-family:'Noto Sans Mongolian', var(--f-display);
-  font-style:normal;letter-spacing:0;color:var(--red);margin-right:9px}
+/* the eyebrow carries more than one item now, so it needs a mark between them.
+   A square rather than a middot: at 11px with .22em tracking a dot disappears
+   into the letter-spacing, and the page already spends its accent here. */
+body.case-netpay .hero-eyebrow span + span::before,
+body.case-voice .hero-eyebrow span + span::before,
+body.case-hub .hero-eyebrow span + span::before{content:"\25aa";color:var(--red);
+  margin:0 11px 0 9px;letter-spacing:0}
 /* The title is the loudest thing on the page: it runs four or five lines at
    display size and the rule under the spec closes the block. */
 /* The case title is the one place a high-contrast display serif earns its
@@ -32,15 +72,99 @@
 .hero-t{font-family:var(--f-display);font-style:italic;font-weight:500;
   font-size:clamp(32px,5.1vw,68px);line-height:1.1;letter-spacing:-.018em;
   margin:0 0 clamp(40px,7vh,90px);max-width:24ch;color:var(--red)}
+/* One paragraph between the title and the row, sized between the two so the
+   block reads title -> summary -> facts rather than title -> wall. It is
+   narrower than the measure the running copy uses: at hero size a 64ch line
+   under a 24ch title makes the title look like a caption on the paragraph. */
+body.case-netpay .hero-desc,
+body.case-voice .hero-desc,
+body.case-hub .hero-desc{max-width:55ch;margin:0 0 clamp(26px,4.2vh,48px);
+  font-size:15.5px;line-height:1.62;color:var(--ink-2)}
+/* the title's own bottom margin was sized to carry straight into the spec
+   rule; with a paragraph in between it only has to reach the paragraph */
+body.case-netpay .hero-t,
+body.case-voice .hero-t,
+body.case-hub .hero-t{margin-bottom:clamp(10px,1.6vh,18px)}
 /* The spec labels go a step heavier here. 600 is as far as the shared font
    request reaches, so this page asks for the 700 cut too — at 10.5px uppercase
    with .22em tracking, a synthesised bold would thicken the stems without
-   redrawing them and the Cyrillic would go muddy. */
-body.case-dark:not(.case-voice) .spec dt{font-weight:700}
+   redrawing them and the Cyrillic would go muddy. NetPay is out: its labels
+   run light rather than heavy, and 500 is a drawn cut of Golos Text too, so
+   the same argument holds going down as going up. */
+body.case-dark:not(.case-voice):not(.case-netpay):not(.case-hub) .spec dt{font-weight:700}
 
 /* a rule above only — the row is the foot of the title block, not a box */
 .spec{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin:0;
   border-top:1px solid var(--rule)}
+/* unless the hero carries a description, in which case the row is a band in
+   the middle of the block rather than its foot, and needs closing underneath.
+   Keyed off the paragraph so the rule travels with the structure instead of
+   being pinned to one page. */
+body.case-netpay .spec,
+body.case-voice .spec,
+body.case-hub .spec{border-bottom:1px solid var(--rule)}
+/* Once the band is closed top and bottom, a full-height divider welds into
+   both rules and the row reads as a drawn table. Dropping it to a pseudo
+   element inset from either end leaves the four rules meeting nothing: the
+   horizontals run the width, the verticals float between them and only have
+   to separate the cells. Same hook as above, so pages without a description
+   keep the plain border. */
+body.case-netpay .spec-i,
+body.case-voice .spec-i,
+body.case-hub .spec-i{position:relative;
+  /* the block starts at the page's left margin rather than inset from it, so
+     the first label lines up under the title and the eyebrow instead of
+     stepping in from them. Every later cell keeps its inset, which is what
+     puts air on both sides of the divider. */
+  padding:clamp(20px,3.1vh,28px) clamp(22px,2.8vw,42px) clamp(24px,3.6vh,32px)
+    clamp(13px,1.6vw,22px)}
+body.case-netpay .spec-i:first-child,
+body.case-voice .spec-i:first-child,
+body.case-hub .spec-i:first-child{padding-left:0}
+/* the value comes down off the 16px the other case pages set and the label
+   goes back to the page's own micro size. 10.5px is the size the contrast
+   note upstairs is written against: --red on the ground reads 4.63:1 over the
+   brightest bloom, so the label clears 4.5 at this size with nothing to
+   spare — it is the floor, not a step on the way down. */
+body.case-netpay .spec dt,
+body.case-voice .spec dt,
+body.case-hub .spec dt{font-size:var(--t-micro);font-weight:500}
+body.case-netpay .spec dd,
+body.case-voice .spec dd,
+body.case-hub .spec dd{font-size:15px;font-weight:400;margin-top:10px}
+/* The row is not four equal quarters here. The first three columns are sized
+   to what they hold and the fourth takes every remaining pixel, which packs
+   the facts against the left margin and leaves the slack at the end of the
+   line rather than spreading it evenly between them. max-content as the floor
+   means a long value widens its own column instead of overflowing it. */
+body.case-netpay .spec,
+body.case-voice .spec,
+body.case-hub .spec{grid-template-columns:repeat(3,minmax(max-content,.44fr))
+  minmax(max-content,1fr)}
+body.case-netpay .spec-i + .spec-i,
+body.case-voice .spec-i + .spec-i,
+body.case-hub .spec-i + .spec-i{border-left:0}
+/* the fourth cell is a link rather than a fact, so it says so twice: the
+   underline sits off the baseline far enough not to clip the Cyrillic
+   descenders, and the arrow is a pseudo element so it never lands in the
+   accessible name or gets read out as a word. */
+body.case-netpay .spec-link,
+body.case-voice .spec-link{color:var(--ink);text-decoration:none;
+  border-bottom:1px solid var(--olive-soft);padding-bottom:3px;
+  transition:color .15s ease,border-color .15s ease}
+body.case-netpay .spec-link::after,
+body.case-voice .spec-link::after{content:"\2197";margin-left:7px;
+  font-size:.88em;color:var(--red)}
+body.case-netpay .spec-link:hover,
+body.case-netpay .spec-link:focus-visible,
+body.case-voice .spec-link:hover,
+body.case-voice .spec-link:focus-visible{color:var(--red);
+  border-bottom-color:var(--red)}
+body.case-netpay .spec-i + .spec-i::before,
+body.case-voice .spec-i + .spec-i::before,
+body.case-hub .spec-i + .spec-i::before{content:"";
+  position:absolute;left:0;top:clamp(12px,2vh,20px);bottom:clamp(12px,2vh,20px);
+  width:1px;background:var(--rule)}
 .spec-i{padding:clamp(18px,3vh,28px) clamp(16px,2.4vw,34px)}
 .spec-i + .spec-i{border-left:1px solid var(--rule)}
 /* every cell padded alike, including the first: the rule runs the full width
@@ -55,6 +179,9 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 /* held inside the gutter with the rest of the page, not full bleed */
 /* The plate carries the mockup's own 4:3 so the device is not cropped. */
 .hero-plate{width:100%;margin:clamp(40px,6.5vh,84px) 0 0}
+/* NetPay wraps its cover in <picture> for the WebP srcset. <picture> is inline
+   by default; as a block the img inside lays out exactly as a bare one does */
+.hero-plate picture{display:block}
 .hero-plate img{display:block;width:100%;height:auto;aspect-ratio:4/3;
   object-fit:cover}
 
@@ -62,32 +189,17 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .case{padding:clamp(56px,9vh,112px) 0 0}
 .case + .case{border-top:1px solid var(--rule-2);margin-top:clamp(56px,9vh,110px)}
 
-.case-head{display:grid;grid-template-columns:auto minmax(0,1fr);
-  column-gap:clamp(16px,2.4vw,34px);align-items:baseline;
-  max-width:74ch;margin:0 auto}
-.case-n{font-family:'Noto Sans Mongolian', var(--f-display);
-  /* upright — a standalone digit has no cursive joining */
-  font-size:19px;line-height:1;color:var(--red)}
-.case-t{font-family:var(--f-display);font-style:italic;font-weight:600;
-  font-size:34px;line-height:1.08;letter-spacing:-.018em;margin:0;color:var(--ink)}
-.case-meta{grid-column:2;display:flex;flex-wrap:wrap;gap:6px 22px;margin-top:12px}
-.case-meta span{font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--faint)}
-
-.case-body{max-width:66ch;margin:clamp(20px,3vh,34px) auto 0;
-  font-size:16px;line-height:1.7;color:var(--ink-2)}
-.case-body p{margin:0 0 1em}
-.case-body p:last-child{margin-bottom:0}
-.case-body b{font-weight:400;color:var(--red)}
-
-/* what I actually did — a list, because it is one */
-.did{list-style:none;max-width:66ch;margin:clamp(20px,3vh,32px) auto 0;padding:0}
-.did li{display:grid;grid-template-columns:auto 1fr;column-gap:16px;
-  padding:9px 0;border-bottom:1px solid var(--rule-2);
-  font-size:16px;line-height:1.45}
-.did li:last-child{border-bottom:0}
-.did .d-n{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  font-variant-numeric:tabular-nums;letter-spacing:.1em;color:var(--faint);padding-top:.5em}
+/* Every named text class caps its own measure — .brief 64ch, .step-sub-b
+   68ch. The paragraphs that open each section carry no class, so without
+   this they inherited nothing and ran the full container: 92–129 characters
+   a line on a 1440 screen, against a comfortable 45–75. That made every
+   section open with the widest, loosest block on it, which is what read as
+   "too much text" even where the text was short.
+   56ch not 64: in GIP the "0" glyph is 9.76px against a 7.57px average
+   Cyrillic character, so ch overshoots Mongolian text by ~29% and 64ch would
+   still set ~83 characters. 56ch lands at ~72.
+   Scoped to :not([class]) so anything with its own class keeps its own cap. */
+.case-page section p:not([class]){max-width:56ch}
 
 /* ---------- contents ---------- */
 /* Built like the category menu on the home page, which is the one list idiom
@@ -149,9 +261,612 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .step-t{font-family:var(--f-display);font-style:italic;font-weight:500;
   font-size:clamp(24px,2.3vw,31px);line-height:1.14;letter-spacing:-.018em;
   margin:0;color:var(--np-ink)}
-.step-meta{margin:14px 0 0;font-family:var(--f-label);font-size:var(--t-micro);
-  font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--np-faint)}
-.step-meta span + span::before{content:"·";margin:0 10px;color:var(--np-line)}
+/* ---------- the opening section ---------- */
+/* It reads the other way round from the rest of the case: the side column
+   carries the number, a kicker and a jump list, and the title moves into the
+   main column where the reading starts. Everything else on the page keeps
+   title-on-the-left, so this is scoped to .step-intro rather than loosened
+   globally. */
+/* 600 is the top of GIP's range — it is cut at 300/400/500/600, so anything
+   heavier here would be a synthesised bold thickening the stems rather than a
+   drawn weight, and the Cyrillic would thicken unevenly */
+.step-intro .step-t{font-family:'GIP','Source Serif 4',Georgia,serif;
+  font-style:normal;font-weight:600;font-size:clamp(21px,2.2vw,29px);
+  letter-spacing:-.01em;line-height:1.2;color:var(--np-ink);margin-bottom:.6em}
+/* the opening section's side column carries a title like every other section
+   does, so it is set as one: same face, slant, size and colour as .step-t
+   rather than as a label. English, with lang set, the way the other section
+   headings on this page are. */
+.step-kicker{margin:0 0 clamp(18px,2.8vh,28px);font-family:var(--f-display);
+  font-style:italic;font-weight:500;font-size:clamp(24px,2.3vw,31px);
+  line-height:1.14;letter-spacing:-.018em;text-transform:none;
+  color:var(--np-ink)}
+/* the jump list: one rule per row, so the column reads as a small index */
+.step-nav{display:block;border-top:1px solid var(--np-line)}
+.step-nav a{display:block;padding:17px 0;border-bottom:1px solid var(--np-line);
+  font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--np-faint);
+  text-decoration:none;transition:color .15s ease}
+.step-nav a:hover,.step-nav a:focus-visible{color:var(--np-accent)}
+/* the jump list points at headings inside the main column, not at the section
+   box, so those headings need the header clearance .step already carries —
+   without it the smooth scroll parks them under the sticky bar */
+.step-intro .step-main [id]{scroll-margin-top:96px}
+
+/* label left, sentence right, a rule over each row — the facts of the product
+   stated as a list rather than buried in the paragraph above them */
+/* A labelled hairline opens the set: the label sits at the left and the rule
+   runs out from it to the measure's edge, so the block is announced without a
+   heading competing with the section title above it. */
+.deflist-head{display:flex;align-items:center;gap:clamp(12px,1.6vw,20px);
+  margin:clamp(34px,5.2vh,58px) 0 clamp(18px,2.6vh,26px);
+  font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--np-faint)}
+.deflist-head::after{content:"";flex:1;height:1px;background:var(--np-line)}
+
+/* ---------- the pinned horizontal gallery ---------- */
+/* The section is three viewports tall and its inner frame is sticky, so while
+   you scroll past it the frame holds still and the track slides sideways —
+   vertical scrolling becomes horizontal travel, and the page carries straight
+   on once the section is behind you. Nothing is hijacked: the wheel is never
+   intercepted, the scrollbar stays honest, and the whole thing is one CSS
+   animation on a named view timeline. The earlier version only answered
+   horizontal wheel deltas, which a mouse cannot produce — this answers the
+   scroll everyone already has.
+   --slides has to match the number of .gal-slide children. */
+.gal{--slides:3;position:relative;
+  --gal-top:clamp(84px,10vh,116px);--gal-bot:clamp(48px,9vh,104px);
+  /* The pin's first screen is mostly empty: the picture is centred in a full
+     viewport, so at the moment the section arrives there is half a screen of
+     nothing between the standfirst above and the caption below. That blank is
+     lead-in, not layout — it exists only until the pin engages. Pulling the
+     section up by roughly its height lets the lead-in overlap the text instead
+     of pushing it away, so the pair starts close together; scrolling on lifts
+     the heading and standfirst out of the way and the picture settles centred
+     and sticks, which is the same motion as before minus the dead screen. */
+  /* Tied to --gal-top, never guessed. The blank the pull eats is the pin's top
+     padding plus whatever centring slack is left over, and slack is never
+     negative, so a pull of exactly --gal-top always leaves the section's own
+     row-gap between the standfirst and the caption. A flat clamp() here read
+     170px and overlapped the standfirst by 9px at 1920x1080 once the frame grew
+     taller and the slack it had been living on disappeared. */
+  --gal-lead:var(--gal-top);
+
+  height:calc(var(--slides) * 100vh);
+  view-timeline-name:--gal;view-timeline-axis:block}
+/* has to out-specify .step-main > :first-child{margin-top:0}, which the gallery
+   matches — it is the first thing in the main column */
+.step-main > .gal{margin-top:calc(-1 * var(--gal-lead))}
+/* The frame is a plate inside the page, not a full-bleed band: it keeps the
+   section's own left and right edge, so the gallery lines up with the heading
+   above it instead of running out to the window. It is inset from the top and
+   bottom of the pin too — the reference letterboxes its plate rather than
+   filling the screen, and the air is most of what makes it read as one framed
+   picture instead of a takeover. */
+.gal-pin{position:sticky;top:0;height:100vh;overflow:hidden;
+  pointer-events:none;
+  display:flex;align-items:center;
+  /* the top band only has to clear the page's own sticky header now — the
+     caption rides with the picture rather than being parked up here */
+  padding-top:var(--gal-top);padding-bottom:var(--gal-bot)}
+/* The row sizes to the tallest slide — the comparison — and every other slide
+   is stretched to it. That is what keeps the flat pictures exactly as tall as
+   the comparison: the measurement is the layout's, not a constant of mine.
+   An earlier version pinned this to height:100% and derived the picture height
+   from a formula instead; the formula could not see that the plate's padding
+   is clamped in vh, so on a window taller than the one it was measured at the
+   comparison outgrew it and the pictures came out short. */
+.gal-track{display:grid;width:100%;min-height:0}
+/* every slide sits in the same cell and they cross-fade in place */
+.gal-slide{grid-area:1/1;width:100%;min-height:0;
+  display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(12px,1.8vh,22px);opacity:0}
+/* a flat image slide fills the plate's width and is capped to its height, so
+   a wide picture and a tall one both land inside the same frame uncropped */
+/* A flat picture takes exactly the comparison's box: full width, and flex:1 1 0
+   so it absorbs whatever height the row has left once the caption is out.
+   Its own proportions are kept (object-fit, so nothing stretches) and whatever
+   is left over is filled with --shot-bg, which each picture sets to its own
+   ground so the join is invisible: #f6f6f6 by default, sampled flat at all four
+   corners and both mid-edges of old-review.webp. A picture on a different
+   ground overrides it inline, next to the file it describes — the KYC sheet is
+   white with a blue bar across its top 4.51%, so its fill is a two-stop gradient
+   that carries both bands out to the plate edge. That alignment only holds while
+   the picture is height-limited in the box, which it is at every width the
+   pinned gallery runs at. */
+.gal-slide > img{display:block;flex:1 1 0;min-height:0;
+  width:100%;max-width:none;height:auto;
+  object-fit:contain;object-position:center;
+  background:var(--shot-bg,#f6f6f6);border-radius:20px;margin-inline:0}
+/* The comparison takes the plate's full width with no inset of its own. It
+   used to carry side padding to keep its rounded panels off the window edge,
+   but the gallery no longer reaches the window — it stops at the section's
+   gutter — so a second inset would only pull it in off the heading's edge and
+   make the two kinds of slide disagree about how wide the gallery is. */
+.gal-slide .ba{width:100%;margin-inline:auto}
+.gal-slide:has(.ba){padding-inline:0;max-height:100%}
+.gal-slide:has(.ba) .ba{max-height:100%}
+.gal-slide .ba{margin-block:0}
+/* The comparison runs out of room in height, not width — but its height is set
+   by .device, which is sized off 24vw, so capping the block's own width does
+   almost nothing to it. The phone is the lever. Measured against this layout,
+   the block's height tracks the device width as h = 2.167w + 137 (r² ≈ 1, the
+   constant being the tag and the panel's block padding — it has read 44, then
+   101, then 137 as that padding opened up, so re-measure it whenever the plate
+   changes). Invert that against the height actually left once the two bands and
+   the caption are taken out: 240 is the intercept plus the caption block. The
+   min() keeps the original 21vw wherever there is height to spare, so on a
+   normal window nothing changes; only short ones shrink the phone. */
+/* The 250px ceiling is 210 in the gallery. Both flanks have to stay equal or
+   the phone visibly leaves the centre of its panel, so every pixel the phone
+   keeps is taken twice — once from the label gutter and once from the empty
+   flank opposite it. At 250 the labels were left 69px and Mongolian words ran
+   straight out of them. */
+/* The plate is the container, so the phone is sized as a share of the panel it
+   actually sits in rather than of the window. A flat px ceiling could not do
+   both jobs: 210px was set by the narrow case, where the label gutter and the
+   empty flank opposite it each take half of whatever the phone leaves, and it
+   then held the phone to that same size on a screen with twice the room. 49cqw
+   lands on ~208px at the narrow plate — so nothing there changes — and grows
+   with the panel after that. The vh term still caps it on short windows, where
+   height, not width, is what runs out. */
+.ba-side{container-type:inline-size}
+.gal-slide .ba .device{width:clamp(155px,
+  min(49cqw,calc((100vh - var(--gal-top) - var(--gal-bot) - 240px) / 2.17)),
+  320px)}
+
+/* Caption. It sits in the letterbox air beneath the plate rather than in the
+   flow above it, so a longer line never pushes the picture down or crops it —
+   the air is already there and this fills it. It lives inside the slide, so it
+   inherits the same crossfade: the words change with the picture they
+   describe. It sits directly above the picture in the flow rather than parked
+   at the top of the frame: parked, the gap between the words and the thing they
+   describe grew with every slide that was shorter than the last, and the
+   picture floated high with all the slack pooled underneath it. In the flow the
+   gap is one constant, the pair centres together, and the caption travels with
+   its own picture. */
+.gal-cap{width:min(54ch,54%);flex:0 0 auto}
+.gal-cap p{margin:0}
+/* same label as .step-sub — family, size, weight, tracking, case and the
+   accent — so a picture's title reads as the same rank of heading as the ones
+   in the running text beside it */
+.gal-cap-t{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--np-accent);
+  margin-bottom:.75em}
+.gal-cap-b{font-size:calc(var(--t-line) * .8);line-height:1.45;
+  color:var(--np-ink-2)}
+
+/* Each slide runs the same timeline over the same range and differs only in
+   when its keyframes fire — which is what makes the set swap rather than
+   slide. The hold is long and the crossover short, so a slide is readable for
+   most of its third of the scroll and the change itself is quick. */
+@supports (animation-timeline:--gal){
+  .gal-slide{animation:linear both;animation-timeline:--gal;
+    animation-range:contain 0% contain 100%}
+  .gal-slide:nth-child(1){animation-name:gal-s1}
+  .gal-slide:nth-child(2){animation-name:gal-s2}
+  .gal-slide:nth-child(3){animation-name:gal-s3}
+}
+/* without timeline support nothing animates, so show the first and stack the
+   rest below it rather than leaving a blank frame */
+@supports not (animation-timeline:--gal){
+  .gal{height:auto}
+  /* the pin has to go too: three stacked slides inside a 100vh overflow:hidden
+     frame showed only the first one and clipped the rest */
+  .gal-pin{position:static;height:auto;overflow:visible;display:block;
+    padding-block:0}
+  .gal-slide{opacity:1;grid-area:auto}
+  .gal-track{display:grid;gap:clamp(14px,2vw,22px)}
+  .step-main > .gal{margin-top:0}
+  .gal-pin{pointer-events:auto}
+  .gal-cap{width:auto;margin-bottom:clamp(12px,2vh,18px)}
+  .gal-slide .ba .device{width:clamp(180px,21vw,250px)}
+  .gal-dots{display:none}
+}
+/* Opacity only. The plate holds one size the whole way through and the
+   pictures swap inside it — the frame never grows, shrinks or moves, which is
+   what makes the section read as a gallery rather than a takeover. (An earlier
+   pass scaled each slide up as it became active; the reference this is modelled
+   on measures dead constant at every scroll position, so it is gone.) */
+@keyframes gal-s1{0%{opacity:1}30%{opacity:1}38%{opacity:0}100%{opacity:0}}
+@keyframes gal-s2{0%{opacity:0}30%{opacity:0}38%{opacity:1}63%{opacity:1}71%{opacity:0}100%{opacity:0}}
+@keyframes gal-s3{0%{opacity:0}63%{opacity:0}71%{opacity:1}100%{opacity:1}}
+
+/* A solid pill on the flank, dots inside it — the reference's shape. It is a
+   light plate rather than the page's glass so it stays legible over whichever
+   slide is passing under it, light or dark. The active dot goes dark and
+   grows; the others stay grey. */
+/* inside the frame, over the slide itself, centred along the bottom */
+/* The rail reads its look from the page's four glass tokens rather than
+   carrying a fill of its own — it is blue and translucent because the whole
+   case is. It used to be an opaque light plate so it stayed legible over a
+   slide passing underneath, but the rail now sits in the pin's bottom padding,
+   below the picture, never over it, so that reason is spent. */
+.gal-dots{position:absolute;left:50%;bottom:clamp(20px,4vh,46px);
+  transform:translateX(-50%);z-index:2;pointer-events:auto;
+  display:flex;gap:clamp(8px,.9vw,11px);place-items:center;
+  padding:clamp(10px,1.05vw,13px) clamp(7px,.8vw,10px);
+  border-radius:999px;background:var(--glass,rgba(8,12,18,.8));
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  box-shadow:var(--glass-hi),var(--glass-lift)}
+/* The active dot is the accent at full strength, the others the same hue held
+   back — one colour at three strengths rather than a grey set with a coloured
+   exception. 62% is a floor, not a taste: below it the idle dots drop under
+   3:1 against the pill and you can no longer see how many slides there are
+   (the old light rail was 2.0:1 and did have that problem). That leaves the
+   active dot only 1.8:1 against its neighbours on colour alone, so the 1.45x
+   it already grows by is carrying the state, not the hue. */
+.gal-dots button{display:block;width:7px;height:7px;padding:0;border:0;
+  border-radius:999px;cursor:pointer;
+  background:color-mix(in srgb,var(--np-accent) 62%,transparent);
+  transition:background .2s ease,transform .2s ease}
+.gal-dots button:hover{background:color-mix(in srgb,var(--np-accent) 85%,transparent)}
+.gal-dots button[aria-selected="true"]{background:var(--np-accent);transform:scale(1.45)}
+.gal-dots button:focus-visible{outline:2px solid var(--np-accent);outline-offset:3px}
+
+/* Pinning costs a reader three screens of scrolling to see three images, which
+   is a bad trade on a phone and a worse one for anyone who asked for less
+   motion. Both get the plain stack instead: normal height, no sticky, no pan. */
+@media (max-width:900px),(prefers-reduced-motion:reduce){
+  .gal{height:auto;view-timeline-name:none}
+  .gal-pin{position:static;height:auto;display:block;padding-block:0}
+  .gal-track{display:grid;gap:clamp(14px,2vw,22px);width:auto}
+  .gal-slide{width:auto;padding-inline:0;display:block;opacity:1;
+    animation:none;grid-area:auto}
+  .gal-slide .ba{max-width:none}
+  .step-main > .gal{margin-top:0}
+  .gal-pin{pointer-events:auto}
+  .gal-cap{width:auto;margin-bottom:clamp(12px,2vh,18px)}
+  .gal-slide .ba .device{width:clamp(180px,21vw,250px)}
+  .gal-dots{display:none}
+}
+
+/* The old home beside the new one. Each side sits on a plate tinted like the
+   app it holds — the old one light, because that app was light — so the change
+   in the product reads before either label does. The notes under each are
+   things visible in the screenshot above them, not claims from elsewhere in
+   the case. */
+/* Side by side, with the frame centred in each panel. That combination is
+   tight here: the reference gives each panel ~980px and this column gives 442,
+   so once the frame is centred the flanking gutter is about 100px. The labels
+   are written to that width — short phrases, not sentences — rather than the
+   layout being bent to fit long ones. */
+.ba{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0;margin:clamp(24px,3.6vh,40px) 0 0}
+/* the two halves meet on a shared seam, so only the outer corners round —
+   one block split down the middle rather than two cards with a gutter */
+/* Block padding is generous — the phones used to sit tight to the top and
+   bottom edges. The inline padding is deliberately tight: every pixel of it is
+   taken off the label gutter, which needs the room far more than the panel's
+   outer edge does. */
+.ba-side{margin:0;padding:clamp(46px,6vh,66px) clamp(10px,1.1vw,14px)
+  clamp(48px,6.4vh,70px)}
+.ba-before{border-radius:20px 0 0 20px}
+.ba-after{border-radius:0 20px 20px 0}
+/* Both plates are the flow diagram's two node fills, reused exactly: the left
+   is .flow .head (accent at 16% behind an accent hairline), the right is
+   .flow .n (near-white at 6% behind a faint one). Same two surfaces the reader
+   has already met further down the page, so the comparison is built out of the
+   page's own parts rather than a slab invented for it.
+   The left used to be near-white because the old app was — that is gone now,
+   and with it the brightest thing on the page, which had been putting the eye
+   on the OLD screen. Both rings are inset, so they follow the outer rounding
+   and meet on the seam instead of shifting the layout by a pixel. */
+/* Both rings run well under the node fills they came from. Those are pills a
+   few hundred pixels wide, where a .5 edge is a detail; at plate size the same
+   edge becomes a drawn box and starts competing with the phones inside it.
+   The fills still carry the distinction — the rings only close the shape. */
+.ba-before{background:rgba(119,166,216,.16);
+  box-shadow:inset 0 0 0 1px rgba(119,166,216,.26)}
+.ba-after{background:rgba(233,238,246,.06);
+  box-shadow:inset 0 0 0 1px rgba(233,238,246,.10)}
+.ba-tag{display:block;text-align:center;
+  margin:0 0 clamp(14px,2vh,18px);font-family:var(--f-label);
+  font-size:var(--t-micro);font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase}
+/* Both plates are dark now, so the left one's ink flips from dark to light —
+   #39495d on the old near-white plate would be all but invisible on this one.
+   The left tag takes the accent that its own fill is tinted with, the way
+   .flow .head carries its hue through. */
+.ba-before .ba-tag{color:var(--np-accent)}
+.ba-after .ba-tag{color:#8fa6c4}
+/* no border-radius here: .device img already rounds the screen to match the
+   bezel, and a flat value overrode it and squared the corners off */
+.ba img{display:block}
+
+/* Annotations drawn against the screen rather than listed under it. Each mark
+   is one element: the bracket is its own border plus two tick pseudo elements,
+   and the label sits in the gutter beside it. The vertical span comes from
+   --from/--to as percentages of the image, so the whole set rescales with the
+   image instead of being pinned to pixel coordinates.
+   Colour carries the reading — warm for what was wrong, accent for what
+   answers it. Measured: the marks are graphical objects needing 3:1 and read
+   4.51 and 6.98 on their plates; the labels need 4.5 and read 7.50 and 8.60. */
+/* The screen sits in the page's own .device frame, smaller than elsewhere so
+   the labels get room beside it. The gutter is a grid cell of its own and
+   stretches to the frame's height, which is what lets --from/--to stay
+   percentages of the screen rather than pixel offsets. */
+.ba-stage{display:grid;align-items:stretch;
+  column-gap:0;justify-content:center}
+/* Three columns, both flanks equal, so the phone sits dead centre in its panel
+   — the empty flank opposite the labels is what does the centring. The labels
+   used to be squeezed into 65px of that split and wrapped to three ragged
+   lines; lopsided flanks fixed the wrapping but visibly shoved the phone off
+   centre. The width comes out of the panel's own side padding instead, which
+   was 24px of nothing on the outer edge, so both can be true at once. */
+.ba-before .ba-stage,.ba-after .ba-stage{
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+.ba-before .ba-gutter{grid-column:1}
+.ba-before .device{grid-column:2}
+.ba-after .device{grid-column:2}
+.ba-after .ba-gutter{grid-column:3}
+/* The shared frame sizes its radius off the viewport (4.1vw), not off itself,
+   so a frame this much narrower than the 200-300px ones elsewhere gets the
+   same 48px and reads as a pebble. These keep the original's proportion —
+   roughly 0.15 of the frame's width — at this size. */
+/* the gallery gives each panel ~563px, so the frame can take a much bigger
+   share of it than it could at 442px in the old two-up */
+.ba .device{width:clamp(180px,21vw,250px);
+  border-radius:clamp(20px,2.6vw,31px)}
+.ba .device img{border-radius:clamp(15px,2vw,24px)}
+.ba-gutter{position:relative}
+.ba-marks{list-style:none;margin:0;padding:0;position:absolute;inset:0;
+  pointer-events:none}
+.ba-marks li{position:absolute;top:var(--from);height:calc(var(--to) - var(--from));
+  display:flex;align-items:center;font-size:12.5px;line-height:1.45}
+/* the ticks span the gap between the bracket and the frame, so the mark meets
+   the screen instead of floating near it */
+.ba-marks li::before,.ba-marks li::after{content:"";position:absolute;
+  width:var(--reach);height:1px;background:var(--mark)}
+.ba-marks li::before{top:0}
+.ba-marks li::after{bottom:0}
+.ba-marks li{--reach:18px}
+
+/* before: frame on the right, labels reading in from the left */
+/* #c2413a was picked for a near-white plate and reads as a smudge on this dark
+   one; #e0876f lifted off it but landed orange. This is a true red that still
+   clears 3:1 against the plate (4.27:1). */
+.ba-before .ba-marks li{--mark:#e8564a;left:0;right:var(--reach);
+  flex-direction:column;justify-content:center;align-items:flex-end;
+  text-align:right;padding-right:12px;
+  border-right:1px solid var(--mark);color:var(--np-ink-2)}
+/* Each mark on the old screen names the law it breaks, so the panel reads as a
+   findings column rather than a list of complaints. The name is the page's
+   label face at full ink — the red is kept for the bracket, where it is a
+   graphic and only owes 3:1; as text at 10.5px it would owe 4.5 and miss. */
+.ba-law{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--np-ink);
+  margin-bottom:.4em}
+.ba-before .ba-marks li::before,.ba-before .ba-marks li::after{left:100%}
+
+/* after: mirrored */
+.ba-after .ba-marks li{--mark:var(--np-accent);right:0;left:var(--reach);
+  justify-content:flex-start;padding-left:12px;
+  border-left:1px solid var(--mark);color:var(--np-ink-2)}
+.ba-after .ba-marks li::before,.ba-after .ba-marks li::after{right:100%}
+
+/* the gutters cost too much width on a phone: the marks come off and the
+   labels go back to a plain list under each screen */
+@media (max-width:900px){
+  /* stacked, the seam runs horizontally instead */
+  .ba-before{border-radius:20px 20px 0 0}
+  .ba-after{border-radius:0 0 20px 20px}
+  .ba-before .ba-stage,.ba-after .ba-stage{grid-template-columns:1fr}
+  /* the one column above is not enough on its own: the desktop rules pin the
+     phone to column 2 and the after-side gutter to column 3, and those stood
+     through the media query, so each item kept opening an implicit column and
+     the stack never stacked — the phone sat beside its own labels in a strip */
+  .ba-before .ba-gutter,.ba-after .ba-gutter,
+  .ba-before .device,.ba-after .device{grid-column:1}
+  .ba .device{margin:0 auto}
+  .ba-marks{position:static;display:grid;gap:9px;margin-top:16px}
+  .ba-marks li{position:static;width:auto;height:auto;border:0;
+    padding:0 0 0 16px;text-align:left;font-size:13.5px}
+  /* the before column flips back to reading from the left with the rest */
+  .ba-before .ba-marks li{align-items:flex-start;text-align:left}
+  .ba-marks li::before{top:.5em;left:0;width:5px;height:5px;border-radius:50%;
+    background:var(--mark)}
+  .ba-marks li::after{display:none}
+}
+@media (max-width:760px){ .ba{grid-template-columns:1fr} }
+
+/* Before against after, one row per shift.
+
+   The block is set as a ledger: two columns divided by a fold, each entry ruled
+   off. That is the vernacular of the product itself — a lending app — rather
+   than a generic comparison table, and it does the explaining that the arrow
+   used to do. The arrow is gone: once the fold is there it was saying the same
+   thing twice, and the column headers already carry the direction for a screen
+   reader.
+
+   Nothing fades in. The rules draw instead — each row's hairline sweeps from
+   the left and its fold segment drops behind it, so the ledger appears to rule
+   itself as you read down. Text is never animated: it is the thing being read,
+   and it is legible from the first frame whether or not the script runs. The
+   left column stays muted and the right stays ink at weight, so the direction
+   of travel survives with no motion at all. */
+.shift{--shift-gap:clamp(14px,2.4vw,36px);--shift-inset:clamp(26px,3vw,40px);
+  position:relative;display:block;margin:0}
+/* a ledger closes. The last rule is the only one that draws after the fold has
+   reached the bottom, so the block finishes on a line rather than in mid-air. */
+.shift::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--np-line);transform-origin:left;
+  transition:transform 560ms cubic-bezier(.22,.61,.36,1);
+  transition-delay:calc(var(--n,3) * 110ms)}
+.shift-cols,.shift > div:not(.shift-cols){display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:var(--shift-gap)}
+.shift-cols{padding:0 0 clamp(10px,1.4vh,14px);font-family:var(--f-label);
+  font-size:var(--t-micro);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--np-faint)}
+.shift-cols span:last-child{color:var(--np-accent);padding-left:var(--shift-inset)}
+
+/* the fold sits in the middle of the gap: column one is 1fr of 2.05fr, so the
+   boundary is that share of the space left after the gap, plus half the gap */
+.shift > div:not(.shift-cols){position:relative;
+  padding:clamp(16px,2.4vh,22px) 0;align-items:baseline}
+.shift > div:not(.shift-cols)::before,
+.shift > div:not(.shift-cols)::after{content:"";position:absolute;
+  background:var(--np-line);transition:transform 560ms cubic-bezier(.22,.61,.36,1);
+  transition-delay:calc(var(--i,0) * 110ms)}
+/* the rule across the top of the row, drawn from the left */
+.shift > div:not(.shift-cols)::before{top:0;left:0;right:0;height:1px;
+  transform-origin:left}
+/* the fold segment for this row, dropped from the top, joining the row above */
+.shift > div:not(.shift-cols)::after{top:0;bottom:0;width:1px;
+  left:calc((100% - var(--shift-gap)) * .4878 + var(--shift-gap) / 2);
+  transform-origin:top;
+  transition-delay:calc(var(--i,0) * 110ms + 150ms)}
+
+/* The ledger is drawn by default: if the script never runs, or runs late, or
+   the reader asked for less motion, the rules are simply there. Only .armed —
+   which the script adds, and only when it is going to animate — collapses them
+   so that .in can draw them. Nothing here can leave the block ruleless. */
+.shift.armed > div:not(.shift-cols)::before{transform:scaleX(0)}
+.shift.armed > div:not(.shift-cols)::after{transform:scaleY(0)}
+.shift.armed::after{transform:scaleX(0)}
+.shift.armed.in > div:not(.shift-cols)::before{transform:scaleX(1)}
+.shift.armed.in > div:not(.shift-cols)::after{transform:scaleY(1)}
+.shift.armed.in::after{transform:scaleX(1)}
+
+.shift dt{margin:0;font-size:15px;line-height:1.55;color:var(--np-faint)}
+.shift dd{position:relative;margin:0;padding-left:var(--shift-inset);
+  font-size:15px;line-height:1.55;font-weight:600;color:var(--np-ink)}
+/* The arrow reads the change as a move rather than a pair of columns. It sits
+   in the gutter the inset already opens, just clear of the fold, and stays a
+   pseudo element so it never lands in the text a screen reader announces —
+   the column headers carry that meaning instead. */
+.shift dd::before{content:"\2192";position:absolute;left:0;top:0;
+  color:var(--np-accent);font-weight:400}
+
+@media (max-width:700px){
+  .shift-cols{display:none}
+  .shift > div:not(.shift-cols){grid-template-columns:1fr;gap:6px}
+  /* stacked, the pair reads top-to-bottom and a sideways arrow points at
+     nothing; the indent alone carries the relationship */
+  .shift dd{padding-left:14px}
+  .shift dd::before{display:none}
+  /* stacked: there is no fold to draw, and the rule spans one column */
+  .shift > div:not(.shift-cols)::after{display:none}
+}
+/* belt and braces: even if something arms the block, less motion means none */
+@media (prefers-reduced-motion:reduce){
+  .shift.armed > div:not(.shift-cols)::before,.shift.armed::after{transform:scaleX(1)}
+  .shift.armed > div:not(.shift-cols)::after{transform:scaleY(1)}
+  .shift > div:not(.shift-cols)::before,
+  .shift > div:not(.shift-cols)::after,.shift::after{transition:none}
+}
+
+/* title left, sentence right, one rule closing each row */
+.deflist{display:block;margin:0}
+.deflist > div{display:grid;grid-template-columns:minmax(0,36%) minmax(0,1fr);
+  gap:clamp(14px,2.4vw,36px);padding:clamp(18px,2.6vh,24px) 0;
+  border-bottom:1px solid var(--np-line);align-items:start}
+/* GIP, to match the sentence beside it — dt is not in leaf.css's GIP list the
+   way dd is, so it has to name the face itself or it falls back to the display
+   serif the body is set in. Heavier than the description, which is what tells
+   the two columns apart now that neither is coloured. */
+.deflist dt{font-family:'GIP','Source Serif 4',Georgia,serif;
+  font-size:16px;font-weight:600;letter-spacing:-.006em;
+  text-transform:none;color:var(--np-ink);margin:0}
+.deflist dd{margin:0;font-size:14.5px;line-height:1.62;color:var(--np-ink-2)}
+@media (max-width:700px){
+  .deflist > div{grid-template-columns:1fr;gap:8px}
+}
+
+/* the one sentence the section is really making, given a panel of its own */
+/* The one sentence the section is making, given the loudest surface on the
+   page. The accent arrives three ways and never as a block of colour: a wash
+   across one corner, a hairline along the top lip, and an oversized quote mark
+   sitting behind the text. Measured at the wash's brightest corner, the ink
+   reads 8.5:1 and the accent 3.9:1 — the text is set at 600 and 19px and up,
+   which is large text, so 3:1 is the bar the accent has to clear. */
+.bigclaim{position:relative;overflow:hidden;
+  margin:clamp(30px,5vh,58px) 0 0;
+  padding:clamp(30px,4.4vh,46px) clamp(26px,3.6vw,52px);border-radius:22px;
+  /* Frosted rather than filled: a thin wash of light over a blur of whatever
+     the ground is doing behind it, held by a hairline. This is the one place
+     on the page that still blurs its backdrop — the panel veil is off
+     everywhere else — so it is set here rather than on the --glass-veil token. */
+  background:rgba(233,238,246,.055);
+  -webkit-backdrop-filter:blur(22px) saturate(1.15);
+  backdrop-filter:blur(22px) saturate(1.15);
+  box-shadow:0 22px 54px -30px rgba(0,0,0,.7)}
+/* a bar down the leading edge, the way a pulled quote is marked in print.
+   It sits inside the card's own radius rather than being a border, so the
+   corners stay round and the bar stays square where it meets them. */
+/* faded down its length rather than a solid stripe, so it marks the edge
+   without becoming the loudest thing in the section */
+.bigclaim::after{content:"";position:absolute;top:0;bottom:0;left:0;width:3px;
+  background:linear-gradient(180deg,rgba(119,166,216,.62),rgba(119,166,216,.06))}
+/* GIP, at the body's own weight range, smaller than it was */
+.bigclaim p{position:relative;margin:0;font-size:clamp(15px,1.5vw,18px);
+  font-weight:500;line-height:1.55;letter-spacing:-.004em;color:var(--np-ink)}
+/* The page accent is #77a6d8, which reads 3.99:1 on this card over the
+   brightest part of the ground — fine while the text was 26px and bold, under
+   the 4.5 it needs now that it is 18px. #8ab4de is the same hue a step lighter
+   and holds 4.68:1 there, 7.99:1 over plain ground. Scoped to the card, so the
+   rest of the page keeps the darker accent it was tuned for. */
+.bigclaim em{font-style:normal;color:#8ab4de}
+
+/* The two client images that open the case: equal billing, equal height. Both
+   are cropped to one ratio rather than kept at their own, because two different
+   ratios leave a ragged bottom edge the eye reads as a mistake. Square, because
+   the campaign image is composed square: its wordmark sits near the top edge
+   and the store badges near the bottom, so a 4/3 crop cut both off. The photo
+   loses some sky to match, which costs it nothing. */
+.ctxpair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(10px,1.3vw,16px);margin:0 0 clamp(24px,3.6vh,40px)}
+.ctxpair figure{margin:0}
+.ctxpair img{display:block;width:100%;height:auto;aspect-ratio:1/1;
+  object-fit:cover;border-radius:18px}
+@media (max-width:620px){ .ctxpair{grid-template-columns:1fr} }
+
+/* My Role as a numbered list rather than cards: the number is a quiet marker
+   in the margin, the name carries the row, and a rule closes each one. Reads
+   as a list of responsibilities, which is what a hiring reader is scanning
+   for, instead of three boxes of equal weight. */
+.rolelist{list-style:none;margin:clamp(22px,3.4vh,34px) 0 0;padding:0}
+.rolelist li{display:grid;grid-template-columns:minmax(0,72px) minmax(0,1fr);
+  gap:clamp(10px,1.6vw,24px);padding:clamp(18px,2.6vh,26px) 0;
+  border-bottom:1px solid var(--np-line)}
+.rolelist li:first-child{border-top:1px solid var(--np-line)}
+.role-n{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.14em;color:var(--np-accent);padding-top:.35em}
+.rolelist h4{margin:0 0 7px;font-size:17px;font-weight:500;color:var(--np-ink)}
+/* How each item was worked, marked rather than buried in the sentence: a
+   hiring reader scanning the column can see at a glance what was owned and
+   what was shared. Four states, because "alone" is not the same claim as
+   "gave support" and collapsing them would overstate the shared ones. The
+   pill sits on the heading line, so it reads as a property of the item. */
+.rolelist .role-head{display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:8px 12px;margin:0 0 7px}
+.rolelist .role-head h4{margin:0}
+.role-tag{display:inline-block;padding:3px 9px;border-radius:999px;
+  font-family:var(--f-label);font-size:9.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;white-space:nowrap;
+  border:1px solid var(--np-line);color:var(--np-faint)}
+/* the one state worth the accent: work owned outright */
+.role-tag.solo{border-color:rgba(119,166,216,.42);color:var(--np-accent)}
+.rolelist p{margin:0;font-size:14.5px;line-height:1.6;color:var(--np-ink-2)}
+@media (max-width:620px){
+  .rolelist li{grid-template-columns:1fr;gap:4px}
+}
+
+/* Where two of the old steps were folded into one, the absorbed heading comes
+   back as a band inside the main column: the section keeps one title in the
+   side column and the work below it stays labelled. Sized off the spec label
+   rather than the section title, because it is a signpost, not a heading the
+   eye should stop at. */
+.step-sub{margin:clamp(34px,5.4vh,62px) 0 clamp(14px,2vh,20px);
+  padding-top:clamp(16px,2.4vh,22px);border-top:1px solid var(--rule);
+  font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--np-accent)}
+.step-main > .step-sub:first-child{margin-top:0;padding-top:0;border-top:0}
+/* the lead line under a folded-in heading carries that block's own intro */
+.step-sub-b{margin:0 0 clamp(18px,2.8vh,26px);max-width:68ch;
+  font-size:15px;line-height:1.62;color:var(--np-ink-2)}
+
 /* the description sits under its heading in the side column, so the main
    column carries nothing but the work */
 .step-b{margin:clamp(16px,2.6vh,24px) 0 0;font-size:15.5px;
@@ -163,13 +878,17 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .stat{margin:clamp(24px,4vh,44px) 0 0;padding:clamp(26px,3.8vh,42px);
   border-radius:20px;border:1px solid rgba(160,196,238,.075);
   background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02);position:relative;overflow:hidden}
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));position:relative;overflow:hidden}
 .stat-fig{font-family:var(--f-display);font-weight:600;line-height:.9;
   font-size:clamp(46px,7vw,92px);letter-spacing:-.03em;color:var(--np-accent)}
 .stat-t{margin:12px 0 0;max-width:34ch;font-size:17px;line-height:1.5;
   color:var(--np-ink)}
 /* the same figure again, ghosted, running off the right edge */
+/* The scale, set down so the score still leads. Without it 4.2 is a number
+   without a ceiling — the page never says anywhere else what it is out of. */
+.stat-of{font-size:.40em;font-weight:500;letter-spacing:0;
+  color:var(--np-ink-2);margin-left:.05em}
 .stat-ghost{position:absolute;right:-.06em;bottom:-.28em;pointer-events:none;
   font-family:var(--f-display);font-weight:600;font-size:clamp(120px,20vw,260px);
   line-height:.8;letter-spacing:-.05em;color:var(--np-ink);opacity:.03}
@@ -179,34 +898,18 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
   gap:clamp(12px,1.6vw,20px);margin:clamp(24px,4vh,44px) 0 0}
 .quote{margin:0}
 .quote p{margin:0;font-size:15px;line-height:1.6;color:var(--np-ink-2)}
-.quote em{font-style:normal;color:var(--np-accent)}
+.quote em{color:var(--np-accent)}
 .quote figcaption{margin-top:14px;font-family:var(--f-label);
   font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;
   color:var(--np-faint)}
 
-/* a screen with its notes led off to the side by hairlines, not arrows */
-.noted{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,240px);
-  gap:clamp(16px,2.4vw,34px);align-items:start;margin:clamp(24px,4vh,44px) 0 0}
-.noted .plate{margin:0;border-color:rgba(150,190,235,.09);
-  background:rgba(8,12,18,.8)}
-.noted-l{list-style:none;margin:0;padding:0}
-.noted-l li{padding:12px 0 12px 16px;border-left:1px solid var(--np-line);
-  font-size:14.5px;line-height:1.5;color:var(--np-ink-2)}
-.noted-l b{display:block;font-weight:400;color:var(--np-accent);
-  font-family:var(--f-label);font-size:var(--t-micro);letter-spacing:.18em;
-  text-transform:uppercase;margin-bottom:6px}
-
 /* the pieces that carry over into the dark */
-.dark .plate{border-color:rgba(150,190,235,.09);background:rgba(8,12,18,.8)}
-.dark .plate figcaption{color:var(--np-faint);border-top-color:var(--np-line)}
 .dark .toc li{border-color:var(--np-line)}
 .dark .toc a{color:var(--np-ink)}
 .dark .toc a:hover,.dark .toc a:focus-visible{color:var(--np-accent)}
 .dark .toc-n{color:var(--np-faint)}
 .dark .toc-p{color:var(--np-faint)}
 .dark .toc a:hover .toc-p{color:var(--np-accent)}
-.dark .case-body{color:var(--np-ink-2)}
-.dark .case-body b{color:var(--np-accent)}
 .dark .pull{color:var(--np-ink);border-color:var(--np-accent)}
 .step-back{display:inline-block;margin-top:18px;font-family:var(--f-label);
   font-size:var(--t-micro);font-weight:500;letter-spacing:.2em;
@@ -216,104 +919,19 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
   .step{grid-template-columns:1fr;row-gap:18px}
   .step-side{position:static}
 }
-@media (max-width:1000px){
-  .facets{grid-template-columns:1fr}
-}
 @media (max-width:720px){
-  .quotes,.noted,.pair{grid-template-columns:1fr}
+  .quotes{grid-template-columns:1fr}
 }
 
-/* one card recipe, used by every module in the dark: a faint top-lit panel
-   with a hairline, so cards read as raised off the ground rather than cut into
-   it. The inset highlight is what sells the light — a flat fill looks dead. */
-/* one card recipe: a flat, slightly warm translucent panel with a blur behind
+/* the quote card: a flat, slightly warm translucent panel with a blur behind
    it — no gradient. The tint is nude rather than blue so the cards sit apart
    from the navy ground instead of dissolving into it. */
-.card, .facet, .quote, .pair > div{
+.quote{
   border-radius:20px;border:1px solid rgba(160,196,238,.075);
   background:rgba(8,12,18,.8);
   -webkit-backdrop-filter:blur(16px) saturate(1.02);
   backdrop-filter:blur(16px) saturate(1.02);
   padding:clamp(24px,3.4vh,34px)}
-
-.facets{margin:clamp(20px,3.2vh,34px) 0 0;display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.3vw,16px);
-  background:none;border:0}
-.facet h3{margin:0 0 10px;font-family:var(--f-label);font-size:var(--t-micro);
-  font-weight:600;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--np-accent)}
-.facet p{margin:0;font-size:15px;line-height:1.55;color:var(--np-ink-2)}
-
-/* audience / hypothesis */
-.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(10px,1.3vw,16px);margin:clamp(20px,3.2vh,34px) 0 0}
-.pair h3{margin:0 0 10px;font-family:var(--f-label);font-size:var(--t-micro);
-  font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--np-faint)}
-.pair p{margin:0;font-size:15px;line-height:1.55;color:var(--np-ink-2)}
-.pair p + p{margin-top:.65em}
-.pair ol{margin:0;padding-left:1.15em;font-size:15px;line-height:1.8;
-  color:var(--np-ink-2)}
-.pair ol + p{margin-top:.9em}
-.pair b{color:var(--np-ink);font-weight:500}
-
-/* boards: an image pair over a statement and its evidence — image first, words
-   second, which is the order a case study is actually read in */
-.boards{display:grid;grid-template-columns:1.62fr 1fr;gap:clamp(10px,1.3vw,16px);
-  margin:clamp(20px,3.2vh,34px) 0 0}
-.boards figure{margin:0;border-radius:12px;overflow:hidden;
-  border:1px solid rgba(233,238,246,.10);background:var(--np-panel)}
-.boards img{display:block;width:100%;height:100%;object-fit:cover}
-
-.claim{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(10px,1.3vw,16px);
-  margin:clamp(10px,1.3vw,16px) 0 0;align-items:stretch}
-.claim-big{display:flex;align-items:flex-end}
-.claim-big p{margin:0;font-family:var(--f-display);font-weight:400;
-  font-size:clamp(21px,2.3vw,30px);line-height:1.26;letter-spacing:-.015em;
-  color:var(--np-ink)}
-.claim-big em{font-style:normal;color:var(--np-accent)}
-.claim-l{display:grid;gap:clamp(10px,1.3vw,16px);align-content:start}
-.claim-l p{margin:0;font-size:14.5px;line-height:1.55;color:var(--np-ink-2)}
-@media (max-width:860px){
-  .boards,.claim{grid-template-columns:1fr}
-}
-
-/* old against new, set side by side so the comparison is made by the eye and
-   not by the caption. Extra air above it: it is a new thought, not a footnote
-   to the table. */
-/* one under the other: these boards are dense, and side by side they are too
-   small to read anything on */
-.vs{display:grid;grid-template-columns:minmax(0,1fr);
-  gap:clamp(22px,3.6vh,40px);margin:clamp(30px,5vh,60px) 0 0}
-.vs figure{margin:0}
-.vs figcaption{margin:0 0 10px;font-family:var(--f-label);font-size:var(--t-micro);
-  font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--np-faint)}
-.vs .is-new figcaption{color:var(--np-accent)}
-/* both boards to one frame: a matched 4:3 crop anchored top-left, so the pair
-   reads as a set instead of two exports of different shapes */
-.vs img{display:block;width:100%;height:auto;border-radius:14px;
-  border:1px solid rgba(160,196,238,.075);background:rgba(8,12,18,.8)}
-.vs .is-new img{border-color:rgba(119,166,216,.3)}
-
-
-/* hypothesis: the three bets side by side, each running problem to idea to
-   expected down the card. The section is .wide, so the heading and description
-   sit above them across the full measure. */
-.hyp{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:clamp(12px,1.6vw,20px);margin:clamp(20px,3.2vh,34px) 0 0}
-.hyp .card{display:flex;flex-direction:column}
-.hyp-s + .hyp-s{margin-top:clamp(28px,4.4vh,44px)}
-.hyp-top{display:flex;align-items:center;justify-content:space-between;gap:10px;
-  margin-bottom:clamp(13px,1.9vh,17px)}
-.hyp-n{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.14em;color:var(--np-faint)}
-.chip{display:inline-block;padding:4px 10px;border-radius:999px;
-  font-family:var(--f-label);font-size:9.5px;font-weight:600;letter-spacing:.16em;
-  text-transform:uppercase}
-.chip.solid{background:var(--np-ink);color:#0b1322}
-.chip.hollow{border:1px solid rgba(150,190,235,.26);color:var(--np-ink-2)}
-.hyp p{margin:0;font-size:14.5px;line-height:1.55;color:var(--np-ink-2)}
-.hyp em{font-style:normal;color:var(--np-accent)}
-@media (max-width:860px){ .hyp{grid-template-columns:1fr} }
 
 /* final screens, annotated: a note card joined to the screen by a dashed curve,
    the way the reference does it. The curve is its own column, so the arrow
@@ -331,8 +949,8 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 /* mirrored so the arrowhead still lands on the note, not on the screen */
 .annot.flip .annot-link{transform:scaleX(-1)}
 .annot-note{border-radius:20px;background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02);
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
   padding:clamp(22px,3vh,30px);max-width:420px;justify-self:end}
 .annot.flip .annot-note{justify-self:start}
 .annot-note h3{margin:0 0 10px;font-family:var(--f-display);font-style:italic;
@@ -342,8 +960,7 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .annot-link path{fill:none;stroke:rgba(233,238,246,.42);stroke-width:1.4;
   stroke-dasharray:7 7}
 .annot-link polygon{fill:rgba(233,238,246,.5)}
-.annot-shot img,.annot-shot video{display:block;width:clamp(200px,24vw,300px);height:auto;
-  height:auto}
+.annot-shot img,.annot-shot video{display:block;width:clamp(200px,24vw,300px);height:auto}
 /* a pair of screens sharing one note, as the reference does for a flow that
    only makes sense as two states */
 .annot-shot.two{display:flex;align-items:flex-start;
@@ -362,13 +979,15 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
     inset 0 0 0 3px rgba(12,18,28,.55),
     0 0 0 1px rgba(8,12,20,.9),
     0 20px 38px -26px rgba(0,0,0,.55)}
-/* Two of the HUB screens are long scrolling captures — 1500x7444 in one case.
+/* Two of the HUB screens are long scrolling captures — 750x3722 in one case.
    Dropped straight into a frame they stretch it to five times a phone's height
    and it stops reading as a phone at all. So the frame keeps a real handset
    ratio and the capture scrolls inside it: correct proportions, nothing
-   cropped away. */
+   cropped away.
+   No overscroll-behavior:contain: it kept the page from moving once a phone had
+   reached the end of its capture, so a pointer resting over one stalled it. */
 .device.tall .screen-scroll{aspect-ratio:1500/3248;overflow-y:auto;
-  border-radius:clamp(28px,3.4vw,39px);overscroll-behavior:contain;
+  border-radius:clamp(28px,3.4vw,39px);
   scrollbar-width:none}
 .device.tall .screen-scroll::-webkit-scrollbar{display:none}
 .device.tall .screen-scroll img{border-radius:0;display:block}
@@ -394,79 +1013,27 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
   .annot-shot,.annot.flip .annot-shot{order:1}
   .annot-link{display:none}
 }
-
-/* evidence: the screenshots that were pinned to each row of the log */
-.cell-shot{display:block;margin-top:9px;border-radius:8px;overflow:hidden;
-  border:1px solid rgba(150,190,235,.14);background:#0b1524;width:172px}
-.cell-shot img{display:block;width:100%;height:auto}
-.cell-shot:hover{border-color:rgba(150,190,235,.4)}
-.xls td:has(.cell-shot){min-width:196px}
-
-/* an in-page workbook: sheet tabs, a frozen header row, and the whole grid
-   scrolling inside its own frame — so the data is readable without asking
-   anyone to download a 32MB file */
-.xls{margin:clamp(20px,3.2vh,34px) 0 0;border-radius:18px;overflow:hidden;
-  border:1px solid rgba(150,190,235,.09);background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02)}
-.xls-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;
-  padding:clamp(12px,1.8vh,16px) clamp(14px,2vw,22px);
-  border-bottom:1px solid rgba(150,190,235,.1)}
-.xls-tab{padding:7px 14px;border-radius:999px;border:0;cursor:pointer;
-  font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--np-faint);
-  background:transparent;transition:color .18s ease, background .18s ease}
-.xls-tab:hover{color:var(--np-ink)}
-.xls-tab[aria-selected="true"]{background:rgba(236,231,219,.93);color:#0b1322}
-.xls-n{margin-left:auto;font-family:var(--f-label);font-size:var(--t-micro);
-  letter-spacing:.16em;text-transform:uppercase;color:var(--np-faint)}
-.xls-scroll{max-height:min(74vh,760px);overflow:auto;overscroll-behavior:contain}
-.xls table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%}
-.xls th,.xls td{padding:10px 14px;text-align:left;vertical-align:middle;
-  font-size:13px;line-height:1.45;color:var(--np-ink-2);
-  border-bottom:1px solid rgba(150,190,235,.08);
-  border-right:1px solid rgba(150,190,235,.06);
-  max-width:320px;white-space:pre-wrap}
-.xls th{position:sticky;top:0;z-index:2;background:#111a29;color:var(--np-ink);
-  font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
-.xls tbody tr:nth-child(even) td{background:rgba(150,190,235,.035)}
-.xls td:first-child{color:var(--np-ink)}
-/* a merged cell spans its rows: centre its text in the block it covers, so the
-   label sits beside the rows it belongs to instead of stranded at the top */
-.xls td[rowspan]{vertical-align:middle;background:rgba(150,190,235,.03)}
-.xls .rn{position:sticky;left:0;z-index:1;background:#0d1524;color:var(--np-faint);
-  font-family:var(--f-label);font-size:10px;text-align:right;
-  font-variant-numeric:tabular-nums;width:46px;min-width:46px}
-.xls th.rn{z-index:3}
-
-/* the workbook itself, offered for download */
-.dl{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(12px,1.6vw,20px);
-  margin:clamp(20px,3.2vh,34px) 0 0;padding:clamp(16px,2.4vh,22px) clamp(18px,2.4vw,26px);
-  border-radius:16px;background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02)}
-.dl-i{flex:0 0 auto;width:38px;height:38px;border-radius:10px;display:grid;
-  place-items:center;background:rgba(143,199,168,.16);color:#a9d8bf;
-  font-family:var(--f-label);font-size:9.5px;font-weight:600;letter-spacing:.06em}
-.dl-t{flex:1 1 220px;min-width:0}
-.dl-t b{display:block;font-family:var(--f-display);font-style:italic;
-  font-weight:500;font-size:16px;color:var(--np-ink)}
-.dl-t span{display:block;margin-top:4px;font-family:var(--f-label);
-  font-size:var(--t-micro);letter-spacing:.16em;text-transform:uppercase;
-  color:var(--np-faint)}
-.dl a{flex:0 0 auto;padding:10px 18px;border-radius:999px;text-decoration:none;
-  font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;color:#0b1322;
-  background:rgba(236,231,219,.93);transition:transform .18s ease}
-.dl a:hover{transform:translateY(-1px)}
+/* Voice's notes are Mongolian, and its words run longer than the English they
+   replaced: between 861 and 1340px, beside a pair of phones and the arrow's
+   110px, a note was squeezed to 206–294px and ran 9–17 lines. There it stacks
+   the way a phone does — screens, then the note — at a reading width rather
+   than the full column, so the lines do not run long either. NetPay's shorter
+   notes still sit beside their screens. */
+@media (min-width:861px) and (max-width:1340px){
+  body.case-voice :is(.annot,.annot.flip){grid-template-columns:1fr;
+    justify-items:center;gap:22px}
+  body.case-voice :is(.annot,.annot.flip) .annot-note{justify-self:center;
+    max-width:560px;order:2}
+  body.case-voice :is(.annot,.annot.flip) .annot-shot{order:1}
+  body.case-voice .annot-link{display:none}
+}
 
 /* the QA log: severity/status counts as a strip, then a sample of the sheet */
 .tally{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:clamp(10px,1.3vw,16px);margin:clamp(20px,3.2vh,34px) 0 0}
 .tally div{border-radius:16px;background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02);padding:clamp(16px,2.4vh,22px)}
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));padding:clamp(16px,2.4vh,22px)}
 .tally b{display:block;font-family:var(--f-display);font-weight:600;
   font-size:clamp(28px,3.4vw,40px);line-height:1;letter-spacing:-.02em;
   color:var(--np-accent)}
@@ -474,32 +1041,8 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
   font-size:var(--t-micro);font-weight:500;letter-spacing:.18em;
   text-transform:uppercase;color:var(--np-faint)}
 .tally .bad b{color:#eda78f}
-
-/* one row of the log: what the file said, what shipped, how bad, where it got to */
-.log{margin:clamp(20px,3.2vh,34px) 0 0;border-radius:18px;overflow:hidden;
-  background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02)}
-.logr{display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(0,1.1fr) minmax(0,1.4fr) minmax(0,1.3fr) 128px;
-  gap:clamp(12px,1.6vw,22px);padding:clamp(13px,1.9vh,17px) clamp(16px,2.2vw,26px);
-  border-top:1px solid rgba(150,190,235,.1);align-items:baseline}
-.logr:first-child{border-top:0}
-.logh{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--np-faint)}
-.logr b{font-weight:400;font-size:14.5px;line-height:1.4;color:var(--np-ink)}
-.logr i{font-style:normal;font-size:14px;line-height:1.45;color:var(--np-ink-2)}
-.logr i.was{color:#eda78f}
-.tag{display:inline-block;padding:4px 10px;border-radius:999px;
-  font-family:var(--f-label);font-size:9.5px;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;border:1px solid currentColor}
-.tag.crit{color:#e0876f}.tag.high{color:#e0a86f}.tag.med{color:#8fb7d8}
-.tag.low{color:var(--np-faint)}
-.tag.fixed{color:#8fc7a8}.tag.rej{color:#c79fd8}.tag.ver{color:#8fc7a8}
 @media (max-width:860px){
   .tally{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .logr{grid-template-columns:1fr auto;row-gap:6px}
-  .logh{display:none}
 }
 
 /* the working sheet itself, shown as an artefact rather than as something to
@@ -512,77 +1055,6 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
   font-size:var(--t-micro);letter-spacing:.18em;text-transform:uppercase;
   color:var(--np-faint)}
 
-/* usability testing: the task table — what was asked, how it felt, what it
-   scored. Sorted worst first, because that is the useful end. */
-.utab{margin:clamp(20px,3.2vh,34px) 0 0;border-radius:18px;overflow:hidden;
-  background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02)}
-.utr{display:grid;grid-template-columns:minmax(0,2.1fr) minmax(0,1fr) 92px 64px;
-  gap:clamp(12px,1.8vw,26px);align-items:baseline;
-  padding:clamp(13px,1.9vh,17px) clamp(16px,2.2vw,26px);
-  border-top:1px solid rgba(150,190,235,.1)}
-.utr:first-child{border-top:0}
-.uth{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--np-faint)}
-.utr b{font-weight:400;font-size:15px;line-height:1.4;color:var(--np-ink)}
-.utr .emo{font-size:14px;color:var(--np-ink-2)}
-.utr .stars{font-size:13px;letter-spacing:2px;color:var(--np-accent)}
-.utr .sc{font-family:var(--f-label);font-size:14px;font-variant-numeric:tabular-nums;
-  text-align:right;color:var(--np-ink)}
-.utr.low b,.utr.low .emo,.utr.low .sc{color:#eda78f}
-.utr.low .stars{color:#e0876f}
-@media (max-width:760px){
-  .utr{grid-template-columns:minmax(0,1fr) 64px;row-gap:4px}
-  .utr .emo,.utr .stars{grid-column:1}
-  .uth{display:none}
-}
-
-/* user stories, built to the reference: avatar and role at the left of the
-   head, a light priority pill with a status dot at the right, the story in the
-   accent, then a rule and the criteria as dotted lines. */
-.scards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(14px,1.8vw,24px);margin:clamp(20px,3.2vh,34px) 0 0}
-.scard{display:flex;flex-direction:column;border-radius:20px;
-  padding:clamp(24px,3.4vh,34px)}
-.scard-top{display:flex;align-items:center;justify-content:space-between;
-  gap:14px;margin-bottom:clamp(16px,2.2vh,22px)}
-.who{display:flex;align-items:center;gap:12px;min-width:0}
-.who .av{flex:0 0 auto;width:38px;height:38px;border-radius:50%;
-  background:rgba(228,216,203,.82);display:grid;place-items:center}
-.who .av{overflow:hidden}
-.who .av svg{width:100%;height:100%;display:block}
-/* the pair in deel: blue for him, coral for her, black trim, gold buttons and
-   бүс, drawn flat the way the reference does */
-.who .av .skin{fill:#e6c9a4}
-.who .av .hair,.who .av .hat{fill:#1f2734}
-.who .av .hat-b{fill:#4a7fb5}
-.who .av .deel{fill:#4a7fb5}
-.who .av .deel-f{fill:#d3837a}
-.who .av .trim{fill:#1f2734}
-.who .av .gold{fill:#e0b75f}
-.who b{font-family:var(--f-label);font-size:13px;font-weight:500;
-  letter-spacing:.01em;color:var(--np-ink-2)}
-.pri{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;
-  padding:6px 13px;border-radius:999px;background:rgba(236,231,219,.93);
-  font-family:var(--f-label);font-size:10px;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:#17202f}
-.pri i{width:7px;height:7px;border-radius:50%;display:block}
-.pri.high i{background:#e05a4e}
-.pri.med i{background:#3f9e63}
-.pri.low i{background:#3c7fd0}
-.scard-s{margin:0 0 clamp(16px,2.2vh,22px);font-size:16px;line-height:1.5;
-  color:#9cc3ea}
-.scard-c{margin:0;padding:clamp(15px,2vh,19px) 0 0;list-style:none;
-  border-top:1px solid rgba(150,190,235,.12)}
-.scard-c .lbl{font-family:var(--f-label);font-size:var(--t-micro);font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--np-faint);
-  margin-bottom:10px}
-.scard-c li{position:relative;padding:4px 0 4px 16px;font-size:14.5px;
-  line-height:1.5;color:var(--np-ink-2)}
-.scard-c li::before{content:"\2022";position:absolute;left:1px;
-  color:var(--np-ink-2);opacity:.7}
-@media (max-width:760px){ .scards{grid-template-columns:1fr} }
 
 /* four charts, each with its own frame and label */
 .flowfig{margin:clamp(22px,3.6vh,40px) 0 0}
@@ -598,8 +1070,8 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .flowwrap{margin:14px 0 0;padding:clamp(16px,2.4vh,26px);
   border-radius:18px;border:1px solid rgba(150,190,235,.07);
   background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02);
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
   overflow-x:auto}
 .flow{display:block;height:auto;
   font-family:var(--f-label);font-size:12px}
@@ -623,8 +1095,8 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .lofiwrap{margin:14px 0 0;padding:clamp(16px,2.4vh,26px);
   border-radius:18px;border:1px solid rgba(150,190,235,.07);
   background:rgba(8,12,18,.8);
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02);
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
   overflow-x:auto}
 .lofi{display:block;width:1414px;max-width:none;height:auto;
   font-family:var(--f-label)}
@@ -672,28 +1144,6 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
   -webkit-mask-image:linear-gradient(180deg,#000 64%,transparent 100%);
   mask-image:linear-gradient(180deg,#000 64%,transparent 100%)} }
 
-/* user stories: the story, then what had to be true for it */
-.stories{list-style:none;margin:clamp(22px,3.6vh,40px) 0 0;padding:0}
-.stories > li{padding:clamp(16px,2.4vh,22px) 0;border-top:1px solid var(--np-line)}
-.stories > li:last-child{border-bottom:1px solid var(--np-line)}
-.story-t{margin:0;max-width:58ch;font-size:16.5px;line-height:1.55;
-  color:var(--np-ink)}
-.story-c{list-style:none;margin:12px 0 0;padding:0}
-.story-c li{position:relative;padding:4px 0 4px 20px;max-width:58ch;
-  font-size:14.5px;line-height:1.55;color:var(--np-ink-2)}
-.story-c li::before{content:"";position:absolute;left:2px;top:.85em;
-  width:7px;height:1px;background:var(--np-accent);opacity:.8}
-@media (max-width:720px){ .pair{grid-template-columns:1fr} }
-
-/* ---------- the pictures ---------- */
-.plates{margin:clamp(28px,4.4vh,56px) 0 0;display:grid;gap:clamp(14px,2vw,26px)}
-.plates.two{grid-template-columns:repeat(2,minmax(0,1fr))}
-.plate{margin:0;border:1px solid var(--olive-soft);background:var(--leaf);overflow:hidden}
-.plate img{display:block;width:100%;aspect-ratio:8/5;object-fit:cover}
-.plate figcaption{font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
-  letter-spacing:.18em;text-transform:uppercase;color:var(--faint);
-  padding:11px 14px;border-top:1px solid var(--rule-2);background:var(--paper)}
-
 /* the one thing worth stopping on */
 .pull{max-width:62ch;margin:clamp(30px,4.6vh,58px) auto 0;
   padding-left:clamp(18px,2.4vw,30px);border-left:2px solid var(--red);
@@ -706,11 +1156,13 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 @media (max-width:860px){
   .spec{grid-template-columns:repeat(2,minmax(0,1fr))}
   .spec-i:nth-child(odd){padding-left:0;border-left:0}
+  body.case-netpay .spec-i:nth-child(odd)::before{content:none}
   .spec-i:nth-child(n+3){border-top:1px solid var(--rule)}
-  .case-head{grid-template-columns:1fr}
-  .case-n{margin-bottom:6px}
-  .case-meta{grid-column:1}
-  .plates.two{grid-template-columns:1fr}
+  /* HUB carries NetPay's row, so its columns come back to two here:
+     the max-content columns above outrank .spec and would run off a phone */
+  body.case-hub .spec{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.case-hub .spec-i:nth-child(odd){padding-left:0}
+  body.case-hub .spec-i:nth-child(odd)::before{content:none}
 }
 
 /* ============================================================
@@ -734,7 +1186,7 @@ body.case-dark:not(.case-voice) .spec dt{font-weight:700}
 .tile{display:block;text-decoration:none;color:inherit}
 .tile-plate{position:relative;margin:0;overflow:hidden;
   border:1px solid var(--olive-soft);background:var(--leaf)}
-.tile-plate img{display:block;width:100%;aspect-ratio:var(--ratio,4/3);object-fit:cover;
+.tile-plate img{display:block;width:100%;height:auto;aspect-ratio:var(--ratio,4/3);object-fit:cover;
   transform:scale(1.001);
   transition:transform .7s cubic-bezier(.22,.61,.36,1)}
 .tile:hover .tile-plate img,
@@ -804,11 +1256,49 @@ body.case-dark{
 /* NetPay's title takes the shared italic back, and takes it larger: the case
    opens on one sentence and nothing else, so the sentence can carry the page.
    NetPay only — the other cases keep the common size. */
-body.case-dark:not(.case-voice) .hero-t{font-style:italic;
-  font-size:clamp(35px,5.7vw,76px);
-  /* and more air under it: at this size the title needs the spec row to sit
-     further off, or the two read as one block */
-  margin-bottom:clamp(58px,10.5vh,132px)}
+/* The cover is a 2200x1650 mockup with a lot of headroom over and under the
+   device, which made the hero eat most of a laptop screen before the case had
+   said anything. The plate keeps its width and crops the spare rock off the
+   top and bottom instead — 16/10 is as tight as it goes before the phone
+   itself starts losing its ends. The intrinsic
+   width/height stay on the <img>, so the box is still reserved from the
+   attributes and nothing reflows; only the drawn ratio changes.
+   The corner fade is a mask, not a drawn edge: a radial stop wide enough that
+   the middle of each side is still solid, so only the four corners dissolve
+   into the ground. */
+body.case-dark:not(.case-voice) .hero-plate img{
+  aspect-ratio:16/10;object-fit:cover;object-position:50% 50%;
+  -webkit-mask-image:radial-gradient(145% 145% at 50% 50%,#000 68%,transparent 100%);
+  mask-image:radial-gradient(145% 145% at 50% 50%,#000 68%,transparent 100%)}
+body.case-dark:not(.case-voice):not(.case-netpay):not(.case-hub) .hero-t{font-style:italic;
+  font-size:clamp(30px,4.6vw,62px)}
+/* NetPay sets it upright. The display face was chosen for its italic, so
+   standing it up costs some of the drama — but next to a paragraph and a row
+   of plain labels the slant was the only thing on the page leaning, and it
+   read as a pull quote rather than a title. Same size as its neighbours. */
+/* more air between the eyebrow and the title: the eyebrow is a line of its
+   own now, not a label attached to the heading */
+body.case-netpay .hero-eyebrow,
+body.case-voice .hero-eyebrow,
+body.case-hub .hero-eyebrow{margin-bottom:clamp(20px,3.3vh,38px)}
+/* Back on the page's own display face, slanted, at 600. The font request
+   carries italic at 200..700 as well as upright, so this is a drawn cut on
+   both axes — no synthesised slant shearing the uprights, no faked weight
+   filling in the counters at 55px. */
+/* HUB wears the same title since it took NetPay's layout */
+body.case-netpay .hero-t,
+body.case-hub .hero-t{font-style:italic;font-weight:600;color:var(--ink);
+  font-size:clamp(30px,4.6vw,62px);
+  /* the italic sets narrower than the upright did, so the measure comes back
+     in from 28ch. In ch, so it holds at every step of the clamp. */
+  max-width:26ch}
+/* and more air under it: at this size the title needs the spec row to sit
+   further off, or the two read as one block. NetPay is excluded because a
+   paragraph sits in that gap there and sets its own, tighter, measure —
+   without the :not() this rule outranks it on specificity and the gap
+   silently reopens. */
+body.case-dark:not(.case-voice):not(.case-netpay):not(.case-hub) .hero-t{
+  margin-bottom:clamp(48px,8.5vh,106px)}
 
 /* ---------- the outcome charts ---------- */
 /* Drawn the way the flow charts are: inline SVG in the markup, every colour and
@@ -822,21 +1312,16 @@ body.case-dark:not(.case-voice) .hero-t{font-style:italic;
    light and too grey to carry data marks, so the chart steps are deeper. */
 /* --c-axis: the chart's secondary ink. 7.9:1 on this panel, where the page's
    --np-faint gives 4.7:1 — enough for a caption, not for a column of digits. */
-.dark{--c-old:#616a74;--c-new:#6599d1;--c-down:#ca7f66;--c-surf:#0f1825;
+/* --c-old was #616a74, stepped against the original panel. Every lift of the
+   fill since has cost it ground — it read 2.67:1 on that panel and had fallen
+   to 2.30 on this one, under the 3:1 a data mark needs. #7d8794 puts it at
+   3.46 over the brightest bloom and 3.85 over plain ground. It stays the
+   neutral cool pole: separation from the other two holds at ΔE 26.5 and 43.7,
+   and 26.8 / 28.1 under simulated protanopia, so the v1 line is still the one
+   without a colour. */
+.dark{--c-old:#7d8794;--c-new:#6599d1;--c-down:#ca7f66;--c-surf:#0f1825;
   --c-axis:#a2aec2}
 
-/* The section sits beside its heading like the rest of the case, which leaves
-   the charts a column of roughly 490–665px — so they are drawn at 480 and the
-   panels stack one under the other inside it. Below 1200px that column gets
-   too narrow to read a 24-month axis in, and the section takes the full
-   measure instead. */
-.step:has(.charts2){grid-template-columns:minmax(0,340px) minmax(0,1fr)}
-@media (max-width:1200px){
-  .step:has(.charts2){grid-template-columns:minmax(0,1fr);row-gap:18px}
-  .step:has(.charts2) .step-side{position:static}
-}
-.charts2{display:grid;grid-template-columns:minmax(0,1fr);
-  gap:clamp(18px,2.6vh,30px);margin:clamp(24px,4vh,44px) 0 0}
 .chartfig{margin:0}
 .chartfig.wide{margin:clamp(20px,3.2vh,34px) 0 0}
 .chartfig figcaption{margin:0 0 11px;font-family:var(--f-label);
@@ -850,9 +1335,10 @@ body.case-dark:not(.case-voice) .hero-t{font-style:italic;
    column takes the axis labels down to four pixels */
 .chartwrap{padding:clamp(16px,2.2vh,22px) clamp(14px,1.8vw,20px);
   border-radius:18px;background:var(--glass,rgba(8,12,18,.8));overflow-x:auto;
-  /* the same panel the rest of the section is made of */
-  -webkit-backdrop-filter:blur(16px) saturate(1.02);
-  backdrop-filter:blur(16px) saturate(1.02);
+  /* the same panel the rest of the section is made of — including its veil,
+     which is read from the token so this frame cannot drift from the others */
+  -webkit-backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
+  backdrop-filter:var(--glass-veil,blur(16px) saturate(1.02));
   box-shadow:var(--glass-hi),var(--glass-lift)}
 /* Authored at 760px and rendered at 760px: scale stays 1, so every label is
    the pixel size it says it is, on a laptop and on a 1440 monitor alike. A
@@ -893,8 +1379,6 @@ body.case-dark:not(.case-voice) .hero-t{font-style:italic;
 /* the end dot carries a 2px ring in the surface colour so it stays legible
    wherever it lands on the line */
 .tchart .dot{fill:var(--c-new);stroke:var(--c-surf);stroke-width:2}
-.tchart .dlab{font-size:14.5px;font-weight:500;text-anchor:middle;
-  fill:var(--np-ink);font-variant-numeric:tabular-nums}
 /* identity rides a colour key beside the words — the text itself stays ink */
 .tchart .key{stroke-width:2;stroke-linecap:round}
 .tchart .key.old{stroke:var(--c-old)}
@@ -969,7 +1453,28 @@ body.case-dark:not(.case-voice) .hero-t{font-style:italic;
 @media (max-width:620px){
   .cbook-tab{padding:9px 11px 10px;font-size:11px;letter-spacing:.05em}
 }
-@media (prefers-reduced-motion:reduce){.cbook-tab{transition:none}}
+/* The selected tab's surface as one sliding piece.
+
+   The tab strip used to carry the selection on the button itself — its own
+   background and top border — so switching sheets made the highlight vanish
+   from one tab and appear on another. One element that moves reads as the
+   same sheet being pulled across; four elements taking turns reads as four
+   buttons. So the surface is lifted out into a single span that the script
+   measures onto whichever tab is selected, and .slid tells the buttons to
+   stop drawing it themselves.
+
+   Only the fill moves. Colour stays on the button, because the label has to
+   change with the tab it belongs to and not with a thing sliding past it. */
+.cbook-tabs{position:relative}
+.cbook-ind{position:absolute;left:0;top:0;bottom:0;width:0;z-index:0;
+  pointer-events:none;background:var(--glass,rgba(8,12,18,.8));
+  border-top:2px solid var(--np-accent);border-radius:0 0 9px 9px;
+  transition:transform .34s cubic-bezier(.22,.61,.36,1),
+             width .34s cubic-bezier(.22,.61,.36,1)}
+.cbook-tabs.slid .cbook-tab{position:relative;z-index:1}
+.cbook-tabs.slid .cbook-tab[aria-selected="true"]{background:none;
+  border-top-color:transparent}
+@media (prefers-reduced-motion:reduce){.cbook-tab,.cbook-ind{transition:none}}
 
 .ctab{width:100%;border-collapse:collapse;margin:clamp(22px,3.4vh,36px) 0 0}
 .ctab caption{text-align:left;margin-bottom:12px;font-family:var(--f-label);
@@ -1048,40 +1553,70 @@ body.case-dark:not(.case-voice) .hero-t{font-style:italic;
 }
 
 /* ---------- NetPay's panels ---------- */
-/* NetPay only; the Voice page keeps the original glass recipe. Here it is
+/* NetPay only; Voice sets its own fill and veil on body.case-voice. Here it is
    glass, but quiet: the veil blurs the ground and pulls the colour out of it
    on the way through, so what reaches the panel is light rather than a
-   picture. That desaturation is the whole point — the blooms below are
-   saturated navies, and at full chroma the card would just wear the ground's
-   colour. The fill sits at 78%: 92% left nothing for the blur to work on and
-   the glass read as a flat plate, while 70% let the blooms through hard
-   enough to fight the text. No drawn edge and no hairline on the top lip —
-   what holds the card off the page is the drop alone. Every surface reads its
+   picture. The veil still takes the edge off — at full chroma the card would
+   just wear the ground's colour — but only the edge: the fill itself now
+   carries the blue, so the veil lets more of it through than it used to and
+   the two agree instead of cancelling. The veil is off, so the alpha is the
+   whole story now: the ground blends straight into the fill instead of being
+   blurred into a plate first. That is also
+   the answer to why dropping the alpha alone never emptied the panel:
+   backdrop-filter paints the blurred ground in the box's shape whatever the
+   fill does, and the drop shadow outlines it besides — both had to go, not
+   just the alpha. No drawn edge and no hairline on the top lip — what holds the card
+   off the page is the drop alone. Every surface reads its
    look from these four values, so the whole page turns together. */
 body.case-dark:not(.case-voice){
-  --glass:rgba(27,36,56,.78);
-  --glass-veil:blur(16px) saturate(.72);
-  /* the inset hairline was the only edge left once border:0 landed, and it
-     read as a top border — so it is off, as a no-op the plumbing still takes */
+  /* Opaque, and a cooler, greyer blue than the old rgba(29,52,74,.82).
+
+     Two reasons it carries no alpha any more. 18% of the ground coming through
+     a panel read as a stain behind the text rather than as depth — worst while
+     the ground still drifted. And a translucent fill has no fixed colour —
+     it lands wherever the light behind it happens to be — so a panel colour
+     chosen by eye could never actually be the colour on screen.
+
+     Every text token gains contrast on this fill over the old one: ink
+     10.98 -> 12.33, ink-2 6.18 -> 6.94, accent 5.01 -> 5.63, faint 3.39 ->
+     3.81. Faint is still under 4.5 on a panel, as it was before. */
+  --glass:#202b37;
+  /* No veil: the alpha on --glass is the only thing deciding how much ground
+     shows, and nothing paints a blurred copy of the ground in the panel's
+     shape. It stays as a no-op rather than being deleted, because .chartwrap,
+     .cbook and the :is() list below all read it and a missing token would fall
+     back to the shared glass recipe.
+     The drop stays on, though. The ground's brightest bloom sits under the
+     right-hand column, and it is lighter than this fill — with no drop the
+     card reads as a hole punched in the glow rather than a plate over it.
+     Nothing is actually stacked wrong: .page is position:relative z-index:2
+     and .np-ground is z-index:0, so the ground is behind the whole case. The
+     drop is only what makes that legible. */
+  --glass-veil:none;
   --glass-hi:0 0 0 0 transparent;
   --glass-lift:0 24px 60px -34px rgba(0,0,0,.8)}
-/* Lifting the fill cost the faintest ink some ground: at 10.5px the criteria
-   label and the hypothesis number sat at 4.63:1 on the old panel and fell to
-   4.04 on this one, under the 4.5 that size needs. The step back up is scoped
-   to this page's band — .dark carries the token for every case page, and only
-   this one changed its panel. Checked against the worst case, a 92% fill over
-   the brightest bloom, so the darker panels elsewhere have more room, not less. */
-body.case-dark:not(.case-voice) .dark{--np-faint:#8490a6}
-body.case-dark:not(.case-voice) :is(.card,.facet,.quote,.pair > div,.stat,
-  .annot-note,.tally div,.dl,.xls,.log,.utab,.sheet-shot,.flowwrap,.lofiwrap,
-  .plate){
+/* Every lift of the fill costs the faintest ink some ground: at 10.5px the
+   criteria label and the hypothesis number read 4.63:1 on the original panel,
+   4.56 once the fill came up, and 4.11 on this bluer one — under the 4.5 that
+   size needs. #8f9cb2 puts it back at 4.77. The step up is scoped to this
+   page's band — .dark carries the token for every case page, and only this one
+   changed its panel. Measured composited over #1c3a52, the brightest bloom on
+   the ground, so the darker panels elsewhere have more room, not less. Dropping
+   the fill across 62–82% barely moved it — 4.66 to 4.80 — because the fill and
+   that bloom are close in luminance. On this one it reads 4.54 over the
+   brightest bloom and 5.06 over the plain ground — still clear, but the
+   brightest-bloom figure is back within a rounding error of the 4.5 floor, so
+   any further lift of the fill needs the faint token stepped up with it. */
+body.case-dark:not(.case-voice) .dark{--np-faint:#8f9cb2}
+body.case-dark:not(.case-voice) :is(.quote,.stat,.annot-note,.tally div,
+  .sheet-shot,.flowwrap,.lofiwrap){
   border:0;background:var(--glass);
   -webkit-backdrop-filter:var(--glass-veil);
   backdrop-filter:var(--glass-veil);
   box-shadow:var(--glass-hi),var(--glass-lift)}
 
 /* The NetPay ground is drawn in markup: <div class="np-ground"> sits first in
-   the body and holds seven soft ellipses. Each is a rotated box carrying a
+   the body and holds nine soft ellipses. Each is a rotated box carrying a
    radial gradient that fades to transparent, which reads as a blurred shape
    without any blur filter (Chrome rasterises big SVG/CSS blurs at low
    resolution and the edges step). The stage is a 16:10 band pinned to the
@@ -1091,6 +1626,15 @@ body.case-dark:not(.case-voice) :is(.card,.facet,.quote,.pair > div,.stat,
    bottom-right, and two black clouds cut back into the beam above centre. */
 .np-ground{position:fixed;inset:0;z-index:0;background:#0b0e14;overflow:hidden;
   pointer-events:none}
+/* When scroll.js has painted the ground it adds .lit and the ellipses stand
+   down — the canvas is carrying the light, and running both would double
+   every pool. It is painted once and again only on resize; nothing in it
+   moves. Without the script, or with reduced motion, .lit never arrives and
+   the CSS ground below is what the page shows. The canvas is rendered at a
+   quarter of the viewport on each axis (SCALE 0.25 in scroll.js) and
+   stretched here: the upscale is the blur. */
+.np-ground canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.np-ground.lit b{display:none}
 .np-ground b{position:absolute;left:0;right:0;bottom:0;height:62.5vw;display:block}
 .np-ground i{position:absolute;display:block;border-radius:50%;
   background:radial-gradient(closest-side,
@@ -1111,19 +1655,11 @@ body.case-dark:not(.case-voice) :is(.card,.facet,.quote,.pair > div,.stat,
 /* the beam alone is too flat a hue: a faint saturated wash over its brightest
    stretch gives the colour its depth */
 .np-ground .wash  {--c:#0f2233;left:20vw;top:36vw;width:120vw;height:40vw;transform:rotate(-15deg)}
-/* The Voice page inherits the dark mechanics but not the bloom: it keeps the
-   two soft drifting lights it was built with, blurred behind its red set. */
-body.case-voice::after{content:"";position:fixed;inset:-25%;z-index:0;
-  pointer-events:none;
-  background:
-    radial-gradient(40% 40% at 24% 32%, rgba(74,140,224,.135), transparent 70%),
-    radial-gradient(36% 36% at 76% 66%, rgba(52,146,206,.108), transparent 70%);
-  filter:blur(60px);
-  animation:np-drift 52s ease-in-out infinite alternate}
-@keyframes np-drift{
-  from{transform:translate3d(-3%,-2%,0) scale(1)}
-  to{transform:translate3d(4%,3%,0) scale(1.12)}}
-@media (prefers-reduced-motion:reduce){body.case-voice::after{animation:none}}
+/* Voice used to carry two soft blue drifting lights behind its red set — a
+   holdover from the page it was built as. They read as a cool cast in the top
+   left rather than as light once the set art went in, so they are gone; the
+   page's ground is its own --paper and the red diagonals. The np-drift
+   keyframes went with them, having no other user. */
 
 /* the grain layer multiplies on paper, which is invisible on a dark ground */
 body.case-dark::before{mix-blend-mode:screen;opacity:.115}
@@ -1139,6 +1675,83 @@ body.case-dark .case-div{color:var(--np-accent,#77a6d8);opacity:.55}
    on a long repeat — over a single black. Both scroll with the document.
    Add `case-voice` alongside `case-dark`: the dark mechanics are inherited,
    these rules restate the colour and replace the ground. */
+/* A patch of light on the page's own hairlines.
+
+   No wires are drawn here. This layer paints the very same two repeating
+   gradients body.case-voice does — same angles, same 188px period, same
+   50%/100% sizing off the same box — only with the hairline lit instead of
+   dim. Then almost all of it is masked away, and what the mask leaves is a
+   small lit patch. So the thing lighting up is a real line of the page's own
+   pattern, not a copy laid over it.
+
+   Matching the box is the whole trick. body's background resolves 50% 100%
+   against the document, not the viewport, so this element is sized to the
+   document too (in script, since percentage heights cannot reach it) and
+   positioned absolutely rather than fixed. It then scrolls with the pattern
+   exactly as the background does, and no scroll compensation is needed.
+
+   The light runs down the lines, one mask tile every 9s (459px across to
+   900px down is the 27deg the lines lie at), the 117deg family half a cycle
+   behind the other so the two sets of patches never travel together. It was
+   stopped for a while under a blanket "backgrounds never move" rule and put
+   back at the owner's asking — the rule was about animated grain, which stays
+   still. Reduced motion stops it (and the layer with it), below. */
+.vo-spark{position:absolute;top:0;left:0;width:100%;z-index:0;
+  pointer-events:none;overflow:hidden}
+/* How it runs. The patches used to travel by animating mask-position, which
+   the compositor cannot do: every frame re-rasterised the visible stretch of
+   both document-tall layers, and traced in Chrome that held scrolling to
+   75–89fps with ~145 dropped frames a pass, against 119 with the light still.
+   Now the masked element itself slides — a transform, which the compositor
+   runs without painting anything — and the lines inside it (the ::before)
+   slide back by the same amount at the same moment, so they stay exactly
+   where the page's own lines are while the mask carries the light down them.
+   Same tile, same 9s, same half-cycle offset between the families; only the
+   cost changed. The element is one tile bigger on every side (459 × 900), so
+   the mask still covers the page at the far end of its travel, and the
+   ::before is set back in by the same amount to sit on the page box — which
+   is also what keeps its 50%/100% gradient sizing on the same box as body's.
+   One tile of travel is one tile of mask repeat, so the loop has no seam. */
+.vo-spark i{position:absolute;display:block;mix-blend-mode:screen;
+  top:-900px;bottom:-900px;left:-459px;right:-459px;
+  -webkit-mask-repeat:repeat;mask-repeat:repeat;
+  -webkit-mask-size:459px 900px;mask-size:459px 900px;
+  -webkit-mask-position:0 0;mask-position:0 0;
+  /* the brightest point low in the tile, with the falloff reaching up above it */
+  -webkit-mask-image:radial-gradient(closest-side at 50% 82%,
+    #000 0%, rgba(0,0,0,.62) 26%, rgba(0,0,0,.22) 52%, transparent 84%);
+  mask-image:radial-gradient(closest-side at 50% 82%,
+    #000 0%, rgba(0,0,0,.62) 26%, rgba(0,0,0,.22) 52%, transparent 84%);
+  will-change:transform}
+.vo-spark i::before{content:"";position:absolute;
+  top:900px;bottom:900px;left:459px;right:459px;
+  background-repeat:no-repeat;background-size:50% 100%;will-change:transform}
+.vo-spark i:first-child{animation:vo-run-l 9s linear infinite}
+.vo-spark i:first-child::before{
+  background-image:repeating-linear-gradient(63deg,
+    rgba(255,214,220,.95) 0px,  rgba(255,214,220,.95) 2px,
+    rgba(255,110,126,.34) 2px,  rgba(255,110,126,.34) 5px,
+    transparent           5px,  transparent           78px,
+    rgba(255,96,112,.40)  78px, rgba(255,96,112,.40)  80px,
+    transparent           80px, transparent           188px);
+  background-position:left top;
+  animation:vo-hold-l 9s linear infinite}
+.vo-spark i:last-child{animation:vo-run-r 9s linear infinite -4.5s}
+.vo-spark i:last-child::before{
+  background-image:repeating-linear-gradient(117deg,
+    rgba(255,214,220,.95) 0px,  rgba(255,214,220,.95) 2px,
+    rgba(255,110,126,.34) 2px,  rgba(255,110,126,.34) 5px,
+    transparent           5px,  transparent           78px,
+    rgba(255,96,112,.40)  78px, rgba(255,96,112,.40)  80px,
+    transparent           80px, transparent           188px);
+  background-position:right top;
+  animation:vo-hold-r 9s linear infinite -4.5s}
+/* the mask's travel, and the lines' travel back to stay put */
+@keyframes vo-run-l{from{transform:translate(0,0)}to{transform:translate(-459px,900px)}}
+@keyframes vo-hold-l{from{transform:translate(0,0)}to{transform:translate(459px,-900px)}}
+@keyframes vo-run-r{from{transform:translate(0,0)}to{transform:translate(459px,900px)}}
+@keyframes vo-hold-r{from{transform:translate(0,0)}to{transform:translate(-459px,-900px)}}
+@media (prefers-reduced-motion:reduce){ .vo-spark{display:none} }
 html:has(body.case-voice){background:#080204}
 body.case-voice{
   --paper:#080204; --leaf:#1b090d;
@@ -1156,6 +1769,18 @@ body.case-voice{
      for the NetPay band. Same reason as the --np-* set above: this page has no
      such wrapper, so it carries its own — warm, to match the ivory here. */
   --c-axis:#bda4a7;
+  /* The panels were frosted — blur(16px) over rgba(8,12,18,.8) — and the frost
+     was the heaviest thing on the page: fourteen panels, one of them 1000px
+     tall, each re-blurring the ground under it on every scroll frame. Traced
+     in Chrome, taking the blur away cut the GPU's work by about 40% and the
+     compositor's draw time by half; the spark, the cover's two overlays and
+     the pattern itself did not register. And there was little to see for it —
+     a 16px blur of hairlines and a 4px dot grid is a flat smear. Sampled on
+     screen, every frosted panel read rgb(10,11,16) give or take a level (the
+     notes a few lighter), so the fill is that colour, opaque, and the veil is
+     off. Nothing in the text moved: the panels are the colour they already
+     looked. */
+  --glass:#0a0b10; --glass-veil:none;
   /* Two mirrored halves of one repeating diagonal, each held to its own side
      of the page and meeting in the middle: that is what draws the show's
      nested V. Bright hairlines with black between them, as in the key art. */
@@ -1181,6 +1806,34 @@ body.case-voice{
   background-repeat:repeat, repeat, repeat, no-repeat, no-repeat;
   background-attachment:scroll}
 body.case-voice .top{background:rgba(11,4,6,.82)}
+/* the panels name their fill outright; this hands it to the token above */
+body.case-voice :is(.stat,.annot-note,.tally div,.flowwrap,.lofiwrap){
+  background:var(--glass)}
+
+/* ---------- Voice's outcome charts ---------- */
+/* The chart book is NetPay's (.cbook, chart-hover.js); the colours are this
+   page's. NetPay declares its --c-* set on .dark, which Voice does not have,
+   so they are restated here. One series carries the data — a rose off the
+   show's red — and the neutral pole is a warm grey, used for the home screen
+   in the bar chart so the three sections past it are the ones in colour.
+   On the #0a0b10 panel: rose 6.4:1, grey 3.6:1 (a data mark needs 3:1), axis
+   ink 8.4:1; the two poles also sit far apart in lightness, which is what
+   separates them under colour-blindness. */
+body.case-voice{--c-old:#736769;--c-new:#e0707f;--c-down:#d9956b;
+  --c-surf:#0a0b10}
+body.case-voice :is(.tchart,.dchart) .grid{stroke:rgba(246,236,236,.07)}
+body.case-voice .dchart .grid.zero{stroke:rgba(246,236,236,.24)}
+body.case-voice .tchart .mark{stroke:rgba(246,236,236,.26)}
+body.case-voice .dchart .rlab{fill:#d3bfc1}
+.dchart .bar.old{fill:var(--c-old)}
+.dchart .bar.new{fill:var(--c-new)}
+body.case-voice .ctip{background:rgba(18,9,12,.94);
+  box-shadow:inset 0 1px 0 rgba(255,236,238,.10),0 14px 30px -18px rgba(0,0,0,.9)}
+body.case-voice .ctab thead th{border-bottom-color:rgba(246,236,236,.2)}
+/* the small-caps label colour this page gives its eyebrow and step numbers,
+   where NetPay's captions take its blue accent */
+body.case-voice .chartfig figcaption:not(.under){color:#f5c2cb}
+
 /* the divider inherits NetPay's blue from the shared dark block */
 body.case-voice .case-div{color:#d8c3c5;opacity:.5}
 /* the small caps labels — eyebrow, spec keys, contents numbers, slash numbers
@@ -1199,21 +1852,60 @@ body.case-voice .spec dt,
 body.case-voice .toc-n,
 body.case-voice .step-n{color:#f5c2cb}
 
-/* The Voice cover is square key art, not a landscape mockup: cropping it to
-   the shared 4:3 would cut the NetPay mark off the top and the store badges
-   off the bottom. It is shown whole, held to a width that keeps it from
-   towering over the spec row. */
-body.case-voice .hero-plate{max-width:min(100%,620px);margin-inline:auto}
-body.case-voice .hero-plate img{aspect-ratio:auto;object-fit:contain}
+/* The Voice cover is a render of the phone lying on a ribbed black surface,
+   lit from below, exported already cropped to NetPay's 16/10 (the crop sits on
+   the bottom edge, which centres the handset). It rides over the pinned title
+   exactly as NetPay's does (the .hero-stack rules at the top).
+   The render is dark on its own, so the two overlays are light touches, both
+   on one ellipse fitted to the phone — centred on it (47% 52%) and wide enough
+   that both ends of the diagonal handset sit inside the clear zone (they
+   measure t≈.49 of the ellipse). Beyond that:
+   - ::after, a spotlight: dark rising from 52% to 100% of the ellipse, up to
+     .6 only, since the corners are already near black; it quiets the ribbing
+     at the sides so the eye stays on the phone.
+   - ::before, a shallow depth of field: a blurred copy of the same render,
+     masked in from 54% to 88% at 11px, so the phone stays sharp and the far ribbing
+     goes soft. A filter on a still layer, drawn once and carried by the
+     scroll — not a backdrop-filter that re-samples every frame. It reads the
+     1100w file, which the blur makes indistinguishable from the 2200w.
+   Both ramps follow smootherstep (6u⁵−15u⁴+10u³), sampled finely enough that
+   they start and end with zero slope — no ring where either effect begins or
+   tops out; three stops made a visible halo. Both are pseudo-elements, so they
+   need no markup and never move; the corner fade is NetPay's mask, put on the
+   figure so they fade with the image. The dark fill underneath is only what
+   shows while the image loads. Earlier covers are in art/_source/voice/. */
+body.case-voice .hero-plate{background:#0e0f10;
+  -webkit-mask-image:radial-gradient(145% 145% at 50% 50%,#000 68%,transparent 100%);
+  mask-image:radial-gradient(145% 145% at 50% 50%,#000 68%,transparent 100%)}
+body.case-voice .hero-plate::before{content:"";position:absolute;inset:0;
+  pointer-events:none;
+  background:url("art/work/voice/cover-1100.webp") 50% 50%/cover;
+  filter:blur(11px);
+  -webkit-mask-image:radial-gradient(ellipse 70% 86% at 47% 52%,
+      transparent 0%, rgba(0,0,0,0.000) 54.0%, rgba(0,0,0,0.016) 58.2%, rgba(0,0,0,0.104) 62.5%,
+      rgba(0,0,0,0.275) 66.8%, rgba(0,0,0,0.500) 71.0%, rgba(0,0,0,0.725) 75.2%,
+      rgba(0,0,0,0.896) 79.5%, rgba(0,0,0,0.984) 83.8%, rgba(0,0,0,1.000) 88.0%);
+  mask-image:radial-gradient(ellipse 70% 86% at 47% 52%,
+      transparent 0%, rgba(0,0,0,0.000) 54.0%, rgba(0,0,0,0.016) 58.2%, rgba(0,0,0,0.104) 62.5%,
+      rgba(0,0,0,0.275) 66.8%, rgba(0,0,0,0.500) 71.0%, rgba(0,0,0,0.725) 75.2%,
+      rgba(0,0,0,0.896) 79.5%, rgba(0,0,0,0.984) 83.8%, rgba(0,0,0,1.000) 88.0%)}
+body.case-voice .hero-plate::after{content:"";position:absolute;inset:0;
+  pointer-events:none;
+  background:radial-gradient(ellipse 70% 86% at 47% 52%,
+      rgba(8,9,10,0) 0%, rgba(8,9,10,0.000) 52.0%, rgba(8,9,10,0.002) 55.4%, rgba(8,9,10,0.014) 58.9%,
+      rgba(8,9,10,0.042) 62.3%, rgba(8,9,10,0.087) 65.7%, rgba(8,9,10,0.148) 69.1%,
+      rgba(8,9,10,0.221) 72.6%, rgba(8,9,10,0.300) 76.0%, rgba(8,9,10,0.379) 79.4%,
+      rgba(8,9,10,0.452) 82.9%, rgba(8,9,10,0.513) 86.3%, rgba(8,9,10,0.558) 89.7%,
+      rgba(8,9,10,0.586) 93.1%, rgba(8,9,10,0.598) 96.6%, rgba(8,9,10,0.600) 100.0%)}
+body.case-voice .hero-plate img{aspect-ratio:16/10;object-fit:cover}
 
-/* ---------- a slot waiting on its export ---------- */
-/* Sized and bordered like a finished plate so the page composes correctly
-   before the art arrives. Delete the slot when the image goes in. */
-.slot{margin:0;display:grid;place-items:center;aspect-ratio:16/10;
-  border-radius:16px;border:1px dashed rgba(246,236,236,.16);
-  background:rgba(246,236,236,.02);text-align:center;padding:24px}
-.slot span{font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--np-faint)}
+/* ---------- design sheets on Voice ---------- */
+/* .sheet-shot's own edge and fill are NetPay's blue; Voice takes them from its
+   warm --np-* set, as its .kit figures do. The fill also shows through the
+   brainstorm board's transparent corners, so the board sits on a plate rather
+   than floating over the diagonals. */
+body.case-voice .sheet-shot{border-color:var(--np-line);background:var(--np-panel)}
+body.case-voice .sheet-shot figcaption{border-top-color:var(--np-line)}
 
 /* ---------- the scale as a step marker ---------- */
 /* One note climbing Do→La, a step per section: it reads as progress even for
@@ -1225,7 +1917,6 @@ body.case-voice .note .staff line{stroke:rgba(246,236,236,.2);stroke-width:.8}
 body.case-voice .note .led{stroke:rgba(245,194,203,.5);stroke-width:.9}
 body.case-voice .note .stem{stroke:#f5c2cb;stroke-width:1.1}
 body.case-voice .note .head{fill:#f5c2cb}
-body.case-voice .solfa{margin-left:12px;color:rgba(245,194,203,.62)}
 
 /* ---------- long screens inside a phone frame ---------- */
 /* These exports run 3x to 4x taller than a phone viewport. The bezel keeps true
@@ -1235,9 +1926,16 @@ body.case-voice .solfa{margin-left:12px;color:rgba(245,194,203,.62)}
 .screen{aspect-ratio:9/19.5;overflow-y:auto;overflow-x:hidden;
   border-radius:clamp(28px,3.4vw,39px);background:#0b1524;
   scrollbar-width:none;-ms-overflow-style:none;
-  overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  -webkit-overflow-scrolling:touch}
 .screen::-webkit-scrollbar{display:none}
 .screen img{display:block;width:100%;height:auto;border-radius:0;border:0}
+/* With a mouse or trackpad, scroll.js takes the wheel off these and gives it
+   back to the page: the screen is dragged instead, the way a phone is. Keyboard
+   focus hands it the native scroll box again. */
+:is(.screen,.device.tall .screen-scroll).held{overflow-y:hidden;cursor:grab;
+  -webkit-user-select:none;user-select:none}
+:is(.screen,.device.tall .screen-scroll).held.dragging{cursor:grabbing}
+:is(.screen,.device.tall .screen-scroll).held:focus-visible{overflow-y:auto}
 
 /* ---------- the Voice wireframes ---------- */
 /* Its own part names rather than the NetPay set: these screens are built from
@@ -1267,204 +1965,430 @@ body.case-voice .lofi .num{fill:#f5c2cb;font-size:9.5px;letter-spacing:.18em;
    11-12px type, dotted rules, blue underlined links, chevrons before every
    link. The palette is the site's own — navy #1E1B39, teal #009597,
    amber #F1A533, pale teal #E5F4F5. */
-html:has(body.case-ohayo){background:#dfe7ea}
-body.case-ohayo{
-  --paper:#ffffff; --leaf:#f2f7f8;
-  --ink:#1e1b39; --ink-2:#333244; --faint:#6f6e82;
-  --red:#0b6d6f; --olive:#53525e; --olive-soft:rgba(30,27,57,.16);
-  --menu-off:#53525e;
-  --rule:#b9c7cc; --rule-2:#d5dfe3;
-  --np-bg:#ffffff; --np-panel:#f2f7f8; --np-line:#c8d4d8;
-  --np-ink:#1e1b39; --np-ink-2:#333244; --np-faint:#6f6e82; --np-accent:#0b6d6f;
-  background:#dfe7ea;
-  font-size:13px;
-  color:var(--ink)}
-body.case-ohayo::before{display:none}            /* no paper grain on a portal */
-body.case-ohayo .top{background:#1e1b39;border-bottom:3px solid #009597}
-body.case-ohayo .top a,body.case-ohayo .top .where{color:#dfe7ea}
-body.case-ohayo .top .where b{color:#7fd4d5}
+/* ---------- HUB: a dark purple ground, ruled in columns ------------------- */
+/* Not the shared blue dark: HUB gets its own key. The ground is a deep violet
+   lifted by two soft lights, and the only ruling is vertical — a column grid
+   at 96px, no horizontals, so it reads as a drawing sheet stood on end rather
+   than graph paper. The lights sit behind the rules in the layer order, which
+   is what stops the grid looking printed on. */
+html:has(body.case-hub){background:#0c0818}
+/* .case-dark in the selector is load-bearing: HUB is case-dark, so NetPay's
+   body.case-dark:not(.case-voice) reaches it too, and at (0,2,1) it outranked a
+   plain body.case-hub — the panels came out NetPay's blue-grey #202b37, not
+   this violet. Equal weight and later in the file, these win. */
+body.case-dark.case-hub{
+  --paper:#0f0b1e; --leaf:#191233;
+  --ink:#ece9f7; --ink-2:#c3bcd9; --faint:#9a90b8;
+  --red:#b49cf0; --olive:#8e85ab; --olive-soft:rgba(236,233,247,.18);
+  --menu-off:#8e85ab;
+  --rule:rgba(236,233,247,.13); --rule-2:rgba(236,233,247,.08);
+  --np-bg:#0f0b1e; --np-panel:#191233; --np-line:rgba(236,233,247,.12);
+  --np-ink:#ece9f7; --np-ink-2:#c3bcd9; --np-faint:#9a90b8; --np-accent:#b49cf0;
+  --glass:rgba(38,28,74,.82); --glass-veil:none;
+  --glass-hi:0 0 0 0 transparent;
+  --glass-lift:0 24px 60px -34px rgba(0,0,0,.8);
+  color:var(--ink);
+  background-color:#0f0b1e}
+/* The lights and the rules are one composed screen, so they are held to the
+   viewport — on a fixed layer of their own, not with background-attachment:
+   fixed, which repaints the whole viewport on every scroll frame and which iOS
+   ignores, stretching the two lights down the full document instead. z-index
+   0 keeps the layer under the grain (body::before, 1) and .page (2), the same
+   order the body background painted in. */
+body.case-hub::after{content:"";position:fixed;inset:0;z-index:0;
+  pointer-events:none;
+  background-image:
+    repeating-linear-gradient(to right,
+      rgba(236,233,247,.055) 0 1px, transparent 1px 96px),
+    radial-gradient(86% 58% at 24% 36%, rgba(150,120,235,.17), transparent 72%),
+    radial-gradient(64% 48% at 80% 74%, rgba(96,78,190,.13), transparent 72%)}
+/* .dark carries the shared blue set; here it hands back to this page's violet
+   (.case-dark again, to match body.case-dark:not(.case-voice) .dark) */
+body.case-dark.case-hub .dark{--np-bg:#0f0b1e; --np-panel:#191233;
+  --np-line:rgba(236,233,247,.12);
+  --np-ink:#ece9f7; --np-ink-2:#c3bcd9; --np-faint:#9a90b8; --np-accent:#b49cf0}
+body.case-hub .top{background:rgba(15,11,30,.86)}
 
-/* the fixed-width canvas the whole era was built on */
-body.case-ohayo .sheet{width:min(1000px,100% - 24px);background:#fff;
-  border:1px solid #9fb3ba;border-top:0;padding:0 14px 18px}
-body.case-ohayo .case{padding:16px 0 0}
+/* HUB is one chain of four sign-offs, so the page is built on it: the four
+   interfaces strung on a line under the title, the chain spelt out as four
+   linked stops, then a section per role in chain order, each opening on its
+   node, saying what it hands on and to whom, and closing on the next stop.
+   The hand-off chips wear the app's own button colours: purple for an
+   approval, yellow for an instruction still to be read, green for a
+   dispatch. */
+body.case-hub{--hb-sec:clamp(34px,6vh,78px);
+  --hb-node:#b49cf0; --hb-line:rgba(180,156,240,.34);
+  --hb-ok:#7446d6; --hb-ask:#e8c417; --hb-go:#34c759}
 
-/* masthead */
-body.case-ohayo .case-hero{padding:14px 0 0}
-body.case-ohayo .hero-eyebrow{margin-bottom:6px;color:#0b6d6f;font-size:10px}
-body.case-ohayo .hero-t{font-family:var(--f-label);font-style:normal;
-  font-weight:700;font-size:clamp(17px,1.9vw,23px);line-height:1.35;
-  letter-spacing:0;max-width:none;color:#1e1b39;
-  margin:0 0 10px;padding:0 0 8px;border-bottom:3px double #009597}
-body.case-ohayo .spec{border:1px solid #c8d4d8;background:#f7fbfb;
-  grid-template-columns:repeat(4,minmax(0,1fr))}
-body.case-ohayo .spec-i{padding:7px 10px}
-body.case-ohayo .spec-i + .spec-i{border-left:1px dotted #b9c7cc}
-body.case-ohayo .spec-i:first-child{padding-left:10px}
-body.case-ohayo .spec dt{font-size:10px;color:#0b6d6f;letter-spacing:.1em}
-body.case-ohayo .spec dd{margin-top:4px;font-size:12.5px}
-body.case-ohayo .spec dd a{color:#14389c;text-decoration:underline}
-body.case-ohayo .spec dd a:visited{color:#6b3ca0}
+.hb-node{display:inline-grid;place-items:center;flex:none;width:30px;height:30px;
+  border-radius:50%;font-family:var(--f-label);font-size:13px;font-weight:600;
+  color:#0f0b1e;background:var(--hb-node);
+  box-shadow:0 0 0 5px #0f0b1e,0 0 0 6px var(--hb-line)}
+.hb-chip{display:inline-block;padding:3px 10px;border-radius:999px;
+  font-family:var(--f-label);font-size:12px;font-weight:600;line-height:1.4;
+  color:#fff;background:var(--hb-ok);white-space:nowrap}
+.hb-chip.ask{color:#1a1206;background:var(--hb-ask)}
+.hb-chip.go{color:#08210f;background:var(--hb-go)}
+.hb-hand{display:flex;align-items:center;flex-wrap:wrap;gap:6px 10px;margin:0;
+  font-family:var(--f-label);font-size:13px;color:var(--ink-2)}
 
-/* every section is a module: gradient title bar, bordered body */
-body.case-ohayo .step{border:1px solid #9fb3ba;border-radius:0;background:#fff;
-  padding:0;margin:14px 0 0;grid-template-columns:minmax(0,1fr);row-gap:0;
-  overflow:hidden;box-shadow:0 1px 0 #eaf0f2}
-body.case-ohayo .step-side{position:static;padding:0;
-  background:linear-gradient(#ffffff,#dcecec 55%,#cbe4e5);
-  border-bottom:1px solid #9fb3ba}
-body.case-ohayo .step-t{font-family:var(--f-label);font-style:normal;
-  font-weight:700;font-size:13px;letter-spacing:.02em;color:#1e1b39;
-  margin:0;padding:6px 10px 6px 26px;position:relative}
-body.case-ohayo .step-t::before{content:"";position:absolute;left:10px;top:50%;
-  transform:translateY(-50%);width:8px;height:14px;background:#009597;
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
-body.case-ohayo .step-meta{margin:0;padding:6px 10px 0;font-size:10px;
-  color:#0b6d6f}
-body.case-ohayo .step-b{margin:0;padding:8px 10px 10px;font-size:12.5px;
-  line-height:1.75;color:#333244;border-bottom:1px dotted #c8d4d8}
-body.case-ohayo .step-main{padding:10px}
-body.case-ohayo .step-back{display:inline-block;margin-top:10px;font-size:11px;
-  color:#14389c;text-decoration:underline}
-body.case-ohayo .step-back::before{content:"\00bb\00a0"}
-body.case-ohayo .note{display:none}
+/* the fan: four phones on one line */
+.hb-fan{position:relative;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(14px,2.4vw,40px);margin:clamp(70px,11vh,120px) 0 0;
+  padding:0 clamp(0px,2vw,30px);font-size:clamp(16px,1.4vw,19px)}
+/* the line through the four nodes, drawn from the first node's centre to the
+   last one's */
+.hb-fan::before{content:"";position:absolute;z-index:0;
+  left:calc(clamp(0px,2vw,30px) + (100% - 2 * clamp(0px,2vw,30px) - 3 * clamp(14px,2.4vw,40px)) / 8);
+  right:calc(clamp(0px,2vw,30px) + (100% - 2 * clamp(0px,2vw,30px) - 3 * clamp(14px,2.4vw,40px)) / 8);
+  bottom:calc(1.45em + 14px + 15px);height:1px;background:var(--hb-line)}
+.hb-fan-i{position:relative;z-index:1;display:grid;justify-items:center;gap:14px;
+  text-decoration:none;color:var(--ink)}
+.hb-fan-i .device{width:100%;max-width:250px;display:block;
+  transition:transform .35s cubic-bezier(.22,.61,.36,1)}
+/* the stagger is a translate, so it moves the phones and not the layout: the
+   nodes under them stay on one line */
+.hb-fan-i:nth-child(odd) .device{translate:0 calc(-1 * clamp(20px,4vh,46px))}
+.hb-fan-i .device img{display:block;aspect-ratio:1500/3248;height:auto;
+  object-fit:cover;object-position:top}
+/* the captures carry their own notch, so the drawn island would be a second */
+body.case-hub .device .island{display:none}
+.hb-fan-i .hb-node{margin-top:6px}
+.hb-fan-t{font-family:var(--f-display);font-style:italic;font-size:1em;
+  line-height:1.45;text-align:center;white-space:nowrap}
+.hb-fan-i:hover .device,.hb-fan-i:focus-visible .device{transform:translateY(-6px)}
+.hb-fan-i:hover .hb-fan-t,.hb-fan-i:focus-visible .hb-fan-t{color:var(--hb-node)}
+.hb-fan-i:focus-visible{outline:2px solid var(--hb-node);outline-offset:6px;border-radius:12px}
 
-/* contents as a boxed link list, the way a portal indexes itself */
-body.case-ohayo .toc{border:1px solid #9fb3ba;background:#f7fbfb;
-  margin:14px 0 0;padding:8px 10px;gap:0 20px}
-body.case-ohayo .toc li{border:0;border-bottom:1px dotted #c8d4d8}
-body.case-ohayo .toc a{padding:5px 0;color:#14389c}
-body.case-ohayo .toc a::before{content:"\00bb\00a0";color:#009597}
-body.case-ohayo .toc a:hover{padding-left:0;text-decoration:underline;color:#c2410c}
-body.case-ohayo .toc-t{font-family:var(--f-label);font-style:normal;
-  font-weight:500;font-size:12.5px}
-body.case-ohayo .toc-n{color:#6f6e82}
-body.case-ohayo .toc-p{color:#6f6e82;font-size:10px}
+/* the chain, spelt out */
+.hb-chainsec{padding:var(--hb-sec) 0 0;margin:var(--hb-sec) 0 0;
+  border-top:1px solid var(--np-line);scroll-margin-top:72px}
+.hb-chainsec-head{max-width:640px}
+.hb-chain{position:relative;list-style:none;margin:clamp(26px,4vh,40px) 0 0;padding:0;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.hb-chain::before{content:"";position:absolute;left:30px;right:30px;top:36px;
+  height:1px;background:var(--hb-line)}
+.hb-chain li{position:relative;display:flex}
+.hb-chain a{display:grid;align-content:start;gap:10px;width:100%;
+  padding:21px 20px 20px;border-radius:18px;text-decoration:none;color:var(--ink);
+  background:var(--glass);border:1px solid rgba(236,233,247,.08);
+  transition:border-color .3s}
+.hb-chain a:hover,.hb-chain a:focus-visible{border-color:var(--hb-line)}
+.hb-chain a:focus-visible{outline:2px solid var(--hb-node);outline-offset:3px}
+.hb-chain .hb-node{margin-bottom:6px}
+.hb-chain-t{font-family:var(--f-display);font-style:italic;font-weight:500;
+  font-size:20px;line-height:1.2}
+.hb-chain-b{font-size:14.5px;line-height:1.55;color:var(--ink-2)}
+.hb-chain .hb-hand{margin-top:auto;padding-top:12px;
+  border-top:1px solid rgba(236,233,247,.08);font-family:var(--f-label);
+  font-size:13px;color:var(--ink-2)}
+/* an arrow in the gap between stops */
+.hb-chain li + li::before{content:"";position:absolute;z-index:1;left:-11px;top:32px;
+  width:8px;height:8px;border-top:1.5px solid var(--hb-node);
+  border-right:1.5px solid var(--hb-node);transform:rotate(45deg)}
+.hb-chainsec-b{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(24px,3.4vw,56px);margin-top:clamp(26px,4vh,40px)}
+.hb-chainsec-b p{margin:0}
 
-body.case-ohayo .slot{border:1px solid #c8d4d8;background:#f7fbfb;
-  border-radius:0;aspect-ratio:16/9}
-body.case-ohayo .slot span{color:#6f6e82}
-body.case-ohayo .case-div{color:#009597;opacity:.7}
-body.case-ohayo .frieze{filter:saturate(.7);opacity:.5}
-
-/* the two-column portal body: an index rail and the content column */
-body.case-ohayo .pcols{display:grid;grid-template-columns:210px minmax(0,1fr);
-  gap:12px;margin:14px 0 0;align-items:start}
-body.case-ohayo .prail{position:sticky;top:76px;display:grid;gap:10px}
-body.case-ohayo .pbox{border:1px solid #9fb3ba;background:#fff}
-body.case-ohayo .pbox h2{margin:0;padding:5px 9px;font-family:var(--f-label);
-  font-size:11px;font-weight:700;letter-spacing:.04em;color:#1e1b39;
-  background:linear-gradient(#ffffff,#dcecec 55%,#cbe4e5);
-  border-bottom:1px solid #9fb3ba}
-body.case-ohayo .pbox.dark h2{color:#ffffff;
-  background:linear-gradient(#3a3660,#1e1b39 60%,#15132b);
-  border-bottom:1px solid #0d0b1c}
-body.case-ohayo .plinks{margin:0;padding:6px 9px;list-style:none;font-size:11.5px}
-body.case-ohayo .plinks li{border-bottom:1px dotted #c8d4d8;padding:5px 0}
-body.case-ohayo .plinks li:last-child{border-bottom:0}
-body.case-ohayo .plinks a{color:#14389c;text-decoration:none}
-body.case-ohayo .plinks a::before{content:"\25b8\00a0";color:#009597}
-body.case-ohayo .plinks a:hover{text-decoration:underline;color:#c2410c}
-body.case-ohayo .pfacts{margin:0;padding:6px 9px;font-size:11.5px}
-body.case-ohayo .pfacts > div{display:flex;justify-content:space-between;
-  gap:8px;padding:5px 0;border-bottom:1px dotted #c8d4d8}
-body.case-ohayo .pfacts > div:last-child{border-bottom:0}
-body.case-ohayo .pfacts dt{color:#6f6e82}
-body.case-ohayo .pfacts dd{margin:0;font-weight:600;color:#1e1b39}
-/* sections live in the content column, so they clear the rail */
-body.case-ohayo .step{grid-column:1 / -1}
-@media (max-width:820px){
-  body.case-ohayo .pcols{grid-template-columns:1fr}
-  body.case-ohayo .prail{position:static}
+@media (max-width:1100px){
+  .hb-chain{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hb-chain::before,.hb-chain li + li::before{display:none}
+}
+@media (max-width:860px){
+  .hb-chainsec-b{grid-template-columns:minmax(0,1fr);gap:.9em}
+}
+@media (max-width:640px){
+  .hb-fan{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:34px;padding:0}
+  .hb-fan::before{display:none}
+  .hb-fan-i:nth-child(odd) .device{translate:none}
+  .hb-fan{margin-top:clamp(40px,7vh,84px)}
+  .hb-fan-t{white-space:normal}
+  .hb-chain{grid-template-columns:minmax(0,1fr)}
+}
+/* two phones side by side need to share the column on a phone, or the pair
+   runs 3px past the edge at 390 */
+@media (max-width:560px){
+  body.case-hub .annot-shot.two{width:100%;justify-content:center}
+  body.case-hub .annot-shot.two .device{width:calc(50% - 8px);min-width:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .hb-fan-i .device{transition:none}
+  .hb-fan-i:hover .device,.hb-fan-i:focus-visible .device{transform:none}
 }
 
-body.case-ohayo .pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;align-items:start}
-body.case-ohayo .pgrid .slot{aspect-ratio:3/4}
-@media (max-width:760px){ body.case-ohayo .pgrid{grid-template-columns:1fr} }
+/* ---------- OhayoFX ----------
+   The page is dressed as the kind of site the brief asked the portal to
+   echo: a Japanese homepage from about 2002. Fixed-width frame on a tiled
+   wallpaper, Windows 2000 grey chrome, a WordArt banner, a scrolling notice,
+   an access counter, boxed side menu, 88x31 link banners, default link
+   blue. It shares nothing with leaf.css's header, footer or paper, so none
+   of those classes are used on this page.
+   Two faces: DotGothic16, a 16-dot bitmap gothic, for the chrome and
+   headings, only at 16/32px so its dots land on whole pixels; M PLUS 1p for
+   everything else, the one Google Japanese gothic that also carries
+   Mongolian ө/ү. Never set Mongolian in DotGothic16: it has neither. */
+html:has(body.case-ohayo){background:#eef2f9;
+  scrollbar-color:#8eaad8 #e2e9f5}
+body.case-ohayo{
+  --oh-body:"M PLUS 1p",Verdana,Tahoma,"Hiragino Kaku Gothic ProN",Osaka,"MS PGothic",sans-serif;
+  --oh-dot:"DotGothic16","M PLUS 1p","MS Gothic",Osaka,sans-serif;
+  --oh-navy:#0a246a; --oh-blue:#336699; --oh-line:#99b3dd; --oh-tint:#e8f0fc;
+  --oh-orange:#ff6600; --oh-grey:#d4d0c8; --oh-ink:#333333; --oh-soft:#5c5c5c;
+  /* the wallpaper: an 8px checker, still */
+  background-color:#eef2f9;
+  background-image:
+    linear-gradient(45deg,#e2e9f5 25%,transparent 25%,transparent 75%,#e2e9f5 75%),
+    linear-gradient(45deg,#e2e9f5 25%,transparent 25%,transparent 75%,#e2e9f5 75%);
+  background-size:16px 16px;background-position:0 0,8px 8px;
+  font:400 13px/22px var(--oh-body);color:var(--oh-ink);
+  -webkit-text-size-adjust:100%;text-size-adjust:100%;
+  font-kerning:none;font-synthesis:none;text-rendering:auto}
+body.case-ohayo::before{display:none}
+.oh a{color:#0000ee}
+.oh a:visited{color:#551a8b}
+.oh a:hover{color:#ff0000}
+.oh :focus-visible{outline:2px dotted #000;outline-offset:1px}
+.oh-h1,.oh-h2,.oh-box h2,.oh-nav a,.oh-marq,.oh-count b,.oh-tag,.oh-88 b{
+  font-family:var(--oh-dot);font-weight:400;-webkit-font-smoothing:none}
+.oh :lang(mn){font-family:var(--oh-body)}
 
-/* A browser window rather than a device frame: these are full-page exports,
-   3x to 7x taller than any viewport, so the chrome keeps a real window shape
-   and the page scrolls inside it. */
-.win{margin:0;border:1px solid #9fb3ba;background:#fff}
-.win-bar{display:flex;align-items:center;gap:5px;padding:5px 8px;
-  background:linear-gradient(#f6f9fa,#e3ebee);border-bottom:1px solid #c3d0d5}
-.win-bar .dot{width:7px;height:7px;border-radius:50%;background:#c3d0d5;
-  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
-.win-url{flex:1;margin-left:6px;padding:2px 7px;border:1px solid #d3dde1;
-  border-radius:9px;background:#fff;font-family:var(--f-label);font-size:9px;
-  color:#6f6e82;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.win-view{aspect-ratio:3/4;overflow-y:auto;overflow-x:hidden;background:#fff;
-  scrollbar-width:thin;overscroll-behavior:contain}
-.win-view img{display:block;width:100%;height:auto}
-.win figcaption{padding:7px 9px;border-top:1px solid #c3d0d5;background:#f7fbfb;
-  font-family:var(--f-label);font-size:10px;line-height:1.5;color:#44435c}
+/* the frame: 780 wide, the width that fit an 800x600 screen */
+.oh{width:min(780px,100% - 16px);margin:12px auto 28px;background:#fff;
+  border:1px solid var(--oh-blue);box-shadow:0 0 0 3px #fff,0 0 0 4px var(--oh-line)}
 
-body.case-ohayo .win.wide .win-view{aspect-ratio:16/10}
-body.case-ohayo .pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* grey toolbar, Windows 2000 buttons */
+.oh-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:4px;background:var(--oh-grey);border-bottom:1px solid #808080}
+.oh .oh-btn{display:inline-block;padding:2px 10px;font-size:12px;line-height:18px;
+  color:#000;text-decoration:none;background:var(--oh-grey);
+  border:1px solid;border-color:#fff #404040 #404040 #fff;
+  box-shadow:inset -1px -1px #808080,inset 1px 1px #ebe9e4}
+.oh .oh-btn:active{border-color:#404040 #fff #fff #404040;
+  box-shadow:inset 1px 1px #808080;padding:3px 9px 1px 11px}
+.oh-where{font-size:12px;line-height:18px;color:#000;padding-right:6px}
+.oh-where b{color:var(--oh-navy)}
 
-/* ---------- SmileLine brand book ---------- */
-/* The book is blue on near-white, so the page is too: spreads are 16:9 and
-   shown two up, large enough to read the rules written on them. */
-html:has(body.case-smile){background:#dde7f4}
-body.case-smile{--paper:#e3ecf7;--leaf:#eaf1fa;--ink:#16325c;--ink-2:#41597f;
-  --faint:#7d8fab;--red:#2f6fb5;--olive:#6b7e9c;--rule:rgba(22,50,92,.16);
-  --rule-2:rgba(22,50,92,.09);--np-ink:#16325c;--np-ink-2:#41597f;
-  --np-faint:#7d8fab;--np-accent:#2f6fb5;--np-line:rgba(22,50,92,.14);
-  /* the clinic's own subject as wallpaper: outlined teeth on a diagonal,
-     faint enough to read as texture rather than illustration */
-  background:url("art/work/sl/teeth.svg") repeat center top, #e3ecf7;
-  background-size:230px 230px, auto}
-body.case-smile::before{display:none}
-body.case-smile .top{background:rgba(246,249,253,.86)}
-/* the spreads and the cover sit on solid plates so the pattern stays behind */
-body.case-smile .spread img,body.case-smile .hero-plate img{background:#fff;
-  box-shadow:0 1px 0 rgba(22,50,92,.05)}
-body.case-smile .hero-plate img{aspect-ratio:16/9;object-fit:cover;
-  border:1px solid rgba(22,50,92,.12)}
-body.case-smile .spreads{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:clamp(14px,2vw,26px);margin:clamp(20px,3.2vh,34px) 0 0}
-body.case-smile .spread{margin:0}
-body.case-smile .spread img{display:block;width:100%;height:auto;
-  border-radius:8px;border:1px solid rgba(22,50,92,.12);background:#fff}
-body.case-smile .spread figcaption{margin:9px 0 0;font-family:var(--f-label);
-  font-size:var(--t-micro);font-weight:500;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--np-faint)}
-@media (max-width:700px){ body.case-smile .spreads{grid-template-columns:1fr} }
+/* banner: WordArt on a navy gradient with scan lines */
+.oh-mast{display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px 18px;padding:14px 16px 12px;
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,transparent 1px 3px),
+    linear-gradient(#4a7fd0,#1b3f8f 62%,#0a246a)}
+.oh-brand{display:grid;gap:6px}
+.oh-logo{display:flex;align-items:flex-end;gap:1px;padding:6px 8px 8px 4px;
+  font:900 48px/1 "Arial Black","Arial Bold",Gadget,Impact,sans-serif;
+  /* a navy edge round the white rim, and the hard drop under it all */
+  filter:drop-shadow(1px 0 0 #0a246a) drop-shadow(-1px 0 0 #0a246a)
+    drop-shadow(0 1px 0 #0a246a) drop-shadow(0 -1px 0 #0a246a)
+    drop-shadow(3px 4px 0 #00123d)}
+/* one colour a letter, thick white rim, each set at its own tilt: the
+   bouncing pop lettering of a Japanese variety-show caption */
+.oh-logo i{display:inline-block;font-style:normal;color:var(--l);
+  text-shadow:
+    2px 0px 0 #fff,
+    1.8px 0.8px 0 #fff,
+    1.4px 1.4px 0 #fff,
+    0.8px 1.8px 0 #fff,
+    0px 2px 0 #fff,
+    -0.8px 1.8px 0 #fff,
+    -1.4px 1.4px 0 #fff,
+    -1.8px 0.8px 0 #fff,
+    -2px 0px 0 #fff,
+    -1.8px -0.8px 0 #fff,
+    -1.4px -1.4px 0 #fff,
+    -0.8px -1.8px 0 #fff,
+    -0px -2px 0 #fff,
+    0.8px -1.8px 0 #fff,
+    1.4px -1.4px 0 #fff,
+    1.8px -0.8px 0 #fff,
+    4px 0px 0 #fff,
+    3.7px 1.5px 0 #fff,
+    2.8px 2.8px 0 #fff,
+    1.5px 3.7px 0 #fff,
+    0px 4px 0 #fff,
+    -1.5px 3.7px 0 #fff,
+    -2.8px 2.8px 0 #fff,
+    -3.7px 1.5px 0 #fff,
+    -4px 0px 0 #fff,
+    -3.7px -1.5px 0 #fff,
+    -2.8px -2.8px 0 #fff,
+    -1.5px -3.7px 0 #fff,
+    -0px -4px 0 #fff,
+    1.5px -3.7px 0 #fff,
+    2.8px -2.8px 0 #fff,
+    3.7px -1.5px 0 #fff;
+  transform:translateY(var(--y,0)) rotate(var(--r,0deg))}
+.oh-logo i:nth-child(1){--l:#ff4d4d;--r:-7deg;--y:2px}
+.oh-logo i:nth-child(2){--l:#ff8a00;--r:5deg;--y:-3px}
+.oh-logo i:nth-child(3){--l:#ffc000;--r:-4deg;--y:1px}
+.oh-logo i:nth-child(4){--l:#ff8a00;--r:6deg;--y:-2px}
+.oh-logo i:nth-child(5){--l:#ff4d4d;--r:-5deg;--y:2px}
+.oh-logo i:nth-child(6){--l:#13b5b1;--r:4deg;--y:-4px;margin-left:6px}
+.oh-logo i:nth-child(7){--l:#1e8cff;--r:-6deg;--y:0px}
+.oh-tag{font-size:16px;line-height:20px;color:#ffff66}
+.oh-tag i{font-style:normal}
+.oh-count{margin:0;display:flex;align-items:center;gap:6px;font-size:12px;
+  line-height:18px;color:#fff}
+.oh-count b{font-size:16px;line-height:20px;padding:1px 5px;letter-spacing:2px;
+  color:#33ff33;background:#000;border:2px solid;
+  border-color:#404040 #d4d0c8 #d4d0c8 #404040}
 
-/* a real palette, sampled off the book itself rather than guessed */
-body.case-smile .swatches{display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:clamp(10px,1.4vw,18px);margin:0 0 clamp(20px,3vh,32px)}
-body.case-smile .sw{display:grid;gap:6px}
-body.case-smile .sw span{display:block;height:56px;border-radius:7px;
-  box-shadow:inset 0 0 0 1px rgba(22,50,92,.12)}
-body.case-smile .sw b{font-family:var(--f-label);font-size:var(--t-micro);
-  font-weight:600;letter-spacing:.12em;color:var(--np-ink)}
-body.case-smile .sw i{font-style:normal;font-size:12.5px;line-height:1.45;
-  color:var(--np-faint)}
-body.case-smile .spreads.one{grid-template-columns:1fr}
-body.case-smile .brief{max-width:66ch;margin:clamp(18px,2.8vh,30px) 0 0;
-  font-size:16.5px;line-height:1.65;color:var(--np-ink-2)}
+/* the scrolling notice: one strip, slow, stops for a pointer; still under
+   reduced motion */
+.oh-marq{overflow:hidden;background:#ffffcc;color:#cc0000;font-size:16px;
+  line-height:20px;border-top:1px solid #e3c86f;border-bottom:1px solid #e3c86f}
+.oh-marq p{margin:0;padding:3px 0;display:flex;width:max-content;
+  white-space:nowrap;animation:oh-marq 42s linear infinite}
+.oh-marq span{padding-right:2em}
+.oh-marq:hover p{animation-play-state:paused}
+@keyframes oh-marq{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){
+  .oh-marq p{animation:none;width:auto;white-space:normal;padding:3px 8px}
+  .oh-marq span + span{display:none}
+}
 
-/* ---------- outcome: what changed, old build beside V2 ---------- */
-/* Big figures with small labels, the way a results board reads at a glance.
-   The pair is the point, so the old number stays quiet and the new one carries
-   the weight — no bar charts for four values. */
-.deltas{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:clamp(20px,3vw,44px);margin:clamp(24px,4vh,44px) 0 0;
-  border-top:1px solid var(--np-line);padding-top:clamp(24px,3.6vh,40px)}
-.delta{min-width:0}
-.d-pair{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-.d-old{font-family:var(--f-display);font-size:clamp(22px,2.4vw,30px);
-  line-height:1;color:var(--np-faint);text-decoration:line-through;
-  text-decoration-thickness:1px;text-decoration-color:rgba(233,238,246,.28)}
-.d-arw{font-size:13px;color:var(--np-faint)}
-.d-new{font-family:var(--f-display);font-weight:600;
-  font-size:clamp(38px,5vw,62px);line-height:.95;letter-spacing:-.03em;
-  color:var(--np-accent)}
-.delta.flat .d-new{color:var(--np-ink-2)}
-.d-lab{margin:14px 0 0;font-size:15px;line-height:1.45;color:var(--np-ink)}
+/* global menu: rollover buttons, blue to orange the way image swaps did */
+.oh-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  background:#1d3f7a;gap:1px;border-bottom:1px solid #1d3f7a}
+.oh .oh-nav a{display:block;padding:8px 4px 7px;
+  text-align:center;text-decoration:none;color:#fff;font-size:16px;line-height:20px;
+  background:linear-gradient(#6d9be0,#3767b5 50%,#2b579f 51%,#3a6ab8);
+  box-shadow:inset 0 1px rgba(255,255,255,.45)}
+.oh .oh-nav a:hover,.oh .oh-nav a:focus-visible{color:#fff;
+  background:linear-gradient(#ffc061,#ff8a00 50%,#f07400 51%,#ff9a1f)}
+
+.oh-crumb{display:flex;justify-content:space-between;flex-wrap:wrap;gap:2px 12px;
+  margin:0;padding:5px 10px;font-size:12px;line-height:18px;color:var(--oh-soft);
+  background:#f5f8fd;border-bottom:1px dotted var(--oh-line)}
+
+/* two columns: boxed side menu on the left, content on the right */
+.oh-cols{display:grid;grid-template-columns:176px minmax(0,1fr);gap:12px;
+  padding:12px 10px 4px;align-items:start}
+.oh-side{grid-column:1;grid-row:1;display:grid;gap:10px}
+.oh-main{grid-column:2;grid-row:1;min-width:0}
+
+.oh-h1{margin:0 0 10px;padding:0 0 8px;font-size:32px;line-height:40px;
+  color:var(--oh-navy);border-bottom:3px double var(--oh-blue)}
+
+/* spec as a bgcolor table: 1px gaps showing the border colour */
+.oh-spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;
+  margin:0 0 14px;padding:1px;background:var(--oh-line)}
+.oh-spec > div{display:grid;grid-template-columns:84px minmax(0,1fr);gap:1px}
+.oh-spec dt,.oh-spec dd{margin:0;padding:4px 8px;font-size:12px;line-height:18px}
+.oh-spec dt{background:var(--oh-tint);font-weight:700;color:var(--oh-navy)}
+.oh-spec dd{display:flex;align-items:center;flex-wrap:wrap;gap:0 4px;
+  background:#fff;color:#000}
+.oh-spec small{font-size:12px;color:var(--oh-soft)}
+
+.oh-sec{margin:0 0 6px}
+.oh-h2{margin:0 0 10px;padding:4px 8px 3px;font-size:16px;line-height:20px;
+  color:var(--oh-navy);background:linear-gradient(#ffffff,#e3ecfa);
+  border:1px solid var(--oh-line);border-left:8px solid var(--oh-orange)}
+.oh-text{margin:0 0 12px;padding:8px 12px;border:1px dashed var(--oh-line);
+  background:#fbfcff}
+.oh-text p{margin:0}
+.oh-text p + p{margin-top:.8em}
+
+/* a browser window, Windows 2000: the capture is a thumbnail, and the whole
+   page opens full size in a new window. No inner scroll box, so the wheel
+   always scrolls this page. */
+.oh-fig{margin:0}
+.oh-win{padding:3px;background:var(--oh-grey);border:1px solid;
+  border-color:var(--oh-grey) #404040 #404040 var(--oh-grey);
+  box-shadow:inset 1px 1px #fff,inset -1px -1px #808080}
+.oh-win-t{display:flex;align-items:center;gap:2px;padding:2px 2px 2px 5px;
+  font-size:12px;line-height:16px;font-weight:700;color:#fff;
+  background:linear-gradient(90deg,var(--oh-navy),#a6caf0)}
+.oh-win-t span{flex:1;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.oh-win-t i{flex:none;display:grid;place-items:center;width:16px;height:14px;
+  font-style:normal;font-size:11px;line-height:1;color:#000;background:var(--oh-grey);
+  border:1px solid;border-color:#fff #404040 #404040 #fff}
+.oh-win-t i:last-child{margin-left:2px}
+.oh-win-m u,.oh-win-a u{text-decoration:underline}
+.oh-win-m{padding:2px 4px;font-size:12px;line-height:18px;color:#000;
+  white-space:nowrap;overflow:hidden;border-bottom:1px solid #808080}
+.oh-win-a{display:flex;align-items:center;gap:4px;padding:3px 2px;font-size:12px;
+  line-height:16px;color:#000;border-top:1px solid #fff}
+.oh-url{flex:1;min-width:0;padding:1px 4px;background:#fff;overflow:hidden;
+  white-space:nowrap;text-overflow:ellipsis;border:1px solid;
+  border-color:#808080 #fff #fff #808080;box-shadow:inset 1px 1px #404040}
+.oh-go{padding:0 8px;border:1px solid;border-color:#fff #404040 #404040 #fff}
+.oh-win-v{display:block;aspect-ratio:3/4;overflow:hidden;background:#fff;
+  border:2px solid;border-color:#808080 #fff #fff #808080}
+.oh-win-v.wide{aspect-ratio:4/3}
+.oh-win-v img{display:block;width:100%;height:100%;object-fit:cover;
+  object-position:top}
+.oh-win-s{display:flex;gap:2px;padding-top:2px;font-size:12px;line-height:16px;
+  color:#000}
+.oh-win-s span{flex:1;min-width:0;padding:1px 4px;overflow:hidden;
+  white-space:nowrap;text-overflow:ellipsis;border:1px solid;
+  border-color:#808080 #fff #fff #808080}
+.oh-win-s span + span{flex:none}
+.oh-fig figcaption{padding:5px 2px 0;font-size:12px;line-height:18px;color:var(--oh-soft)}
+.oh-fig figcaption::before{content:"\203B\00a0";color:var(--oh-orange)}
+.oh-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;
+  align-items:start}
+
+.oh-totop{margin:8px 0 14px;text-align:right;font-size:12px;line-height:18px}
+
+/* side boxes */
+.oh-box{border:1px solid var(--oh-blue);background:#fff}
+.oh-box h2{margin:0;padding:3px 6px;font-size:16px;line-height:20px;color:#fff;
+  background:var(--oh-blue);border-bottom:1px solid var(--oh-navy)}
+.oh-box h2::before{content:"\25A0\00a0";color:#ffcc33}
+.oh-menu{list-style:none;margin:0;padding:4px 8px;font-size:12px;line-height:18px}
+.oh-menu li{padding:4px 0;border-bottom:1px dotted var(--oh-line)}
+.oh-menu li:last-child{border-bottom:0}
+.oh-menu li::before{content:"\25C6\00a0";color:var(--oh-orange)}
+.oh-facts{margin:0;padding:4px 8px;font-size:12px;line-height:18px}
+.oh-facts > div{display:flex;justify-content:space-between;gap:6px;padding:4px 0;
+  border-bottom:1px dotted var(--oh-line)}
+.oh-facts > div:last-child{border-bottom:0}
+.oh-facts dt{color:var(--oh-soft)}
+.oh-facts dd{margin:0;font-weight:700;color:#000;text-align:right}
+.oh-log{margin:0;padding:6px 8px;font-size:12px;line-height:18px}
+.oh-log time{display:block;font-weight:700;color:var(--oh-navy)}
+.oh-new{padding:0 3px;font-size:12px;color:#fff;background:#ff0000}
+.oh-banners{display:grid;justify-items:center;gap:6px;margin:0;padding:8px}
+/* 88x31, the link-banner size every site handed out */
+.oh .oh-88{display:grid;align-content:center;width:88px;height:31px;
+  text-align:center;text-decoration:none;color:#fff;font-size:12px;line-height:12px;
+  background:linear-gradient(#ffb04a,#ff6a00);border:1px solid #7a2e00;
+  box-shadow:inset 1px 1px rgba(255,255,255,.6),inset -1px -1px rgba(0,0,0,.25)}
+.oh .oh-88.alt{background:linear-gradient(#5d8fdb,#1b3f8f);border-color:#0a1d4d}
+.oh-88 b{font-size:16px;line-height:16px;color:#fff}
+.oh-88 span{font-size:12px;line-height:12px;color:#fff}
+.oh .oh-88:hover{filter:brightness(1.12)}
+
+.oh-foot{margin-top:6px;padding:10px 10px 12px;text-align:center;font-size:12px;
+  line-height:20px;color:var(--oh-soft);background:var(--oh-grey);
+  border-top:1px solid #808080}
+.oh-foot nav{margin-bottom:4px;color:#000}
+.oh-foot p{margin:0}
+
+@media (max-width:700px){
+  body.case-ohayo{font-size:14px;line-height:24px}
+  .oh{margin-top:8px}
+  .oh-mast{padding:12px 10px}
+  .oh-logo{font-size:38px}
+  .oh-tag i{display:none}
+  .oh-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .oh-cols{grid-template-columns:minmax(0,1fr);padding:10px 8px 4px}
+  .oh-main,.oh-side{grid-column:1;grid-row:auto}
+  .oh-spec{grid-template-columns:minmax(0,1fr)}
+  .oh-pair{grid-template-columns:minmax(0,1fr)}
+  .oh-win-m{display:none}
+  .oh-text{padding:8px 10px}
+  .oh-text p{font-size:14px;line-height:24px}
+  .oh-side{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .oh-side > .oh-box:first-child{display:none}   /* the menu repeats the nav */
+}
+@media (max-width:420px){
+  .oh-side{grid-template-columns:minmax(0,1fr)}
+}
+
+/* ---------- outcome: the lines under the table ---------- */
+/* where the figures come from */
 .d-src{margin:6px 0 0;font-family:var(--f-label);font-size:var(--t-micro);
   font-weight:500;letter-spacing:.16em;text-transform:uppercase;
   color:var(--np-faint)}
@@ -1472,6 +2396,305 @@ body.case-smile .brief{max-width:66ch;margin:clamp(18px,2.8vh,30px) 0 0;
 .ctab-sum{margin:14px 0 0;font-size:14px;line-height:1.6;color:var(--c-axis);
   font-variant-numeric:tabular-nums}
 .ctab-sum b{color:var(--np-ink);font-weight:500}
-.d-note{margin:clamp(22px,3.4vh,34px) 0 0;padding-top:clamp(16px,2.4vh,22px);
+.d-note{max-width:56ch;margin:clamp(22px,3.4vh,34px) 0 0;padding-top:clamp(16px,2.4vh,22px);
   border-top:1px solid var(--np-line);font-size:14.5px;line-height:1.62;
   color:var(--c-axis)}
+
+/* ---------- reveals ---------- */
+/* Three behaviours, not thirty.
+
+   The page already says how it introduces things: the shift ledger rules
+   itself, the outcome lines draw themselves on. Both are the same idea —
+   something resolves into place, nothing slides in from off-stage. These
+   follow it rather than bolting a second vocabulary onto the page.
+
+     wipe   a figure is uncovered from its lower edge, the way the ledger
+            rules are drawn rather than faded
+     rise   text lifts a few pixels into place. The only one that moves,
+            and the smallest move on the page
+     lift   a panel settles the last fraction of a percent to full size
+
+   None of them is a long slide upward, and nothing travels far: on a page
+   this tall a reader meets these hundreds of times, and a gesture that is
+   charming once is a tic by the fortieth.
+
+   Everything is visible by default. .rv only exists on an element the script
+   has decided to animate AND is about to un-hide, so no-script, an error, or
+   reduced motion all leave the page fully drawn — the same contract as the
+   ledger and the charts.
+
+   The layer hint waits for .rv-near, which the script adds a screen before an
+   armed element arrives and takes off again once it has: on .rv alone every
+   armed element was promoted from load, most of them screens away. */
+.rv-wipe.rv-near{will-change:opacity,clip-path}
+.rv-rise.rv-near,.rv-lift.rv-near{will-change:opacity,transform}
+.rv-wipe{opacity:0;clip-path:inset(0 0 14% 0)}
+.rv-rise{opacity:0;transform:translateY(12px)}
+.rv-lift{opacity:0;transform:scale(.988)}
+/* Not the .22,.61,.36,1 the rest of the page eases with. That curve is built
+   to leave fast, which is right for something sliding and wrong for something
+   appearing: measured on this transition it carried opacity from .04 to .91
+   inside the first 45ms of 620, so the fade was over before it read as one and
+   every reveal landed as a snap. This curve spends its time — about 60% of the
+   way through at the halfway point, which is what a reveal should do.
+   Only a wipe ends on a clip. On everything else inset(0) clipped the element
+   to its own box until the classes came off at 1200 ms — a device frame lost
+   its drop shadow and its side keys, then got them back all at once. */
+.rv-in{opacity:1;transform:none;
+  transition:opacity .58s cubic-bezier(.40,0,.20,1) var(--rv-d,0ms),
+             transform .62s cubic-bezier(.34,.02,.22,1) var(--rv-d,0ms),
+             clip-path .70s cubic-bezier(.34,.02,.22,1) var(--rv-d,0ms)}
+.rv-wipe.rv-in{clip-path:inset(0 0 0 0)}
+
+/* ---------- micro ---------- */
+/* Feedback on the things a reader actually points at. A plate is a photograph
+   of a screen and lifting it a little says it is the subject; a kit tile is
+   one of eleven and wants to come forward when picked out. Transform and
+   shadow only — nothing here reflows. Voice shares it; the quote tint below
+   is NetPay's blue and stays NetPay's.
+   Every transition here is held off while an element is still arriving
+   (:not(.rv)). At (0,2,2) these rules outrank .rv-in, and while they applied
+   an armed sheet or kit tile had only transform and box-shadow in its
+   transition list: opacity and clip-path jumped, the stagger was lost, and the
+   wipe landed as a pop. The script strips .rv once the reveal is over, and
+   nothing transitioned changes at that moment, so the hand-over is silent. */
+body:is(.case-netpay,.case-voice,.case-hub) :is(.device,.sheet-shot,.kit figure):not(.rv){
+  transition:transform .34s cubic-bezier(.22,.61,.36,1),
+             box-shadow .34s cubic-bezier(.22,.61,.36,1)}
+/* room for the lifted tile inside the kit's clip: without it the top row's
+   dashed edge and the outer columns' sides were cut off on hover. The side
+   margins give back the padding, so the tiles do not move. */
+body:is(.case-netpay,.case-voice) .kitwrap{padding:4px 3px 0;
+  margin-left:-3px;margin-right:-3px;margin-top:calc(clamp(22px,3.6vh,40px) - 4px)}
+body:is(.case-netpay,.case-voice) .kit figure:hover{transform:translateY(-3px) scale(1.012);
+  box-shadow:0 18px 34px -22px rgba(0,0,0,.85)}
+body:is(.case-netpay,.case-voice,.case-hub) .sheet-shot:hover{transform:translateY(-2px);
+  box-shadow:0 20px 40px -26px rgba(0,0,0,.9)}
+body:is(.case-netpay,.case-voice,.case-hub) .annot-note:not(.rv){transition:transform .34s cubic-bezier(.22,.61,.36,1)}
+body:is(.case-netpay,.case-voice,.case-hub) .annot:hover .annot-note{transform:translateY(-2px)}
+/* the quote marks warm as you read one */
+body.case-netpay .quote:not(.rv){transition:background-color .3s ease}
+body.case-netpay .quote:hover{background:#26323f}
+@media (prefers-reduced-motion:reduce){
+  .rv,.rv-wipe,.rv-rise,.rv-lift{opacity:1;transform:none;clip-path:none}
+  .rv-in{transition:none}
+  body:is(.case-netpay,.case-voice) :is(.device,.sheet-shot,.kit figure,.annot-note,.quote){
+    transition:none}
+  /* still means still: the lift itself goes, not just its easing — the
+     shadow stays as the hover cue */
+  body:is(.case-netpay,.case-voice) :is(.kit figure,.sheet-shot):hover,
+  body:is(.case-netpay,.case-voice,.case-hub) .annot:hover .annot-note{transform:none}
+}
+
+/* ---------- skeletons ---------- */
+/* An image or clip that has not arrived yet holds its place as a panel, with
+   a soft band of light passing across it; scroll.js puts .skel on it and
+   takes it off once the picture can be painted. The box is already the right
+   size — every <img> carries width and height — so nothing moves when it
+   lands. The band is faint and slow on purpose, and only ever inside a frame
+   that is waiting: the ground still never moves. Under reduced motion the
+   panel stays and the band goes.
+   Late in the file and one step heavier than .device img, whose own fill it
+   has to replace while it waits. */
+main :is(img,video).skel{
+  background-color:var(--np-panel,#121821);
+  background-image:linear-gradient(100deg,transparent 38%,
+    rgba(255,255,255,.04) 44%,rgba(255,255,255,.085) 50%,
+    rgba(255,255,255,.04) 56%,transparent 62%);
+  background-size:220% 100%;background-repeat:no-repeat;
+  animation:skel 1.8s ease-in-out infinite}
+/* 130% to -30% at 220% wide carries the band from past the left edge to
+   past the right one */
+@keyframes skel{from{background-position:130% 0}to{background-position:-30% 0}}
+@media (prefers-reduced-motion:reduce){
+  main :is(img,video).skel{animation:none;background-image:none}
+}
+
+/* ---------- the outcome ---------- */
+/* One finding, then the numbers that carry it, then the one chart that shows
+   the shape — in that order, all of it visible at once. It replaced a card of
+   tabbed charts: most readers never open a tab, so three of the four views
+   went unseen and the finding itself sat in the notes underneath. The finding
+   is set in the page's display voice; the figures are sans, proportional, and
+   in ink rather than series colour (the marks beside them carry the colour);
+   every figure has its before → after or its "out of what" directly under it,
+   because a number without a baseline is the first thing a reviewer asks
+   about. The full table is still one click away, under the panel. */
+.oc-find{margin:0 0 clamp(18px,2.8vh,28px);max-width:30ch;
+  font-family:var(--f-display);font-style:italic;font-weight:400;
+  font-size:clamp(26px,2.5vw,36px);line-height:1.18;letter-spacing:-.01em;
+  color:var(--np-ink)}
+.oc-panel{border-radius:18px;background:var(--glass,#121821);
+  box-shadow:var(--glass-hi,0 0 0 0 transparent),var(--glass-lift,0 0 0 0 transparent)}
+body.case-voice .oc-panel{border:1px solid var(--np-line)}
+.oc-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.oc-stats.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.oc-stat{position:relative;min-width:0;display:flex;flex-direction:column;
+  padding:clamp(18px,2.6vh,26px) clamp(16px,1.6vw,22px) clamp(14px,2vh,18px)}
+/* a tile's picture sits on the tile's floor, so a row of them lines up
+   however many lines each label ran to */
+.oc-stat > .ocw,.oc-stat > .oc-split{margin-top:auto}
+.oc-stat > .oc-ctx{padding-bottom:14px}
+.oc-stat + .oc-stat{border-left:1px solid var(--np-line)}
+.oc-num{margin:0;font-family:var(--f-label);font-weight:600;
+  font-size:clamp(32px,3.1vw,48px);line-height:1;letter-spacing:-.025em;
+  color:var(--np-ink);white-space:nowrap}
+.oc .oc-lab{margin:10px 0 0;font-family:var(--f-label);font-size:14px;
+  font-weight:500;line-height:1.35;letter-spacing:0;text-transform:none;
+  color:var(--np-ink)}
+.oc-ctx{margin:5px 0 0;font-size:13.5px;line-height:1.45;color:var(--c-axis)}
+.ocw{margin:14px 0 0}
+.ocw svg{display:block;max-width:none;height:auto}
+/* the tile's trend */
+.spark .ln{stroke-width:2}
+.spark .mean{stroke-width:1;opacity:.55}
+.spark .mean.old{stroke:var(--c-old)}
+.spark .mean.new{stroke:var(--c-new)}
+.spark .mark{stroke:var(--np-line);stroke-width:1}
+.spark .dot{stroke-width:2}
+/* the part-to-whole bar in Voice's third tile: home in the neutral, the three
+   sections past it in the one series colour, a 2px surface gap between */
+.oc-split{display:flex;gap:2px;height:10px;margin:14px 0 0}
+.oc-split i{display:block;height:100%;background:var(--c-new)}
+.oc-split i:first-child{border-radius:4px 0 0 4px}
+.oc-split i:last-child{border-radius:0 4px 4px 0}
+.oc-split i.home{background:var(--c-old)}
+/* the key and the product, a quiet strip under the tiles */
+.oc-foot{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;
+  gap:8px 24px;margin:0 var(--oc-gut);padding:14px 0;border-top:1px solid var(--np-line)}
+.oc-keys{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0;
+  font-family:var(--f-label);font-size:12.5px;color:var(--c-axis)}
+.oc-keys span{display:inline-flex;align-items:center;gap:8px}
+.oc-keys i{display:inline-block;width:14px;height:2px;border-radius:1px}
+.oc-keys i.k-old{background:var(--c-old)}
+.oc-keys i.k-new{background:var(--c-new)}
+.oc-sum{margin:0;font-size:14px;color:var(--c-axis)}
+.oc-sum b{color:var(--np-ink);font-weight:500}
+/* Voice's season strip, under the tiles */
+.oc-season{padding:clamp(18px,2.6vh,24px) clamp(16px,1.6vw,22px) 12px;
+  border-top:1px solid var(--np-line)}
+.oc-season .ocw{overflow-x:auto;scrollbar-width:none}
+.oc-season .ocw::-webkit-scrollbar{display:none}
+.season .bar{fill:var(--c-new)}
+.season .stub{stroke:none}
+.season .hatch{stroke:var(--c-old);stroke-width:1.2;opacity:.7}
+.season .stublab{font-size:12px;fill:var(--c-axis)}
+.season .stublab.dim{font-size:11px;opacity:.8}
+.season .vlab.peak{font-size:13.5px;font-weight:600;fill:var(--np-ink)}
+.season .band{stroke:var(--np-line);stroke-width:1}
+.season .bandlab{font-size:12.5px;fill:var(--c-axis)}
+.season .vote{stroke:var(--c-new);stroke-width:2;stroke-linecap:round}
+.season .votelab{font-size:12.5px;fill:var(--np-ink-2)}
+/* The views and the segmented control that picks between them.
+
+   Тойм is the default and what most readers will ever see; the tables sit
+   beside it, one segment away, where the folded "Бүх тоо" used to be. The
+   views share one grid cell, so the panel is always as tall as the tallest
+   of them and the control under it never moves when a segment changes — the
+   inactive ones are hidden with visibility and inert, which keeps their
+   space and keeps their charts measurable. Without the script every view
+   stays in the flow, one under the other, and there is no control. */
+.oc[data-seg="on"] .oc-views{display:grid}
+.oc[data-seg="on"] .oc-view{grid-area:1 / 1;min-width:0}
+.oc[data-seg="on"] .oc-view.off{visibility:hidden}
+.oc-view{min-width:0}
+/* Rules inside a view stop a gutter short of the panel's edges, in the
+   tables and in the ledger on Тойм alike, so the dividers line up whichever
+   view is showing. Only the rule over the control runs edge to edge: it is
+   where the panel ends and the control begins. */
+.oc-panel{--oc-gut:clamp(16px,1.6vw,22px)}
+.oc-tabview{padding:clamp(18px,2.6vh,24px) var(--oc-gut) 6px;
+  border-top:1px solid var(--np-line)}
+.oc[data-seg="on"] .oc-tabview{border-top:0}
+.oc-tabview .ctab{margin:0;scrollbar-width:none}
+.oc-tabview .ctab::-webkit-scrollbar{display:none}
+.oc-tabview .ctab-sum{margin-bottom:12px}
+.oc-segbar{display:none}
+.oc[data-seg="on"] .oc-segbar{display:flex;padding:12px clamp(16px,1.6vw,22px) 14px;
+  border-top:1px solid var(--np-line)}
+/* Motion's smooth tabs, without Motion: a light pill under the selected
+   segment that springs across to the next one. The spring is theirs,
+   measured frame by frame off the example — about 2% past the target near
+   230ms, settled by 450 — and written out as a linear() curve so the move
+   runs on the compositor. Only transform and width change. */
+.oc-seg{position:relative;display:inline-flex;padding:4px;border-radius:12px;
+  background:rgba(0,0,0,.24);border:1px solid var(--np-line)}
+.oc-segb{position:relative;z-index:1;appearance:none;-webkit-appearance:none;
+  margin:0;padding:8px 16px;border:0;border-radius:8px;background:none;cursor:pointer;
+  font-family:var(--f-label);font-size:13.5px;font-weight:500;line-height:1.2;
+  color:var(--c-axis);white-space:nowrap;transition:color .2s ease}
+.oc-segb:hover{color:var(--np-ink)}
+.oc-segb[aria-selected="true"],.oc-segb[aria-selected="true"]:hover{color:var(--np-bg,#0b1012)}
+.oc-segb:focus-visible{outline:2px solid var(--c-new);outline-offset:2px}
+.oc-pill{position:absolute;top:4px;bottom:4px;left:0;width:0;z-index:0;
+  border-radius:8px;background:var(--np-ink);pointer-events:none;
+  transition:transform .5s linear(0, 0.0325 2.5%, 0.1123 5%, 0.2182 7.5%, 0.3346 10%, 0.451 12.5%, 0.5601 15%, 0.658 17.5%, 0.7426 20%, 0.8134 22.5%, 0.8709 25%, 0.9162 27.5%, 0.9509 30%, 0.9765 32.5%, 0.9946 35%, 1.0068 37.5%, 1.0143 40%, 1.0183 42.5%, 1.0198 45%, 1.0196 47.5%, 1.0183 50%, 1.0163 52.5%, 1.0141 55%, 1.0117 57.5%, 1.0095 60%, 1.0074 62.5%, 1.0057 65%, 1.0042 67.5%, 1.0029 70%, 1.0019 72.5%, 1.0012 75%, 1.0006 77.5%, 1.0002 80%, 1, 1),width .5s linear(0, 0.0325 2.5%, 0.1123 5%, 0.2182 7.5%, 0.3346 10%, 0.451 12.5%, 0.5601 15%, 0.658 17.5%, 0.7426 20%, 0.8134 22.5%, 0.8709 25%, 0.9162 27.5%, 0.9509 30%, 0.9765 32.5%, 0.9946 35%, 1.0068 37.5%, 1.0143 40%, 1.0183 42.5%, 1.0198 45%, 1.0196 47.5%, 1.0183 50%, 1.0163 52.5%, 1.0141 55%, 1.0117 57.5%, 1.0095 60%, 1.0074 62.5%, 1.0057 65%, 1.0042 67.5%, 1.0029 70%, 1.0019 72.5%, 1.0012 75%, 1.0006 77.5%, 1.0002 80%, 1, 1)}
+@media (prefers-reduced-motion:reduce){.oc-pill,.oc-segb{transition:none}}
+/* Voice's weekly table is thirteen rows and seven columns. It sets the
+   height every view shares, so its rows are set closer than NetPay's and
+   never wrap: in a narrow column the table pans sideways inside its view
+   (a vertical wheel still scrolls the page) instead of doubling every row
+   and leaving Тойм sitting over a gap. */
+.oc-tabview{overflow-x:auto;scrollbar-width:none}
+.oc-tabview::-webkit-scrollbar{display:none}
+.ctab.wk :is(th,td){white-space:nowrap}
+.ctab.wk :is(tbody,tfoot) :is(th,td){padding-top:5px;padding-bottom:5px;font-size:13.5px}
+.ctab.wk td:last-child{color:var(--np-ink-2)}
+.ctab.wk thead th{white-space:nowrap}
+.ctab tfoot :is(th,td){color:var(--np-ink);font-weight:500;border-bottom:0;
+  border-top:1px solid var(--np-line)}
+/* Narrower: NetPay's three tiles become rows — figures on the left, the trend
+   using the width on the right; Voice's four go two by two. */
+@media (max-width:1180px){
+  .oc-stats:not(.four){grid-template-columns:1fr}
+  .oc-stats:not(.four) .oc-stat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);
+    column-gap:20px;align-items:center}
+  .oc-stats:not(.four) .oc-stat > .ocw{grid-column:2;grid-row:1 / span 3;margin:0}
+  .oc-stats:not(.four) .oc-stat + .oc-stat{border-left:0;border-top:1px solid var(--np-line)}
+  .oc-stats.four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .oc-stats.four .oc-stat:nth-child(odd){border-left:0}
+  .oc-stats.four .oc-stat:nth-child(n+3){border-top:1px solid var(--np-line)}
+}
+@media (max-width:560px){
+  .oc-stats:not(.four) .oc-stat{grid-template-columns:1fr}
+  .oc-stats:not(.four) .oc-stat > .ocw{grid-column:1;grid-row:auto;margin:14px 0 0}
+  .oc-stats.four{grid-template-columns:1fr}
+  .oc-stats.four .oc-stat{border-left:0}
+  .oc-stats.four .oc-stat + .oc-stat{border-top:1px solid var(--np-line)}
+}
+/* NetPay's outcome is mixed, and a row of equal big figures would put its
+   −6.2% at the same volume as its +10% — read alone, that is a failure. So it
+   leads with the one figure the finding rests on and sets the rest as a
+   before → after ledger, the same Өмнө / Дараа form the page uses in /02:
+   every change in neutral ink, beside its two windows and its months. */
+.oc-hero{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  align-items:center;column-gap:clamp(18px,2.4vw,36px);
+  padding:clamp(20px,2.8vh,28px) clamp(16px,1.6vw,22px)}
+.oc-hero .oc-num{font-size:clamp(44px,4.4vw,64px)}
+.oc-hero .ocw{margin:0}
+.oc-rows{margin:0 var(--oc-gut);border-top:1px solid var(--np-line)}
+.oc-rhead,.oc-row{display:grid;align-items:center;column-gap:16px;
+  grid-template-columns:minmax(0,1.25fr) minmax(0,1.1fr) 64px minmax(0,1fr)}
+.oc-rhead{padding-top:12px;padding-bottom:8px;font-family:var(--f-label);
+  font-size:12px;color:var(--c-axis)}
+.oc-rhead span:nth-child(3){text-align:right}
+.oc-row{padding-top:10px;padding-bottom:10px;border-top:1px solid var(--np-line)}
+.oc-rlab{font-family:var(--f-label);font-size:14px;font-weight:500;color:var(--np-ink)}
+.oc-rval{font-family:'GIP','Source Serif 4',Georgia,serif;font-size:14px;color:var(--np-ink-2);
+  font-variant-numeric:tabular-nums}
+.oc-rchg{text-align:right;font-family:var(--f-label);font-size:15px;font-weight:600;
+  color:var(--np-ink);font-variant-numeric:tabular-nums}
+.oc-row .ocw{margin:0}
+@media (max-width:760px){
+  .oc-hero{grid-template-columns:1fr}
+  .oc-hero .ocw{margin-top:16px}
+}
+/* the ledger's four columns need about 700px; under the wide layout's cut
+   each row stacks — label and change, then the two windows, then the months */
+@media (max-width:1180px){
+  .oc-rhead{display:none}
+  .oc-row{grid-template-columns:minmax(0,1fr) auto;row-gap:4px}
+  .oc-row .oc-rval{grid-column:1}
+  .oc-row .oc-rchg{grid-column:2;grid-row:1}
+  .oc-row .ocw{grid-column:1 / -1;margin-top:6px}
+}

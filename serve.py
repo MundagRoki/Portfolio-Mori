@@ -19,7 +19,11 @@ class Handler(SimpleHTTPRequestHandler):
     def log_message(self, fmt, *args):
         sys.stderr.write("%s\n" % (fmt % args))
     def end_headers(self):
-        self.send_header("Cache-Control", "no-store")
+        # no-cache, not no-store: the browser keeps its copy but asks every
+        # time, and SimpleHTTPRequestHandler answers If-Modified-Since with a
+        # 304 — so edits still show on a plain reload, while unchanged frames,
+        # fonts and videos are not re-downloaded and Back stays instant.
+        self.send_header("Cache-Control", "no-cache")
         super().end_headers()
 
 class Server(socketserver.ThreadingTCPServer):

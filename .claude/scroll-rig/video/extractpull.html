@@ -1,0 +1,92 @@
+<!doctype html><meta charset="utf-8"><body>
+<video id="v" src="pull.mp4" muted playsinline preload="auto"></video>
+<script>
+/* Step 3 -> 4: the хөхүүр turns, the бүлүүр comes out and is laid across it
+   (Kling, 1440 square). Its start frame cut the pole off at the top, so the
+   pole's top is drawn back in above the frame, as for step 3's turntable,
+   to a length that follows the pull (planpull.json: E per frame): step 3's
+   328 rows while it turns, longer as the head comes out of the neck, then
+   shorter as the pole comes down, until its own top is in the frame. */
+const v = document.getElementById('v'), FPS = 24, EX = 860, TOPPAD = 8;
+const ready = new Promise(r => v.readyState >= 2 ? r() : v.addEventListener('loadeddata', r, { once: true }));
+const seek = t => new Promise(r => { v.addEventListener('seeked', () => r(), { once: true }); v.currentTime = t; });
+let W, H, fc, fg, xc, xg;
+async function extended(f, P) {
+  await ready;
+  if (!fc) { W = v.videoWidth; H = v.videoHeight; fc = document.createElement('canvas'); fc.width = W; fc.height = H; fg = fc.getContext('2d', { willReadFrequently: true });
+             xc = document.createElement('canvas'); xc.width = W; xc.height = H + EX; xg = xc.getContext('2d', { willReadFrequently: true }); }
+  await seek((f + .5) / FPS); fg.drawImage(v, 0, 0);
+  const src = fg.getImageData(0, 0, W, H).data;
+  xg.fillStyle = '#fff'; xg.fillRect(0, 0, W, H + EX); xg.drawImage(fc, 0, EX);
+  if (!(P.E > 0)) return xg.getImageData(0, 0, W, H + EX);
+  const out = xg.getImageData(0, 0, W, EX), o = out.data;
+  const { c0, s, w } = P, hw = w / 2, PER = 60, R = hw + 4, L = P.E - TOPPAD, capH = hw * .55;
+  const cOf = sr => c0 + s * (sr - 2);
+  const at = (x, y, ch) => { const x0 = Math.floor(x), fr = x - x0, i0 = (y * W + Math.max(0, Math.min(W - 1, x0))) * 4, i1 = (y * W + Math.max(0, Math.min(W - 1, x0 + 1))) * 4;
+                             return src[i0 + ch] * (1 - fr) + src[i1 + ch] * fr; };
+  const N = Math.ceil(2 * R) * 4 + 1, prof = new Float32Array(N * 3);
+  for (let n = 0; n < N; n++) { const u = -R + n / 4; for (let ch = 0; ch < 3; ch++) { let t = 0; for (let sr = 1; sr <= PER; sr++) t += at(cOf(sr) + u, sr, ch); prof[n * 3 + ch] = t / PER; } }
+  const profAt = (u, ch) => { const q = Math.max(0, Math.min(N - 1, (u + R) * 4)), n = Math.floor(q), fr = q - n, m = Math.min(N - 1, n + 1); return prof[n * 3 + ch] * (1 - fr) + prof[m * 3 + ch] * fr; };
+  for (let yX = 0; yX < EX; yX++) {
+    const k = EX - yX - .5, cx = c0 - s * (k + 2);
+    if (k > L) continue;
+    const t = Math.floor(k) % (2 * PER), sr = 1 + (t < PER ? t : 2 * PER - 1 - t);
+    const keep = k < 24 ? 1 - k / 24 * .55 : .45;
+    let lim = R;
+    if (k > L - capH) { const q = (k - (L - capH)) / capH; lim = (hw + .5) * Math.sqrt(Math.max(0, 1 - q * q)); }
+    for (let x = Math.floor(cx - R - 1); x <= Math.ceil(cx + R + 1); x++) {
+      if (x < 0 || x >= W) continue;
+      const u = x + .5 - cx, cov = Math.max(0, Math.min(1, lim - Math.abs(u) + .5));
+      if (cov <= 0) continue;
+      const oi = (yX * W + x) * 4;
+      for (let ch = 0; ch < 3; ch++) { const p = profAt(u, ch), m = at(cOf(sr) + u, sr, ch), c = p + keep * (m - p); o[oi + ch] = Math.round(c * cov + 255 * (1 - cov)); }
+      o[oi + 3] = 255;
+    }
+  }
+  xg.putImageData(out, 0, 0);
+  return xg.getImageData(0, 0, W, H + EX);
+}
+const T0 = 190, T1 = 226, BG = 254;
+function key(im, fade) {
+  const d = im.data, Wc = im.width, Hc = im.height, out = new ImageData(Wc, Hc), o = out.data;
+  for (let y = 0; y < Hc; y++) for (let x = 0; x < Wc; x++) {
+    const q = (y * Wc + x) * 4, R = d[q], G = d[q + 1], B = d[q + 2], m = Math.min(R, G, B);
+    const aw = m >= T1 ? 0 : m <= T0 ? 1 : (T1 - m) / (T1 - T0);
+    const am = Math.max(0, Math.min(1, ((R + G) / 2 - B - 5) / 12));     /* the pale wood of the head, warm, kept */
+    let a = Math.max(aw, am);
+    if (fade) { const e = Math.min(1, (Hc - 1 - y) / fade.b, Math.min(x, Wc - 1 - x) / fade.lr); a *= e; }
+    if (a <= 0) continue;
+    if (am > aw) { o[q] = R; o[q + 1] = G; o[q + 2] = B; }
+    else { const un = ch => Math.max(0, Math.min(255, Math.round((ch - (1 - aw) * BG) / aw))); o[q] = un(R); o[q + 1] = un(G); o[q + 2] = un(B); }
+    o[q + 3] = Math.round(a * 255);
+  }
+  return out;
+}
+function sharpen(ctx, w, h, amount, radius) {
+  if (!amount) return;
+  const src = ctx.getImageData(0, 0, w, h), d = src.data;
+  const bc = document.createElement('canvas'); bc.width = w; bc.height = h; const bx = bc.getContext('2d', { willReadFrequently: true });
+  bx.filter = 'blur(' + radius + 'px)'; bx.drawImage(ctx.canvas, 0, 0);
+  const b = bx.getImageData(0, 0, w, h).data;
+  for (let k = 0; k < d.length; k += 4) { if (d[k + 3] < 250 || b[k + 3] < 250) continue;
+    for (let c = 0; c < 3; c++) { const v = d[k + c] + amount * (d[k + c] - b[k + c]); d[k + c] = v < 0 ? 0 : v > 255 ? 255 : v; } }
+  ctx.putImageData(src, 0, 0);
+}
+window.PLAN = null;
+const kc = document.createElement('canvas'); let kx;
+/* crop { x0, y0, w, h } in video px (y may be negative: the drawn pole above the frame) */
+window.render = async (jobs, crop, outH, amount = 0, radius = 1, fade = null, fmt = 'image/webp', q = .8) => {
+  const res = [], ow = Math.round(outH * crop.w / crop.h);
+  const oc = document.createElement('canvas'); oc.width = ow; oc.height = outH; const og = oc.getContext('2d', { willReadFrequently: true });
+  for (const jb of jobs) {
+    const ext = await extended(jb.src, PLAN[jb.src]);
+    if (!kx) { kc.width = ext.width; kc.height = ext.height; kx = kc.getContext('2d', { willReadFrequently: true }); }
+    kx.putImageData(key(ext, fade), 0, 0);
+    og.clearRect(0, 0, ow, outH); og.imageSmoothingEnabled = true; og.imageSmoothingQuality = 'high';
+    og.drawImage(kc, crop.x0, crop.y0 + EX, crop.w, crop.h, 0, 0, ow, outH);
+    sharpen(og, ow, outH, amount, radius);
+    res.push({ j: jb.j, url: oc.toDataURL(fmt, q) });
+  }
+  return res;
+};
+</script>
