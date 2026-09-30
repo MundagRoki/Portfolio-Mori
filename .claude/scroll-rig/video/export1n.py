@@ -3,7 +3,7 @@
 import json, os, sys, time
 sys.path.insert(0, '.')
 from drive import Page, save
-ROOT = '/Users/mundagroki/Downloads/Work/Portfolio Website/art/how-i-work/pail-milk'
+ROOT = '/Users/mundagroki/Downloads/Work/Portfolio/art/how-i-work/pail-milk'
 t0 = time.time(); P = json.load(open('plan1n.json')); ref = P['ref']
 crop = {'cx': ref['cx'], 'bot': ref['bot'], 'x0': ref['cx'] - 505, 'y0': 87, 'w': 1010, 'h': 1268}   # held box, the rope's top to the base
 pg = Page('extract1n.html', port=9443)

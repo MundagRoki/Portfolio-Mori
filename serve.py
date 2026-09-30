@@ -5,7 +5,7 @@ from http.server import SimpleHTTPRequestHandler
 
 # os.getcwd() is blocked in this sandbox, which is why `python -m http.server`
 # dies on startup — hence the absolute root and the explicit `directory=`.
-ROOT = "/Users/mundagroki/Downloads/Work/Portfolio Website"
+ROOT = "/Users/mundagroki/Downloads/Work/Portfolio"
 # PORT env var first so the harness can assign a free port (autoPort).
 PORT = int(os.environ.get("PORT") or (sys.argv[1] if len(sys.argv) > 1 else 4173))
 
