@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI &mdash; UI/UX &amp; Product Designer</title>
+<meta name="description" content="How AI sits in my design work: it does the research, the rough flows and the code; the decisions stay with me.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&amp;family=Golos+Text:wght@400..700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=35">
+<style>
+/* ---------- AI ----------
+   After pleurat.com/ai, in this site's own paper and ink. One idea carries
+   the page: who does what. The loop is drawn as a line of stations, the
+   ones that are mine filled in red, the ones AI runs drawn in outline, and
+   a single mark travels along it. Then what each part is for, the proof
+   (this site), a small terminal to poke at it, and the tools. */
+.ai{--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+/* hero */
+.ai-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.8fr);
+  gap:clamp(24px,4vw,64px);align-items:end;padding:clamp(48px,9vh,110px) 0 0}
+.ai-hero h1{margin:0;font-family:var(--f-display);font-style:italic;font-weight:500;
+  font-size:clamp(36px,4.6vw,62px);line-height:1.04;letter-spacing:-.025em;color:var(--ink)}
+.ai-hero h1 span{display:block;color:var(--red)}
+.ai-hero p{margin:0;font-family:var(--f-display);font-size:clamp(17px,1.45vw,19px);
+  line-height:1.6;color:var(--ink-2)}
+.ai-jump{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.ai-jump a{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:999px;
+  font-family:var(--f-label);font-size:14px;font-weight:600;text-decoration:none;
+  color:var(--ink);border:1px solid var(--rule);transition:background-color .2s,border-color .2s}
+.ai-jump a:first-child{background:var(--red);border-color:var(--red);color:#f6f1e7}
+.ai-jump a:hover{border-color:var(--red)}
+.ai-jump a:first-child:hover{background:#63291f}
+.ai-jump a:focus-visible,.ai-term button:focus-visible,.ai-term input:focus-visible{
+  outline:2px solid var(--red);outline-offset:3px}
+
+/* the scene: making airag, left to right. Mine in red, AI's in olive, as in
+   How I Work's drawings. The only thing that moves is the churn paddle. */
+.ai-scene{margin:clamp(40px,6.5vh,72px) 0 0}
+.ai-art{display:block;width:100%;height:auto;overflow:visible}
+.ai-churn{animation:ai-churn 1.5s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes ai-churn{0%,100%{transform:translateY(0)}50%{transform:translateY(30px)}}
+.ai-labs{list-style:none;margin:18px 0 0;padding:0;display:grid;
+  grid-template-columns:230fr 235fr 265fr 238fr 232fr;gap:0 10px;text-align:center}
+.ai-labs li{display:grid;justify-items:center;gap:3px}
+.ai-who{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:#8a7f69}
+.ai-labs li.me .ai-who{color:var(--red)}
+.ai-labs b{font-family:var(--f-display);font-style:italic;font-weight:600;font-size:22px;
+  line-height:1.15;color:var(--ink)}
+.ai-labs i{font-style:normal;font-family:var(--f-label);font-size:13px;font-weight:600;
+  color:var(--ink-2)}
+.ai-labs small{max-width:22ch;font-size:13.5px;line-height:1.45;color:var(--faint)}
+
+/* sections */
+.ai-sec{padding:clamp(70px,11vh,130px) 0 0;scroll-margin-top:72px}
+.ai-h{margin:0;font-family:var(--f-display);font-style:italic;font-weight:500;
+  font-size:clamp(30px,3.6vw,48px);line-height:1.08;letter-spacing:-.02em;color:var(--ink)}
+.ai-h span{color:var(--faint)}
+.ai-lede{max-width:56ch;margin:14px 0 0;font-size:16.5px;line-height:1.65;color:var(--ink-2)}
+
+/* what AI is for */
+.ai-uses{list-style:none;margin:clamp(30px,5vh,48px) 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));border-top:1px solid var(--rule)}
+.ai-use{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 18px;
+  padding:clamp(22px,3.4vh,32px) clamp(16px,2vw,28px) clamp(22px,3.4vh,32px) 0;
+  border-bottom:1px solid var(--rule)}
+.ai-use:nth-child(even){padding-left:clamp(16px,2vw,28px);border-left:1px solid var(--rule)}
+.ai-n{grid-row:1 / span 3;font-family:var(--f-display);font-size:15px;
+  font-variant-numeric:tabular-nums;color:var(--red);padding-top:4px}
+.ai-tag{font-family:var(--f-label);font-size:11px;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--faint)}
+.ai-use h3{margin:0;font-family:var(--f-display);font-style:italic;font-weight:600;
+  font-size:clamp(21px,1.9vw,26px);line-height:1.15;color:var(--ink)}
+.ai-use p{margin:6px 0 0;font-size:15.5px;line-height:1.6;color:var(--ink-2)}
+
+/* the terminal */
+.ai-term{margin:clamp(30px,5vh,48px) 0 0;border-radius:16px;overflow:hidden;background:#221d18;
+  color:#e9e1d3;box-shadow:0 30px 70px -40px rgba(47,40,32,.7)}
+.ai-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;
+  border-bottom:1px solid rgba(233,225,211,.1);font:500 12px/1 var(--mono);color:#b8ab97}
+.ai-bar i{width:10px;height:10px;border-radius:50%;background:#4a4037}
+.ai-bar span{margin-left:8px}
+.ai-out{height:clamp(240px,34vh,330px);overflow-y:auto;padding:16px 18px;margin:0;
+  font:400 13.5px/1.7 var(--mono);white-space:pre-wrap;overscroll-behavior:contain}
+.ai-out .p{color:#e8a27c}
+.ai-out .dim{color:#8d8171}
+.ai-out a{color:#9fc79a}
+.ai-in{display:flex;align-items:center;gap:10px;padding:10px 16px;border-top:1px solid rgba(233,225,211,.1)}
+.ai-in label{font:600 14px/1 var(--mono);color:#e8a27c}
+.ai-in input{flex:1;min-width:0;padding:8px 0;border:0;background:transparent;color:#e9e1d3;
+  font:400 14px/1.4 var(--mono)}
+.ai-in input::placeholder{color:#8d8171}
+.ai-keys{display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 14px}
+.ai-keys button{padding:7px 12px;border-radius:8px;border:1px solid rgba(233,225,211,.18);
+  background:transparent;color:#e9e1d3;font:600 12px/1 var(--mono);letter-spacing:.08em;
+  text-transform:uppercase;cursor:pointer;transition:background-color .2s}
+.ai-keys button:hover{background:rgba(233,225,211,.08)}
+.ai-term:not(.on) .ai-in,.ai-term:not(.on) .ai-keys{display:none}
+
+/* the stack */
+.ai-stack{list-style:none;margin:clamp(30px,5vh,48px) 0 0;padding:0;display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(12px,1.6vw,20px)}
+.ai-stack li{padding:18px 18px 20px;border-radius:12px;border:1px solid var(--rule);
+  background:rgba(246,241,231,.6)}
+.ai-stack b{display:block;font-family:var(--f-display);font-style:italic;font-weight:600;
+  font-size:21px;color:var(--ink)}
+.ai-stack span{display:block;margin-top:6px;font-size:14.5px;line-height:1.5;color:var(--ink-2)}
+
+@media (max-width:980px){
+  .ai-stack{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:700px){
+  .ai-hero{grid-template-columns:1fr;align-items:start}
+  .ai-labs{grid-template-columns:1fr;gap:14px;text-align:left;margin-top:22px}
+  .ai-labs li{grid-template-columns:auto 1fr;justify-items:start;column-gap:12px}
+  .ai-labs .ai-who{grid-row:1 / span 3;padding-top:6px;min-width:22px}
+  .ai-labs small{max-width:none}
+  .ai-uses{grid-template-columns:1fr}
+  .ai-use:nth-child(even){padding-left:0;border-left:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .ai-churn{animation:none}
+}
+</style>
+</head>
+<body class="case-page">
+
+<div class="page">
+
+  <header class="top">
+    <a href="index.html" class="micro"><span class="arw">&larr;</span> Portfolio</a>
+    <span class="micro where">AI</span>
+  </header>
+
+  <main class="sheet ai">
+
+    <section class="ai-hero" aria-labelledby="ai-t">
+      <h1 id="ai-t">AI does the churning. <span>I decide when it&rsquo;s ready.</span></h1>
+      <div>
+        <p>Research, flows and code move faster with AI in the loop. What to build,
+        how it should feel and whether it is right stay with me.</p>
+        <div class="ai-jump">
+          <a href="#loop">How it&rsquo;s made <span aria-hidden="true">&darr;</span></a>
+          <a href="#built">What it built <span aria-hidden="true">&darr;</span></a>
+        </div>
+      </div>
+    </section>
+
+    <figure class="ai-scene">
+      <svg class="ai-art" viewBox="0 0 1200 330" role="img"
+           aria-label="Making airag, left to right: a milk pail; a bowl of starter, its ladle dripping into the churn; the leather churn in front of a ger, its paddle moving up and down; a bowl on a low table, tasted; and the bowl served on a blue khadag.">
+        <defs>
+          <pattern id="hana" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <path d="M0 0V20M0 0H20" fill="none" stroke="#b9ae97" stroke-width="1.1"/>
+          </pattern>
+        </defs>
+
+        <!-- the ground, and the way the work travels along it -->
+        <path d="M20 300H1180" stroke="#b9ae97" stroke-width="1.5"/>
+        <g fill="none" stroke="#b9ae97" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M226 290l7 6-7 6"/><path d="M752 290l7 6-7 6"/><path d="M962 290l7 6-7 6"/>
+        </g>
+
+        <!-- the ger, faint, behind the churn: хана lattice, roof ribs, toono -->
+        <g opacity=".6" fill="none" stroke="#b9ae97" stroke-width="1.5" stroke-linejoin="round">
+          <rect x="468" y="206" width="264" height="94" fill="url(#hana)"/>
+          <path d="M456 208 L566 138 H634 L744 208"/>
+          <path d="M566 138 L520 208 M584 138 L574 208 M616 138 L626 208 M634 138 L680 208"/>
+          <path d="M566 138 Q600 124 634 138"/>
+          <rect x="584" y="236" width="32" height="64" stroke="#7a3b2e" opacity=".6"/>
+        </g>
+
+        <!-- 1 Саах: the milk pail (mine) -->
+        <g fill="none" stroke="#7a3b2e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M92 214 L168 214 L160 298 L100 298 Z" fill="#f6f1e7"/>
+          <ellipse cx="130" cy="214" rx="38" ry="6" fill="#fdfbf6"/>
+          <path d="M95 242 H165 M98 272 H162" stroke-width="1.6"/>
+          <path d="M94 217 Q130 158 166 217"/>
+        </g>
+
+        <!-- 2 Хөрөнгө: the starter, and the ladle that feeds the churn (AI) -->
+        <g fill="none" stroke="#8a7f69" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M294 268 Q330 312 366 268 Z" fill="#f6f1e7"/>
+          <ellipse cx="330" cy="268" rx="36" ry="5" fill="#fdfbf6"/>
+          <path d="M318 294 L321 300 H339 L342 294"/>
+          <path d="M318 262 L372 198"/>
+          <path d="M366 192 q10 -8 22 -2 q6 12 -6 18 q-12 2 -16 -16 z" fill="#fdfbf6"/>
+          <path d="M392 198 Q490 92 582 146" stroke-dasharray="2 9" stroke-width="2.4"/>
+        </g>
+
+        <!-- 3 Бүлэх: the хөхүүр and its бүлүүр (AI) — the paddle churns -->
+        <g class="ai-churn" fill="none" stroke="#7d6446" stroke-width="3.2" stroke-linecap="round">
+          <path d="M600 42 V250"/>
+          <circle cx="600" cy="36" r="7" fill="#f6f1e7"/>
+        </g>
+        <g fill="none" stroke="#8a7f69" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M548 298 C526 262 530 214 566 196 C578 190 584 182 584 170 L584 150 L616 150 L616 170 C616 182 622 190 634 196 C670 214 674 262 652 298 Z" fill="#f6f1e7"/>
+          <path d="M584 162 H616" stroke-width="1.8"/>
+          <path d="M600 204 C605 240 605 270 600 296" stroke-dasharray="3 6" stroke-width="1.5"/>
+          <path d="M538 298 H662" stroke-width="3"/>
+        </g>
+
+        <!-- 4 Амсах: the bowl on a low table, tasted (mine) -->
+        <g fill="none" stroke="#7a3b2e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M814 262 H906" stroke-width="3.2"/>
+          <path d="M822 264 L818 300 M898 264 L902 300"/>
+          <path d="M832 232 Q860 268 888 232 Z" fill="#f6f1e7"/>
+          <ellipse cx="860" cy="232" rx="28" ry="4.5" fill="#fdfbf6"/>
+          <path d="M851 256 L853 262 H867 L869 256"/>
+          <path d="M872 234 L904 196" stroke-width="2"/>
+          <path d="M898 192 q8 -7 17 -1 q4 10 -5 14 q-9 1 -12 -13 z" fill="#fdfbf6" stroke-width="1.8"/>
+        </g>
+
+        <!-- 5 Барих: served on a khadag (mine) -->
+        <path d="M1012 284 C1044 279 1108 279 1140 284 L1144 296 C1110 291 1042 291 1008 296 Z" fill="#dbe6f2" stroke="#5b86b5" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M1024 283 C1054 280 1098 280 1128 283" fill="none" stroke="#5b86b5" stroke-width="1" opacity=".6"/>
+        <path d="M1008 296 l-3 6 M1004 293 l-4 6 M1010 288 l-5 5 M1144 296 l3 6 M1148 293 l4 6 M1142 288 l5 5" stroke="#5b86b5" stroke-width="1.3" stroke-linecap="round"/>
+        <g fill="none" stroke="#7a3b2e" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+          <path d="M1046 246 Q1076 286 1106 246 Z" fill="#f6f1e7"/>
+          <ellipse cx="1076" cy="246" rx="30" ry="4.8" fill="#fdfbf6"/>
+          <path d="M1066 272 L1068 281 H1084 L1086 272"/>
+        </g>
+      </svg>
+
+      <ol class="ai-labs">
+        <li class="me"><span class="ai-who">Me</span><b lang="mn">Саах</b><i>Brief</i><small>Gather what it&rsquo;s for, and who for</small></li>
+        <li><span class="ai-who">AI</span><b lang="mn">Хөрөнгө</b><i>Research</i><small>My master prompt, kept from the last batch</small></li>
+        <li><span class="ai-who">AI</span><b lang="mn">Бүлэх</b><i>Flows &amp; code</i><small>Thousands of strokes, none of them decisions</small></li>
+        <li class="me"><span class="ai-who">Me</span><b lang="mn">Амсах</b><i>Design &amp; check</i><small>I decide when it&rsquo;s ready</small></li>
+        <li class="me"><span class="ai-who">Me</span><b lang="mn">Барих</b><i>Release</i><small>Served, and I stand behind it</small></li>
+      </ol>
+    </figure>
+
+    <section class="ai-sec" id="loop" aria-labelledby="loop-t">
+      <h2 class="ai-h" id="loop-t">AI in the loop, <span>not in charge.</span></h2>
+      <p class="ai-lede">Where it earns its place in the work, and where the judgement stays
+      mine.</p>
+      <ol class="ai-uses">
+        <li class="ai-use"><span class="ai-n">01</span><span class="ai-tag">Research</span>
+          <h3>A week of reading in an afternoon</h3>
+          <p>Competitors, conventions and the people who will use it, run through a master prompt I keep tuning.</p></li>
+        <li class="ai-use"><span class="ai-n">02</span><span class="ai-tag">Flows</span>
+          <h3>Every branch, drawn rough</h3>
+          <p>Userflows and wireframes built with Claude, so the thinking is tested before anything looks finished.</p></li>
+        <li class="ai-use"><span class="ai-n">03</span><span class="ai-tag">Code</span>
+          <h3>The design, in the team&rsquo;s own code</h3>
+          <p>Given a team&rsquo;s codebase, AI helps me write the screens in its structure. I check every line it returns.</p></li>
+        <li class="ai-use"><span class="ai-n">04</span><span class="ai-tag">This site</span>
+          <h3>Built the same way</h3>
+          <p>Every page here is hand-written HTML and CSS with Claude Code &mdash; no framework, no template.</p></li>
+      </ol>
+    </section>
+
+    <section class="ai-sec" id="built" aria-labelledby="built-t">
+      <h2 class="ai-h" id="built-t">What it built, <span>and you can poke at it.</span></h2>
+      <p class="ai-lede">This site, from the inside. Type a command or press one of the keys.</p>
+      <div class="ai-term">
+        <div class="ai-bar" aria-hidden="true"><i></i><i></i><i></i><span>portfolio &mdash; zsh</span></div>
+        <pre class="ai-out" aria-live="polite"><span class="p">&#10095; ls</span>
+<a href="work.html">work/</a>        <a href="work-netpay.html">netpay</a>   <a href="work-voice.html">voice</a>   <a href="work-hub.html">hub</a>   <a href="work-ohayofx.html">ohayofx</a>
+<a href="playground.html">playground</a>   <a href="how-i-work.html">how-i-work</a>   <a href="about.html">about</a>   <a href="contact.html">contact</a></pre>
+        <form class="ai-in" autocomplete="off">
+          <label for="ai-cmd">&#10095;</label>
+          <input id="ai-cmd" type="text" spellcheck="false" placeholder="type help" aria-label="Command">
+        </form>
+        <div class="ai-keys">
+          <button type="button" data-cmd="ls">ls</button>
+          <button type="button" data-cmd="stats">stats</button>
+          <button type="button" data-cmd="stack">stack</button>
+          <button type="button" data-cmd="help">help</button>
+          <button type="button" data-cmd="clear">clear</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-sec" id="stack" aria-labelledby="stack-t">
+      <h2 class="ai-h" id="stack-t">The stack, <span>and what each is for.</span></h2>
+      <ul class="ai-stack">
+        <li><b>Figma</b><span>Where the design is made, by hand.</span></li>
+        <li><b>Claude</b><span>Research, flows, and thinking out loud.</span></li>
+        <li><b>Claude Code</b><span>Code in the team&rsquo;s structure, and this site.</span></li>
+        <li><b>Vercel</b><span>Hosting for this site.</span></li>
+      </ul>
+    </section>
+
+    <div class="frieze" aria-hidden="true"></div>
+
+    <nav class="foot" aria-label="Other sections">
+      <div class="micro">Elsewhere</div>
+      <div class="foot-l">
+        <a href="work.html">My Work</a>
+        <a href="how-i-work.html">How I Work</a>
+        <a href="ai.html" aria-current="page">AI</a>
+        <a href="playground.html">Playground</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+
+  </main>
+</div>
+<script>
+/* The terminal. Without this it is a still printout of `ls`. With it:
+   a handful of commands, typed or pressed, printed into the log. */
+(function(){
+  var term = document.querySelector('.ai-term');
+  if(!term) return;
+  var out = term.querySelector('.ai-out');
+  var form = term.querySelector('.ai-in');
+  var input = term.querySelector('#ai-cmd');
+  term.classList.add('on');
+
+  var PAGES = {
+    work:['work.html','the case studies'], netpay:['work-netpay.html','NetPay V2'],
+    voice:['work-voice.html','Voice mini app'], hub:['work-hub.html','HUB'],
+    ohayofx:['work-ohayofx.html','OhayoFX'], playground:['playground.html','Playground'],
+    'how-i-work':['how-i-work.html','How I Work'], about:['about.html','About'],
+    contact:['contact.html','Contact']
+  };
+  function esc(s){ return s.replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c] }) }
+  function link(k){ return '<a href="' + PAGES[k][0] + '">' + k + '</a>' }
+  var CMDS = {
+    help: function(){ return 'ls            the pages on this site\nopen &lt;page&gt;   go to one, e.g. open netpay\nstats         what the site is made of\nstack         the tools, and what each is for\nclear         empty the log' },
+    ls: function(){ return Object.keys(PAGES).map(link).join('   ') },
+    stats: function(){ return '11 pages   196 assets   0 frameworks   0 build steps\n<span class="dim">plain HTML and CSS, written with Claude Code</span>' },
+    stack: function(){ return 'figma        the design, by hand\nclaude       research, flows, thinking out loud\nclaude code  code in the team’s structure, and this site\nvercel       hosting for this site' }
+  };
+  function print(cmd, body){
+    out.innerHTML += '\n\n<span class="p">❯ ' + esc(cmd) + '</span>' + (body ? '\n' + body : '');
+    out.scrollTop = out.scrollHeight;
+  }
+  function run(raw){
+    var cmd = raw.trim().toLowerCase();
+    if(!cmd) return;
+    if(cmd === 'clear'){ out.innerHTML = ''; return }
+    var parts = cmd.split(/\s+/);
+    if(parts[0] === 'open' || parts[0] === 'cd'){
+      var k = parts[1] && parts[1].replace(/\/$/, '');
+      if(k && PAGES[k]){ print(cmd, 'opening ' + PAGES[k][1] + '…'); setTimeout(function(){ location.href = PAGES[k][0] }, 450); }
+      else print(cmd, 'no page called “' + esc(parts[1] || '') + '” — try ls');
+      return;
+    }
+    if(PAGES[cmd]){ run('open ' + cmd); return }
+    if(CMDS[cmd]) print(cmd, CMDS[cmd]());
+    else print(cmd, esc(parts[0]) + ': not a command here — try help');
+  }
+  form.addEventListener('submit', function(e){ e.preventDefault(); run(input.value); input.value = '' });
+  [].forEach.call(term.querySelectorAll('[data-cmd]'), function(b){
+    b.addEventListener('click', function(){ run(b.getAttribute('data-cmd')) });
+  });
+})();
+</script>
+</body>
+</html>
