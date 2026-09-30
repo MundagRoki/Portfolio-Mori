@@ -593,7 +593,49 @@ a{color:inherit}
 .wr-p{top:0;height:100%}
 .wr-p i{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;
   background:var(--tex) calc(var(--x) * -1) 0/var(--C) 100% no-repeat}
-.wr-p i + i{transform:rotateY(180deg) scaleX(-1);opacity:.3}
+.wr-p i + i{transform:rotateY(180deg) scaleX(-1);opacity:.3;transition:opacity 2.2s cubic-bezier(.4,0,.2,1)}
+/* the hearth (owner's asking, 2026-09-30: "add some button inside of it
+   and when I click it'll lighten up like гал голомт"). A button at the
+   drum's heart, between the second and third rings, once all four have
+   closed; pressed, a fire kindles there and the drum is lit from inside.
+   The light is one layer over the whole pinned screen in colour-dodge:
+   black stays black and only what is gold takes the fire, the letters to
+   amber and a hot yellow nearest it, the хана near it to embers. It sits
+   over the screen, not among the words, because .wr is its own isolated
+   group and a dodge over nothing shows as an orange blob. The inner walls
+   seen through come up from .3 to .62 (they face the fire), a soft haze
+   (screen) is the fire's own light, and the light flickers by opacity and
+   transform only, so nothing repaints. At rest the drum stays matte: the
+   glow is only ever the fire's. Pressed again it dies down over 2.2s; it
+   goes out if the rings unroll. */
+.wr-fire,.wr-glow{position:absolute;z-index:1;pointer-events:none;left:var(--fx);top:var(--fy);
+  width:var(--fw);height:var(--fh);opacity:0;transform:translate(-50%,-44%) scale(.55);
+  transition:opacity 2.2s cubic-bezier(.4,0,.2,1),transform 2.2s cubic-bezier(.4,0,.2,1)}
+.wr-fire{mix-blend-mode:color-dodge}
+.wr-glow{mix-blend-mode:screen;width:calc(var(--fw) * .62);height:calc(var(--fh) * .62)}
+.wr-fire i,.wr-glow i{position:absolute;inset:0;animation:wr-flick 2.9s infinite paused}
+.wr-fire i{background:radial-gradient(closest-side,rgba(255,158,64,.9),rgba(255,124,40,.6) 42%,rgba(255,96,24,.2) 74%,rgba(255,86,20,0))}
+.wr-fire i + i{inset:18% 24% 8%;animation:wr-lick 2.3s ease-in-out infinite paused;
+  background:radial-gradient(closest-side at 50% 60%,rgba(255,206,128,.55),rgba(255,150,60,0) 72%)}
+.wr-glow i{animation-duration:1.7s;background:radial-gradient(closest-side at 50% 58%,rgba(255,116,34,.3),rgba(255,96,24,0))}
+.tz.is-lit .wr-fire,.tz.is-lit .wr-glow{opacity:1;transform:translate(-50%,-50%) scale(1);transition-duration:1.5s}
+.tz.is-lit .wr-fire i,.tz.is-lit .wr-glow i{animation-play-state:running}
+.tz.is-lit .wr-p i + i{opacity:.62;transition-duration:1.5s}
+@keyframes wr-flick{0%,100%{opacity:1}13%{opacity:.84}21%{opacity:.97}38%{opacity:.88}52%{opacity:1}67%{opacity:.82}81%{opacity:.95}}
+@keyframes wr-lick{0%,100%{transform:translateY(0) scale(1)}30%{transform:translateY(-2.5%) scale(1.03,1.07)}
+  55%{transform:translateY(1%) scale(.97,.95)}78%{transform:translateY(-1%) scale(1.02,1.04)}}
+.wr-hearth{position:absolute;z-index:1;left:var(--fx);top:var(--fy);width:52px;height:52px;margin:-26px 0 0 -26px;
+  display:grid;place-items:center;padding:0;border-radius:50%;cursor:pointer;
+  border:1px solid rgba(196,164,100,.5);background:rgba(0,0,0,.62);color:var(--ab-gold);
+  opacity:0;visibility:hidden;transition:opacity .6s,visibility 0s .6s,border-color .3s,color .8s}
+.tz.is-closed .wr-hearth{opacity:1;visibility:visible;transition:opacity .9s,visibility 0s,border-color .3s,color .8s}
+.wr-hearth:hover{border-color:var(--ab-gold)}
+.wr-hearth:focus-visible{outline:1px solid var(--ab-gold);outline-offset:4px}
+.wr-hearth svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.3;stroke-linecap:round;stroke-linejoin:round}
+.wr-hearth .fl{transition:fill .8s}
+.tz.is-lit .wr-hearth{color:#e8a552;border-color:rgba(232,165,82,.7)}
+.tz.is-lit .wr-hearth .fl{fill:rgba(232,165,82,.35)}
+.tz:not(.is-on) .wr-fire,.tz:not(.is-on) .wr-glow,.tz:not(.is-on) .wr-hearth{display:none}
 @media (max-width:860px){.wr-t{font-size:calc((100vw - 40px) / 11.4)}}
 /* the stripes: five fifths of the screen, each revealing the timeline's
    ground from its foot up. A stripe is a window (.tz-s) with a door in
@@ -1000,6 +1042,9 @@ a{color:inherit}
           <div class="tz-bg" aria-hidden="true"></div>
           <p class="sr" lang="mn-Mong">ᠤᠬᠠᠭᠠᠨ ᠪᠣᠳᠣᠯ ᠨᠢ ᠤᠨᠳᠤᠷᠭ᠎ᠠ ᠰᠢᠭ ᠤᠨᠳᠤᠷᠠᠵᠦ᠂ ᠤᠷᠠᠨ ᠪᠦᠲᠦᠭᠡᠯ ᠨᠢ ᠠᠭᠤᠯᠠ ᠰᠢᠭ ᠰᠦᠨᠳᠡᠷᠯᠡᠭᠡᠢ᠃</p>
           <div class="wr" aria-hidden="true" lang="mn-Mong"><div class="wr-t"><span class="wr-l">ᠤᠬᠠᠭᠠᠨ ᠪᠣᠳᠣᠯ ᠨᠢ</span><span class="wr-l">ᠤᠨᠳᠤᠷᠭ᠎ᠠ ᠰᠢᠭ ᠤᠨᠳᠤᠷᠠᠵᠦ᠂</span><span class="wr-l">ᠤᠷᠠᠨ ᠪᠦᠲᠦᠭᠡᠯ ᠨᠢ</span><span class="wr-l">ᠠᠭᠤᠯᠠ ᠰᠢᠭ ᠰᠦᠨᠳᠡᠷᠯᠡᠭᠡᠢ᠃</span><canvas class="wr-ink"></canvas></div></div>
+          <div class="wr-fire" aria-hidden="true"><i></i><i></i></div>
+          <div class="wr-glow" aria-hidden="true"><i></i></div>
+          <button class="wr-hearth" type="button" aria-pressed="false" aria-label="Light the fire"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="fl" d="M12 3.2c1.4 3 4.7 4.8 4.7 9.1a4.7 4.7 0 0 1-9.4 0c0-2.1 1.2-3.4 2.2-4.5.2 1.5.9 2.4 1.9 2.9-.5-2.7-.3-5.1.6-7.5z"/><path d="M10.6 14.6c0-1 .6-1.7 1.4-2.4.8.7 1.4 1.4 1.4 2.4a1.4 1.4 0 0 1-2.8 0z"/><path d="M5.5 20.3h13M8 18.2h8"/></svg></button>
           <div class="tz-st" aria-hidden="true"><div class="tz-s"><div class="tz-d"><div class="tz-g"></div></div></div><div class="tz-s"><div class="tz-d"><div class="tz-g"></div></div></div><div class="tz-s"><div class="tz-d"><div class="tz-g"></div></div></div><div class="tz-s"><div class="tz-d"><div class="tz-g"></div></div></div><div class="tz-s"><div class="tz-d"><div class="tz-g"></div></div></div></div>
         </div>
       </section>
@@ -1671,6 +1716,26 @@ if (HUD && tl){
   /* under the ink, so a line still flat shows the canvas, not the panels */
   text.insertBefore(cyl, ink);
   const tilt = cyl.firstChild;
+  /* the hearth at the drum's heart (see the style) */
+  const pinEl = sec.querySelector('.tz-pin'), hearth = sec.querySelector('.wr-hearth');
+  let lit = false, closed = false;
+  function light(v){
+    lit = v;
+    sec.classList.toggle('is-lit', v);
+    hearth.setAttribute('aria-pressed', v ? 'true' : 'false');
+    hearth.setAttribute('aria-label', v ? 'Put the fire out' : 'Light the fire');
+  }
+  hearth.addEventListener('click', () => light(!lit));
+  /* the fire's place: the drum's axis across, and down between the second
+     and third lines, where the rings leave room; its size by the drum's */
+  function placeHearth(){
+    const pr = pinEl.getBoundingClientRect(), tr = text.getBoundingClientRect();
+    const a = lines[1].getBoundingClientRect(), b = lines[2].getBoundingClientRect();
+    pinEl.style.setProperty('--fx', (tr.left + tr.width / 2 - pr.left).toFixed(1) + 'px');
+    pinEl.style.setProperty('--fy', ((a.bottom + b.top) / 2 - pr.top).toFixed(1) + 'px');
+    pinEl.style.setProperty('--fw', Math.round(2.7 * R) + 'px');
+    pinEl.style.setProperty('--fh', Math.round(tr.height * 1.3) + 'px');
+  }
   let on = false, pending = false, seen = false, covered = false, sH = 0, lastT = null, lastR = null;
   let geo = [], total = 0, dpr = 1, cw = 0, ch = 0, em = 0;
   let rings = [], R = 0, C = 0, urls = [], build = 0, shown = 0;
@@ -1795,6 +1860,7 @@ if (HUD && tl){
     lastR = null;
     /* the lean turns the drum about its own middle, not the front */
     tilt.style.transformOrigin = `50% 50% ${(-R).toFixed(1)}px`;
+    placeHearth();
     /* laid flat on their written lines from the start */
     rings.forEach((rg, n) => rollRing(rg, n, 0, true));
     draw();
@@ -1939,6 +2005,8 @@ if (HUD && tl){
     rings.forEach((rg, k) => { if (rg.D || rg.V) rollRing(rg, k, rg.p, true); });
     const g = grabbable();
     if (g !== canGrab){ canGrab = g; text.classList.toggle('is-grab', g); if (!g) hand.rx = hand.ox = 0; }
+    const c = rings.length > 0 && rings.every(rg => rg.r >= 1);
+    if (c !== closed){ closed = c; sec.classList.toggle('is-closed', c); if (!c && lit) light(false); }
     /* each line's ink fades off the canvas over the first HAND of its
        coil, while the snake holds still on it */
     write(tNow, rings.map((rg, n) => rg.words.map(() => sm(rg.p / HAND))));
@@ -2073,6 +2141,7 @@ if (HUD && tl){
       tilt.textContent = ''; cyl.style.visibility = ''; shown = 0;
       hand.on = false; hand.v = hand.rx = hand.ox = hand.lx = hand.lo = 0; moving = canGrab = false;
       tilt.style.transform = cyl.style.perspectiveOrigin = ''; text.classList.remove('is-grab', 'is-grabbing');
+      closed = false; sec.classList.remove('is-closed'); if (lit) light(false);
       lines.forEach(l => l.style.opacity = '');
       tick();
       return;
