@@ -1,7 +1,8 @@
-# Source material — ~427MB of originals, exports and screen recordings.
-# Never served: the site only loads art/{hero,site,steps,about,work}/.
-# Also contains a file over GitHub's 100MB limit (misc/Netpay-mockup.png, 130MB).
-art/_source/
+# Each project's originals live in its own _source/ folder and are tracked
+# (.vercelignore keeps them off the live site). The one file over GitHub's
+# 100MB limit stays on disk only; its lossless WebP twin, pixel for pixel the
+# same, is the tracked copy.
+art/netpay/_source/Netpay-mockup.png
 
 # Working backups made before edits. Useful locally, noise in history.
 *.pre-*

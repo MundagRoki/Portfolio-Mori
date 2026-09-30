@@ -1873,13 +1873,13 @@ body.case-voice .step-n{color:#f5c2cb}
    tops out; three stops made a visible halo. Both are pseudo-elements, so they
    need no markup and never move; the corner fade is NetPay's mask, put on the
    figure so they fade with the image. The dark fill underneath is only what
-   shows while the image loads. Earlier covers are in art/_source/voice/. */
+   shows while the image loads. Earlier covers are in art/voice/_source/. */
 body.case-voice .hero-plate{background:#0e0f10;
   -webkit-mask-image:radial-gradient(145% 145% at 50% 50%,#000 68%,transparent 100%);
   mask-image:radial-gradient(145% 145% at 50% 50%,#000 68%,transparent 100%)}
 body.case-voice .hero-plate::before{content:"";position:absolute;inset:0;
   pointer-events:none;
-  background:url("art/work/voice/cover-1100.webp") 50% 50%/cover;
+  background:url("art/voice/cover-1100.webp") 50% 50%/cover;
   filter:blur(11px);
   -webkit-mask-image:radial-gradient(ellipse 70% 86% at 47% 52%,
       transparent 0%, rgba(0,0,0,0.000) 54.0%, rgba(0,0,0,0.016) 58.2%, rgba(0,0,0,0.104) 62.5%,

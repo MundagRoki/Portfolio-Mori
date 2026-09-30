@@ -90,7 +90,7 @@ body{margin:0;color:var(--ink);
   /* üülen khee under the whole site. Its ground was mapped onto --paper and its
      contrast pulled back to 6% in the file itself, so it reads as a texture
      you feel rather than a picture you look at, and no filter is needed.
-     (art/_source/misc/wash-bg.jpg, unserved, is the generated ink wash at
+     (art/site/_source/wash-bg.jpg, unserved, is the generated ink wash at
      30%, if that is ever wanted.) */
   background:var(--paper) url("art/site/cloud-bg.jpg") repeat center top;
   background-size:620px auto;

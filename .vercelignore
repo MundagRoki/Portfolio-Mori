@@ -4,6 +4,9 @@ CLAUDE.md
 README.md
 serve.py
 .claude/
-art/_source/
+# Each project's originals (art/<project>/_source/, fonts/gip/_source/) and
+# the removed projects: kept in the repo, never deployed.
+_source/
+art/_archive/
 *.log
 .DS_Store

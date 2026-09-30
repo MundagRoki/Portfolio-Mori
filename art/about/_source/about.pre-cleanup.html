@@ -1,0 +1,956 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — UI/UX & Product Designer</title>
+<meta name="description" content="UI/UX & Product Designer based in Ulaanbaatar, Mongolia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,200..700&family=Golos+Text:wght@400;500;600&family=Noto+Sans+Mongolian&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="leaf.css?v=33">
+
+<!-- Scoped entirely to this file — touches neither shared stylesheet. -->
+<style>
+:root{
+  --ab-ground:#000;
+  --ab-gold:#d8ad5c;
+  --ab-gold-hi:#f0dba6;
+  --ab-ivory:#efe7da;
+  --ab-ivory-2:#b9ae9c;
+  --ab-faint:#8d8275;
+  --ab-line:rgba(216,173,92,.22);
+}
+/* The page borrows the site's dark case tokens so .top, .foot and .micro all
+   behave as they do everywhere else. The ground is true black: the warmth
+   comes from the gold on it — the хана, the card, the gerege — and the grain
+   over it, not from tinting the black itself. */
+html:has(body.about-page){background:var(--ab-ground);
+  /* a timeline card dragged off the edge would otherwise widen the page for
+     as long as it is out there and flash a sideways scrollbar. clip rather
+     than hidden: it makes no scroll container, so the sticky bar is unaffected */
+  overflow-x:clip}
+body.about-page{margin:0;background:var(--ab-ground);
+  --paper:#000; --ink:var(--ab-ivory); --ink-2:var(--ab-ivory-2);
+  --faint:var(--ab-faint); --red:var(--ab-gold);
+  --rule:rgba(216,173,92,.16); --rule-2:rgba(216,173,92,.09);
+  color:var(--ab-ivory);min-height:100vh}
+
+/* The dark .top is declared in work.css against body.case-dark, and this page
+   deliberately does not load that sheet — so without this the bar keeps
+   leaf.css's cream fill while its text takes the dark tokens above, and the
+   header ends up ivory on ivory. */
+body.about-page .top{background:rgba(0,0,0,.88);
+  border-bottom:1px solid rgba(216,173,92,.14)}
+body.about-page .top .micro{color:var(--ab-ivory-2)}
+body.about-page .top .where b{color:var(--ab-gold)}
+body.about-page .foot{border-top-color:rgba(216,173,92,.16)}
+
+/* ---------- хана ----------
+   Түмэн наст, lifted off the source drawing rather than reconstructed by eye.
+   The .cdr measured out as a rigidly ruled thing: every edge sits on a 3.0779pt
+   module, the motif is a 17x13-module 工, and the cell is 20x20 modules holding
+   four of them — two lying, two standing. Snapped back to that grid the outline
+   goes from 58 points to 28, all integers, which is why the two paths below are
+   139 characters each instead of the 1081 the export shipped.
+
+   The four units are each drawn at four positions (0 and -20 on both axes) so
+   the ones overhanging the cell edge come back round the other side; the
+   pattern tile clips the rest. That is what makes it seam-free.
+
+   The whole sheet was drawn on a 14.14deg lean, and that lean is the reason the
+   motif reads as woven rather than as trim — so it is kept, by tilting the
+   layer itself. Rotating a fixed, full-bleed element leaves triangles of bare
+   ground at the corners, hence the negative inset: the layer is 150% of the
+   viewport, which covers the sweep with room to spare. */
+.hana{position:fixed;inset:-25%;z-index:0;pointer-events:none;opacity:.07;
+  transform:rotate(-14.14deg);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cdefs%3E%3Cpath id='h' d='M1,7 1,10 3,10 3,11 1,11 1,13 0,13 0,0 1,0 1,2 3,2 3,3 1,3 1,6 16,6 16,3 14,3 14,2 16,2 16,0 17,0 17,13 16,13 16,11 14,11 14,10 16,10 16,7Z'/%3E%3Cpath id='v' d='M0,17 0,16 2,16 2,14 3,14 3,16 6,16 6,1 3,1 3,3 2,3 2,1 0,1 0,0 13,0 13,1 11,1 11,3 10,3 10,1 7,1 7,16 10,16 10,14 11,14 11,16 13,16 13,17Z'/%3E%3C/defs%3E%3Cg fill='%23d8ad5c'%3E%3Cuse href='%23h' x='1' y='10'/%3E%3Cuse href='%23h' x='1' y='-10'/%3E%3Cuse href='%23h' x='-19' y='10'/%3E%3Cuse href='%23h' x='-19' y='-10'/%3E%3Cuse href='%23h' x='11' y='0'/%3E%3Cuse href='%23h' x='11' y='-20'/%3E%3Cuse href='%23h' x='-9' y='0'/%3E%3Cuse href='%23h' x='-9' y='-20'/%3E%3Cuse href='%23v' x='3' y='18'/%3E%3Cuse href='%23v' x='3' y='-2'/%3E%3Cuse href='%23v' x='-17' y='18'/%3E%3Cuse href='%23v' x='-17' y='-2'/%3E%3Cuse href='%23v' x='13' y='8'/%3E%3Cuse href='%23v' x='13' y='-12'/%3E%3Cuse href='%23v' x='-7' y='8'/%3E%3Cuse href='%23v' x='-7' y='-12'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:84px 84px;
+  -webkit-mask-image:radial-gradient(120% 90% at 50% 46%, #000 34%, transparent 82%);
+  mask-image:radial-gradient(120% 90% at 50% 46%, #000 34%, transparent 82%)}
+
+/* ---------- grain ----------
+   Film grain over the whole frame, card included, so the ground reads as a
+   surface rather than as #000. It sits above the content (pointer-events off)
+   instead of under it: underneath, every panel that paints the ground colour
+   to hide something — the evidence cells, the eyelet — would show up as a flat
+   patch in the grain.
+
+   Deliberately still. A jittering version (the layer jumped eight times a
+   second, film-style) was tried and read as nauseating on a page this dark,
+   where the grain is most of what the eye has to look at. Do not animate it. */
+.grain{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 1.6 0 0 0 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:220px 220px}
+
+.ab-wrap{position:relative;z-index:2;max-width:1120px;
+  margin:0 auto;padding:clamp(18px,3.5vh,34px) clamp(16px,3.5vw,40px) 80px}
+.ab-top{display:flex;justify-content:space-between;align-items:center;
+  font-family:var(--f-label,'Golos Text',sans-serif);font-size:10.5px;font-weight:600;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--ab-faint)}
+.ab-top a{color:inherit;text-decoration:none}
+.ab-top a:hover{color:var(--ab-gold)}
+.ab-top nav{display:flex;gap:clamp(12px,2.2vw,26px)}
+
+/* ---------- the card ----------
+   Drawn, not photographed. The previous version was a 900KB render of a sudar
+   doing the job of a frame, and every line of text had to live inside a
+   painted rectangle it could overflow. This is a surface instead, and the
+   culture comes from two motifs the site already serves on every other page:
+   the frieze as the card's head and foot, the khadag as its mark. Both arrive
+   as masked blocks of colour — the technique leaf.css uses for .khadag — so
+   they take --ab-gold rather than showing up in their own red, blue and green
+   and fighting everything around them. Nothing new is downloaded. */
+.stage{position:relative;max-width:1060px;
+  margin:clamp(22px,4vh,46px) auto 0}
+
+/* registration marks, deliberately plain: the ornament on this card is the
+   frieze, and a second decorative idea at the corners would crowd it. */
+.stage::before,.stage::after{content:"";position:absolute;
+  width:15px;height:15px;border:1px solid rgba(216,173,92,.34);pointer-events:none}
+.stage::before{top:-13px;left:-13px;border-right:0;border-bottom:0}
+.stage::after{bottom:-13px;right:-13px;border-left:0;border-top:0}
+
+/* The gerege hangs off a punched hole in the card's top right, the way a pass
+   hangs off a lanyard tag. The hole is not a real cut-out: masking the card to
+   punch one would take its drop shadow with it, because a mask clips to the
+   border box and the shadow is painted outside it. Against a ground this dark
+   a filled disc of the page colour is indistinguishable from a hole, so that is
+   what this is — disc, gold eyelet, inner shadow for depth.
+
+   The split ring passes through both holes, which is why it overlaps the card's
+   eyelet and the gerege's cord hole rather than sitting between them. */
+.idc-eyelet{position:absolute;top:40px;right:34px;width:18px;height:18px;
+  border-radius:50%;background:var(--ab-ground);z-index:5;
+  box-shadow:0 0 0 2px rgba(216,173,92,.55),
+             inset 0 2px 3px rgba(0,0,0,.9)}
+/* The drop has to be longer than it looks like it should be. The gerege's cord
+   hole sits 27% of the way down the object, so hanging it on a short cord puts
+   its head straight over the card's eyelet and hides the very thing it is
+   supposed to be hanging from. The rope clears the head.
+
+   Cord, knot and tag live inside .hang, a zero-size anchor pinned at the centre
+   of the eyelet. That is what makes the swing possible: one element rotating
+   about its own origin carries the whole assembly, and every child keeps the
+   alignment it was measured into.
+
+   The rope runs BEHIND the tag (z-index 5 against 6) rather than in front. That
+   is what sells the threading: the ornamental head stays unobstructed, and the
+   rope reappears through the cord hole, which is a real hole in the asset's
+   alpha rather than a painted circle. Drawing it in front would have run a
+   length of rope straight across the dragons. */
+.hang{position:absolute;top:49px;right:43px;width:0;height:0;z-index:6;
+  transform-origin:0 0}
+
+/* The cord, strung the way the object actually was: one length passed through
+   the boss hole with both ends carried up to the card. The two strands bow
+   apart over the run and close again at the hole, which is what a cord doubled
+   through a hole does.
+
+   The pair is split across the tag rather than both sitting behind it — one
+   strand in front, one behind — because that is what threading looks like from
+   the front: the end that came through the hole hangs over the face, the other
+   stays at the back. Both behind read as a cord passing somewhere near the tag;
+   split, it reads as a cord going through it.
+
+   SVG because the shape is a curve, and CSS gives a straight rope or a circle,
+   not a pair of strands converging on a point. Each strand is drawn twice, a
+   dark wider pass under a lit narrower one, which is what reads as round cord
+   at this width instead of a flat line. */
+.idc-rope{position:absolute;left:-13px;top:0;width:26px;height:136px;
+  overflow:visible;filter:drop-shadow(0 1px 1px rgba(0,0,0,.5))}
+.idc-rope path{fill:none;stroke-linecap:round}
+.idc-rope.is-back{z-index:5}
+.idc-rope.is-front{z-index:7}
+
+/* the binding where the two ends meet at the card, just under the eyelet */
+.idc-knot{position:absolute;left:-6px;top:4px;width:12px;height:9px;z-index:7;
+  border-radius:6px / 4.5px;
+  background:linear-gradient(180deg,#e6ca82 0%,#c2a05a 45%,#8e6a2e 100%);
+  box-shadow:0 1px 2px rgba(0,0,0,.6), inset 0 1px 0 rgba(247,232,190,.55)}
+
+/* Sized and placed off its own cord hole, not off its box: the hole measures
+   49.7% across and 26.68% down, so left and top are whatever puts that point on
+   the rope. transform-origin is the same point, because that is where the tag
+   pivots when it swings on the rope. */
+.gerege-hang{display:block;position:absolute;left:-42px;top:53px;z-index:6;
+  width:84px;height:auto;cursor:grab;
+  transform-origin:49.7% 26.68%;
+  filter:drop-shadow(0 14px 19px rgba(0,0,0,.6))}
+.hang.is-grabbed .gerege-hang{cursor:grabbing}
+/* below the stacking breakpoint the card runs nearly full-bleed and there is no
+   padding left for it to hang over */
+@media (max-width:860px){
+  .hang,.idc-eyelet{display:none}
+}
+
+/* the portrait slot — the panel is now a frame for a photograph */
+.idc-mark img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;border-radius:11px}
+.idc-slot{position:relative;text-align:center;padding:0 14px;
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:var(--t-micro,10.5px);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ab-faint);line-height:2}
+
+.idc{position:relative;border-radius:18px;overflow:hidden;
+  background:
+    radial-gradient(130% 150% at 14% -10%, rgba(216,173,92,.10), transparent 58%),
+    linear-gradient(168deg,#17130e 0%,#110e0a 48%,#0a0807 100%);
+  border:1px solid rgba(216,173,92,.2);
+  box-shadow:0 44px 64px -30px rgba(0,0,0,.92),
+             inset 0 1px 0 rgba(240,219,166,.07)}
+
+/* Two masks composited: the frieze itself, and a horizontal fade. At 20px the
+   band was a full-width strip of mush — the motif is 1046x160, so it has to be
+   about 30px tall before the mountains resolve, and at that size a band running
+   edge to edge starts reading as wallpaper. The fade turns it back into a
+   single ornament and takes care of the rounded corners for free. */
+.idc-frieze{height:30px;background-color:var(--ab-gold);opacity:.5;
+  -webkit-mask-image:url("art/site/frieze.png"),
+    linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%);
+          mask-image:url("art/site/frieze.png"),
+    linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%);
+  -webkit-mask-repeat:repeat-x,no-repeat;  mask-repeat:repeat-x,no-repeat;
+  -webkit-mask-size:auto 100%,100% 100%;   mask-size:auto 100%,100% 100%;
+  -webkit-mask-position:center,center;     mask-position:center,center;
+  -webkit-mask-composite:source-in;        mask-composite:intersect}
+/* the foot strip is the same band turned over, so the mountains point into
+   the card from both edges instead of marching the same way twice */
+.idc-frieze.is-foot{transform:scaleY(-1)}
+
+.idc-body{display:grid;grid-template-columns:minmax(0,.34fr) 1fr;
+  gap:clamp(20px,3vw,40px);padding:clamp(22px,3.2vw,38px)}
+
+/* left panel — the khadag, on the same hana ground as the page behind it.
+   A portrait can replace the gerege here without touching anything else:
+   drop an <img> in and delete the svg. */
+.idc-mark{position:relative;min-height:clamp(200px,26vw,290px);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;
+  border-radius:12px;border:1px solid rgba(216,173,92,.16);
+  background:linear-gradient(158deg,rgba(216,173,92,.08),rgba(216,173,92,.015))}
+.idc-mark::before{content:"";position:absolute;inset:0;opacity:.6;
+  background-image:
+    repeating-linear-gradient( 62deg, rgba(216,173,92,.08) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(-62deg, rgba(216,173,92,.08) 0 1px, transparent 1px 34px);
+  mask-image:radial-gradient(90% 80% at 50% 50%, #000 30%, transparent 86%);
+  -webkit-mask-image:radial-gradient(90% 80% at 50% 50%, #000 30%, transparent 86%)}
+
+.idc-main{min-width:0;display:flex;flex-direction:column}
+.idc-head{display:flex;flex-wrap:wrap;align-items:flex-start;
+  justify-content:space-between;gap:12px 14px}
+.idc-name{margin:0;font-size:clamp(32px,4.4vw,50px);
+  font-family:var(--f-display),'Source Serif 4',Georgia,serif;font-weight:500;font-style:italic;
+  line-height:1.02;letter-spacing:.005em;
+  background:linear-gradient(176deg,var(--ab-gold-hi) 6%,var(--ab-gold) 40%,#9a7433 78%,var(--ab-gold) 96%);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.idc-role{flex:none;margin-top:6px;padding:.5em 1em;border-radius:999px;
+  border:1px solid rgba(216,173,92,.26);
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:var(--t-micro,10.5px);font-weight:500;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ab-ivory-2);white-space:nowrap}
+
+.idc-spec{display:grid;grid-template-columns:repeat(3,1fr);
+  margin:clamp(20px,3.2vh,30px) 0 0;padding:clamp(15px,2.3vh,21px) 0;
+  border-top:1px solid var(--ab-line);border-bottom:1px solid var(--ab-line);
+  text-align:center}
+.idc-spec > div + div{border-left:1px solid var(--ab-line)}
+.idc-spec dt{margin:0 0 7px;font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:var(--t-micro,10.5px);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ab-faint);line-height:1.9}
+.idc-spec dd{margin:0;font-size:15.5px;color:var(--ab-ivory)}
+
+.idc-bio{margin:clamp(20px,3.2vh,28px) 0 0;font-size:16.5px;line-height:1.78;
+  color:var(--ab-ivory);max-width:58ch}
+.idc-bio em{font-style:normal;color:var(--ab-gold)}
+
+.idc-tags{display:flex;flex-wrap:wrap;gap:9px;
+  margin:clamp(20px,3.2vh,28px) 0 0;padding:0;list-style:none}
+.idc-tags li{display:inline-flex;align-items:center;gap:7px;
+  padding:.44em .92em;border-radius:999px;
+  border:1px solid rgba(216,173,92,.2);
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:11.5px;letter-spacing:.04em;color:var(--ab-ivory-2)}
+/* the ulzii stands in for the reference card's star — same job, and it is the
+   one glyph on the page that has to be Mongolian rather than decorative */
+.idc-tags li::before{content:"\2723";font-size:9px;color:var(--ab-gold);opacity:.8}
+
+.idc-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;
+  padding:13px clamp(22px,3.2vw,38px);
+  border-top:1px solid var(--ab-line);background:rgba(216,173,92,.035);
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:var(--t-micro,10.5px);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ab-faint)}
+.idc-id{display:inline-flex;align-items:center;gap:11px}
+.idc-foot a{color:var(--ab-gold);text-decoration:none}
+.idc-foot a:hover{color:var(--ab-gold-hi)}
+
+.scrollcue{margin:clamp(26px,4.4vh,44px) 0 0;text-align:center;
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:var(--t-micro,10.5px);font-weight:600;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--ab-faint)}
+.scrollcue span{display:block;width:1px;height:34px;margin:12px auto 0;
+  background:linear-gradient(180deg,rgba(216,173,92,.5),transparent)}
+.todo{font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:#a8705a}
+
+/* ---------- the pass ----------
+   The page's title card: ivory paper, dark ink, the gerege hung off its
+   corner. It replaced the dark lacquer ID card that used to sit here, and
+   keeps that card's width and axis, so everything below still lines up.
+   (The .idc rules further down are that card's, left in place for now.)
+
+   The cuts — the clipped top-right corner and the eyelet — are a mask, which
+   clips a box-shadow along with everything else, so the shadow is a
+   drop-shadow filter on the wrapper instead: filters paint after the child's
+   mask, so the shadow follows the cut outline.
+
+   The watermark top right is the угалз medallion (.pass-orn), see below. */
+/* The first screen is a title page: the stage fills what the viewport has
+   left after the sticky bar (60px), the wrap's top padding and the visible
+   head of the scroll cue (~110px), and centres the card in it — so the card
+   sits in the middle of the screen with the cue at the foot, and the cue's
+   cross and the timeline start just below the fold. Where the card is taller
+   than that (short laptops, phones) the min-height does nothing and the
+   margin alone keeps it clear of the bar. svh, not vh, so a phone's
+   collapsing toolbar does not shove it around. */
+.pass-stage{position:relative;max-width:1060px;margin:clamp(48px,8vh,80px) auto 0;
+  min-height:calc(100svh - 60px - clamp(18px,3.5vh,34px) - clamp(48px,8vh,80px) - 110px);
+  display:flex;flex-direction:column;justify-content:center}
+/* the shadow lives on the paper's own wrapper, not the stage: on the stage it
+   would shadow the gerege a second time on top of the tag's own drop-shadow */
+.pass-shade{filter:drop-shadow(0 28px 46px rgba(0,0,0,.6)) drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+.pass{position:relative;display:grid;grid-template-columns:clamp(30px,3.2vw,38px) minmax(0,1fr);
+  border-radius:5px;overflow:hidden;color:#2b2118;
+  background:
+    radial-gradient(90% 120% at 0% 0%,#f8f3ea 0%,rgba(248,243,234,0) 60%),
+    linear-gradient(162deg,#f2ece1 0%,#ece4d6 55%,#e3d9c7 100%);
+  /* second layer is the eyelet: here it can be a real hole, because the paper
+     is already masked and its shadow is a filter on the wrapper — so the
+     shadow falls through the hole onto the ground, which is what sells it.
+     Centred where .hang pins (49px down, 43px in), clear of the corner cut. */
+  --hole:9px;
+  -webkit-mask:linear-gradient(225deg,#0000 17px,#000 17.5px),
+               radial-gradient(circle var(--hole) at calc(100% - 43px) 49px,#0000 96%,#000);
+  -webkit-mask-composite:source-in;
+  mask:linear-gradient(225deg,#0000 17px,#000 17.5px),
+       radial-gradient(circle var(--hole) at calc(100% - 43px) 49px,#0000 96%,#000);
+  mask-composite:intersect}
+/* brass grommet round the hole: its inner edge is the hole's edge */
+.pass-eyelet{position:absolute;top:38px;right:32px;width:22px;height:22px;z-index:3;
+  border-radius:50%;pointer-events:none;
+  box-shadow:inset 0 0 0 2px #b08a45,inset 0 1px 0 2px rgba(255,240,200,.45),
+             0 1px 1.5px rgba(60,40,10,.35)}
+/* Grain, two layers multiplied in over everything on the card, gold included.
+   The page's own .grain is white specks, which vanish on ivory, so the paper
+   brings its own in brown: a fine, sparse speck (first layer) for the film
+   grain the reference carries, over a softer paper tooth (second) for the
+   fibre. Static, like the page's. */
+.pass::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;
+  opacity:.26;mix-blend-mode:multiply;
+  background-size:200px 200px,220px 220px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.95' numOctaves='2' seed='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22 0 0 0 0 .16 0 0 0 0 .08 2 0 0 0 -.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .36 0 0 0 0 .27 0 0 0 0 .15 1.5 0 0 0 -.5'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* The watermark: an өлзий-and-угалз medallion stamped into the paper, where
+   the reference card carries its damask — oversized, cropped by the top and
+   right edges.
+
+   Their recipe, read off the page: the damask is filled #C8B7A6, a taupe a
+   step darker than the paper, shown at .49, and pressed in by an inner
+   shadow — the shape's own alpha blurred 2.5px, dropped 3px, and kept only
+   where it falls inside the shape, flooded near-black at .15. That leaves a
+   soft shadow under the top inner edge of every curl, which is what a
+   shape debossed into paper does under a light from above. The filter is
+   #orn-press, inline in the markup, on their values (ink .2, not .15).
+
+   art/about/hee.svg is the shape only — one evenodd path, traced from the
+   2048px black-on-white stencil at sub-pixel accuracy — so the fill is
+   whatever this rule says, and the edge is drawn at the screen's resolution
+   rather than stretched from a bitmap: at 860px on a 2x display a raster
+   mask needed 1720 real pixels and the 1200px one went soft. The artwork is
+   the refined cut, tapered strokes ending in pointed horn tips the way угалз
+   actually ends. Bump ?v= whenever the file changes. The filter sits on the wrapper because a
+   filter on the masked element itself runs before the mask and would never
+   see the shape. Opacity goes last, on the wrapper, so fill and shadow fade
+   together.
+
+   z-index 0 and first in the paper: the text paints over it, the card's
+   grain (::after, z 4) over everything. Sized off the viewport so it keeps
+   roughly the same crop as the card changes width. */
+.pass-orn{position:absolute;z-index:0;pointer-events:none;
+  /* centred just inside the card's top-right corner, so what shows is the
+     medallion's lower-left quarter running in under the title — the crop
+     the reference gives its damask */
+  --orn:clamp(480px,72vw,860px);width:var(--orn);height:var(--orn);
+  top:calc(var(--orn) * -.44);right:calc(var(--orn) * -.44);
+  opacity:.49;filter:url(#orn-press)}
+.pass-orn i{position:absolute;inset:0;background:#c8b7a6;
+  -webkit-mask:url("art/about/hee.svg?v=3") center/contain no-repeat;
+  mask:url("art/about/hee.svg?v=3") center/contain no-repeat}
+
+/* gold foil spine. What makes the reference's leaf look expensive is not more
+   detail but less of it: their gold is a photographed leaf texture run through
+   saturate(.75) at opacity .7, so a third of the cream paper shows through and
+   the metal reads as pale champagne instead of yellow. The edges are two 1px
+   lines, blurred 2px — white in plus-lighter on the outer edge, black in
+   multiply at .5 where it meets the paper — soft rather than ruled.
+
+   The same restraint here, on generated leaf rather than a photo:
+   .pass-leaf holds the gold (tone gradient, soft-lit patches, lit crinkle)
+   and carries the saturate/opacity for all of it at once; the spine itself
+   stays transparent over the paper and only draws the two soft edges.
+   Nothing moves. */
+/* overflow:clip is what fades the edges the way the reference does: both
+   blurred lines are cut at the spine's own box, so the shadow at the seam
+   softens inward over the gold and never smudges onto the paper, and the
+   shine falls off toward the outer edge instead of haloing past it. */
+.pass-spine{position:relative;display:flex;align-items:center;justify-content:center;
+  overflow:clip}
+.pass-leaf{position:absolute;inset:0;overflow:hidden;isolation:isolate;
+  filter:saturate(.75);opacity:.7;
+  background:linear-gradient(180deg,#f3dc96 0%,#e2bf68 16%,#d2a94e 40%,#c79f49 64%,#b9924a 86%,#a88646 100%)}
+.pass-leaf::before,.pass-leaf::after{content:"";position:absolute;inset:0;
+  pointer-events:none;background-repeat:repeat-y;background-size:120px 900px}
+.pass-leaf::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='900'%3E%3Cfilter id='c' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.075 .05' numOctaves='5' seed='11' stitchTiles='stitch'/%3E%3CfeDiffuseLighting surfaceScale='2.2' diffuseConstant='1' lighting-color='%23fff'%3E%3CfeDistantLight azimuth='235' elevation='52'/%3E%3C/feDiffuseLighting%3E%3CfeColorMatrix values='1.6 0 0 0 -.78 1.6 0 0 0 -.78 1.6 0 0 0 -.78 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23c)'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;opacity:.3}
+.pass-leaf::after{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='900'%3E%3Cfilter id='m' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.02 .013' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='1.8 0 0 0 -.4 1.8 0 0 0 -.4 1.8 0 0 0 -.4 0 0 0 0 1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  background-position:-30px 0;mix-blend-mode:soft-light;opacity:.55}
+.pass-spine::before,.pass-spine::after{content:"";position:absolute;top:0;bottom:0;
+  width:1px;pointer-events:none;filter:blur(2px)}
+/* z-index 1: ::before is the spine's first child, so without it the leaf
+   (painted later, at .7) sits on top and swallows the shine */
+.pass-spine::before{left:2px;z-index:1;background:#fff;mix-blend-mode:plus-lighter}
+.pass-spine::after{right:0;z-index:1;background:#000;mix-blend-mode:multiply;opacity:.5}
+.pass-spine span{position:relative;z-index:2;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-family:var(--f-display),'Source Serif 4',Georgia,serif;font-size:11px;
+  letter-spacing:.46em;text-transform:uppercase;color:#413111;
+  /* pressed in: a faint lit lip under each stroke. The span is turned
+     180deg, so -1px in its own y lands below the letter on screen. */
+  text-shadow:0 -1px 0 rgba(255,246,222,.35)}
+
+.pass-body{position:relative;min-width:0}
+.pass-head{padding:clamp(28px,4vw,46px) clamp(24px,4.4vw,56px) clamp(34px,5vw,58px)}
+.pass-head h1{margin:0;font-family:var(--f-display),'Source Serif 4',Georgia,serif;
+  font-weight:600;font-size:clamp(28px,3.6vw,42px);line-height:1.1;
+  letter-spacing:-.01em;color:#2b2118}
+/* The formal name runs to fifty-odd characters, which at title size breaks
+   wherever the width happens to fall. Set as the name is actually built
+   instead: lineage above, given name as the title, clan below — so it always
+   breaks at the joints of the name, not mid-phrase. The comma stays in the
+   text for screen readers and is only hidden from the eye, where the line
+   break does its job. */
+.pass-name > span{display:block}
+/* lineage and clan are one voice either side of the name — same face, size
+   and ink — so the three lines read as a single inscription. Weight is reset
+   to 400 on both: the h1 is 600 for the given name, and Source Serif 4 is
+   loaded 300–700, so neither weight is synthesised. */
+.pass-kin,.pass-clan{font-style:italic;font-weight:400;font-size:17px;
+  line-height:1.35;letter-spacing:.005em;color:#5f5446}
+.pass-kin{margin-bottom:6px}
+.pass-clan{margin-top:8px}
+.pass-sr{position:absolute;width:1px;height:1px;overflow:hidden;
+  clip-path:inset(50%);white-space:nowrap}
+
+/* the ID card's skill tags, carried over and turned for paper: dark ink and a
+   bronze ulzii instead of ivory and gold */
+.pass-tags{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0;padding:0;list-style:none}
+.pass-tags li{display:inline-flex;align-items:center;gap:7px;
+  padding:.44em .92em;border-radius:999px;
+  /* solid, not a tint: where a tag crosses the watermark the ornament must
+     stop at its edge, not run through the label */
+  border:1px solid rgba(92,70,36,.24);background:#f3eee4;
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:11.5px;letter-spacing:.04em;color:#3a2e22}
+.pass-tags li::before{content:"\2723";font-size:9px;color:#9a7433}
+
+/* the rule runs spine to edge; its ornament sits just off the spine on the
+   paper side, as the reference places it — straddling the edge, it ran into
+   the spine label wherever the label is long enough to reach the rule */
+.pass-rule{position:relative;height:1px;background:rgba(92,70,36,.22)}
+.pass-rule::before{content:"\2723";position:absolute;left:0;top:50%;
+  transform:translate(3px,-52%);font-size:22px;line-height:1;color:#8d6b31;
+  text-shadow:0 1px 0 rgba(255,240,200,.5)}
+
+.pass-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);
+  gap:18px clamp(24px,4vw,56px);
+  padding:clamp(26px,3.4vw,38px) clamp(24px,4.4vw,56px) clamp(30px,4vw,46px)}
+.pass-lead{margin:0;font-family:'GIP','Source Serif 4',Georgia,serif;
+  font-size:15px;line-height:1.5;color:#5f5446}
+.pass-lead b{font-weight:600;color:#3a2e22}
+.pass-facts{margin:0}
+.pass-facts > div{display:flex;align-items:baseline;gap:16px;padding:13px 0;
+  border-bottom:1px solid rgba(92,70,36,.16)}
+.pass-facts > div:first-child{padding-top:0}
+.pass-facts > div:last-child{padding-bottom:0;border-bottom:0}
+/* field labels in the label face, as on a printed form. #5f5038 measures
+   5.6:1 on the darkest stop of the paper gradient and 5.1:1 on paper dimmed
+   further by the grain, so 10.5px caps still clear 4.5 with margin */
+.pass-facts dt{flex:0 0 8.2em;margin:0;font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  line-height:1.9;color:#5f5038}
+.pass-facts dd{margin:0;font-family:'GIP','Source Serif 4',Georgia,serif;
+  font-size:14.5px;line-height:1.45;color:#3a2e22}
+
+@media (max-width:720px){
+  .pass-grid{grid-template-columns:1fr}
+}
+/* The footnote, the way the reference sets its conditions line under the
+   pass: small, on the ground rather than the paper. It carries the one thing
+   the title cannot say for itself — that the lineage is real, and what заргач
+   means — which is the difference between a styled name and a costume.
+   Aligned to the paper, not the spine.
+
+   It was --ab-faint, which passes on flat black (5.6:1) but sits on the
+   хана, whose lit strokes take it down to 4.8 — legal and tiring. It reads in
+   the card text's ivory instead: 9.6:1 on black, 8.3 on the pattern. */
+.pass-mark{margin-left:.12em;font-style:normal;color:#9a7433}
+.pass-note{max-width:68ch;margin:18px 0 0 clamp(30px,3.2vw,38px);
+  font-family:'GIP','Source Serif 4',Georgia,serif;font-size:14px;line-height:1.7;
+  color:var(--ab-ivory-2)}
+
+/* same room the ID card makes for its tag — below 861 the gerege is hidden,
+   and so is the hole it would hang from */
+@media (min-width:861px){
+  .pass-head,.pass-grid{padding-right:clamp(96px,8.8vw,106px)}
+}
+@media (max-width:860px){
+  .pass{--hole:0px}
+  .pass-eyelet{display:none}
+}
+
+/* ---------- the page under the card ----------
+   The card is a title page, not the whole page. Everything below it runs in
+   normal flow on the same ground and is held together by the gold hairline
+   rather than by panels — a ledger, not a stack of cards. Capping .stage is
+   what makes that legible: at full width the board filled the viewport and
+   nothing underneath it was ever discovered. */
+.stage{max-width:1000px}
+
+.ab-sec{margin:clamp(64px,11vh,120px) 0 0}
+.ab-sec > h2{margin:0 0 8px;
+  font-family:var(--f-display),'Source Serif 4',Georgia,serif;
+  font-style:italic;font-weight:500;font-size:clamp(26px,3.4vw,38px);
+  line-height:1.15;letter-spacing:.005em;color:var(--ab-gold)}
+.ab-note{margin:0 0 clamp(22px,3.4vh,34px);
+  font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:var(--t-micro,10.5px);font-weight:600;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ab-faint);line-height:1.9}
+.ab-note a{color:var(--ab-ivory-2);text-decoration:none;
+  border-bottom:1px solid rgba(216,173,92,.3)}
+.ab-note a:hover{color:var(--ab-gold)}
+
+/* experience — a centred timeline, after mescubook.com's: a hairline down the
+   middle that fills with the scroll, one dot per role on it, the role's card
+   on one side and its start year set huge on the other, alternating. Their
+   recipe, measured: 1fr / 60px / 1fr columns, a 420px card, a 128px year at
+   low opacity that brightens and swells as its row nears mid-screen. Recoloured
+   for this page — the year is the gold serif italic of the section headings,
+   the card is lacquer-dark with a gold hairline instead of grey on grey.
+
+   Everything that moves is in about-motion.js and is off for reduced motion;
+   without it the timeline is simply laid out, years at a fixed dim. */
+/* The heading is centred between two short rules, the way the reference sets
+   its own, and the line begins just under it rather than running through it:
+   it lives in .xp, and reaches up across the heading's bottom margin
+   (--xp-gap) to stop 18px short of the word. */
+.xp-sec{position:relative;margin-top:clamp(44px,8vh,80px);--xp-gap:clamp(90px,15vh,160px)}
+.xp-head{position:relative;z-index:1;display:flex;justify-content:center;
+  padding-top:clamp(40px,7vh,80px);margin-bottom:var(--xp-gap)}
+.xp-head h2{display:flex;align-items:center;gap:clamp(22px,6vw,70px);margin:0;
+  /* the page's own section-heading voice — gold serif italic, as .ab-sec > h2
+     — rather than the reference's uppercase grotesque; only the layout is
+     theirs */
+  font-family:var(--f-display),'Source Serif 4',Georgia,serif;
+  font-style:italic;font-weight:500;font-size:clamp(26px,3.4vw,38px);
+  line-height:1.15;letter-spacing:.005em;color:var(--ab-gold)}
+.xp-head h2::before,.xp-head h2::after{content:"";flex:none;
+  width:clamp(48px,11vw,116px);height:1px;background:rgba(216,173,92,.2)}
+.xp{position:relative}
+.xp-line{position:absolute;left:50%;top:calc(18px - var(--xp-gap));bottom:0;width:1px;margin-left:-.5px;
+  background:rgba(216,173,92,.13);pointer-events:none}
+.xp-line i{position:absolute;left:0;top:0;width:100%;height:0;
+  background:linear-gradient(180deg,rgba(216,173,92,.3),var(--ab-gold));
+  box-shadow:0 0 12px rgba(216,173,92,.35)}
+.xp-item{display:grid;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);
+  align-items:center;padding-bottom:clamp(120px,20vh,210px);perspective:1200px}
+.xp-item:last-child{padding-bottom:0}
+/* The start year in Mongol Bichig digits, set horizontally in Noto Sans
+   Mongolian — the same treatment the step numerals get on how-i-work
+   (leaf.css). One weight, no italic, so the face is asked for neither: a
+   synthesised slant on these would be a fake the eye catches at this size.
+   aria-hidden, so the digits are decoration; the period line carries the date. */
+/* Line-height stays normal: the face's content area is 1.75em (ascent 1.46,
+   descent .29) with the digits' ink between about .74em and 1.47em from the
+   top, and background-clip:text paints only inside the box — at line-height 1
+   the box cropped the lower half of every digit. The negative margins trim
+   the empty band above and below the ink, so the box the grid centres on the
+   dot is the ink itself. */
+.xp-year{grid-column:1;grid-row:1;margin:-.7em 0 -.25em;text-align:right;
+  font-family:'Noto Sans Mongolian',var(--f-display),serif;font-style:normal;
+  font-weight:400;font-size:clamp(60px,8.4vw,116px);line-height:normal;letter-spacing:.02em;
+  background:linear-gradient(176deg,var(--ab-gold-hi) 6%,var(--ab-gold) 44%,#9a7433 86%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:.3;transform-origin:100% 50%}
+.xp-dot{grid-column:2;grid-row:1;justify-self:center;position:relative;z-index:1;
+  width:12px;height:12px;box-sizing:border-box;border-radius:50%;
+  background:var(--ab-ground);border:2px solid rgba(216,173,92,.45);
+  /* the ring of ground colour lifts the dot off the line it sits on */
+  box-shadow:0 0 0 4px var(--ab-ground);
+  transition:background-color .5s,border-color .5s,box-shadow .5s}
+.xp-dot.is-lit{background:var(--ab-gold);border-color:var(--ab-gold-hi);
+  box-shadow:0 0 0 4px var(--ab-ground),0 0 16px rgba(216,173,92,.55)}
+.xp-card{grid-column:3;grid-row:1;justify-self:start;position:relative;overflow:hidden;
+  width:100%;max-width:420px;box-sizing:border-box;
+  padding:clamp(22px,2.6vw,30px) clamp(24px,3.2vw,40px);border-radius:16px;
+  border:1px solid rgba(216,173,92,.14);
+  background:linear-gradient(180deg,rgba(216,173,92,.055),rgba(216,173,92,.018)),#0a0907}
+.xp-item.is-flip .xp-year{grid-column:3;text-align:left;transform-origin:0 50%}
+.xp-item.is-flip .xp-card{grid-column:1;justify-self:end}
+.xp-card.is-draggable{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-y}
+.xp-card.is-dragging{cursor:grabbing}
+.xp-period{margin:0 0 10px;font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:10.5px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ab-gold)}
+.xp-card h3{margin:0;font-family:var(--f-display),'Source Serif 4',Georgia,serif;
+  font-weight:600;font-size:20px;line-height:1.25;color:var(--ab-ivory)}
+/* Hangul has no cut in either page face; name a Korean sans rather than let
+   the serif stack fall through to a system Myeongjo */
+.xp-alt{margin-left:.4em;font-family:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
+  font-size:13px;font-weight:400;color:var(--ab-faint)}
+.xp-role{margin:6px 0 0;font-size:13.5px;line-height:1.5;color:var(--ab-ivory-2)}
+.xp-desc{margin:12px 0 0;font-size:14px;line-height:1.65;color:var(--ab-ivory-2)}
+.xp-links{display:flex;flex-wrap:wrap;gap:6px 18px;margin:16px 0 0}
+/* The card is a drag handle (cursor:grab), so the links inside it say
+   pointer outright rather than trusting the UA rule to win over the card —
+   and pad their hit area out, since 10.5px caps are a 17px-tall target and
+   the pointer kept landing on the card around them. The negative margin
+   gives the padding back so nothing shifts. */
+.xp-links a{display:inline-block;padding:8px 4px;margin:-8px -4px;cursor:pointer;
+  font-family:var(--f-label,'Golos Text',sans-serif);font-size:10.5px;
+  font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--ab-gold);text-decoration:none;transition:color .3s}
+.xp-links a:hover{color:var(--ab-gold-hi)}
+.xp-card.is-dragging .xp-links a{cursor:grabbing}
+
+/* close */
+.ab-close{margin:clamp(70px,12vh,130px) 0 0;
+  padding:clamp(34px,5vh,54px) 0 0;border-top:1px solid rgba(216,173,92,.3)}
+.ab-close p{margin:0 0 22px;
+  font-family:var(--f-display),'Source Serif 4',Georgia,serif;
+  font-style:italic;font-weight:300;font-size:clamp(22px,3vw,32px);
+  line-height:1.42;color:var(--ab-ivory);max-width:26ch}
+.ab-close .mail{font-family:var(--f-label,'Golos Text',sans-serif);
+  font-size:clamp(15px,1.9vw,20px);font-weight:500;letter-spacing:.02em;
+  color:var(--ab-gold);text-decoration:none;
+  border-bottom:1px solid rgba(216,173,92,.36);transition:color .3s}
+.ab-close .mail:hover{color:var(--ab-gold-hi)}
+
+/* ---------- motion ----------
+   The reference site hand-rolls about 37KB of physics for this: pointer tilt,
+   a per-pixel canvas hologram, drag-and-throw with spring return. Two of those
+   three are taken here and one is not.
+
+   The hologram is deliberately dropped. It is a trading-card effect — banded
+   rainbow iridescence — and this card is lacquer and gilt. Gold leaf does not
+   split light into hues, it rakes: one warm band that slides as the surface
+   turns. That is a gradient moving under a mask, which costs a CSS variable a
+   frame instead of 30'000 pixels of createImageData.
+
+   Everything below is off entirely under prefers-reduced-motion, and the tilt
+   additionally requires a fine pointer — tilting toward a finger that is
+   already covering the card is motion nobody can see. */
+.stage,.pass-stage{perspective:1500px}
+/* The card and the thing hanging off it take the pointer tilt together, from
+   one element, because a tag that stays flat while the card it hangs on turns
+   reads as floating in front of the card rather than attached to it. They
+   cannot simply be nested — .idc clips to its own radius and would cut the tag
+   off — so .tilt wraps both and carries the transform for the pair. */
+.tilt{position:relative;transform-style:preserve-3d}
+.idc{transform-style:preserve-3d}
+
+.idc-sheen{position:absolute;inset:0;z-index:4;pointer-events:none;
+  opacity:0;transition:opacity .5s ease;overflow:hidden;
+  background:radial-gradient(42% 64% at var(--sx,50%) var(--sy,50%),
+    rgba(240,219,166,.17),rgba(240,219,166,.05) 44%,transparent 70%)}
+.is-lit > .idc-sheen{opacity:1}
+/* the rake — a narrow band of caught light, offset by how far the card has
+   turned rather than by where the pointer is, so it behaves like a reflection
+   and not like a second cursor */
+.idc-sheen::after{content:"";position:absolute;inset:-40% -60%;
+  background:linear-gradient(104deg,transparent 44%,
+    rgba(255,242,212,.12) 50%,transparent 56%);
+  transform:translate3d(var(--rake,0),0,0)}
+
+/* entrance and scroll reveals. The vocabulary is the one work.css uses for the
+   NetPay reveals (.rv / .rv-in / --rv-d) — redeclared rather than imported,
+   because this page loads leaf.css only and pulling in the whole case sheet
+   for six rules would undo the reason it is scoped to this file. */
+.rv{will-change:opacity,transform}
+.rv-rise{opacity:0;transform:translateY(15px)}
+.rv-lift{opacity:0;transform:scale(.988)}
+.rv-in{opacity:1;transform:none;
+  transition:opacity .7s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms),
+             transform .85s cubic-bezier(.22,.61,.36,1) var(--rv-d,0ms)}
+
+.idc-enter{opacity:0;transform:translateY(24px) rotateX(6deg)}
+.idc-enter.is-in{opacity:1;transform:none;
+  transition:opacity .9s cubic-bezier(.22,.61,.36,1),
+             transform 1.05s cubic-bezier(.22,.61,.36,1)}
+
+.scrollcue span{animation:cue 2.6s ease-in-out infinite}
+@keyframes cue{0%,100%{opacity:.35;transform:scaleY(.72)}50%{opacity:1;transform:scaleY(1)}}
+
+@media (prefers-reduced-motion:reduce){
+  .rv,.rv-rise,.rv-lift,.idc-enter{opacity:1;transform:none}
+  .rv-in,.idc-enter.is-in{transition:none}
+  .idc-sheen{display:none}
+  .scrollcue span{animation:none}
+}
+
+/* ---------- room for the gerege ----------
+   The page gutter widens so the half of the tag that overhangs has somewhere to
+   hang, and the card's own left padding widens by slightly more than that
+   overhang so the half lapping onto the card lands on padding and never reaches
+   the photograph. Widening only the first pushes it off the card; only the
+   second pushes it off the screen.
+
+   Both sit on the wrap rather than the stage, so the card keeps the same width
+   as the Experience timeline under it — insetting the card alone
+   would knock it off the axis everything else aligns to. */
+@media (min-width:861px){
+  .ab-wrap{padding-left:clamp(72px,7.4vw,100px);
+           padding-right:clamp(72px,7.4vw,100px)}
+  .idc-body{padding-left:clamp(56px,5.2vw,66px);
+             /* the tag laps 91px onto the card, so this floor has to clear that
+                or the САЛБАР column runs underneath it on narrower screens */
+             padding-right:clamp(96px,8.8vw,106px)}
+}
+
+/* ---------- GIP ----------
+   GIP on the reading text, named directly rather than by putting .use-gip on
+   the body. The body class was the obvious route and the wrong one: leaf.css
+   reaches p, li and dd through `body.use-gip p:not(...)` with six chained
+   :not()s — specificity (0,7,2) — which beats anything a single class in this
+   file can say. Opting in meant the eyebrow labels, the photo slot, the scroll
+   cue and the serif line closing the page all silently lost their face, and
+   winning them back needed five overrides, each of them a specificity fight.
+
+   Naming the elements is shorter, stays scoped to this file the way the rest of
+   it is, and cannot reach anything it was not pointed at. The @font-face blocks
+   in leaf.css are not gated on the class, so the family is available anyway.
+
+   GIP is cut at 300/400/500/600 — nothing here asks for 700, which would be
+   synthesised. */
+.idc-bio,
+.idc-spec dd,
+.xp-role,
+.xp-desc{font-family:'GIP','Source Serif 4',Georgia,serif}
+
+/* ---------- narrow ----------
+   The card keeps its anatomy on a phone, but the two-column body cannot hold:
+   at this width the mark panel and the spec row both end up too narrow to
+   read. The mark becomes a short band across the top and everything else
+   runs full width underneath it. */
+@media (max-width:720px){
+  .stage{max-width:none;margin-top:18px}
+  .stage::before{top:-10px;left:-8px}
+  .stage::after{bottom:-10px;right:-8px}
+
+  .idc{border-radius:14px}
+  .idc-body{grid-template-columns:1fr;gap:20px}
+  /* the panel holds a portrait, so it keeps a portrait shape on a phone too */
+  .idc-mark{min-height:280px}
+  .idc-name{font-size:clamp(28px,8vw,40px)}
+  .idc-spec{grid-template-columns:1fr;text-align:left;gap:14px}
+  .idc-spec > div + div{border-left:0;border-top:1px solid var(--ab-line);
+    padding-top:14px}
+  .idc-spec dd,.idc-bio{font-size:15px}
+  .idc-foot{flex-direction:column;align-items:flex-start;gap:12px}
+
+  /* the timeline folds to one side: line and dots on the left edge, the year
+     over its card instead of across from it */
+  .xp-line{left:6px}
+  .xp-sec{--xp-gap:56px}
+  .xp-head{justify-content:flex-start;padding:clamp(32px,6vh,60px) 0 0 30px}
+  .xp-head h2::before{display:none}
+  .xp-item{grid-template-columns:12px minmax(0,1fr);column-gap:18px;
+    align-items:start;padding-bottom:84px}
+  .xp-dot{grid-column:1;grid-row:1;align-self:center}
+  .xp-year,.xp-item.is-flip .xp-year{grid-column:2;grid-row:1;text-align:left;
+    font-size:44px;transform-origin:0 50%}
+  .xp-card,.xp-item.is-flip .xp-card{grid-column:2;grid-row:2;justify-self:stretch;
+    max-width:none;margin-top:12px}
+}
+</style>
+</head>
+
+<body class="case-page case-dark about-page">
+<div class="hana" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="ab-wrap">
+  <header class="top">
+    <a href="index.html" class="micro"><span class="arw">&larr;</span> Portfolio</a>
+    <span class="micro where"><b>03</b> &nbsp;About</span>
+  </header>
+
+
+  <!-- The pass: the page's title card. -->
+  <section class="pass-stage" aria-labelledby="pass-h">
+    <div class="tilt">
+      <!-- same gerege, same rig as the ID card's: .hang pins at the eyelet and
+           about-motion.js swings every .hang on the page -->
+      <div class="hang" aria-hidden="true">
+      <svg class="idc-rope is-back" viewBox="0 0 26 136">
+        <path d="M13 3 C 7 38, 6 88, 12 127" stroke="rgba(88,63,24,.95)" stroke-width="4.4"/>
+        <path d="M13 3 C 7 38, 6 88, 12 127" stroke="rgba(228,193,122,.96)" stroke-width="2.3"/>
+      </svg>
+      <svg class="idc-rope is-front" viewBox="0 0 26 136">
+        <path d="M13 3 C 19 38, 20 88, 14 127" stroke="rgba(78,55,20,.95)" stroke-width="4.4"/>
+        <path d="M13 3 C 19 38, 20 88, 14 127" stroke="rgba(236,203,136,.97)" stroke-width="2.3"/>
+      </svg>
+      <span class="idc-knot"></span>
+      <img class="gerege-hang" src="art/about/gerege.webp?v=3"
+           width="330" height="1098" loading="lazy" decoding="async" alt="">
+      </div>
+
+    <div class="pass-shade">
+    <div class="pass">
+      <span class="pass-eyelet" aria-hidden="true"></span>
+      <span class="pass-orn" aria-hidden="true"><i></i></span>
+      <!-- the press for the watermark: an inner shadow on the reference's
+           values (blur 2.5, drop 3), the ink raised from .15 to .2 because
+           these ribbons are finer than their damask and carry less edge.
+           Their filter first snaps alpha to 0/1 (slope 9999); that is left
+           out here, because on a traced edge it turns the antialiasing back
+           into stair-steps along the shadow's rim. -->
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <filter id="orn-press" x="0%" y="0%" width="100%" height="100%" color-interpolation-filters="sRGB">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="2.5" result="blur"/>
+          <feOffset in="blur" dx="0" dy="3" result="drop"/>
+          <feComposite in="drop" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="rim"/>
+          <feFlood flood-color="#131110" flood-opacity=".2" result="ink"/>
+          <feComposite in="ink" in2="rim" operator="in" result="shade"/>
+          <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="shade"/></feMerge>
+        </filter>
+      </svg>
+      <div class="pass-spine" aria-hidden="true"><i class="pass-leaf"></i><span lang="en">UI/UX &amp; Product Designer</span></div>
+      <div class="pass-body">
+        <div class="pass-head">
+          <h1 id="pass-h" class="pass-name">
+            <span class="pass-kin">Алтангадас заргачийн охин</span>
+            <span>Мөрөнгуа<span class="pass-sr">,</span></span>
+            <span class="pass-clan">Боржигон овогтон<span class="pass-mark" aria-hidden="true">*</span></span>
+          </h1>
+          <!-- Industry-standard names, each one backed by a case page:
+               research, testing, flows and the system (NetPay, Voice), Design
+               QA — Figma checked against production (NetPay, how-i-work), the
+               outcome figures (NetPay, Voice), the AI-assisted step
+               (how-i-work), the identity (SmileLine). -->
+          <ul class="pass-tags" lang="en" aria-label="Skills">
+            <li>Product design</li>
+            <li>User research</li>
+            <li>Usability testing</li>
+            <li>Prototyping</li>
+            <li>Design systems</li>
+            <li>UX writing</li>
+            <li>Design QA</li>
+            <li>Product metrics</li>
+            <li>AI-assisted design</li>
+            <li>Brand identity</li>
+          </ul>
+        </div>
+        <div class="pass-rule" aria-hidden="true"></div>
+        <div class="pass-grid">
+          <p class="pass-lead"><b>Товчоор</b></p>
+          <!-- The pass's document fields: who, at a glance. Deliberately not a
+               preview of the section below — where the work was done has its
+               own place in Experience; this is who, not where. -->
+          <dl class="pass-facts">
+            <div><dt>Төрөл</dt><dd lang="en">Product Designer</dd></div>
+            <div><dt>Туршлага</dt><dd>+2 жил</dd></div>
+            <div><dt>Салбар</dt><dd lang="en">Fintech, creative industries</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- outside .tilt, so the note stays put while the card leans -->
+    <p class="pass-note">* Нэрийг хуучны ёсоор бичив: эцгийн нэр ба мэргэжил, өөрийн нэр,
+      овог. Эцэг Алтангадас хуульч &mdash; эрт цагт заргач гэдэг байв. Гэрэгэ нь
+      Их Монгол Улсын үед элч, түшмэдэд олгодог байсан эрх мэдлийн пайз.</p>
+  </section>
+
+  <p class="scrollcue" aria-hidden="true">Scroll<span></span></p>
+
+  <section class="ab-sec xp-sec" aria-labelledby="xp-h">
+    <div class="xp-head">
+      <h2 id="xp-h" lang="en">Experience</h2>
+    </div>
+
+    <!-- Newest first. The big year is the start year and is decoration — the
+         card's own period line carries the dates for everyone, so the year is
+         aria-hidden. Descriptions are kept in the owner's English. -->
+    <div class="xp">
+      <span class="xp-line" aria-hidden="true"><i></i></span>
+
+      <article class="xp-item">
+        <p class="xp-year" lang="mn-Mong" aria-hidden="true">᠒᠐᠒᠕</p>
+        <span class="xp-dot" aria-hidden="true"></span>
+        <div class="xp-card">
+          <p class="xp-period">2025.02 &mdash; 2026.09</p>
+          <h3>NetCapital</h3>
+          <p class="xp-desc" lang="en">Interface improvements and UX optimization.
+            Product illustrations and creative assets.</p>
+          <p class="xp-links"><a href="work-netpay.html">NetPay &rarr;</a><a href="work-voice.html">Voice &rarr;</a></p>
+        </div>
+      </article>
+
+      <article class="xp-item is-flip">
+        <p class="xp-year" lang="mn-Mong" aria-hidden="true">᠒᠐᠒᠔</p>
+        <span class="xp-dot" aria-hidden="true"></span>
+        <div class="xp-card">
+          <p class="xp-period">2024.08 &mdash; 2024.10</p>
+          <h3>MOT Forex LLC</h3>
+          <p class="xp-desc" lang="en">Rebranding and visual identity support.
+            Product design for internal platforms.</p>
+        </div>
+      </article>
+
+      <article class="xp-item">
+        <p class="xp-year" lang="mn-Mong" aria-hidden="true">᠒᠐᠒᠔</p>
+        <span class="xp-dot" aria-hidden="true"></span>
+        <div class="xp-card">
+          <p class="xp-period">2024.04 &mdash; 2024.08</p>
+          <h3>CSKIT <span class="xp-alt" lang="ko">씨스킷주식회사</span></h3>
+          <p class="xp-role" lang="en">UI/UX Designer Intern &amp; Front-end Intern</p>
+          <p class="xp-links"><a href="work-ohayofx.html">OhayoFX &rarr;</a></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="ab-close" aria-labelledby="cl-h">
+    <h2 id="cl-h" class="ab-note" lang="en" style="margin-bottom:18px">Open to work</h2>
+    <p>Сонирхолтой асуудал байвал бичээрэй.</p>
+    <a class="mail" href="mailto:battsetseg.b@netgroup.mn">battsetseg.b@netgroup.mn</a>
+  </section>
+
+    <nav class="foot" aria-label="Other sections">
+      <div class="micro">Elsewhere</div>
+      <div class="foot-l">
+        <a href="work.html">My Work</a>
+        <a href="how-i-work.html">How I Work</a>
+        <a href="about.html" aria-current="page">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </nav>
+</div>
+<script src="scroll.js?v=4" defer></script>
+<script src="about-motion.js?v=9" defer></script>
+</body>
+</html>

@@ -7,7 +7,7 @@ a process page, About and Contact.
 Static site. No build step, no dependencies, no framework — plain HTML, two
 stylesheets and a few small scripts. It deploys to Vercel as-is: `vercel.json`
 sets no framework plus the cache headers, and `.vercelignore` keeps this
-README, `CLAUDE.md`, `serve.py` and `art/_source/` out of the deploy.
+README, `CLAUDE.md`, `serve.py`, every `_source/` and `art/_archive/` out of the deploy.
 
 ## Running it
 
