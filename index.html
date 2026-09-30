@@ -32,9 +32,11 @@
   --ab-ivory-2:#b9ae9c;
   --ab-faint:#8d8275;
   --ab-line:rgba(196,164,100,.22);
-  /* the bar's height (its padding twice, one line, the hairline): the
-     first screen's rows sit under it */
-  --nav-h:calc(clamp(14px,2.2vh,21px) * 2 + 17.8px);
+  /* the bar's height (its top padding, one 15px line, 13px under it): the
+     first screen's rows sit under it, about where they sat under the old
+     bar (59.8px then, 58px now at 1440) */
+  --nav-pad:clamp(16px,2vw,28px);
+  --nav-h:calc(var(--nav-pad) + 30px);
   --side:clamp(16px,4vw,48px);
   /* the ground's two tiles (.one) */
   --hana-tile:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='346' height='346'%3E%3Cdefs%3E%3Cpath id='h' d='M1,7 1,10 3,10 3,11 1,11 1,13 0,13 0,0 1,0 1,2 3,2 3,3 1,3 1,6 16,6 16,3 14,3 14,2 16,2 16,0 17,0 17,13 16,13 16,11 14,11 14,10 16,10 16,7Z'/%3E%3Cpath id='v' d='M0,17 0,16 2,16 2,14 3,14 3,16 6,16 6,1 3,1 3,3 2,3 2,1 0,1 0,0 13,0 13,1 11,1 11,3 10,3 10,1 7,1 7,16 10,16 10,14 11,14 11,16 13,16 13,17Z'/%3E%3Cpattern id='p' width='20' height='20' patternUnits='userSpaceOnUse' patternTransform='rotate(-14.0362) scale(4.19587)'%3E%3Cg fill='%23c4a464'%3E%3Cuse href='%23h' x='1' y='10'/%3E%3Cuse href='%23h' x='1' y='-10'/%3E%3Cuse href='%23h' x='-19' y='10'/%3E%3Cuse href='%23h' x='-19' y='-10'/%3E%3Cuse href='%23h' x='11' y='0'/%3E%3Cuse href='%23h' x='11' y='-20'/%3E%3Cuse href='%23h' x='-9' y='0'/%3E%3Cuse href='%23h' x='-9' y='-20'/%3E%3Cuse href='%23v' x='3' y='18'/%3E%3Cuse href='%23v' x='3' y='-2'/%3E%3Cuse href='%23v' x='-17' y='18'/%3E%3Cuse href='%23v' x='-17' y='-2'/%3E%3Cuse href='%23v' x='13' y='8'/%3E%3Cuse href='%23v' x='13' y='-12'/%3E%3Cuse href='%23v' x='-7' y='8'/%3E%3Cuse href='%23v' x='-7' y='-12'/%3E%3C/g%3E%3C/pattern%3E%3C/defs%3E%3Crect width='346' height='346' fill='url(%23p)'/%3E%3C/svg%3E");
@@ -199,22 +201,52 @@ a{color:inherit}
 .no-rig .one{margin-top:0}
 
 /* the bar, from the first screen on (owner's brief, 2026-09-30; it used
-   to come down with About) */
-.onav{position:fixed;top:0;left:0;right:0;z-index:40;
-  display:flex;align-items:center;justify-content:space-between;gap:20px;
-  padding:clamp(14px,2.2vh,21px) clamp(16px,4vw,48px);
-  font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
-  letter-spacing:.22em;text-transform:uppercase;line-height:1.6;
-  background:rgba(0,0,0,.88);color:var(--ab-ivory-2);border-bottom:1px solid rgba(196,164,100,.14);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.onav a{text-decoration:none;transition:color .3s}
-.onav a:hover,.onav a[aria-current]{color:var(--ab-gold)}
+   to come down with About). Laid out after benjamincreative.me's (owner's
+   asking, 2026-09-30: "copy this one's nav bar, and remove ours"): no
+   ground of its own, the name at the left, the sections in even columns
+   from a third of the way across (theirs: 32.5% then 14.7% each), the
+   email at the right, 15px sentence case at .75 ivory; each name rolls up
+   on hover, its letters one after another with their copy coming up from
+   below. Their small grey marks are ours in bichig digits (᠑ ᠒ ᠓, as in
+   About's Experience years). It passes clicks through where it has no
+   link, so it never covers the page under it. Their page is dark all
+   through; ours has About's cream card, which scrolls under the bar and
+   swallowed ivory type, so a link over the card turns dark ink (.is-light,
+   set by the bar's script as it scrolls). A difference blend did the same
+   in one line but left the bar unpainted over the chest's composited
+   layers in Chrome, so it came off. */
+.onav{position:fixed;top:0;left:0;right:0;z-index:40;height:var(--nav-h);
+  display:grid;grid-template-columns:32.5% repeat(3,14.7%) 1fr;align-items:start;
+  padding:var(--nav-pad) var(--nav-pad) 0;pointer-events:none;
+  font-family:var(--f-label);font-size:15px;font-weight:500;letter-spacing:-.02em;line-height:1;
+  color:rgba(239,231,218,.75)}
+.onav a{pointer-events:auto;justify-self:start;display:inline-flex;align-items:flex-start;gap:3px;
+  color:inherit;text-decoration:none;transition:color .3s}
+.onav a:hover,.onav a[aria-current]{color:var(--ab-ivory)}
 .onav a:focus-visible{outline:1px solid var(--ab-gold);outline-offset:4px}
-.onav-l{display:flex;gap:clamp(14px,2.6vw,36px)}
+.onav-l{display:contents}
+.onav-cta{grid-column:5;justify-self:end !important}
+.onav-n{font-family:'Noto Sans Mongolian',var(--f-label),sans-serif;font-size:11px;line-height:1;
+  margin-top:-3px;color:rgba(239,231,218,.4);transition:color .3s}
+.onav a[aria-current] .onav-n{color:var(--ab-gold)}
+.onav a.is-light{color:#2b2319}
+.onav a.is-light .onav-n{color:rgba(43,35,25,.55)}
+/* the roll: each letter carries its copy one line below as a shadow, in a
+   box one line tall; on hover the letters rise a line, 18ms apart */
+.roll{--lh:1.15em;display:inline-flex;height:var(--lh);line-height:var(--lh);overflow:hidden;
+  margin:calc((1 - 1.15) * .5em) 0}
+.roll i{display:block;font-style:normal;white-space:pre;text-shadow:0 var(--lh) 0 currentColor;
+  transition:transform .55s cubic-bezier(.7,0,.2,1) calc(var(--i) * 18ms)}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .onav a:hover .roll i,.onav a:focus-visible .roll i{transform:translateY(calc(-1 * var(--lh)))}
+}
+@media (max-width:860px){
+  .onav{grid-template-columns:1fr repeat(3,auto) auto;column-gap:clamp(12px,3vw,28px);font-size:14px}
+}
 @media (max-width:560px){
-  .onav{letter-spacing:.14em}
-  .onav-home{display:none}
-  .onav-l{width:100%;justify-content:space-between}
+  .onav{grid-template-columns:repeat(3,auto) 1fr}
+  .onav-home{display:none !important}
+  .onav-cta{grid-column:4}
 }
 
 /* ---------- About's ground, under About and My Work (about.html) ---------- */
@@ -787,12 +819,13 @@ a{color:inherit}
 
 <!-- first in the document, so Tab reaches the bar before the chest -->
 <nav class="onav" id="onav" aria-label="Sections">
-  <a class="onav-home" href="#">Portfolio</a>
+  <a class="onav-home" href="#"><span class="onav-t">Portfolio</span></a>
   <div class="onav-l">
-    <a href="#about">About</a>
-    <a href="#work">Work</a>
-    <a href="#how">How I Work</a>
+    <a href="#about"><span class="onav-t">About</span><span class="onav-n" aria-hidden="true">᠑</span></a>
+    <a href="#work"><span class="onav-t">Work</span><span class="onav-n" aria-hidden="true">᠒</span></a>
+    <a href="#how"><span class="onav-t">How I Work</span><span class="onav-n" aria-hidden="true">᠓</span></a>
   </div>
+  <a class="onav-cta" href="mailto:battsetseg.b@netgroup.mn"><span class="onav-t">Let&rsquo;s talk</span></a>
 </nav>
 
 <div class="loader" id="loader"><div class="loader-in">
@@ -1518,17 +1551,48 @@ if (HUD && tl){
 
 /* The bar. It is up from the first screen (owner's brief, 2026-09-30);
    the lit link follows the section under its middle. An in-page link glides there rather than jumping, so the chest
-   scrubs shut on the way back to the top. How I Work and Contact are
-   their own pages now. */
+   scrubs shut on the way back to the top. */
 (function(){
   const one = document.getElementById('one');
   const nav = document.getElementById('onav');
+  /* each name into letters for the roll (see the style): the letters are
+     hidden from screen readers, which read the whole word beside them;
+     without the script the names are plain text and don't roll */
+  for (const t of nav.querySelectorAll('.onav-t')){
+    const word = t.textContent;
+    const sr = document.createElement('span');
+    sr.className = 'sr';
+    sr.textContent = word;
+    const roll = document.createElement('span');
+    roll.className = 'roll';
+    roll.setAttribute('aria-hidden', 'true');
+    [...word].forEach((ch, i) => {
+      const l = document.createElement('i');
+      l.textContent = ch;
+      l.style.setProperty('--i', i);
+      roll.append(l);
+    });
+    t.replaceChildren(sr, roll);
+  }
   const secs = [...one.querySelectorAll(':scope > section[id]')];
   const links = [...nav.querySelectorAll('.onav-l a[href^="#"]')];
+  const all = [...nav.querySelectorAll('a')];
+  const card = document.querySelector('.pass');
   let cur, pending = false;
   function check(){
     pending = false;
     const h = nav.offsetHeight;
+    /* a link over About's cream card goes dark (see the style) */
+    const c = card && card.getBoundingClientRect();
+    const over = c && c.top < h && c.bottom > 0;
+    for (const a of all){
+      let on = false;
+      if (over){
+        const r = a.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+        on = x > c.left && x < c.right && y > c.top && y < c.bottom;
+      }
+      a.classList.toggle('is-light', on);
+    }
     let s = null;
     for (const el of secs){
       const r = el.getBoundingClientRect();
