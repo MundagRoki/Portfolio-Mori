@@ -19,11 +19,12 @@
   if (!OK.matches || !document.body.animate) return;
 
   const VIEW = 'a[href^="work-"]';
-  /* over the drum's hearth the cursor is a fire (owner's asking, 2026-09-30:
-     "change my mouse when I hover this and show fire instead"): the ring and
-     dot give way to a small flame on the pointer, gold, and burning once the
-     hearth is lit; the button's own flame dims under it */
-  const FIRE = '.wr-hearth';
+  /* over the drum the cursor is a fire (owner's asking, 2026-09-30: "show
+     fire instead", first over the hearth's button, then, the button gone,
+     over the whole drum once its rings have closed): the ring and dot give
+     way to a small flame on the pointer, gold, and burning once the hearth
+     is lit, which a click on the drum does (index.html) */
+  const FIRE = '.tz.is-closed .wr-t';
   const HOT = 'a[href],button:not(:disabled),[role=button],label[for],summary,' +
     '.gerege-hang,.xp-card.is-draggable,.wr-t.is-grab,.held';
   const MAGNET = '.onav a';
@@ -54,7 +55,6 @@ html.cur-on,html.cur-on *{cursor:none !important}
 .cur-fire.is-on g{animation-play-state:running}
 .cur-fire.is-lit g{animation-duration:.8s}
 @keyframes cur-flick{0%,100%{transform:scale(1,1)}30%{transform:scale(.95,1.07) skewX(-2deg)}60%{transform:scale(1.04,.95) skewX(2deg)}80%{transform:scale(.98,1.03)}}
-.cur-on .wr-hearth svg{transition:opacity .3s}.cur-on .wr-hearth:hover svg{opacity:.25}
 .cur-on ${MAGNET}{transition:color .3s,transform .4s cubic-bezier(.22,1,.36,1)}`;
   document.head.appendChild(style);
 
@@ -76,7 +76,8 @@ html.cur-on,html.cur-on *{cursor:none !important}
     const t = e.target instanceof Element ? e.target : null;
     const was = kind;
     kind = t && t.closest(FIRE) ? 'fire' : t && t.closest(VIEW) ? 'view' : t && t.closest(HOT) ? 'hot' : '';
-    if (kind !== was){ fire.classList.toggle('is-on', kind === 'fire'); if (kind === 'fire') litNow(); }
+    if (kind !== was) fire.classList.toggle('is-on', kind === 'fire');
+    if (kind === 'fire') litNow();
     /* a link in the bar leans toward the pointer, a few px at most */
     const m = t && t.closest(MAGNET);
     if (m !== magnet){ if (magnet) magnet.style.transform = ''; magnet = m; }
@@ -142,8 +143,9 @@ html.cur-on,html.cur-on *{cursor:none !important}
     set(e); show(true); shed(); go();
   }, {passive: true});
   addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; ring.classList.add('is-down'); go(); }, {passive: true});
-  addEventListener('pointerup', () => { down = false; ring.classList.remove('is-down'); go(); }, {passive: true});
-  addEventListener('click', () => { if (kind === 'fire') litNow(); });
+  /* the drum's own pointerup (on the element, so before this one) has just
+     lit or put out its fire: the flame takes the new colour at once */
+  addEventListener('pointerup', () => { down = false; ring.classList.remove('is-down'); if (kind === 'fire') litNow(); go(); }, {passive: true});
   /* off the window, or the page hidden: out of sight until it comes back */
   document.addEventListener('mouseout', e => { if (!e.relatedTarget){ show(false); if (magnet){ magnet.style.transform = ''; magnet = null; } go(); } });
   addEventListener('blur', () => { show(false); go(); });
@@ -202,6 +204,9 @@ html.cur-on,html.cur-on *{cursor:none !important}
   addEventListener('pointerdown', e => {
     if (e.pointerType !== 'mouse' || e.button) return;
     if (e.target instanceof Element && e.target.closest(CLICKABLE)){ trail = null; return; }
+    /* a click on the drum lights its fire: no toss then, but a drag from it
+       still leaves the trail */
+    if (e.target instanceof Element && e.target.closest(FIRE)){ trail = [e.clientX, e.clientY]; return; }
     for (let n = 0; n < 4; n++)
       throwOne(e.clientX, e.clientY, (n - 1.5) * 30 + r(-8, 8), -r(32, 56), r(12, 26), 540, r(1500, 1800), n * 28);
     trail = [e.clientX, e.clientY];
