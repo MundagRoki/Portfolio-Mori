@@ -785,6 +785,12 @@ a{color:inherit}
    the script on a canvas from the draft's frames. Pinned only on a wide
    screen with motion allowed; otherwise the words over a still of the bowl. */
 .hw{position:relative;z-index:3;color:var(--ab-ivory)}
+/* sliding in from the right at the end of Recent work (see the script):
+   clipped sideways so the screen waiting off to the right never widens the
+   page (clip, not hidden, so the pin still sticks), and a soft shadow on
+   its leading edge over the clouds */
+.hw.is-slide{overflow-x:clip}
+.hw.is-slide .hw-pin{box-shadow:-48px 0 70px rgba(0,0,0,.55);will-change:transform}
 .hw-pin{position:relative;display:flex;flex-direction:column;align-items:center;
   padding:calc(var(--nav-h) + 40px) var(--side) 64px;text-align:center}
 .hw.is-on .hw-pin{position:sticky;top:0;height:100vh;overflow:hidden;justify-content:center;
@@ -1557,10 +1563,12 @@ if (HUD && tl){
       }
       a.classList.toggle('is-light', on);
     }
+    /* the last section over the bar's middle, as later ones lie on top;
+       one that slides in (How I Work) counts once its slide has landed */
     let s = null;
     for (const el of secs){
-      const r = el.getBoundingClientRect();
-      if (r.top <= h/2 && r.bottom > h/2){ s = el; break; }
+      const r = el.getBoundingClientRect(), top = r.top + (+el.dataset.jump || 0);
+      if (top <= h/2 && r.bottom > h/2) s = el;
     }
     const id = s ? s.id : '';
     if (id !== cur){
@@ -1579,7 +1587,8 @@ if (HUD && tl){
     if (!a) return;
     const el = a.hash.length > 1 ? document.querySelector(a.hash) : null;
     e.preventDefault();
-    goScroll(el ? el.getBoundingClientRect().top + scrollY : 0);
+    /* a section that slides in (How I Work) lands where its slide has */
+    goScroll(el ? el.getBoundingClientRect().top + scrollY + (+el.dataset.jump || 0) : 0);
     history.replaceState(null, '', a.hash || location.pathname + location.search);
   });
 })();
@@ -2115,6 +2124,21 @@ if (HUD && tl){
   measure();
 })();
 
+/* Recent work runs on into How I Work sideways (owner's asking, 2026-09-30:
+   "I want this scroll to continue horizontal"): past the last case the row
+   keeps moving left, and How I Work's screen comes in from the right on the
+   end of it, over SLIDE screen-widths of scroll; then How I Work plays as
+   before. The slide leaves at the row's own speed (its RATE, .5px a pixel of
+   scroll), so nothing jolts at the handover, and eases to a stop as How I
+   Work lands: a cubic with that slope at the start and none at the end
+   (monotone; its top speed about 1.14px a pixel). How I Work's section is
+   drawn up over the end of Recent work's runway (a negative margin) so its
+   screen is pinned the whole way across. Only where both are pinned (a wide
+   screen with motion allowed); elsewhere the two stack as before. */
+const SLIDE = 1.2, SLIDE_M = .5 * SLIDE;
+const slideEase = u => SLIDE_M * (u * u * u - 2 * u * u + u) + 3 * u * u - 2 * u * u * u;
+const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
+
 /* Recent work, after designxhand.com's agenda (see the style): while its
    runway scrolls past, the screen holds and the row slides left RATE px a
    pixel of scroll; each picture drifts against the row as it crosses. Everything is
@@ -2140,12 +2164,15 @@ if (HUD && tl){
   const mq = matchMedia('(min-width:861px) and (prefers-reduced-motion:no-preference)');
   const RATE = .5, AMP = 22, PERIOD = 1700;
   const DPR = devicePixelRatio || 1, snap = v => Math.round(v * DPR) / DPR;
-  let on = false, pending = false, travel = 0, vw = 0, lastX = null, introO = null;
+  let on = false, pending = false, travel = 0, vw = 0, lastX = null, introO = null, slide = 0;
   const lineY = x => AMP * Math.sin(2 * Math.PI * x / PERIOD + 1.1);
   function draw(){
     pending = false;
     if (!on) return;
-    const x = Math.max(0, Math.min(travel, -sec.getBoundingClientRect().top * RATE));
+    const sy = -sec.getBoundingClientRect().top;
+    let x = Math.max(0, Math.min(travel, sy * RATE));
+    /* then the slide into How I Work, the row carried on with it */
+    if (slide && sy * RATE > travel) x = travel + vw * slideEase(Math.min(1, (sy - travel / RATE) / slide));
     if (x !== lastX){
       lastX = x;
       track.style.transform = `translate3d(${-snap(x)}px,0,0)`;
@@ -2174,7 +2201,7 @@ if (HUD && tl){
     if (io !== introO){ introO = io; intro.style.opacity = io; }
   }
   function reset(){
-    sec.style.height = ''; track.style.transform = ''; track.style.width = ''; intro.style.width = ''; intro.style.opacity = ''; introO = null;
+    sec.style.height = ''; track.style.transform = ''; track.style.width = ''; intro.style.width = ''; intro.style.opacity = ''; introO = null; slide = 0;
     lit.style.transform = litIn.style.transform = '';
     for (const it of items){ it.el.style.left = it.el.style.top = ''; it.el.classList.remove('is-in'); it.inn = null;
       for (const f of it.phs){ Object.assign(f.el.style, {left:'', top:'', width:'', height:'', transform:'', zIndex:''}); f.img.style.transform = ''; f.v = f.pan = null; } }
@@ -2217,7 +2244,8 @@ if (HUD && tl){
        tile rows land on this one's head; their grain starts at its head. */
     pin.style.setProperty('--tl-cy', '0px');
     pin.style.setProperty('--tl-gy', -H + 'px');
-    sec.style.height = Math.round(H + travel / RATE) + 'px';
+    slide = slideLen();
+    sec.style.height = Math.round(H + travel / RATE + slide) + 'px';
     lastX = null; introO = null;
     draw();
   }
@@ -2331,7 +2359,17 @@ if (HUD && tl){
      to close. */
   const GLIDE = .35, PACE = .55, CATCH = 1;
   let sDraw = null, sWant = 0, lastT = 0, gliding = 0;
-  function want(){ return Math.max(0, Math.min(RUN, -sec.getBoundingClientRect().top / Hh)); }
+  /* its runway starts once the slide from Recent work has landed */
+  function want(){ return Math.max(0, Math.min(RUN, (-sec.getBoundingClientRect().top - slide) / Hh)); }
+  /* the slide in (see SLIDE): the screen, pinned all the way, off to the
+     right until Recent work's row runs out, then in on its end */
+  let slide = 0, slideX = null;
+  function slideIn(){
+    if (!slide) return;
+    const u = Math.max(0, Math.min(1, -sec.getBoundingClientRect().top / slide));
+    const x = Math.round(document.documentElement.clientWidth * (1 - slideEase(u)) * 100) / 100;
+    if (x !== slideX){ slideX = x; pin.style.transform = x ? `translate3d(${x}px,0,0)` : ''; }
+  }
   function glide(t){
     gliding = 0;
     if (!on) return;
@@ -2351,6 +2389,7 @@ if (HUD && tl){
   function draw(){
     pending = false;
     if (!on) return;
+    slideIn();
     if (!gliding){ lastT = 0; gliding = requestAnimationFrame(glide); }
   }
   if (/[?&]debug\b/.test(location.search)) window.__hwS = () => ({draw: sDraw, want: sWant, run: RUN});
@@ -2374,9 +2413,19 @@ if (HUD && tl){
   function measure(){
     on = mq.matches;
     sec.classList.toggle('is-on', on);
-    if (!on){ sec.style.height = ''; words.forEach(w => w.classList.remove('is-cur')); cur = -1; return; }
+    if (!on){
+      sec.style.height = sec.style.marginTop = pin.style.transform = ''; sec.classList.remove('is-slide'); delete sec.dataset.jump;
+      slide = 0; slideX = null; words.forEach(w => w.classList.remove('is-cur')); cur = -1; return;
+    }
     Hh = innerHeight; W = pin.clientWidth; dpr = Math.min(2, devicePixelRatio || 1);
-    sec.style.height = Math.round(Hh * (1 + RUN)) + 'px';
+    /* drawn up over the end of Recent work's runway: its last screen and the
+       slide; the bar's link and a #how link land where the slide has landed */
+    slide = document.querySelector('.tl.is-on') ? slideLen() : 0;
+    sec.classList.toggle('is-slide', slide > 0);
+    sec.style.marginTop = slide ? -(Hh + slide) + 'px' : '';
+    sec.dataset.jump = slide;
+    sec.style.height = Math.round(Hh * (1 + RUN) + slide) + 'px';
+    slideX = null;
     cv.width = Math.round(W * dpr); cv.height = Math.round(Hh * dpr);
     /* the models stand on one ground, a little below the words' middle; the
        tallest (the хөхүүр with its бүлүүр) is .6 of the screen high */
@@ -2418,6 +2467,10 @@ if (HUD && tl){
   document.fonts && document.fonts.ready.then(measure);
   addEventListener('load', measure);
   measure();
+  /* arriving on #how from another page (the case pages' footers): the
+     browser lands on the section's top, where the slide starts, so go on
+     to where it has landed */
+  if (location.hash === '#how') addEventListener('load', () => { if (slide) goScroll(sec.getBoundingClientRect().top + scrollY + slide, true); });
 })();
 
 </script>
