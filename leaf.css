@@ -391,18 +391,3 @@ a{color:inherit}
   .hstop,.hthumb{transition:none}
   .sh{transform:none}
 }
-
-/* the cursor: the хэт цахиур, the fire striker a traveller carried on the
-   sash (owner's asking, 2026-09-30: something from what a Mongol brings on
-   a journey, as the cursor). Drawn for the site (art/site/_source/cursor/),
-   turned so the steel's long upturned horn is the tip (hotspot 2 2), with a
-   light halo and a dark outline so it shows on the black and on About's
-   cream card; 32px, with a 64px copy for sharp screens. Anything clickable
-   takes the strike (brighter steel, three sparks); the sparks struck on a
-   click are the landing's only. Grab, grabbing and the charts' crosshair
-   keep their own cursors, which say what the drag does. */
-html{cursor:url(art/site/cursor/het-32.png) 2 2,auto;
-  cursor:-webkit-image-set(url(art/site/cursor/het-32.png) 1x,url(art/site/cursor/het-64.png) 2x) 2 2,auto}
-a[href],button:not(:disabled),summary,label[for],[role=button],[role=tab]{
-  cursor:url(art/site/cursor/het-strike-32.png) 2 2,pointer;
-  cursor:-webkit-image-set(url(art/site/cursor/het-strike-32.png) 1x,url(art/site/cursor/het-strike-64.png) 2x) 2 2,pointer}

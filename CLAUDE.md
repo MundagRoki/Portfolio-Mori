@@ -1,7 +1,7 @@
 # Portfolio site
 
 Static site. No build step, no package dependencies, no framework — plain HTML,
-two stylesheets, three scripts, inline scripts on two pages, and GSAP from
+two stylesheets, four scripts, inline scripts on two pages, and GSAP from
 cdnjs plus Lenis from jsdelivr on the landing page only. Edit a file and reload.
 
 ## Running it
@@ -83,6 +83,7 @@ a trackpad, the first thing to try is a higher `lerp` (back to .1, or .15).
   `visibility:hidden` + `inert`), so the control never moves; without JS
   they stack. Every chart has its numbers in one of those tables. The old
   tabbed `.cbook` code in this file and `work.css` is unused now.
+- `cursor.js` — the cursor on every page (see Conventions); self-contained, its style injected.
 - `about-motion.js` — About on `index.html` (it runs wherever there is a `.pass-stage`); carries its own scroll listeners. Under the chest the card is far below the fold, so its entrance waits until it is scrolled to, and the tilt waits on the entrance. The Experience years (bichig digits) brighten as their row nears mid-screen but never grow: the scale-up came off at the owner's asking (2026-09-29, "I don't like how it gets bigger").
 - Inline: `index.html` (hero; the only page with GSAP 3.12.5 + ScrollTrigger,
   from cdnjs, and it has a no-GSAP path: the shut chest as a title screen over
@@ -106,7 +107,7 @@ flat ivory, the timeline's years flat gold), no gold glows
 is a flat disc. The pass card's foil spine keeps its leaf gradient: it is gold
 leaf on paper, not type. The timeline's plaques (`.tl-chip`) are brushed gold too, at the owner's asking: metal objects, not gold type. At 10.5px, #c4a464 sits near 8.8:1 on black.
 
-**The cursor is the хэт цахиур** (owner's asking, 2026-09-30: "do research in Mongol өв уламжлал what I should bring when I'm on a journey; it has to be used as cursor"; the owner's pick of хэт цахиур, хөөрөг, аяга and ташуур). The fire striker a traveller carried on the sash, drawn for the site: a leather pouch on its strap with a diamond plaque on the flap, the curved steel riveted along its foot, its ends curling up; turned 28° so the steel's long left horn is the tip (hotspot 2 2); a light halo and a dark outline so it shows on the black and the cream card. The first drawing, turned 62°, laid the pouch on its side and its round boss and loop read as eyes, so the boss became a diamond and the loop a strap. `html` takes `het`, anything clickable (`a[href]`, `button`, `summary`, `label[for]`, `[role=button]`, `[role=tab]`) the strike (brighter steel, three sparks), each as a 32px `url()` then a `-webkit-image-set` with the 64px copy; grab, grabbing and the charts' crosshair keep their own. Declared in `index.html` and at the end of `leaf.css` (so every case page). On the landing only, a mouse click throws 6–8 sparks from the tip (`.spark`, animated with WAAPI and removed, fine pointer only, none under reduced motion). The knife and the ташуур were set aside: a knife's point isn't turned toward people, and the whip is left outside the ger.
+**The cursor is after milancompain.com's** (`cursor.js`, owner's asking, 2026-09-30: "nvm copy this cursor"), measured off theirs in headless Chrome and matched frame for frame: a 5px ivory dot that all but sits on the pointer (.9 of the way a frame) and a 28px 1px ring that glides after it (.14 a frame, settled in ~.7s), both in difference so they go dark on About's cream card; over a link, a button or anything draggable (`.gerege-hang`, `.xp-card.is-draggable`, the drum's `.wr-t.is-grab`, a case page's `.held` screens, whose grab hand is hidden with the native cursor) the ring eases to 1.57; pressed, to .92 of that with a matte gold rim (theirs green) and the dot to 1.39; the bar's links lean up to 4px toward it; moving, it sheds gold dust, a grain every 26px of the pointer's path, 16 at most. Their "visit" bubble with its star is ours as a 76px ring reading "◆ View" on a blurred dark disc over any `a[href^="work-"]`. It injects its own style, runs only while something still moves, hides off the window, and rechecks what is under a still pointer on scroll. Fine pointer with motion allowed only; on touch or under reduced motion the system cursor stays. On every page (`cursor.js?v=1`). The хэт цахиур cursor drawn the same day came off for it (a traveller's fire striker turned so its steel's horn was the tip, with a strike version and sparks on click); its drawings are kept in `art/site/_source/cursor/`, its PNGs are in git history (c141a78); don't bring it back unasked.
 
 **Motion.** Grain never moves — animated grain made the owner nauseous. The
 slow light is a different thing and the owner wants it: NetPay's ground canvas
@@ -245,8 +246,7 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
   ~7.9MB), `frames-1152/` (36 AVIF, 1152×650, ~2.3MB), `poster.jpg` (stands in
   if f000 won't decode), `open-hires.avif`, `chest.m4a`. **Served**, ~11MB
 - `art/site/` — `cloud-bg.jpg`, `frieze.webp`, `khadag.webp`,
-  `cursor/` (the хэт цахиур cursor, see Conventions: `het-32/64.png`, `het-strike-32/64.png`, rendered from
-  `_source/cursor/*.svg` in headless Chrome), and `cloud-gold.webp`
+  and `cloud-gold.webp`
   (the landing's transition stripes and timeline ground, 1600px lossless,
   149KB). **Served**, ~380KB
 - `art/about/` — `gerege.webp`, `hee.svg`. **Served**, ~136KB
@@ -341,7 +341,7 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
 
 Sizes are `du -sh`. Before moving anything in `art/`, grep the HTML, CSS and JS
 for the path. Every served file is referenced and every reference resolves:
-193 distinct paths (188 under `art/`, 5 under `fonts/`) for 193 files (the four newest: the cursor's), plus the 302 frames under `art/how-i-work/` that the landing's How I Work draws (`index.html`, in a template literal: `D + S[k].dir + 'f' + pad + '.webp'`). SmileLine was taken off the site on 2026-09-27; its page and art are kept in `art/_archive/smileline/`. There
+189 distinct paths (184 under `art/`, 5 under `fonts/`) for 189 files, plus the 302 frames under `art/how-i-work/` that the landing's How I Work draws (`index.html`, in a template literal: `D + S[k].dir + 'f' + pad + '.webp'`). SmileLine was taken off the site on 2026-09-27; its page and art are kept in `art/_archive/smileline/`. There
 are no orphans, so a file that nothing references is a bug, not spare stock.
 
 Count with a script, not a grep for `src=`/`url(`, which misses two things:

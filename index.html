@@ -854,22 +854,6 @@ a{color:inherit}
 }
 
 
-/* the cursor: the хэт цахиур, the fire striker a traveller carried on the
-   sash (owner's asking, 2026-09-30: something from what a Mongol brings on
-   a journey, as the cursor). Drawn for the site (art/site/_source/cursor/),
-   turned so the steel's long upturned horn is the tip (hotspot 2 2), with a
-   light halo and a dark outline so it shows on the black and on About's
-   cream card; 32px, with a 64px copy for sharp screens. Anything clickable
-   takes the strike (brighter steel, three sparks), and a click strikes a
-   few sparks (the script at the end of the page). Grab, grabbing and the charts'
-   crosshair keep their own cursors, which say what the drag does. */
-html{cursor:url(art/site/cursor/het-32.png) 2 2,auto;
-  cursor:-webkit-image-set(url(art/site/cursor/het-32.png) 1x,url(art/site/cursor/het-64.png) 2x) 2 2,auto}
-a[href],button:not(:disabled),summary,label[for],[role=button],[role=tab]{
-  cursor:url(art/site/cursor/het-strike-32.png) 2 2,pointer;
-  cursor:-webkit-image-set(url(art/site/cursor/het-strike-32.png) 1x,url(art/site/cursor/het-strike-64.png) 2x) 2 2,pointer}
-.spark{position:fixed;left:0;top:0;z-index:100;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;
-  pointer-events:none;background:#ffd690;box-shadow:0 0 4px 1px rgba(255,146,48,.75)}
 </style>
 </head>
 <body>
@@ -2502,35 +2486,10 @@ if (HUD && tl){
   measure();
 })();
 
-/* The хэт strikes (see the cursor's style): a mouse click throws a few
-   sparks from the tip, out and away and falling, each a dot the browser
-   animates (transform and opacity) and removes when it fades, so nothing
-   runs between clicks. A fine pointer only, and none under reduced motion. */
-(function(){
-  const OK = matchMedia('(pointer:fine) and (prefers-reduced-motion:no-preference)');
-  if (!document.body.animate) return;
-  addEventListener('pointerdown', e => {
-    if (e.pointerType !== 'mouse' || e.button || !OK.matches) return;
-    const n = 6 + Math.floor(Math.random() * 3);
-    for (let i = 0; i < n; i++){
-      const s = document.createElement('i');
-      s.className = 'spark';
-      s.style.left = e.clientX + 'px'; s.style.top = e.clientY + 'px';
-      document.body.appendChild(s);
-      /* away from the tip, mostly right and up (0 is right, -90 up) */
-      const a = (-105 + Math.random() * 140) * Math.PI / 180, d = 12 + Math.random() * 24;
-      const dx = Math.cos(a) * d, dy = Math.sin(a) * d, fall = 8 + Math.random() * 14;
-      s.animate([
-        {transform: 'translate(0,0) scale(1)', opacity: 1},
-        {transform: `translate(${(dx * .7).toFixed(1)}px,${(dy * .7).toFixed(1)}px) scale(.9)`, opacity: 1, offset: .5},
-        {transform: `translate(${dx.toFixed(1)}px,${(dy + fall).toFixed(1)}px) scale(.3)`, opacity: 0}
-      ], {duration: 380 + Math.random() * 260, easing: 'cubic-bezier(.15,.7,.35,1)'}).onfinish = () => s.remove();
-    }
-  }, {passive: true});
-})();
-
 </script>
 <!-- About's tilt, gerege, reveals and timeline -->
 <script src="about-motion.js?v=12" defer></script>
+<!-- the cursor, after milancompain.com's -->
+<script src="cursor.js?v=1" defer></script>
 </body>
 </html>
