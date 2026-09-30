@@ -839,9 +839,13 @@ a{color:inherit}
    it and a note comes up over it saying so (theirs, "click to copy"); where
    the page can't copy, it opens the mail app. Over the page's own ground a
    field of gold motes twinkles slowly, a few of them large and soft (theirs
-   are green stars): opacity only, still under reduced motion. Theirs has a
-   row of social links under the hint; ours waits on the owner's (still
-   owed), so it isn't there. The words are ours. */
+   are green stars): opacity only, still under reduced motion. Under the
+   hint, as theirs, a row of social links, small caps with dots between;
+   they and the address lean toward the cursor (cursor.js, as theirs) and
+   warm to gold on hover. The owner's links are still owed: until they come
+   each is a placeholder (data-todo) that stays on this screen. The words
+   are ours. The address was 70px at its largest until the owner asked for
+   it smaller (2026-09-30). */
 .ct{position:relative;z-index:3;min-height:100vh;display:grid;place-items:center;overflow:hidden;
   padding:calc(var(--nav-h) + 40px) var(--side) 120px;text-align:center;color:var(--ab-ivory)}
 .ct-sky{position:absolute;inset:0;z-index:0;pointer-events:none}
@@ -853,8 +857,8 @@ a{color:inherit}
 .ct-line{margin:0;font-family:var(--f-display);font-style:italic;font-weight:400;
   font-size:clamp(26px,3vw,44px);line-height:1.25;color:var(--ab-ivory-2)}
 .ct-mw{position:relative;margin-top:clamp(14px,1.6vw,24px);max-width:100%}
-.ct-mail{font-family:var(--f-label);font-weight:700;
-  font-size:clamp(22px,4.6vw,70px);letter-spacing:-.01em;line-height:1.3;color:var(--ab-ivory);
+.ct-mail{display:inline-block;font-family:var(--f-label);font-weight:700;
+  font-size:clamp(20px,3.3vw,48px);letter-spacing:-.01em;line-height:1.3;color:var(--ab-ivory);
   text-decoration:none;overflow-wrap:anywhere;transition:color .3s}
 .ct-mail:hover,.ct-mail:focus-visible{color:var(--ab-gold-hi)}
 .ct-mail:focus-visible{outline:1px solid var(--ab-gold);outline-offset:6px}
@@ -863,6 +867,12 @@ a{color:inherit}
   transition:opacity .3s,transform .3s;pointer-events:none}
 .ct-done.is-on{opacity:1;transform:translate(-50%,0)}
 .ct-hint{margin:8px 0 0;font-family:var(--f-label);font-size:10.5px;letter-spacing:.12em;color:var(--ab-faint)}
+.ct-soc{display:flex;flex-wrap:wrap;justify-content:center;margin:26px 0 0;padding:0;list-style:none;
+  font-family:var(--f-label);font-size:10.5px;line-height:1.6;letter-spacing:.28em;text-transform:uppercase}
+.ct-soc li + li::before{content:"\00b7";margin:0 .7em 0 .42em;color:rgba(239,231,218,.35)}
+.ct-soc a{display:inline-block;color:rgba(239,231,218,.55);text-decoration:none;transition:color .3s cubic-bezier(.22,1,.36,1)}
+.ct-soc a:hover,.ct-soc a:focus-visible{color:var(--ab-gold-hi)}
+.ct-soc a:focus-visible{outline:1px solid var(--ab-gold);outline-offset:4px}
 .ct-foot{position:absolute;left:var(--side);right:var(--side);bottom:34px;margin:0;z-index:1;
   font-family:var(--f-label);font-size:10.5px;line-height:1.6;letter-spacing:.28em;text-transform:uppercase;color:var(--ab-faint)}
 @media (prefers-reduced-motion:reduce){.ct-sky i{animation:none}}
@@ -1104,6 +1114,14 @@ a{color:inherit}
       <h2 class="ct-line" id="ct-h">Have something in mind? Let&rsquo;s build it together.</h2>
       <div class="ct-mw"><span class="ct-done" aria-live="polite"></span><a class="ct-mail" href="mailto:battsetseg.b@netgroup.mn">battsetseg.b@netgroup.mn</a></div>
       <p class="ct-hint">Click to copy</p>
+      <!-- the owner's links are still owed: put each profile's URL in its
+           href (and drop data-todo); until then each stays on this screen -->
+      <ul class="ct-soc">
+        <li><a href="#contact" data-todo="Instagram profile URL">Instagram</a></li>
+        <li><a href="#contact" data-todo="LinkedIn profile URL">LinkedIn</a></li>
+        <li><a href="#contact" data-todo="GitHub profile URL">GitHub</a></li>
+        <li><a href="#contact" data-todo="Telegram link (t.me/…)">Telegram</a></li>
+      </ul>
     </div>
     <p class="ct-foot">&copy; 2026 <span lang="mn">Мөрөнгуа</span> &middot; UI/UX &amp; Product Designer &middot; Ulaanbaatar</p>
   </section>
@@ -2550,6 +2568,6 @@ const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
 <!-- About's tilt, gerege, reveals and timeline -->
 <script src="about-motion.js?v=12" defer></script>
 <!-- the cursor, after milancompain.com's -->
-<script src="cursor.js?v=12" defer></script>
+<script src="cursor.js?v=13" defer></script>
 </body>
 </html>

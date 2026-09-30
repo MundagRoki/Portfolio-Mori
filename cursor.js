@@ -31,7 +31,9 @@
   const FIRE = '.tz.is-closed .wr-t.is-over';
   const HOT = 'a[href],button:not(:disabled),[role=button],label[for],summary,' +
     '.gerege-hang,.xp-card.is-draggable,.wr-t.is-grab,.held';
-  const MAGNET = '.onav a';
+  /* what leans toward the pointer: the bar's links, and Contact's address
+     and social links (as milancompain.com's do) */
+  const MAGNET = '.onav a,.ct-soc a,.ct-mail';
   const GOLD = '#c4a464', IVORY = 'rgba(239,231,218,.9)';
 
   const style = document.createElement('style');
@@ -61,7 +63,7 @@ html.cur-on,html.cur-on *{cursor:none !important}
 .cur-fire.is-on g{animation-play-state:running}
 .cur-fire.is-lit g{animation-duration:.8s}
 @keyframes cur-flick{0%,100%{transform:scale(1,1)}30%{transform:scale(.95,1.07) skewX(-2deg)}60%{transform:scale(1.04,.95) skewX(2deg)}80%{transform:scale(.98,1.03)}}
-.cur-on ${MAGNET}{transition:color .3s,transform .4s cubic-bezier(.22,1,.36,1)}`;
+${MAGNET.split(',').map(m => '.cur-on ' + m).join(',')}{transition:color .3s,transform .4s cubic-bezier(.22,1,.36,1)}`;
   document.head.appendChild(style);
 
   const mk = (cls, html) => { const e = document.createElement('div'); e.className = cls; e.setAttribute('aria-hidden', 'true'); if (html) e.innerHTML = html; document.body.appendChild(e); return e; };
@@ -84,7 +86,7 @@ html.cur-on,html.cur-on *{cursor:none !important}
     kind = t && t.closest(FIRE) ? 'fire' : t && t.closest(VIEW) ? 'view' : t && t.closest(HOT) ? 'hot' : '';
     if (kind !== was) fire.classList.toggle('is-on', kind === 'fire');
     if (kind === 'fire') litNow();
-    /* a link in the bar leans toward the pointer, a few px at most */
+    /* a link in the bar, or Contact's address or links, leans toward the pointer, a few px at most */
     const m = t && t.closest(MAGNET);
     if (m !== magnet){ if (magnet) magnet.style.transform = ''; magnet = m; }
     if (m){
