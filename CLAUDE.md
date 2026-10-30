@@ -234,7 +234,12 @@ correct-ratio frame whose contents scroll — because a 1:5 image stretches the
 frame until it stops reading as a phone.
 
 **Hero.** `index.html` picks a frame set once at load: `frames-1152/` when
-`innerWidth <= 600`, else `frames/`, and `FRAME_W` follows. Frames go through
+`innerWidth <= 600`, else `frames/`, and `FRAME_W` follows. `frames/` and `open-hires.avif` are tiled (grid) AVIFs, which
+Firefox and Zen reject as invalid (found 2026-10-30: every frame fell to the
+poster and the chest never opened); `frames-1152/` is one image and decodes
+everywhere, so a 2304 frame that fails switches the rest to it
+(`decodeFrame()`). Re-export the 2304 set and the still untiled to give
+Firefox the sharp cut. Frames go through
 `img.decode()`; don't switch to `createImageBitmap`, which has no AVIF decoder
 in every engine and fails silently. `decode()` does not resolve in a hidden
 tab, so a background tab's loader waits until it is shown — known. Dev HUD

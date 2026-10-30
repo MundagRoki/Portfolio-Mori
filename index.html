@@ -1327,6 +1327,20 @@ async function decodeTo(url){
   if (!im.naturalWidth) throw new Error('undecodable: ' + url);
   return im;
 }
+/* Firefox (and Zen) can't decode the 2304 cut: it is a tiled (grid) AVIF,
+   and its decoder rejects those as invalid, while the 1152 cut is one image.
+   So a 2304 frame that won't decode switches the rest to the 1152 cut and is
+   fetched again from there; without this every frame fell to the poster and
+   the chest never opened. */
+let set = SET;
+async function decodeFrame(i){
+  try { return await decodeTo(`art/hero/${set}/f${pad(i)}.avif?v=${ASSET_V}`); }
+  catch (e){
+    if (set === 'frames-1152') throw e;
+    set = 'frames-1152';
+    return decodeTo(`art/hero/${set}/f${pad(i)}.avif?v=${ASSET_V}`);
+  }
+}
 
 /* Loading, in two goes (owner's brief, 2026-09-30: all 36 at once was
    ~8MB on a laptop before anything moved). First f000 (preloaded in
@@ -1348,7 +1362,7 @@ async function preload(){
   async function worker(){
     busy++;
     for (let i; (i = queue.shift()) !== undefined; ){
-      try { frames[i] = await decodeTo(`art/hero/${SET}/f${pad(i)}.avif?v=${ASSET_V}`); }
+      try { frames[i] = await decodeFrame(i); }
       catch (e) {}
       /* AVIF is ~95% supported; if the first frame won't decode, the static
          poster stands in for it rather than a black hole */
