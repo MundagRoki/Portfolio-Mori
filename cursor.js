@@ -166,34 +166,52 @@ ${MAGNET.split(',').map(m => '.cur-on ' + m).join(',')}{transition:color .3s,tra
   }, {passive: true});
 
   /* Шагай (owner's asking, 2026-09-30: "I want шагай to appear when I click
-     my mouse"): each click tosses four, as the game does, from the pointer.
-     They fly up and out spinning, land a little below on one of their four
-     sides (морь, тэмээ, хонь, ямаа: the four pictures, cut out of the
-     owner's sheet, art/site/_source/shagai/), bounce once, rest, and fade.
-     Dragged (the button held while it moves; the owner's asking the same
-     day: "when I drag I want them to appear constantly"), one hops off the
-     path every 30px of it, a smaller throw, so a drag leaves a trail of
-     them; the drum, the gerege and the cards too. 22px tall (30 at first:
-     "a little bit smaller"). None for a click on a link or a button (the
-     owner's asking: not when clicking the navigation or a case), nor for a
-     drag that starts on one. At most 40 in the air. */
+     my mouse"), on the landing only (2026-11-10: none on the case pages).
+     Each click tosses one from the pointer (it was four until 2026-11-10:
+     "if I click only one шагай will appear randomly"): it flies up and out
+     spinning, lands a little below on one of its four sides (морь, тэмээ,
+     хонь, ямаа: the four pictures, cut out of the owner's sheet,
+     art/site/_source/shagai/), bounces once, rests, and fades. Four throws
+     in a row on four different sides is бэрх, and a note says so with the
+     four sides in it (the same day: "show something like wow you got
+     бэрх!"); then the count starts over. Only a click on the ground tosses
+     one (the same day: "only when I click on the background"): not on a
+     link or a button (the navigation, a case), nor on a card, a picture,
+     a plaque or words. Dragged (the button held while it moves; the
+     owner's asking, 2026-09-30: "when I drag I want them to appear
+     constantly"), one hops off the path every 30px of it, a smaller throw,
+     so a drag leaves a trail of them; the drum, the gerege and the cards
+     too, but none for a drag that starts on a link or a button. 22px tall
+     (30 at first: "a little bit smaller"). At most 40 in the air. */
+  if (/\/work-[^/]*$/.test(location.pathname)) return;
   const FACES = [1, 2, 3, 4].map(n => `art/site/shagai/shagai-${n}.webp`);
   FACES.forEach(u => { const i = new Image(); i.src = u; });
   const toss = document.createElement('style');
   toss.textContent = `.cur-shagai{position:fixed;left:0;top:0;z-index:9999;height:22px;width:auto;margin:-11px 0 0 -15px;
-  pointer-events:none;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.45));will-change:transform,opacity}`;
+  pointer-events:none;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.45));will-change:transform,opacity}
+.cur-berh{position:fixed;left:0;top:0;z-index:10001;pointer-events:none;opacity:0;display:grid;justify-items:center;gap:7px;
+  padding:11px 18px 10px;border:1px solid rgba(196,164,100,.75);border-radius:16px;background:rgba(8,6,4,.84);
+  font:500 13px/1.2 'Golos Text',system-ui,sans-serif;color:#efe7da;white-space:nowrap}
+.cur-berh b{font-weight:600;color:${GOLD}}
+.cur-berh span{display:flex;gap:8px}
+.cur-berh img{height:20px;width:auto;filter:drop-shadow(0 1px 1px rgba(0,0,0,.45))}`;
   document.head.appendChild(toss);
   const CLICKABLE = 'a[href],button,[role=button],[role=tab],label[for],summary';
-  let flying = 0, trail = null;
+  /* what isn't the ground: anything clickable, a field, a picture, words, and
+     the landing's boxes (the pass card, the Experience cards, the gerege,
+     the work's pictures and plaques, Contact's address and links) */
+  const NOT_GROUND = CLICKABLE + ',input,textarea,select,img,video,svg,h1,h2,h3,h4,p,li,dt,dd,blockquote,figure,' +
+    '.pass-stage,.xp-card,.gerege-hang,.tl-ph,.tl-chip,.ct-mail,.ct-soc,.hw-w,.wr-t';
+  let flying = 0, trail = null, got = [];
   const r = (a, b) => a + Math.random() * (b - a);
   const at = (x, y, a, sc) => `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${a.toFixed(1)}deg) scale(${sc})`;
   /* one шагай from (x, y): out by dx, up to peak, down to land; it comes to
      rest on a side, near level, bounces once and fades */
-  function throwOne(x, y, dx, peak, land, spinMax, dur, delay){
+  function throwOne(x, y, dx, peak, land, spinMax, dur, delay, face = Math.floor(Math.random() * 4)){
     if (flying >= 40) return;
     const s = document.createElement('img');
     s.className = 'cur-shagai'; s.alt = ''; s.setAttribute('aria-hidden', 'true');
-    s.src = FACES[Math.floor(Math.random() * 4)];
+    s.src = FACES[face];
     s.style.left = x + 'px'; s.style.top = y + 'px';
     document.body.appendChild(s); flying++;
     const r0 = r(-40, 40), spin = (Math.random() < .5 ? -1 : 1) * r(spinMax * .5, spinMax);
@@ -209,15 +227,38 @@ ${MAGNET.split(',').map(m => '.cur-on ' + m).join(',')}{transition:color .3s,tra
       {transform: at(dx + dir * 3, land + 2, rest, .96), opacity: 0}
     ], {duration: dur, delay, fill: 'backwards'}).onfinish = () => { s.remove(); flying--; };
   }
+  /* бэрх: a note above where the fourth landed, with the four sides in it,
+     up as it comes to rest. Read out too (role=status), as it says
+     something the page didn't. */
+  const berh = mk('cur-berh');
+  berh.removeAttribute('aria-hidden'); berh.setAttribute('role', 'status');
+  let berhAnim = null;
+  function sayBerh(x, y){
+    berh.innerHTML = '<div>Wow, you got <b lang="mn">бэрх</b>!</div><span aria-hidden="true">' +
+      FACES.map(u => `<img src="${u}" alt="">`).join('') + '</span>';
+    const w = berh.offsetWidth, h = berh.offsetHeight;
+    const bx = Math.max(12, Math.min(innerWidth - w - 12, x - w / 2));
+    const by = Math.max(12, Math.min(innerHeight - h - 12, y - h - 46));
+    if (berhAnim) berhAnim.cancel();
+    berhAnim = berh.animate([
+      {transform: `translate(${bx}px,${by + 10}px)`, opacity: 0},
+      {transform: `translate(${bx}px,${by}px)`, opacity: 1, offset: .12},
+      {transform: `translate(${bx}px,${by}px)`, opacity: 1, offset: .82},
+      {transform: `translate(${bx}px,${by - 6}px)`, opacity: 0}
+    ], {duration: 2900, delay: 900, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both'});
+  }
   addEventListener('pointerdown', e => {
     if (e.pointerType !== 'mouse' || e.button) return;
-    if (e.target instanceof Element && e.target.closest(CLICKABLE)){ trail = null; return; }
-    /* a click on the drum lights its fire: no toss then, but a drag from it
-       still leaves the trail */
-    if (e.target instanceof Element && e.target.closest(FIRE)){ trail = [e.clientX, e.clientY]; return; }
-    for (let n = 0; n < 4; n++)
-      throwOne(e.clientX, e.clientY, (n - 1.5) * 30 + r(-8, 8), -r(32, 56), r(12, 26), 540, r(1500, 1800), n * 28);
+    const t = e.target instanceof Element ? e.target : null;
+    if (t && t.closest(CLICKABLE)){ trail = null; return; }
     trail = [e.clientX, e.clientY];
+    /* a click on the drum lights its fire, and a box isn't the ground: no
+       toss then, but a drag from it still leaves the trail */
+    if (t && (t.closest(FIRE) || t.closest(NOT_GROUND))) return;
+    const face = Math.floor(Math.random() * 4);
+    throwOne(e.clientX, e.clientY, r(-22, 22), -r(36, 58), r(12, 24), 540, r(1500, 1800), 0, face);
+    got.push(face); if (got.length > 4) got.shift();
+    if (got.length === 4 && new Set(got).size === 4){ got = []; sayBerh(e.clientX, e.clientY); }
   }, {passive: true});
   addEventListener('pointermove', e => {
     if (e.pointerType !== 'mouse' || !(e.buttons & 1) || !trail) return;
