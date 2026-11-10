@@ -3,6 +3,7 @@
 CLAUDE.md
 README.md
 serve.py
+serve.mjs
 .claude/
 # Each project's originals (art/<project>/_source/, fonts/gip/_source/) and
 # the removed projects: kept in the repo, never deployed.

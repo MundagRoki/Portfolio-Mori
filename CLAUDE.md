@@ -16,6 +16,15 @@ a hardcoded path broke when the folder was renamed from "Portfolio Website").
 In the sandbox run it by its absolute path: `os.getcwd()` is blocked there, so
 a relative `python3 serve.py` can't resolve itself.
 
+On the Windows laptop (no Python; Node is at `D:\Program Files\node.exe`,
+not on PATH) run `serve.mjs`, its Node twin, the same way: same port, AVIF
+type and no-cache, serving its own folder. Kept out of the deploy with
+`serve.py`.
+
+```bash
+"/d/Program Files/node.exe" D:/Portfolio-Mori/serve.mjs
+```
+
 `.claude/launch.json` only *attaches* to that URL; it does not start the
 server. A managed server does not work here — the preview sandbox cannot read
 files under `~/Downloads` (macOS TCC), so the server has to be started by hand.
