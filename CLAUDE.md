@@ -243,12 +243,22 @@ correct-ratio frame whose contents scroll — because a 1:5 image stretches the
 frame until it stops reading as a phone.
 
 **Hero.** `index.html` picks a frame set once at load: `frames-1152/` when
-`innerWidth <= 600`, else `frames/`, and `FRAME_W` follows. `frames/` and `open-hires.avif` are tiled (grid) AVIFs, which
-Firefox and Zen reject as invalid (found 2026-10-30: every frame fell to the
-poster and the chest never opened); `frames-1152/` is one image and decodes
-everywhere, so a 2304 frame that fails switches the rest to it
-(`decodeFrame()`). Re-export the 2304 set and the still untiled to give
-Firefox the sharp cut. Frames go through
+`innerWidth <= 600`, else `frames/`, and `FRAME_W` follows. **Re-cut on
+2026-11-11 from the owner's new video** (`art/hero/_source/chest-animation-v2.mp4`,
+3832×2164, 6.04s at 24fps; the same painted chest, its colours calmer): the
+36 frames are video frames 36–144 evenly spaced (it holds still until ~45,
+then the front board drops until the end), `frames/` now **1600×903** (it was
+2304×1300: the canvas is about that wide on a laptop, and drawing the 2304
+frames cost the scroll its frames), `frames-1152/` 1152×650, `open-hires.avif`
+the last frame at full size, `poster.jpg` the first. All untiled AVIF, so
+Firefox and Zen decode the sharp cut now; the old `frames/` and still were
+tiled (grid) AVIFs, which they reject (found 2026-10-30: every frame fell to
+the poster and the chest never opened). `decodeFrame()` still switches the
+rest to `frames-1152/` if a desktop frame won't decode. The latch (`HASP`) and
+the push-in's target (`TX`/`TY`) still fit the new frames. How they were cut:
+Chrome pulled the frames from the video as PNG (no ffmpeg or Python on the
+Windows laptop), and `sharp` encoded them, AVIF quality 45, effort 6, 4:2:0
+(the still at quality 62, 4:4:4: the push-in crops it up to 2.4×). Frames go through
 `img.decode()`; don't switch to `createImageBitmap`, which has no AVIF decoder
 in every engine and fails silently. `decode()` does not resolve in a hidden
 tab, so a background tab's loader waits until it is shown — known. Dev HUD
@@ -256,9 +266,10 @@ only at `index.html?hud`. `README.md` covers the hero in depth.
 
 ## art/
 
-- `art/hero/` — landing-page chest animation: `frames/` (36 AVIF, 2304×1300,
-  ~7.9MB), `frames-1152/` (36 AVIF, 1152×650, ~2.3MB), `poster.jpg` (stands in
-  if f000 won't decode), `open-hires.avif`. **Served**, ~11MB (its `_source/` holds the painting's crops and
+- `art/hero/` — landing-page chest animation: `frames/` (36 AVIF, 1600×903,
+  ~3.9MB), `frames-1152/` (36 AVIF, 1152×650, ~2.5MB), `poster.jpg` (stands in
+  if f000 won't decode, 1600×903), `open-hires.avif` (3832×2164, 280KB). **Served**, ~7MB (its `_source/` holds the painting's crops,
+  `chest-animation-v2.mp4`, the video the frames are cut from since 2026-11-11, and
   `chest.m4a`, the opening sound, unused since the sound toggle came off)
 - `art/site/` — `cloud-bg.jpg`, `frieze.webp`, `khadag.webp`,
   `shagai/shagai-1…4.webp` (the four шагай a click tosses, cut out of the owner's sheet

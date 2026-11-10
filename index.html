@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <!-- the first frame of whichever set the script picks; 600 matches SMALL below,
      and the ?v must match ASSET_V or f000 downloads twice -->
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=4" media="(min-width:601px)">
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=4" media="(max-width:600px)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=5" media="(min-width:601px)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=5" media="(max-width:600px)">
 <style>
 :root{
   --cream:#f0e2c2;  --cream-hi:#fdf6e6;
@@ -1158,13 +1158,15 @@ const HUD = new URLSearchParams(location.search).has('hud');   // dev HUD, see t
    TUNING KNOBS
    ============================================================ */
 const N       = 36;          // frames in each set
-/* Phones get the 1152 cut: a 390px screen draws a 780px canvas, so the 2304
-   frames were four times the pixels it can show. Picked once, at load; the
-   600 matches the media queries on the f000 preloads in <head>. */
+/* Phones get the 1152 cut: a 390px screen draws a 780px canvas, so the
+   desktop frames were more pixels than it can show. Picked once, at load; the
+   600 matches the media queries on the f000 preloads in <head>. The desktop
+   cut is 1600 wide since 2026-11-11 (it was 2304): the canvas is about that
+   wide on a laptop, and drawing the 2304 frames cost the scroll its frames. */
 const SMALL   = innerWidth <= 600;
 const SET     = SMALL ? 'frames-1152' : 'frames';   // folder under art/hero/
-const FRAME_W = SMALL ? 1152 : 2304;                // native width of that set
-const ASSET_V = '4';         // bump when you re-cut the frames, to bust caches,
+const FRAME_W = SMALL ? 1152 : 1600;                // native width of that set
+const ASSET_V = '5';         // bump when you re-cut the frames, to bust caches,
                              // with the ?v on both f000 preloads in <head>
 const FIT     = 'contain';   // 'contain' = whole chest, centred, letterboxed
                              // 'cover'   = full-bleed, crops the sides
@@ -1327,11 +1329,11 @@ async function decodeTo(url){
   if (!im.naturalWidth) throw new Error('undecodable: ' + url);
   return im;
 }
-/* Firefox (and Zen) can't decode the 2304 cut: it is a tiled (grid) AVIF,
-   and its decoder rejects those as invalid, while the 1152 cut is one image.
-   So a 2304 frame that won't decode switches the rest to the 1152 cut and is
-   fetched again from there; without this every frame fell to the poster and
-   the chest never opened. */
+/* The old 2304 cut was a tiled (grid) AVIF, which Firefox (and Zen) rejects
+   as invalid; every frame fell to the poster and the chest never opened. The
+   cut from the new video (2026-11-11) is untiled, so this no longer fires,
+   but it stays as a net: a desktop frame that won't decode switches the
+   rest to the 1152 cut and is fetched again from there. */
 let set = SET;
 async function decodeFrame(i){
   try { return await decodeTo(`art/hero/${set}/f${pad(i)}.avif?v=${ASSET_V}`); }

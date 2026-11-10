@@ -127,7 +127,7 @@ current frame. If `f000` won't decode, `poster.jpg` stands in for it.
 **Phones.** `innerWidth <= 600` at load picks `art/hero/frames-1152/` instead
 of `frames/`, and `FRAME_W` follows the set. It is decided once; a resize
 across 600 keeps the first choice. A 390px phone at DPR 2 draws a canvas only
-780px wide, so the 1152 cut still covers it, at 2.3MB instead of 7.9MB.
+780px wide, so the 1152 cut still covers it, at 2.5MB instead of 3.9MB.
 
 **Reduced motion.** Only `f000` and `f035` are fetched, the scrub locks 1:1,
 the chest hard-cuts from shut to open at 30% (`(F0+F1)/2`), there is no push-in
@@ -146,7 +146,7 @@ Top of the `<script>`:
 const N       = 36;          // frames in each set
 const SMALL   = innerWidth <= 600;
 const SET     = SMALL ? 'frames-1152' : 'frames';   // folder under art/hero/
-const FRAME_W = SMALL ? 1152 : 2304;                // native width of that set
+const FRAME_W = SMALL ? 1152 : 1600;                // native width of that set
 const ASSET_V = '4';         // bump when you re-cut the frames (see Caching)
 const FIT     = 'contain';   // 'contain' = whole chest, centred; 'cover' = full-bleed
 const F0=0.08, F1=0.52;      // scroll window that plays the opening
@@ -180,6 +180,14 @@ because every hero URL carries a `?v`: the frames, `poster.jpg` and
 bump its `?v`.
 
 ## Regenerating the frames
+
+**Since 2026-11-11** the frames come from `art/hero/_source/chest-animation-v2.mp4`
+(3832×2164, 6.04s at 24fps; the same chest, calmer colours): video frames
+36–144, evenly spaced, cut to 1600×903 and 1152×650, untiled AVIF. On the
+Windows laptop (no ffmpeg, Python or avifenc) Chrome pulled the frames from
+the video as PNG and `sharp` encoded them (quality 45, effort 6, 4:2:0; the
+still at 62, 4:4:4). See CLAUDE.md's Hero note. What follows describes the
+first cut, from the first video.
 
 Source: `~/Downloads/AI Videos from Text & Image (1).mp4` (3832×2164, 6.04s),
 outside the repo. The first second is a static hold, so extraction starts at
@@ -218,10 +226,10 @@ bump `ASSET_V` and both preload `?v`s.
 
 | File | Size | Role |
 |---|---|---|
-| `art/hero/frames/f000–f035.avif` | 7.9MB | the opening sequence, 2304×1300 |
-| `art/hero/frames-1152/f000–f035.avif` | 2.3MB | the same at 1152×650, for viewports ≤ 600px |
-| `art/hero/open-hires.avif` | 383KB | 3832×2164 final frame, sampled during the push-in |
-| `art/hero/poster.jpg` | 419KB | 1600×904, stands in for `f000` if AVIF can't decode |
+| `art/hero/frames/f000–f035.avif` | 3.9MB | the opening sequence, 1600×903 |
+| `art/hero/frames-1152/f000–f035.avif` | 2.5MB | the same at 1152×650, for viewports ≤ 600px |
+| `art/hero/open-hires.avif` | 280KB | 3832×2164 final frame, sampled during the push-in |
+| `art/hero/poster.jpg` | 360KB | 1600×903, stands in for `f000` if AVIF can't decode |
 | `art/hero/chest.m4a` | 81KB | the opening sound, lifted from the source video |
 
 ## Fit
