@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <!-- the first frame of whichever set the script picks; 600 matches SMALL below,
      and the ?v must match ASSET_V or f000 downloads twice -->
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=6" media="(min-width:601px)">
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=6" media="(max-width:600px)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=7" media="(min-width:601px)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=7" media="(max-width:600px)">
 <style>
 :root{
   --cream:#f0e2c2;  --cream-hi:#fdf6e6;
@@ -1166,7 +1166,7 @@ const N       = 36;          // frames in each set
 const SMALL   = innerWidth <= 600;
 const SET     = SMALL ? 'frames-1152' : 'frames';   // folder under art/hero/
 const FRAME_W = SMALL ? 1152 : 1600;                // native width of that set
-const ASSET_V = '6';         // bump when you re-cut the frames, to bust caches,
+const ASSET_V = '7';         // bump when you re-cut the frames, to bust caches,
                              // with the ?v on both f000 preloads in <head>
 const FIT     = 'contain';   // 'contain' = whole chest, centred, letterboxed
                              // 'cover'   = full-bleed, crops the sides

@@ -259,9 +259,12 @@ the push-in's target (`TX`/`TY`) still fit the new frames. How they were cut:
 Chrome pulled the frames from the video as PNG (no ffmpeg or Python on the
 Windows laptop), and `sharp` encoded them after a darkening grade (owner's
 asking the same day: the new chest "looks so pale and so exposed"; its
-shadows sat at 57 of 255, milky): black point 24 and the mids taken down by
-a power of 1.16, the same curve on R, G and B, baked into every frame, the
-still and the poster, so it costs nothing to draw. Then AVIF quality 45, effort 6, 4:2:0
+shadows sat at 57 of 255, milky): black point 8 and the mids taken down by
+a power of 1.05, the same curve on R, G and B, baked into every frame, the
+still and the poster, so it costs nothing to draw. Only a touch: black point
+24 and a power of 1.16 went out first and was "tooooo dark, I just wanted
+slightly tiny bit dark" (it turned the open interior and the dropped board
+near black); don't go back past this unasked. Then AVIF quality 45, effort 6, 4:2:0
 (the still at quality 62, 4:4:4: the push-in crops it up to 2.4×). Frames go through
 `img.decode()`; don't switch to `createImageBitmap`, which has no AVIF decoder
 in every engine and fails silently. `decode()` does not resolve in a hidden
