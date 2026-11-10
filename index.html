@@ -14,8 +14,8 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <!-- the first frame of whichever set the script picks; 600 matches SMALL below,
      and the ?v must match ASSET_V or f000 downloads twice -->
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=5" media="(min-width:601px)">
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=5" media="(max-width:600px)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=6" media="(min-width:601px)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=6" media="(max-width:600px)">
 <style>
 :root{
   --cream:#f0e2c2;  --cream-hi:#fdf6e6;
@@ -1166,13 +1166,17 @@ const N       = 36;          // frames in each set
 const SMALL   = innerWidth <= 600;
 const SET     = SMALL ? 'frames-1152' : 'frames';   // folder under art/hero/
 const FRAME_W = SMALL ? 1152 : 1600;                // native width of that set
-const ASSET_V = '5';         // bump when you re-cut the frames, to bust caches,
+const ASSET_V = '6';         // bump when you re-cut the frames, to bust caches,
                              // with the ?v on both f000 preloads in <head>
 const FIT     = 'contain';   // 'contain' = whole chest, centred, letterboxed
                              // 'cover'   = full-bleed, crops the sides
 const F0=0.08, F1=0.52;      // scroll window that plays the opening
 const S0 = REDUCED ? (F0+F1)/2 : F0;   // where the lid first moves (reduced motion cuts halfway)
-const Z0=0.58, Z1=0.88;      // scroll window that pushes in
+/* the push-in starts halfway through the opening (owner's asking, 2026-11-11:
+   "when the chest is opening I want the zoom to be already taking place"),
+   so the board is still dropping as the camera moves in, and there is no
+   held-open beat any more (it was .58, after a still beat from .52) */
+const Z0=(F0+F1)/2, Z1=0.88; // scroll window that pushes in
 const ZOOM    = 2.4;         // how far the push-in travels
 const TX=0.503, TY=0.306;    // centre of the dark opening, as a fraction of the frame
 /* On a portrait screen the chest at rest is cropped to the lion medallion,
@@ -1182,8 +1186,10 @@ const CROP    = 0.52;
 /* The painted hasp, as fractions of the frame (measured on f000): the
    latch button covers it. */
 const HASP = {x0:.455, y0:.035, x1:.535, y1:.195};
-/* where the latch button glides the page to: inside the held-open beat */
-const OPEN_AT = 0.56;
+/* where the latch button glides the page to: the moment the board is fully
+   down, the push-in already under way (it was .56, inside the held-open beat
+   that went on 2026-11-11) */
+const OPEN_AT = F1;
 
 /* ============================================================
    canvas
@@ -1268,10 +1274,12 @@ function render(p){
   const aspect = CW/CH;
   const zt = REDUCED ? 0 : easeInOut(clamp01((p - Z0)/(Z1 - Z0)));   // reduced: no push-in
 
-  /* Past the hold we sample the 4K still instead of the sequence — same
-     moment in time, so the swap is invisible, but the push-in stays sharp
+  /* The push-in starts while the board is still dropping, so until the last
+     frame it crops the sequence itself (only gently zoomed by then). From
+     the last frame on we sample the 4K still instead: the same moment in
+     time, so the swap is invisible, but the rest of the push stays sharp
      because it's a real crop rather than an upscale. */
-  let img = (zt > 0 && hires) ? hires : null;
+  let img = (p >= F1 && zt > 0 && hires) ? hires : null;
   /* Until every frame is in, draw the nearest decoded one below the frame we
      want, so the chest can lag the scroll while loading but never blanks. */
   const want = frameAt(p);
@@ -1558,7 +1566,7 @@ document.getElementById('skip').addEventListener('click', e => {
 /* ============================================================
    dev HUD — only at index.html?hud, and only with the scroll rig
    ============================================================ */
-const PH=[[0,'closed'],[S0,'opening'],[F1,'open · hold'],[Z0,'pushing in'],[0.80,'blackout'],[0.87,'about']];
+const PH=[[0,'closed'],[S0,'opening'],[Z0,'opening · pushing in'],[F1,'pushing in'],[0.80,'blackout'],[0.87,'about']];
 const hp=document.getElementById('hudPhase'), hc=document.getElementById('hudPct'),
       hb=document.getElementById('hudBar'), hudEl=document.getElementById('hud');
 function hud(p){

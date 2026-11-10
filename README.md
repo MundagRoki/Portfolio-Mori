@@ -97,8 +97,7 @@ instead of stepping with each wheel notch.
 |---|---|
 | 0–8%    | Closed. The hero copy fades out by ~11%. |
 | 8–52%   | The 36 frames play — the front board drops forward, dark interior opens. |
-| 52–58%  | Held open. A beat of stillness before the push. |
-| 58–88%  | Camera pushes into the opening, sampling the 4K still at full resolution. |
+| 30–88%  | Camera pushes into the opening, from halfway through the opening (since 2026-11-11; there was a held-open beat from 52 to 58% and the push started at 58%). It crops the frames until 52%, then the 4K still at full resolution. |
 | 66–81%  | Blackout fades in over the tail of the push. |
 | 81–96%  | Categories fade in on black, the four links staggered; clickable from 90%. |
 | 96–100% | Hold. |
@@ -110,9 +109,12 @@ is 66% of the way down, not 70%. Adding a category or changing the stagger
 lengthens the timeline and moves the blackout and categories earlier against
 the frames.
 
-The swap from sequence to 4K still happens at 58%. Both are the same moment in
-the source video, so it's invisible — but it means the zoom stays sharp instead
-of upscaling a smaller frame.
+The swap from sequence to 4K still happens at 52%, the last frame, with the
+push already under way. Both are the same moment in the source video, so it's
+invisible (measured: the picture changes no more across the swap than across
+any other scroll step) — but it means the zoom stays sharp instead of
+upscaling a smaller frame. Before 52% the push crops the frames themselves,
+gently zoomed by then.
 
 **Loading.** The loader lifts as soon as `f000` decodes. Then `FIRST` decodes
 (f001–f003 and every seventh frame, about 2MB on desktop), and the rest wait
