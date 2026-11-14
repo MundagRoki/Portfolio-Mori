@@ -13,8 +13,10 @@
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <!-- the first frame of whichever set the script picks; 600 matches SMALL below,
-     and the ?v must match ASSET_V or f000 downloads twice -->
-<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=7" media="(min-width:601px)">
+     shut-hires's query is BIG_Q below (keep the three in step), and the ?v
+     must match ASSET_V or f000 downloads twice -->
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/shut-hires.avif?v=7" media="(min-width:1801px), (min-width:1441px) and (min-resolution:1.25dppx), (min-width:1201px) and (min-resolution:1.5dppx), (min-width:901px) and (min-resolution:2dppx)">
+<link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames/f000.avif?v=7" media="(min-width:601px) and (not ((min-width:1801px) or ((min-width:1441px) and (min-resolution:1.25dppx)) or ((min-width:1201px) and (min-resolution:1.5dppx)) or ((min-width:901px) and (min-resolution:2dppx))))">
 <link rel="preload" as="image" type="image/avif" fetchpriority="high" href="art/hero/frames-1152/f000.avif?v=7" media="(max-width:600px)">
 <style>
 :root{
@@ -194,7 +196,7 @@ a{color:inherit}
    in one line but left the bar unpainted over the chest's composited
    layers in Chrome, so it came off. */
 .onav{position:fixed;top:0;left:0;right:0;z-index:40;height:var(--nav-h);
-  display:grid;grid-template-columns:32.5% repeat(3,14.7%) 1fr;align-items:start;
+  display:grid;grid-template-columns:32.5% repeat(2,14.7%) 1fr;align-items:start;
   padding:var(--nav-pad) var(--nav-pad) 0;pointer-events:none;
   font-family:var(--f-label);font-size:15px;font-weight:500;letter-spacing:-.02em;line-height:1;
   color:rgba(239,231,218,.75)}
@@ -203,7 +205,7 @@ a{color:inherit}
 .onav a:hover,.onav a[aria-current]{color:var(--ab-ivory)}
 .onav a:focus-visible{outline:1px solid var(--ab-gold);outline-offset:4px}
 .onav-l{display:contents}
-.onav-cta{grid-column:5;justify-self:end !important}
+.onav-cta{grid-column:4;justify-self:end !important}
 .onav-n{font-family:'Noto Sans Mongolian',var(--f-label),sans-serif;font-size:11px;line-height:1;
   margin-top:-3px;color:rgba(239,231,218,.4);transition:color .3s}
 .onav a[aria-current] .onav-n{color:var(--ab-gold)}
@@ -219,12 +221,12 @@ a{color:inherit}
   .onav a:hover .roll i,.onav a:focus-visible .roll i{transform:translateY(calc(-1 * var(--lh)))}
 }
 @media (max-width:860px){
-  .onav{grid-template-columns:1fr repeat(3,auto) auto;column-gap:clamp(12px,3vw,28px);font-size:14px}
+  .onav{grid-template-columns:1fr repeat(2,auto) auto;column-gap:clamp(12px,3vw,28px);font-size:14px}
 }
 @media (max-width:560px){
-  .onav{grid-template-columns:repeat(3,auto) 1fr}
+  .onav{grid-template-columns:repeat(2,auto) 1fr}
   .onav-home{display:none !important}
-  .onav-cta{grid-column:4}
+  .onav-cta{grid-column:3}
 }
 
 /* ---------- About's ground, under About and My Work (about.html) ---------- */
@@ -665,7 +667,7 @@ a{color:inherit}
   display:flex;flex-direction:column;gap:64px}
 .tl.is-on .tl-track{position:absolute;left:0;top:0;height:100%;padding:0;display:block;will-change:transform}
 .tl-intro{text-align:center}
-.tl.is-on .tl-intro{position:absolute;left:0;top:clamp(74px,9.5vh,96px)}   /* near the head, so it shows as the clouds close */
+.tl.is-on .tl-intro{position:absolute;left:0;top:max(120px,calc(50vh - 160px))}   /* just over the gold line, which runs about the screen's middle (owner, 2026-11-15: "it set too high", then "make it close to golden line"; was clamp(74px,9.5vh,96px)) */
 .tl-h{margin:0;font-family:var(--f-display);font-style:italic;font-weight:500;
   font-size:clamp(40px,4.6vw,68px);line-height:1.05;letter-spacing:-.01em;color:var(--ab-ivory)}
 .tl-sub{margin:16px 0 0;font-size:15px;line-height:1.4;color:var(--ab-ivory-2)}
@@ -772,66 +774,6 @@ a{color:inherit}
 .tl.is-on .tl-ph img{will-change:transform}
 .tl-ph.top img{object-position:50% 0}
 
-/* ---------- How I Work, after trionn.com's Our services ----------
-   Theirs (owner's pick, 2026-09-30, "like this web, but instead of the
-   stone our 3D models' transition"): one pinned screen, a small label on
-   top, the services as huge stacked words in the middle, a 3D object
-   turning behind them, one line and a link at the foot. Ours: the six
-   steps of the How I Work draft (how-i-work-3d.html), each tagged Me or AI
-   with its airag name, the current one lit; behind them that page's own
-   models, played by the scroll: the pail turns, pours into the хөхүүр, the
-   хөхүүр turns into the хөхүүр with its бүлүүр, the бүлүүр is pulled out
-   and laid across, and the bowl on its хадаг comes in and turns. Drawn by
-   the script on a canvas from the draft's frames. Pinned only on a wide
-   screen with motion allowed; otherwise the words over a still of the bowl. */
-.hw{position:relative;z-index:3;color:var(--ab-ivory)}
-/* sliding in from the right at the end of Recent work (see the script):
-   clipped sideways so the screen waiting off to the right never widens the
-   page (clip, not hidden, so the pin still sticks), and a soft shadow on
-   its leading edge over the clouds */
-.hw.is-slide{overflow-x:clip}
-.hw.is-slide .hw-pin{box-shadow:-48px 0 70px rgba(0,0,0,.55);will-change:transform}
-.hw-pin{position:relative;display:flex;flex-direction:column;align-items:center;
-  padding:calc(var(--nav-h) + 40px) var(--side) 64px;text-align:center}
-.hw.is-on .hw-pin{position:sticky;top:0;height:100vh;overflow:hidden;justify-content:center;
-  padding-top:calc(var(--nav-h) + 24px);padding-bottom:84px;background:var(--ab-ground)}
-.hw-bg{display:none}
-.hw.is-on .hw-bg{display:block;position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(38% 46% at 50% 56%,rgba(196,164,100,.08),rgba(196,164,100,0) 100%)}
-.hw.is-on .hw-bg::after{content:"";position:absolute;inset:0;opacity:.1;background:var(--grain-tile) 0 0/220px 220px repeat}
-.hw-cv{display:none}
-.hw.is-on .hw-cv{display:block;position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
-.hw-label{margin:0 0 22px;font-family:var(--f-label);font-size:var(--t-micro);font-weight:500;
-  letter-spacing:.3em;text-transform:uppercase;color:var(--ab-ivory-2)}
-.hw.is-on .hw-label{position:absolute;left:0;right:0;top:calc(var(--nav-h) + 24px);z-index:3;margin:0}
-.hw-still{display:block;width:min(560px,86vw);height:auto;margin:0 auto 18px}
-.hw.is-on .hw-still{display:none}
-.hw-words{position:relative;z-index:2;list-style:none;margin:0;padding:0}
-/* pinned, the list makes no layer of its own: the dim steps lie behind the
-   model and only the lit one comes in front of it, as trionn's stone
-   crosses its letters */
-.hw.is-on .hw-words{z-index:auto}
-/* the steps: trionn's huge stacked words, in the site's grotesk */
-.hw-w{display:block;font-family:var(--f-label);font-weight:600;text-transform:uppercase;
-  font-size:clamp(34px,min(7.2vw,10.4vh),124px);line-height:.92;letter-spacing:-.045em;color:var(--ab-ivory);
-  text-shadow:0 2px 18px rgba(0,0,0,.35)}
-.hw.is-on .hw-w{position:relative;z-index:0;opacity:.2;transition:opacity .45s ease}
-.hw.is-on .hw-w.is-cur{z-index:2;opacity:1}
-.hw-t{position:relative;display:inline-block}
-/* who does it, and its airag name, beside the word's top */
-.hw-tag{position:absolute;left:100%;top:.16em;margin-left:.5em;white-space:nowrap;
-  font-size:12px;font-weight:500;line-height:1.2;letter-spacing:.14em;text-transform:none;color:var(--ab-gold)}
-.hw-line{position:relative;z-index:3;margin:26px 0 0;font-family:var(--f-label);font-size:var(--t-micro);
-  font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ab-ivory-2)}
-.hw-line span{color:var(--ab-gold)}
-.hw.is-on .hw-line{position:absolute;left:0;right:0;bottom:34px;margin:0}
-@media (max-width:860px){
-  .hw-w{font-size:calc((100vw - 32px) / 7.4);line-height:1}
-  .hw-tag{position:static;display:block;margin:4px 0 12px;font-size:11px}
-}
-
-
-
 /* Contact, laid out after milancompain.com's (owner's asking, 2026-09-30:
    "copy this web's contact section"), measured off theirs: one screen, a
    centred block: a line in the italic serif, the address large under it, a
@@ -888,7 +830,6 @@ a{color:inherit}
   <div class="onav-l">
     <a href="#about"><span class="onav-t">About</span><span class="onav-n" aria-hidden="true">᠑</span></a>
     <a href="#work"><span class="onav-t">Work</span><span class="onav-n" aria-hidden="true">᠒</span></a>
-    <a href="#how"><span class="onav-t">How I Work</span><span class="onav-n" aria-hidden="true">᠓</span></a>
   </div>
   <a class="onav-cta" href="#contact"><span class="onav-t">Let&rsquo;s talk</span></a>
 </nav>
@@ -1089,25 +1030,6 @@ a{color:inherit}
       </section>
   </section>
 
-  <!-- ============ How I Work — after trionn.com's Our services ============ -->
-  <section class="hw" id="how" aria-labelledby="hw-h">
-    <div class="hw-pin">
-      <div class="hw-bg" aria-hidden="true"></div>
-      <canvas class="hw-cv" aria-hidden="true"></canvas>
-      <h2 class="hw-label" id="hw-h">How I Work</h2>
-      <img class="hw-still" src="art/how-i-work/ayaga-khadag/hi/f000.webp" width="1746" height="954" loading="lazy" decoding="async" alt="">
-      <ol class="hw-words">
-        <li class="hw-w"><span class="hw-t">Brief<span class="hw-tag">Me &middot; <span lang="mn">Саах</span></span></span><span class="sr"> &mdash; What it is for, and who it is for. Written down, so it can be argued with.</span></li>
-        <li class="hw-w"><span class="hw-t">Research<span class="hw-tag">AI &middot; <span lang="mn">Хөрөнгө</span></span></span><span class="sr"> &mdash; Competitors, conventions and the people who will use it, run through a master prompt I keep from the last batch and tune every time.</span></li>
-        <li class="hw-w"><span class="hw-t">Flows &amp; code<span class="hw-tag">AI &middot; <span lang="mn">Бүлэх</span></span></span><span class="sr"> &mdash; Userflows, wireframes and the first code, in the team&rsquo;s own structure. Thousands of strokes, none of them decisions.</span></li>
-        <li class="hw-w"><span class="hw-t">Design<span class="hw-tag">Me &middot; <span lang="mn">Тохируулах</span></span></span><span class="sr"> &mdash; Type, colour, spacing and every state, settled by hand in Figma until nothing is left to guess.</span></li>
-        <li class="hw-w"><span class="hw-t">Check<span class="hw-tag">Me &middot; <span lang="mn">Амсах</span></span></span><span class="sr"> &mdash; Tested with real people before the build, and checked against the real build after it. Only a person decides when it is ready.</span></li>
-        <li class="hw-w"><span class="hw-t">Release<span class="hw-tag">Me &middot; <span lang="mn">Барих</span></span></span><span class="sr"> &mdash; Handed over on a khadag: a flow developers can build without asking, and a designer who stands behind it.</span></li>
-      </ol>
-      <p class="hw-line"><span aria-hidden="true">&#10022;</span> AI does the churning. I decide when it&rsquo;s ready.</p>
-    </div>
-  </section>
-
   <section class="ct" id="contact" aria-labelledby="ct-h">
     <div class="ct-sky" aria-hidden="true"></div>
     <div class="ct-in">
@@ -1166,6 +1088,17 @@ const N       = 36;          // frames in each set
 const SMALL   = innerWidth <= 600;
 const SET     = SMALL ? 'frames-1152' : 'frames';   // folder under art/hero/
 const FRAME_W = SMALL ? 1152 : 1600;                // native width of that set
+/* Big screens get the shut chest sharp (owner's asking, 2026-11-14: on a
+   2560×1440 monitor the 1600 frames were stretched 1.6× and the chest at rest
+   looked blurry): wherever the canvas wants more than ~1800 device px (CSS
+   width × pixel ratio), frame 0 is shut-hires.avif, f000 cut at 2560. Only
+   frame 0: a whole 2560 set was tried the same day and each new frame's upload
+   dropped a frame or two through the opening (~7 a pass at 2560×1440, none
+   with the 1600 set); in motion the softness doesn't show, and from the last
+   frame on the push-in draws the 3832 open-hires anyway. Same query as the
+   shut-hires preload in <head>. */
+const BIG_Q   = '(min-width:1801px), (min-width:1441px) and (min-resolution:1.25dppx), (min-width:1201px) and (min-resolution:1.5dppx), (min-width:901px) and (min-resolution:2dppx)';
+const BIG     = !SMALL && matchMedia(BIG_Q).matches;
 const ASSET_V = '7';         // bump when you re-cut the frames, to bust caches,
                              // with the ?v on both f000 preloads in <head>
 const FIT     = 'contain';   // 'contain' = whole chest, centred, letterboxed
@@ -1200,7 +1133,9 @@ let CW=0, CH=0;
 function sizeCanvas(){
   const dpr = Math.min(devicePixelRatio || 1, 2);
   const want = Math.round(innerWidth * dpr);
-  const w = Math.min(want, FRAME_W), h = Math.round(w * innerHeight / innerWidth);
+  /* no wider than the sharpest picture it will draw: the set, or on a big
+     screen the 2560 shut-hires */
+  const w = Math.min(want, BIG ? 2560 : FRAME_W), h = Math.round(w * innerHeight / innerWidth);
   if (w === CW && h === CH) return;     // assigning cv.width reallocates and clears, even at the same size
   CW = w; CH = h;
   cv.width = CW; cv.height = CH;
@@ -1344,6 +1279,9 @@ async function decodeTo(url){
    rest to the 1152 cut and is fetched again from there. */
 let set = SET;
 async function decodeFrame(i){
+  if (i === 0 && BIG){
+    try { return await decodeTo(`art/hero/shut-hires.avif?v=${ASSET_V}`); } catch (e) {}
+  }
   try { return await decodeTo(`art/hero/${set}/f${pad(i)}.avif?v=${ASSET_V}`); }
   catch (e){
     if (set === 'frames-1152') throw e;
@@ -1522,9 +1460,12 @@ if (RIG){
    natively. GSAP drives its frames, so the chest's scrub and the page
    scroll step together. window.__lenis is the instance.
    ============================================================ */
-/* a little softer and slower than Lenis's defaults (lerp .1, wheel 1:1), at the
-   owner's asking (2026-09-30: "make scroll more smooth and slow") */
-const LENIS = (!REDUCED && window.Lenis) ? new Lenis({autoRaf: !RIG, lerp: .075, wheelMultiplier: .8}) : null;
+/* Lenis's default glide (lerp .1) and 1.5× the wheel, at the owner's asking
+   (2026-11-14: "scroll speed is too much, takes very long time to scroll
+   down"). It was lerp .075 and wheel .8 from 2026-09-30 ("make scroll more
+   smooth and slow"), which on a 2560×1440 screen took ~250 notches to cross
+   the page; this is ~135. */
+const LENIS = (!REDUCED && window.Lenis) ? new Lenis({autoRaf: !RIG, lerp: .1, wheelMultiplier: 1.5}) : null;
 window.__lenis = LENIS;
 if (LENIS && RIG){
   LENIS.on('scroll', ScrollTrigger.update);
@@ -1650,8 +1591,8 @@ if (HUD && tl){
       }
       a.classList.toggle('is-light', on);
     }
-    /* the last section over the bar's middle, as later ones lie on top;
-       one that slides in (How I Work) counts once its slide has landed */
+    /* the last section over the bar's middle, as later ones lie on top
+       (data-jump: where a section that slides in has landed; none now) */
     let s = null;
     for (const el of secs){
       const r = el.getBoundingClientRect(), top = r.top + (+el.dataset.jump || 0);
@@ -1674,7 +1615,7 @@ if (HUD && tl){
     if (!a) return;
     const el = a.hash.length > 1 ? document.querySelector(a.hash) : null;
     e.preventDefault();
-    /* a section that slides in (How I Work) lands where its slide has */
+    /* a section that slides in would land where its slide has (data-jump) */
     goScroll(el ? el.getBoundingClientRect().top + scrollY + (+el.dataset.jump || 0) : 0);
     history.replaceState(null, '', a.hash || location.pathname + location.search);
   });
@@ -1697,13 +1638,25 @@ if (HUD && tl){
      covered screen held after (trionn holds theirs .29 of a screen, which
      here read as empty clouds: owner, "reduce the space") */
   /* slowed a little on 2026-09-29 (owner: the transition "comes in too
-     fast"), still quicker than trionn's */
-  const STEP = .17, LEN = .75, RUN = 4 * STEP + LEN;          /* screens */
+     fast"), still quicker than trionn's. Slowed again on 2026-11-14 when the
+     wheel went from .8 to 1.5 (owner: "transition is too fast"): .17/.75
+     closed in 1.4 screens, 1.75 of wheel input at .8; this is 2.68 screens,
+     1.79 of input at 1.5, the same feel as before the wheel changed */
+  const STEP = .32, LEN = 1.4, RUN = 4 * STEP + LEN;          /* screens */
   /* the runs, in screens of scroll: the writing starts LEAD before the pin,
      as the screen comes up, and takes PLAY; the full drum turns for SPIN
      before the stripes start (HOLD, from the pin) */
   const LEAD = .35, PLAY = 1.2, SPIN = .75;
   const HOLD = PLAY - LEAD + SPIN;
+  /* the fire lights itself AUTO of the way into SPIN if nobody has clicked
+     the drum (owner's asking, 2026-11-14: "if user ignore fire sign light up
+     fire immediately then show next section's transition"), so the stripes
+     always rise over a lit hearth */
+  const AUTO = .3;
+  /* the stripes start WAIT seconds after the fire lights, waiting at most
+     MAXD screens past HOLD; scrolled past AUTO before the rings have closed,
+     they close in UP_FAST seconds rather than UP, so the fire can light first */
+  const WAIT = 4.5, MAXD = 4.5, UP_FAST = .8;
   /* each line snaps into its ring as soon as the brush has written it and
      moved on to the next, so the drum builds from the top while the lines
      under it are still being written (owner's asking, 2026-09-29: "when I
@@ -1736,7 +1689,31 @@ if (HUD && tl){
      second, so turning the drum by hand never does */
   const pinEl = sec.querySelector('.tz-pin');
   let lit = false, closed = false, press = null;
-  function light(v){ if (v !== lit){ lit = v; sec.classList.toggle('is-lit', v); } }
+  /* when the fire lit, which the stripes wait on, and where they start once
+     they may (px of scroll into the section; see draw()) */
+  let litTime = 0, startAt = null;
+  function light(v){
+    if (v === lit) return;
+    lit = v; sec.classList.toggle('is-lit', v);
+    litTime = performance.now();
+    if (!v && startAt != null){ startAt = null; fitHeight(); }
+  }
+  /* the section ends where the stripes close: at the most they can wait
+     until their start is fixed, then just after it */
+  function fitHeight(){
+    if (!on) return;
+    const H = innerHeight, s = startAt != null ? startAt / H : HOLD + MAXD;
+    sec.style.height = Math.round(H * (1 + s + RUN)) + 'px';
+  }
+  /* Scrolled AUTO into the drum's turn with the rings closed and no click
+     yet, the fire lights itself; scrolled back above that point, a fire it lit
+     goes out again. A click (lighting it or putting it out) is the visitor's
+     own and is left alone until the rings unroll. */
+  let past = false, autoLit = false, clicked = false;
+  function autoFire(){
+    if (past && closed && !lit && !clicked){ light(true); autoLit = true; }
+    else if (!past && autoLit){ light(false); autoLit = false; }
+  }
   /* over the drum itself, not its text block, which is wider than the drum
      by ~150px a side at 1440 (owner: "when I stop hovering, bring my cursor
      back"): across, the rings' sides are the radius seen at the axis's depth
@@ -1755,7 +1732,7 @@ if (HUD && tl){
   text.addEventListener('pointerup', e => {
     if (!press || e.pointerType !== 'mouse') return;
     const [x, y, t] = press; press = null;
-    if (Math.hypot(e.clientX - x, e.clientY - y) < 6 && e.timeStamp - t < 500) light(!lit);
+    if (Math.hypot(e.clientX - x, e.clientY - y) < 6 && e.timeStamp - t < 500){ light(!lit); clicked = true; autoLit = false; }
   });
   /* the fire's place: the drum's axis across, and down between the second
      and third lines, where the rings leave room; its size by the drum's */
@@ -2024,7 +2001,7 @@ if (HUD && tl){
     if (hold) return;
     const dt = lastTs ? Math.min(.1, (ts - lastTs) / 1000) : 0; lastTs = ts;
     rings.forEach((rg, k) => {
-      if (rg.want && rg.p < 1) rg.p = Math.min(1, rg.p + dt / UP);
+      if (rg.want && rg.p < 1) rg.p = Math.min(1, rg.p + dt / (past ? UP_FAST : UP));
       else if (!rg.want && rg.p > 0) rg.p = Math.max(0, rg.p - dt / DOWN);
       if (rg.p > 0){
         rg.pace = Math.min(1, rg.pace + dt / 1.2);
@@ -2037,7 +2014,11 @@ if (HUD && tl){
     const g = grabbable();
     if (g !== canGrab){ canGrab = g; text.classList.toggle('is-grab', g); if (!g) hand.rx = hand.ox = 0; }
     const c = rings.length > 0 && rings.every(rg => rg.r >= 1);
-    if (c !== closed){ closed = c; sec.classList.toggle('is-closed', c); if (!c){ light(false); over(false); } }
+    if (c !== closed){
+      closed = c; sec.classList.toggle('is-closed', c);
+      if (!c){ light(false); over(false); autoLit = clicked = false; }
+      else autoFire();    // the rings closed after the scroll passed AUTO
+    }
     /* each line's ink fades off the canvas over the first HAND of its
        coil, while the snake holds still on it */
     write(tNow, rings.map((rg, n) => rg.words.map(() => sm(rg.p / HAND))));
@@ -2141,15 +2122,35 @@ if (HUD && tl){
       rg.want = rg.want ? t >= at - .01 : t >= at;
     });
     write(t, rings.length ? rings.map((rg, n) => rg.words.map(() => sm(rg.p / HAND))) : []);
+    /* past AUTO of the drum's turn (a hundredth less on the way back) */
+    const at = (PLAY - LEAD + AUTO * SPIN) * H;
+    past = past ? dy >= at - .01 * H : dy >= at;
+    autoFire();
     /* the rings are put up, all but invisible, as the writing starts, so
        their pictures are already on the GPU when they take over (put up
        on first sight, they cost a frame) */
     const warm = rings.length && t > 0 ? 1 : 0;
     if (warm !== shown){ shown = warm; cyl.style.visibility = warm ? 'visible' : ''; }
+    /* The stripes wait for the fire, and then WAIT seconds more (owner's
+       asking, 2026-11-14: "after LIGHT UP scroll 4-5s then GO TO NEXT
+       SECTION"): until then they keep just ahead of the scroll; once the
+       fire has burned WAIT seconds, they start from wherever the scroll is
+       (never before HOLD), or regardless once the scroll is MAXD screens past
+       HOLD. That place is fixed (startAt) and the section is cut to end where
+       they close (fitHeight), so no covered screen is held after; until it is
+       fixed the section is long enough for the most it can wait. Without
+       rings (no font) they don't wait. */
+    let s0;
+    if (!rings.length) s0 = HOLD * H;
+    else if (startAt != null) s0 = startAt;
+    else if ((lit && performance.now() - litTime >= WAIT * 1000) || dy >= (HOLD + MAXD) * H){
+      s0 = startAt = Math.max(HOLD * H, dy); fitHeight();
+    }
+    else s0 = Math.max(HOLD * H, dy + 1);
     let all = true;
     stripes.forEach((st, k) => {
       /* the lowest stripe first */
-      const start = (HOLD + (stripes.length - 1 - k) * STEP) * H;
+      const start = s0 + (stripes.length - 1 - k) * STEP * H;
       const e = ease((dy - start) / (LEN * H));
       if (e < 1) all = false;
       const off = Math.round((1 - e) * sH * 100) / 100;
@@ -2165,7 +2166,8 @@ if (HUD && tl){
   function measure(){
     on = mq.matches;
     sec.classList.toggle('is-on', on);
-    sec.style.height = on ? Math.round(innerHeight * (1 + HOLD + RUN)) + 'px' : '';
+    startAt = null;
+    if (on) fitHeight(); else sec.style.height = '';
     if (!on){
       for (const st of stripes){ st.door.style.transform = st.g.style.transform = ''; st.off = null; }
       text.classList.remove('is-ink'); geo = []; rings = []; build++;
@@ -2173,6 +2175,7 @@ if (HUD && tl){
       hand.on = false; hand.v = hand.rx = hand.ox = hand.lx = hand.lo = 0; moving = canGrab = false;
       tilt.style.transform = cyl.style.perspectiveOrigin = ''; text.classList.remove('is-grab', 'is-grabbing');
       closed = false; press = null; sec.classList.remove('is-closed'); light(false); over(false);
+      past = autoLit = clicked = false;
       lines.forEach(l => l.style.opacity = '');
       tick();
       return;
@@ -2211,21 +2214,6 @@ if (HUD && tl){
   measure();
 })();
 
-/* Recent work runs on into How I Work sideways (owner's asking, 2026-09-30:
-   "I want this scroll to continue horizontal"): past the last case the row
-   keeps moving left, and How I Work's screen comes in from the right on the
-   end of it, over SLIDE screen-widths of scroll; then How I Work plays as
-   before. The slide leaves at the row's own speed (its RATE, .5px a pixel of
-   scroll), so nothing jolts at the handover, and eases to a stop as How I
-   Work lands: a cubic with that slope at the start and none at the end
-   (monotone; its top speed about 1.14px a pixel). How I Work's section is
-   drawn up over the end of Recent work's runway (a negative margin) so its
-   screen is pinned the whole way across. Only where both are pinned (a wide
-   screen with motion allowed); elsewhere the two stack as before. */
-const SLIDE = 1.2, SLIDE_M = .5 * SLIDE;
-const slideEase = u => SLIDE_M * (u * u * u - 2 * u * u + u) + 3 * u * u - 2 * u * u * u;
-const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
-
 /* Recent work, after designxhand.com's agenda (see the style): while its
    runway scrolls past, the screen holds and the row slides left RATE px a
    pixel of scroll; each picture drifts against the row as it crosses. Everything is
@@ -2251,15 +2239,13 @@ const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
   const mq = matchMedia('(min-width:861px) and (prefers-reduced-motion:no-preference)');
   const RATE = .5, AMP = 22, PERIOD = 1700;
   const DPR = devicePixelRatio || 1, snap = v => Math.round(v * DPR) / DPR;
-  let on = false, pending = false, travel = 0, vw = 0, lastX = null, introO = null, slide = 0;
+  let on = false, pending = false, travel = 0, vw = 0, lastX = null, introO = null;
   const lineY = x => AMP * Math.sin(2 * Math.PI * x / PERIOD + 1.1);
   function draw(){
     pending = false;
     if (!on) return;
     const sy = -sec.getBoundingClientRect().top;
-    let x = Math.max(0, Math.min(travel, sy * RATE));
-    /* then the slide into How I Work, the row carried on with it */
-    if (slide && sy * RATE > travel) x = travel + vw * slideEase(Math.min(1, (sy - travel / RATE) / slide));
+    const x = Math.max(0, Math.min(travel, sy * RATE));
     if (x !== lastX){
       lastX = x;
       track.style.transform = `translate3d(${-snap(x)}px,0,0)`;
@@ -2288,7 +2274,7 @@ const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
     if (io !== introO){ introO = io; intro.style.opacity = io; }
   }
   function reset(){
-    sec.style.height = ''; track.style.transform = ''; track.style.width = ''; intro.style.width = ''; intro.style.opacity = ''; introO = null; slide = 0;
+    sec.style.height = ''; track.style.transform = ''; track.style.width = ''; intro.style.width = ''; intro.style.opacity = ''; introO = null;
     lit.style.transform = litIn.style.transform = '';
     for (const it of items){ it.el.style.left = it.el.style.top = ''; it.el.classList.remove('is-in'); it.inn = null;
       for (const f of it.phs){ Object.assign(f.el.style, {left:'', top:'', width:'', height:'', transform:'', zIndex:''}); f.img.style.transform = ''; f.v = f.pan = null; } }
@@ -2331,8 +2317,7 @@ const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
        tile rows land on this one's head; their grain starts at its head. */
     pin.style.setProperty('--tl-cy', '0px');
     pin.style.setProperty('--tl-gy', -H + 'px');
-    slide = slideLen();
-    sec.style.height = Math.round(H + travel / RATE + slide) + 'px';
+    sec.style.height = Math.round(H + travel / RATE) + 'px';
     lastX = null; introO = null;
     draw();
   }
@@ -2355,210 +2340,6 @@ const slideLen = () => Math.round(SLIDE * document.documentElement.clientWidth);
   }
 })();
 
-
-/* How I Work (see the style): while its runway scrolls past, the screen
-   holds, the lit word follows the step, and the models play on the canvas,
-   straight with the scroll. The geometry is the draft's (how-i-work-3d.html):
-   each card's height in world units (H), so the хөхүүр and the хөхүүр with
-   its бүлүүр share a scale and swap at the half turn without a jump; and
-   for the pour and the pull, the video's crop (box) and where the two cards
-   stand in it (from, to), so its first frame lands on one model at rest and
-   its last on the next (the framing's scale and anchor eased between, the
-   pull dipping to .72 at its height, as the draft does). Frames are the
-   draft's (every second of the хөхүүр's turn, where the pole shows a
-   double image between frames further apart, every third of the rest),
-   fetched once the section is near,
-   drawn once small out of sight as they decode (a first draw costs a
-   decode), and neighbours are crossfaded so the turns stay smooth. */
-(function(){
-  const sec = document.querySelector('.hw');
-  if (!sec) return;
-  const pin = sec.querySelector('.hw-pin'), cv = sec.querySelector('.hw-cv'), ctx = cv.getContext('2d');
-  const words = [...sec.querySelectorAll('.hw-w')];
-  const mq = matchMedia('(min-width:861px) and (prefers-reduced-motion:no-preference)');
-  const every = (a, b, k) => { const o = []; for (let i = a; i < b; i += k) o.push(i); return o; };
-  const D = 'art/how-i-work/';
-  const S = {
-    pail: {dir: 'pail-milk/', n: 144, w: 478, h: 600, H: 2.19, idx: every(0, 144, 3)},
-    pour: {dir: 'pour/', n: 193, idx: [...every(0, 193, 3), 192], box: [80, 0, 1296, 1440], from: [718.5, 1355, 1268], to: [710, 1434, 1384]},
-    kh:   {dir: 'khokhuur/', n: 144, w: 607, h: 600, H: 2.05, idx: every(0, 74, 2)},
-    kb:   {dir: 'khokhuur-buluur/', n: 144, w: 497, h: 600, H: 2.604, idx: [...every(72, 144, 2), 0]},
-    pull: {dir: 'pull/', n: 193, idx: [...every(0, 193, 3), 192], box: [60, -860, 1340, 2300], from: [722, 1434, 1758], to: [735, 1420, 1360], dip: .72},
-    rest: {dir: 'khokhuur-rest/', n: 1, w: 587, h: 600, H: 2.01, idx: [0]},
-    bowl: {dir: 'ayaga-khadag/', n: 144, w: 988, h: 540, foot: .3, idx: every(0, 144, 3)}
-  };
-  for (const k in S){ S[k].imgs = {}; S[k].got = []; }
-  /* the runway, in screens of scroll: the pail turns once, pours, the
-     хөхүүр turns into the хөхүүр with its бүлүүр, the бүлүүр is pulled, the
-     bowl comes in and turns once; the word changes half way through each
-     change */
-  /* longer than first built (owner, 2026-09-30: "more smooth and slow", then
-     "the 3D model animation goes too fast"), with a longer hold at the end
-     so the models, held to their own pace (below), finish before it lets go */
-  const SEG = [['pail', .95], ['pour', 1.6], ['spin', 1.2], ['pull', 1.6], ['in', .7], ['bowl', 1.2], ['hold', .55]];
-  let RUN = 0; const at = {};
-  for (const [k, len] of SEG){ at[k] = [RUN, RUN + len]; RUN += len; }
-  const STEP = [(at.pour[0] + at.pour[1]) / 2, (at.spin[0] + at.spin[1]) / 2, (at.pull[0] + at.pull[1]) / 2, (at.in[0] + at.in[1]) / 2, (at.bowl[0] + at.bowl[1]) / 2];
-  const clamp = v => v < 0 ? 0 : v > 1 ? 1 : v;
-  const smooth = t => t * t * (3 - 2 * t);
-  let on = false, pending = false, W = 0, Hh = 0, dpr = 1, U = 0, fx = 0, fy = 0, hBowl = 0, cur = -1, lastKey = '';
-  /* the two loaded frames around f, and how far between them (a turn wraps) */
-  function pair(set, f){
-    const g = set.got;
-    if (!g.length) return null;
-    let a = -1, b = -1;
-    for (const i of g){ if (i <= f && i > a) a = i; if (i >= f && (b < 0 || i < b)) b = i; }
-    if (set.n > 1 && set.w){          /* a turntable: n is 0 again */
-      if (set.imgs[0] && f >= set.n - 4 && (b < 0 || b > set.n)) b = set.n;
-    }
-    if (a < 0) a = b; if (b < 0) b = a;
-    const img = i => set.imgs[i === set.n ? 0 : i];
-    return {A: img(a), B: img(b), t: b > a ? (f - a) / (b - a) : 0};
-  }
-  function drawPair(pr, x, y, w, h, alpha){
-    if (!pr || !pr.A) return;
-    ctx.globalAlpha = alpha;
-    ctx.drawImage(pr.A, x, y, w, h);
-    if (pr.B && pr.B !== pr.A && pr.t > .02){ ctx.globalAlpha = alpha * pr.t; ctx.drawImage(pr.B, x, y, w, h); }
-    ctx.globalAlpha = 1;
-  }
-  const hOf = k => k === 'bowl' ? hBowl : S[k].H * U;
-  function card(k, f, alpha = 1){
-    const set = S[k], h = hOf(k), w = h * set.w / set.h, foot = set.foot || 0;
-    drawPair(pair(set, f), fx - w / 2, fy - h * (1 - foot), w, h, alpha);
-  }
-  function film(k, t, hA, hB){
-    const P = S[k], w = smooth(t);
-    const bump = P.dip ? Math.pow(Math.sin(Math.PI * clamp((t - .3) / .5)), 2) : 0;
-    const sc = Math.exp(Math.log(hA / P.from[2]) * (1 - w) + Math.log(hB / P.to[2]) * w) * (1 - (1 - (P.dip || 1)) * bump);
-    const ax = P.from[0] + (P.to[0] - P.from[0]) * w, ay = P.from[1] + (P.to[1] - P.from[1]) * w;
-    drawPair(pair(P, t * (P.n - 1)), fx + (P.box[0] - ax) * sc, fy - (ay - P.box[1]) * sc, P.box[2] * sc, P.box[3] * sc, 1);
-  }
-  /* The models glide after the scroll rather than step with it, as the
-     chest's scrub does: the drawn place closes on the scrolled one with a
-     time constant GLIDE (s), so a mouse's notches and a flick's jumps
-     become one smooth run. And they have a top speed, PACE screens of the
-     runway a second, about the draft's own pace (its pour takes 3.8s, its
-     turn 1.6s; here the pour at least 2.9s, the turn 2.2s): a flick sets
-     them going and they play on at that pace. Only when they fall more
-     than CATCH screens behind do they hurry, so a fast scroll through the
-     section never leaves them far behind. It runs only while it has a gap
-     to close. */
-  const GLIDE = .35, PACE = .55, CATCH = 1;
-  let sDraw = null, sWant = 0, lastT = 0, gliding = 0;
-  /* its runway starts once the slide from Recent work has landed */
-  function want(){ return Math.max(0, Math.min(RUN, (-sec.getBoundingClientRect().top - slide) / Hh)); }
-  /* the slide in (see SLIDE): the screen, pinned all the way, off to the
-     right until Recent work's row runs out, then in on its end */
-  let slide = 0, slideX = null;
-  function slideIn(){
-    if (!slide) return;
-    const u = Math.max(0, Math.min(1, -sec.getBoundingClientRect().top / slide));
-    const x = Math.round(document.documentElement.clientWidth * (1 - slideEase(u)) * 100) / 100;
-    if (x !== slideX){ slideX = x; pin.style.transform = x ? `translate3d(${x}px,0,0)` : ''; }
-  }
-  function glide(t){
-    gliding = 0;
-    if (!on) return;
-    const dt = lastT ? Math.min(.1, (t - lastT) / 1000) : 1 / 60; lastT = t;
-    sWant = want();
-    if (sDraw === null || Math.abs(sWant - sDraw) > 2.5) sDraw = sWant;   /* a jump (a link, a resize): no long glide */
-    else {
-      const gap = sWant - sDraw, top = dt * (PACE + Math.max(0, Math.abs(gap) - CATCH) * 2.5);
-      let step = gap * (1 - Math.exp(-dt / GLIDE));
-      if (Math.abs(step) > top) step = Math.sign(step) * top;
-      sDraw += step;
-    }
-    if (Math.abs(sWant - sDraw) < .0004) sDraw = sWant;
-    paint(sDraw);
-    if (sDraw !== sWant) gliding = requestAnimationFrame(glide); else lastT = 0;
-  }
-  function draw(){
-    pending = false;
-    if (!on) return;
-    slideIn();
-    if (!gliding){ lastT = 0; gliding = requestAnimationFrame(glide); }
-  }
-  if (/[?&]debug\b/.test(location.search)) window.__hwS = () => ({draw: sDraw, want: sWant, run: RUN});
-  function paint(s){
-    /* the lit step */
-    let c = 0; for (const b of STEP) if (s >= b) c++;
-    if (c !== cur){ cur = c; words.forEach((w, i) => w.classList.toggle('is-cur', i === c)); }
-    const q = k => clamp((s - at[k][0]) / (at[k][1] - at[k][0]));
-    const key = s.toFixed(4) + '|' + loadedN;
-    if (key === lastKey) return;
-    lastKey = key;
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, W, Hh);
-    if (s < at.pail[1]) card('pail', q('pail') * 144);
-    else if (s < at.pour[1]) film('pour', q('pour'), hOf('pail'), hOf('kh'));
-    else if (s < at.spin[1]){ const f = q('spin') * 144; if (f < 72) card('kh', f); else card('kb', f); }
-    else if (s < at.pull[1]) film('pull', q('pull'), hOf('kb'), hOf('rest'));
-    else if (s < at.in[1]){ const e = smooth(q('in')); card('rest', 0, 1 - e); card('bowl', 0, e); }
-    else card('bowl', q('bowl') * 144);
-  }
-  function measure(){
-    on = mq.matches;
-    sec.classList.toggle('is-on', on);
-    if (!on){
-      sec.style.height = sec.style.marginTop = pin.style.transform = ''; sec.classList.remove('is-slide'); delete sec.dataset.jump;
-      slide = 0; slideX = null; words.forEach(w => w.classList.remove('is-cur')); cur = -1; return;
-    }
-    Hh = innerHeight; W = pin.clientWidth; dpr = Math.min(2, devicePixelRatio || 1);
-    /* drawn up over the end of Recent work's runway: its last screen and the
-       slide; the bar's link and a #how link land where the slide has landed */
-    slide = document.querySelector('.tl.is-on') ? slideLen() : 0;
-    sec.classList.toggle('is-slide', slide > 0);
-    sec.style.marginTop = slide ? -(Hh + slide) + 'px' : '';
-    sec.dataset.jump = slide;
-    sec.style.height = Math.round(Hh * (1 + RUN) + slide) + 'px';
-    slideX = null;
-    cv.width = Math.round(W * dpr); cv.height = Math.round(Hh * dpr);
-    /* the models stand on one ground, a little below the words' middle; the
-       tallest (the хөхүүр with its бүлүүр) is .6 of the screen high */
-    fx = W / 2; fy = Hh * .82;
-    U = Math.min(Hh * .6, W * .5) / 2.604;
-    hBowl = Math.min(Hh * .44, W * .56 * 540 / 988) * .85;
-    lastKey = ''; cur = -1; sDraw = null;
-    draw();
-  }
-  /* fetched in the order they play, four at a time, once the section is near */
-  let loadedN = 0, started = false;
-  const warmCv = document.createElement('canvas'); warmCv.width = 16; warmCv.height = 16;
-  const warmCtx = warmCv.getContext('2d');
-  function load(){
-    if (started) return;
-    started = true;
-    const q = [];
-    for (const k of ['pail', 'pour', 'kh', 'kb', 'pull', 'rest', 'bowl']) for (const i of S[k].idx) q.push([k, i]);
-    const one = async () => {
-      for (let job; (job = q.shift()); ){
-        const [k, i] = job, im = new Image();
-        im.src = D + S[k].dir + 'f' + String(i).padStart(3, '0') + '.webp';
-        try { await im.decode(); } catch (e) { continue; }
-        try { warmCtx.drawImage(im, 0, 0, 16, 16); } catch (e) {}
-        S[k].imgs[i] = im; S[k].got.push(i); loadedN++;
-        if (on && sDraw !== null && !gliding){ lastKey = ''; paint(sDraw); }
-      }
-    };
-    for (let k = 0; k < 4; k++) one();
-  }
-  if ('IntersectionObserver' in window){
-    const io = new IntersectionObserver(es => { if (es[0].isIntersecting && mq.matches){ io.disconnect(); load(); } }, {rootMargin: '250% 0px'});
-    io.observe(sec);
-  } else load();
-  addEventListener('scroll', () => { if (!pending){ pending = true; requestAnimationFrame(draw); } }, {passive: true});
-  if (LENIS) LENIS.on('scroll', draw);
-  let rt; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(measure, 120); });
-  if (mq.addEventListener) mq.addEventListener('change', () => { measure(); if (mq.matches) load(); });
-  document.fonts && document.fonts.ready.then(measure);
-  addEventListener('load', measure);
-  measure();
-  /* arriving on #how from another page (the case pages' footers): the
-     browser lands on the section's top, where the slide starts, so go on
-     to where it has landed */
-  if (location.hash === '#how') addEventListener('load', () => { if (slide) goScroll(sec.getBoundingClientRect().top + scrollY + slide, true); });
-})();
 
 /* Contact (see the style): a click on the address copies it and the note
    says so; where the page can't copy, the mailto opens the mail app as it
